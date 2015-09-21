@@ -302,6 +302,10 @@ io.on('connection', function (socket){
   webby = socket;
   console.log(' someone connected to web socket.io')
 
+  socket.on('ui-request-story', function() {
+      console.log("Front-end asked for stufffff");
+  });
+
   // Update the seconds in the web page
   setInterval(function(){
     socket.emit('updateTime', seconds);
