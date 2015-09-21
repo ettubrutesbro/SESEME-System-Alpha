@@ -16,16 +16,16 @@ var teststory = {
       scheme: 'negative',
       motion: {order: '', type: ''},
       details: [
-        {name: 'UC Davis', icon: {type: 'geo', src: 'debug'}, text: '2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.', add: [{},{},{}]},
-        {name: 'Stanford', icon: {type: 'geo', src: 'debug'}, text: 'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.', add: [{},{},{}]},
-        {name: 'UC Irvine', icon: {type: 'geo', src: 'debug'}, text: 'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.', add: [{},{},{}]},
-        {name: 'UC Berkeley', icon: {type: 'geo', src: 'debug'}, text: '', add: []}
+        {name: 'UC Davis', icon: {type: 'geo', src: 'testbox'}, text: '2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.', ext: [{},{},{}]},
+        {name: 'Stanford', icon: {type: 'geo', src: 'testbox'}, text: 'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.', ext: [{},{},{}]},
+        {name: 'UC Irvine', icon: {type: 'geo', src: 'testbox'}, text: 'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.', ext: [{},{},{}]},
+        {name: 'UC Berkeley', icon: {type: 'geo', src: 'testbox'}, text: '', ext: []}
       ]
     },
   ]
 }
 
-var minstory = {
+var nostory = {
   parts: [
     {values: [1,1,1,1]}
   ]

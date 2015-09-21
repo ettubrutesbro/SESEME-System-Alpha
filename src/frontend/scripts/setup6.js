@@ -1,7 +1,7 @@
 
 //global data
 var socket
-var story = minstory, part = 0, data = minstory.parts[part]
+var story = nostory, part = 0, data = story.parts[part]
 var info = {name: []}
 // info.prev = [], info.name = [], info.detail = []
 //objects and resources
@@ -21,9 +21,10 @@ thresholds = {zoom: [.675,1.15], height: [-3,-56]},
 facingRotations = [-45,45,135,-135]
 //dom
 var dom = {}
-//data collection
-// DEBUG variables
+// DEBUG / user / data collecting variables
+var userPermission = true
 var online = false
+var performance = 'med'
 
 function setup(){
 	//ready waits for data & 3d before filling the scene
@@ -68,7 +69,8 @@ function setup(){
 		document.addEventListener('DOMContentLoaded', function(){
 			dom.containerSESEME = $('containerSESEME')
 			dom.bottom = $('bottom'); dom.closebutton = $('closebutton');
-			// dom.rule = $('rule')
+			dom.bottomwrapper = $('bottomwrapper')
+			dom.rule = $('rule')
 			dom.maintext = $('maintext'); dom.overtext = $('overtext')
 			for(var i = 0; i<4; i++){
 				dom['detail'+i] = $('detail'+i)
@@ -105,18 +107,10 @@ function setup(){
 				resources.geos[ele] = geo; mdlMgr.itemEnd('assets/'+ele+'.js')
 			})
 		})
-		//shapes for geo resources
+		//fixed geo resources
 		{
-			resources.geos.debugBox = new THREE.BoxGeometry(2,2,2)
-			var triangleA = new THREE.Shape() //normal triangle
-			triangleA.moveTo(-0.75,0);triangleA.lineTo(0.75,0);triangleA.lineTo(0,-1);triangleA.lineTo(-0.75,0)
-			resources.geos.triangleA = new THREE.ShapeGeometry(triangleA)
-			var rightTri = new THREE.Shape() //right triangle
-			rightTri.moveTo(-1,-1);rightTri.lineTo(1,1);rightTri.lineTo(-1,1);rightTri.lineTo(-1,-1)
-			resources.geos.rightTri = new THREE.ShapeGeometry(rightTri)
-			delete triangleA; delete rightTri
+			resources.geos.testbox = new THREE.BoxGeometry(2.75,2.75,2.75)
 		}
-
 		var mtlMgr = new THREE.LoadingManager()
 		// mtlMgr.onProgress = function(item,loaded,total){console.log(item,loaded,total)}
 		mtlMgr.onLoad = function(){console.log('textures done'); resourceMgr.itemEnd('mtlMgr')}
@@ -126,6 +120,9 @@ function setup(){
 				resources.mtls[ele] = new THREE.MeshBasicMaterial({depthWrite: false, map:texture, transparent: true, opacity: 1})
 			})
 		})
+		{
+			resources.mtls.testbox = new THREE.MeshNormalMaterial()
+		}
 		window.WebFontConfig = {
 			google: {families: ['Droid Serif:400', 'Karla']},
 			classes: false,
@@ -147,9 +144,10 @@ function setup(){
 			controls = new THREE.OrbitControls(camera)
 			raycast = new THREE.Raycaster()
 			//materials
-			resources.mtls.seseme = new THREE.MeshPhongMaterial({color: 0x80848e,shininess:17,specular:0x9a6a40,emissive: 0x101011})
-			resources.mtls.seseme = new THREE.MeshLambertMaterial({color: 0x80848e})
-			resources.mtls.sesemelambert = new THREE.MeshLambertMaterial({color: 0x80848e})
+			resources.mtls.seseme_phong = new THREE.MeshPhongMaterial({color: 0x80848e,shininess:17,specular:0x9a6a40,emissive: 0x101011})
+			resources.mtls.seseme_lambert = new THREE.MeshLambertMaterial({color: 0x80848e})
+			resources.mtls.seseme_worst = new THREE.MeshBasicMaterial({color: 0x000})
+			resources.mtls.seseme = resources.mtls.seseme_lambert
 			resources.mtls.orb = new THREE.MeshPhongMaterial({color:0xff6666,emissive:0x771100,shininess:1,specular:0x272727})
 			resources.mtls.ground = new THREE.MeshBasicMaterial({color: 0xededed})
 			//meshes
@@ -208,8 +206,9 @@ function setup(){
 		initQuads() //completion of each also runs initPillar
 		makeOrbiter()
 		makeNames()
-		fillDOM()
 		makeTitleblock()
+		makeSymbols()
+		fillDOM()
 		placeMainButton()
 		populateHelp()
 
@@ -402,16 +401,15 @@ function setup(){
 		}
 		function populateHelp(){
 			info.help = new THREE.Group()
-			var setReady = function(){ console.log('help btn ready'); view.helpReady = true }
 			var sections = [
 				{name: 'about',
 					x: 0, z: 14,
 					color: '#ff0000', icon: '',
 					objs: [
 						//team rows
-						{dims: {x:40,y:7}, pos: {x:0, z:-28.75}, origin: {x:0,z:-30,delay:150, cb: setReady}},
+						{dims: {x:40,y:7}, pos: {x:0, z:-28.75}, origin: {x:0,z:-30,delay:150, }},
 						{dims: {x:40,y:7}, pos: {x:0, z:-20.75, delay: 75}, origin: {x:0,z:-29,delay:75}},
-						{dims: {x:40,y:7}, pos: {x:0, z:-12.75, delay: 150, cb: setReady}, origin: {x:0,z:-25}},
+						{dims: {x:40,y:7}, pos: {x:0, z:-12.75, delay: 150, }, origin: {x:0,z:-25}},
 						// paragraph
 						{dims: {x:40,y:18}, pos: {x:0,z:28}, origin:{x:0,z:36}}
 					]
@@ -423,12 +421,12 @@ function setup(){
 						//app animations
 						{dims: {x:12,y:16},pos:{x:-14,z:-21,delay:100},origin:{x:10,z:-21}},
 						{dims: {x:12,y:16},pos:{x:-0,z:-21,delay:50},origin:{x:12,z:-21,delay:50}},
-						{dims: {x:12,y:16},pos:{x:14,z:-21},origin:{x:16,z:-21,delay:100,cb:setReady}},
+						{dims: {x:12,y:16},pos:{x:14,z:-21},origin:{x:16,z:-21,delay:100,}},
 						//blurb
 						{dims: {x:20,y:16},pos:{x:-10,z:0},origin:{x:-3,z:0}},
 						//below: seedling graphic & text
 						{dims: {x:40,y:16},pos:{x:0,z:21,delay:100},origin:{x:0,z:14,delay:70}},
-						{dims: {x:40,y:5},pos:{x:0,z:34,delay:200,cb:setReady},origin:{x:0,z:23}}
+						{dims: {x:40,y:5},pos:{x:0,z:34,delay:200,},origin:{x:0,z:23}}
 					]
 				},
 				{name: 'options',
@@ -436,23 +434,24 @@ function setup(){
 					color: '#0000ff', icon: '',
 					objs: [
 						//settings: performance and collect usage data
-						{dims: {x:15,y:15}, pos: {x:-9, z:18}, origin: {x:0,z:0,delay:150}},
-						{dims: {x:15,y:15}, pos: {x:9, z:18,delay:250}, origin:{x:-9,z:18,delay:50}},
+						{dims: {x:15,y:15}, pos: {x:-9, z:18}, origin: {x:0,z:0,delay:150},
+							clicked: performanceLevel},
+						{dims: {x:15,y:15}, pos: {x:9, z:18,delay:250}, origin:{x:-9,z:18,delay:50},
+							clicked: function(){ console.log('user data collection on/off') }},
 						//captions
 						{dims: {x:15,y:5}, pos: {x:-9, z:30, delay: 250,spd:250}, origin:{x:-9,z:25,spd:250}},
-						{dims: {x:15,y:5}, pos: {x:9, z:30, delay: 500,spd:250,cb:setReady}, origin:{x:9,z:25,spd:250,cb:setReady}}
-
+						{dims: {x:15,y:5}, pos: {x:9, z:30, delay: 500,spd:250,}, origin:{x:9,z:25,spd:250,}}
 					]
 				},
 				{name: 'feedback',
 					x: -14, z: 0,
 					color: '#000000', icon: '',
 					objs: [
-						{dims: {x:16,y:18 }, pos: {x:13,z:-20},origin:{x:0,z:0,delay:100,cb:setReady}},
-						{dims: {x:16,y:18 }, pos: {x:13,z:0,delay:50},origin:{x:0,z:0,delay:50}, click:
-							function(){ window.location = "http://twitter.com/hi_datalith" }},
-						{dims: {x:16,y:18 }, pos: {x:13,z:20,delay:100,cb:setReady},origin:{x:0,z:0}, click:
-							function(){ window.location= "mailto:Jack.Leng@gmail.com" }}
+						{dims: {x:16,y:18 }, pos: {x:13,z:-20},origin:{x:0,z:0,delay:100,}},
+						{dims: {x:16,y:18 }, pos: {x:13,z:0,delay:50},origin:{x:0,z:0,delay:50},
+						clicked:function(){ window.location = "http://twitter.com/hi_datalith" }},
+						{dims: {x:16,y:18 }, pos: {x:13,z:20,delay:100,},origin:{x:0,z:0},
+						clicked: function(){ window.location= "mailto:Jack.Leng@gmail.com" }}
 					]
 				}
 			]
@@ -479,10 +478,10 @@ function setup(){
 				for(var it = 0; it<sections[i].objs.length; it++){
 					var objInfo = sections[i].objs[it]
 					var helpObj = new THREE.Mesh(new THREE.PlaneBufferGeometry(objInfo.dims.x,objInfo.dims.y), new THREE.MeshBasicMaterial({color: 0x00000, transparent: true, opacity: 0, depthWrite: false}))
-					helpObj.expand = objInfo.pos
-					helpObj.origin = objInfo.origin? objInfo.origin: {x:0,z:0}
-					helpObj.clicked = objInfo.click
-					helpObj.position.set(helpObj.origin.x, -17.75, helpObj.origin.z)
+					helpObj.expand = {x:objInfo.pos.x, y:-17.75, z:objInfo.pos.z}
+					helpObj.origin = objInfo.origin? {x:objInfo.origin.x,y:-17.9,z:objInfo.origin.z}: {x:0,y:-17.9,z:0}
+					helpObj.onClick = objInfo.clicked
+					helpObj.position.set(helpObj.origin.x, -17.9, helpObj.origin.z)
 					helpObj.rotation.x = rads(-90)
 					helpObj.name = sections[i].name; helpObj.class = 'content'; helpObj.index = it
 					helpObj.visible = false
@@ -543,6 +542,32 @@ function setup(){
 			Hyphenator.run()
 
 		}
+		function makeSymbols(){
+			if(!story.parts[part].details) return
+			for(var i = 0; i<4; i++){
+				var symbol = story.parts[part].details[i].icon?story.parts[part].details[i].icon:{type:''}
+				var symbolobj = new THREE.Mesh()
+				if(symbol.type==='geo'){ //3d icon
+					symbolobj.geometry = resources.geos[symbol.src]
+					symbolobj.material = resources.mtls[symbol.src]
+				}
+				else if(symbol.type==='img'){ //image mapped plane
+					symbolobj.geometry = new THREE.PlaneBufferGeometry(2.75,2.75)
+				}
+				else{ //no icon provided in data
+					// seseme['plr'+i].symbol = new THREE.Object3d()
+					// seseme['plr']
+				}
+				symbolobj.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,.5,0))
+				symbolobj.position.y = 0
+				symbolobj.expand = {y: 1.375, delay: i*75} //half the height; templatebox is 2.75Y
+				symbolobj.origin = {x: 0.1, y:0.1, z:0.1, delay: i*75}
+				seseme['plr'+i].symbol = symbolobj
+				seseme['plr'+i].add(seseme['plr'+i].symbol)
+
+			}
+		}
+		//startup animations
 		function initPillar(which){
 			var tgt = seseme['plr'+which]
 			if(startHash) { tgt.position.y = tgt.targetY; plrMgr.itemEnd('plr'+which); return }
@@ -559,11 +584,8 @@ function setup(){
 					else anim3d(q, 'position', {y:0, delay: i*300, spd: 1000, cb:function(){ quadMgr.itemEnd('quad') } })
 				}
 		}//end initQuads
-		function loadHash(){
-			//for when links include hashes: visitors go straight to content
-			//more importantly, hitting "back" can take users back to where they wanna go
-			// detail1-4, helpSection
-		}
+
+
 	} //END FILL --------------------
 	function behaviors(){
 		//UTILITY
@@ -617,8 +639,8 @@ function setup(){
 			if(beta/1.8 > 35) { beta = 40*1.8; gamma = 0; }
 			else if(beta/1.8 < -35) { beta = -40*1.8; gamma = 0; }
 
-			var xlatY = evt.gamma>25?2.5:evt.gamma<-25?-2.5:evt.gamma/10
-			var xlatX = evt.beta>25?2.5:evt.beta<-25?-2.5:evt.beta/10
+			var xlatY = evt.gamma>25?.25:evt.gamma<-25?-.25:evt.gamma/100
+			var xlatX = evt.beta>25?.25:evt.beta<-25?-.25:evt.beta/100
 
 			seseme.position.x = xlatX
 			seseme.position.y = xlatY

@@ -261,14 +261,17 @@ function viewInfoText(){
 		if(view.content){ //hide old text (if applicable), translate
 			Velocity(dom[view.content], {opacity: 0}, {visibility: 'hidden'})
 		}
-		Velocity(dom.bottom, {translateY: 0, backgroundColorAlpha: 0.35}, {delay: 50, duration: 350, visibility: 'hidden'})
+		Velocity(dom.bottom, {translateY: 0, backgroundColorAlpha: 0.35}, {delay: 50, duration: 350, visibility: 'hidden',
+		complete: function(){ dom.bottomwrapper.style.height = 0 }})
 		dom.closebutton.hide()
 		// Velocity(dom.closebutton, {translateX: '100%'}, {duration: 250, visibility: 'hidden'})
-		// Velocity(dom.rule, {translateY: '100%'})
+		Velocity(dom.rule, {translateY: '100%'})
 		view.content = ''
 	}
 	function callText(targettext){
-		var feedX = 0, feedY = 0
+		var newheight = 0, bottomspd, feedX = 0, feedY = 0,
+		heightcb = function(){ console.log('height anim finished') }, wrapperwait = false
+
 		if(view.content){ //hide old text (if applicable), translate
 			var animOld = {opacity: 0}
 			if(view.zoom === 'close'){ // REQUEST DETAIL TEXT
@@ -295,20 +298,40 @@ function viewInfoText(){
 				}
 			}
 			Velocity(dom[view.content], animOld, {duration: 300, visibility: 'hidden'})
-		}
+			newheight = targettext.offsetHeight
+			if(newheight > dom[view.content].offsetHeight) wrapperwait = false
+			else wrapperwait = true
+			heightcb = function(){ dom.bottomwrapper.style.height = newheight }
+		}//end check for / collapsing of old text-
+
 		view.content = targettext.id
-		var newheight = 0, bottomspd
+
 		//if calling text-less content, 'semi-hide':
-		if(view.zoom === 'close' && !dom['detail'+facing].textContent) dom.closebutton.hide()
+		if(view.zoom === 'close' && !dom['detail'+facing].textContent){
+			dom.closebutton.hide()
+			heightcb = function(){ dom.bottomwrapper.style.height = 0 }
+			wrapperwait = true
+		}
 		//normal operation:
-		else{ newheight = targettext.offsetHeight; dom.closebutton.show()}
+		else{
+			if(!wrapperwait){
+				newheight = targettext.offsetHeight
+				dom.bottomwrapper.style.height = newheight
+			}
+			dom.closebutton.show()
+		}
+
+		//is newheight greater than oldheight?
+		//there's only an oldheight if the first condition (pre existing view content) is met, do the camprison there
+		//
+
 		Velocity(targettext, {opacity: 1, translateX: [0, feedX], translateY: [0, feedY]},
 			{duration: 500, delay: 100, visibility: 'visible'})
 		Velocity(dom.bottom, {translateX: [0,0], translateY: -newheight, backgroundColorAlpha: 0.91}, {duration: 275+ newheight ,
-			visibility: 'visible'})
+			visibility: 'visible', complete: heightcb })
 		// dom.closebutton.show()
 		// Velocity(dom.closebutton, {translateX: 0}, {duration: 250, delay: 100, visibility: 'visible'})
-		// Velocity(dom.rule, {translateY: 0})
+		Velocity(dom.rule, {translateY: 0})
 	}
 }
 function viewNavigationHelper(){
@@ -396,8 +419,8 @@ function viewLRArrows(){
 		}
 	}
 	else{ //hide
-		Velocity(dom.leftarrow, {opacity: 0, translateX: ['500%', 0], scale: [0.3,1]}, {visibility: 'hidden'})
-		Velocity(dom.rightarrow, {opacity: 0, translateX: ['-500%', 0], scale: [0.3,1]}, {visibility: 'hidden'})
+		Velocity(dom.leftarrow, {opacity: 0, translateX: '500%', scale: 0.3}, {visibility: 'hidden'})
+		Velocity(dom.rightarrow, {opacity: 0, translateX: '-500%', scale: 0.3}, {visibility: 'hidden'})
 	}
 }
 function viewColors(){
@@ -410,6 +433,7 @@ function viewColors(){
 function viewHelp(){
 	//base 'shallow' help shows 4 buttons
 	if((view.height === 'plan' && view.zoom === 'far') && ((view.helpContent === '')||( view.helpContent==='back'))){
+		dom.help.className = 'open'
 		if(view.helpContent==='back') for(var i = 0; i<4; i++){contentTraversal(info.help.children[i], false)}
 		for(var i = 0; i<4; i++){
 			var section = info.help.children[i]
@@ -434,6 +458,7 @@ function viewHelp(){
 		view.helpSelection = view.helpContent
 	}
 	else if(view.height!=='plan' || view.zoom !== 'far'){
+		dom.help.className = 'close'
 		if(view.height==='elevation') return //FOH
 		if(view.helpContent !== '' && view.helpContent !== 'back'){
 			contentTraversal(info.help[view.helpContent], false)
@@ -460,6 +485,7 @@ function viewHelp(){
 function camHeight(){
 	if(view.height==='elevation' && view.zoom !== 'far') anim3d(controls, 'target', {y: -1, spd: 600})
 	else anim3d(controls, 'target', {y: -4, spd: 600})
+	if(camera.zoom <= 1) scene.position.y = 0
 }
 
 //clicking buttons
@@ -471,7 +497,6 @@ function clickedMainButton(){ //clicked big button
 }
 function clickedToClose(){ //clicked main triangular close OR just off text
 	view.text = false
-	// view.helpContent = ''
 	setView(true)
 }
 function clickedNav(){ //clicked nav zooms in by one level
@@ -485,13 +510,11 @@ function clickedGoToHelp(){
 		anim3d(camera,'zoom',{zoom:0.5, spd: zoomspd})
 		rotateTo('top')
 		rotateTo(0)
-		dom.help.className = 'open'
 	}
 	else{
 		anim3d(camera, 'zoom', {zoom: .875, spd: 350})
 		rotateTo('mid')
 		rotateTo(0)
-		dom.help.className = 'close'
 	}
 	setView(true)
 }
@@ -505,7 +528,9 @@ function clickedGoToHelp(){
 	}
 	function clickedHelpContent(helpcategory, index){
 		console.log(helpcategory, index)
-		setView(true)
+		var target = info.help[helpcategory].content.children[index]
+		if(target.onClick) target.onClick()
+		else console.log('target content has no function')
 	}
 	function clickedHelpOutside(){
 		if(view.helpContent && view.helpContent!=='back'){
@@ -609,6 +634,44 @@ function hexToRgb(hex) {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : null;
+}
+function performanceLevel(){
+	var allLevels = ['barren', 'lo', 'med', 'hi']
+	performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: 'barren'
+	// alert('performance is now ' + performance)
+	if(performance === 'hi'){
+		// 128^2 texture maps, realtime shadows (someday), and phong material
+		for(var i = 0; i<4; i++){
+			seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
+		}
+	}
+	else if(performance === 'med'){
+		//64^2 texture maps, lambert material
+		lights.children[0].intensity = lights.children[0].default
+		lights.children[2].intensity = lights.children[2].default
+	}
+	else if(performance === 'lo'){
+		//single light, 32^2 textures
+		var viewport = document.querySelector("meta[name=viewport]")
+		viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no')
+		Velocity.mock = false
+		lights.children[2].intensity = .5
+		shadow.visible = true
+		for(var i = 0; i<4; i++){
+			seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_lambert
+		}
+	}
+	else if(performance === 'barren'){
+		//affect meta viewport (less AA), 32^2 textures, turn off lights, no 2d animations
+		var viewport = document.querySelector("meta[name=viewport]")
+		viewport.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=0.75, user-scalable=no')
+		Velocity.mock = true
+		lights.children[0].intensity = lights.children[2].intensity =  0
+		shadow.visible = false
+		for(var i = 0; i<4; i++){
+			seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_worst
+		}
+	}
 }
 
 //TWEENS / ANIMATIONS
