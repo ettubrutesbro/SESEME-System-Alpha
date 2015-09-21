@@ -302,7 +302,7 @@ io.on('connection', function (socket){
   webby = socket;
   console.log(' someone connected to web socket.io')
 
-  socket.on('ui-request-story', function() {
+  socket.on('ui request story', function() {
       console.log("Front-end asked for stufffff");
   });
 
