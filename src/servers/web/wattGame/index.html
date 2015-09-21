@@ -1,0 +1,13 @@
+<script src="/static/socket.io/socket.io.js"></script>
+<script>
+  var socket = io(':5000');
+  console.log('hi');
+  
+  
+  socket.emit('check in', { my: 'data' });
+
+  socket.on('news', function (data) {
+    console.log(data);
+    
+  });
+</script>

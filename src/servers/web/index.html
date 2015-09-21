@@ -1,0 +1,776 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Motor Control</title>
+  <meta name="description" content="The HTML5 Basic Server">
+  <meta name="author" content="jwoodjack">
+  <link rel="stylesheet" type="text/css" href="bower_components/semantic-ui/dist/semantic.css">
+
+  <link rel="stylesheet" type="text/css" href="bower_components/nouislider/distribute/jquery.nouislider.min.css">
+  <!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+
+<body style="padding: 25px">
+  <script src="bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="bower_components/semantic-ui/dist/semantic.min.js"></script>
+  <script src="bower_components/nouislider/distribute/jquery.nouislider.all.min.js"></script>
+  <script src="socket.io/socket.io.js"></script>
+  <div style="text-align:center">
+      <h4 style="display: inline;">Countdown until idle state: </h4>
+      <h5 style="display: inline; color: red" id="timer">300</h5>
+  </div>
+  <h1>SEEDLING STUFF </h1>
+  <br>
+  <div id="sound1" class="massive ui green button">play Sound 1</div>
+  <div id="pausesound1" class="massive ui green button">pause Sound 1</div>
+  <div id="sound2" class="massive ui green button">play Sound 2</div>
+  <div id="pausesound2" class="massive ui green button">pause Sound 2</div
+  >
+  <br>
+  <br>
+  <div class="ui massive icon input">
+  <input id="soundName" type="text" placeholder="sound name">
+  </div>
+  <br>
+  <br>
+  <div id="soundButtons" class="ui huge buttons">
+    <div id="playButton" class="ui button">Play</div>
+    <div class="or"></div>
+    <div id="pauseButton" class="ui button">Pause</div>
+  </div>
+  <br>
+  <br>
+  <div class="ui massive icon input">
+  <input id="soundType" type="text" placeholder="sound type">
+  </div>
+  <br>
+  <br>
+  <div id="typeButtons" class="ui huge buttons">
+    <div id="playType" class="ui button">Play</div>
+    <div class="or"></div>
+    <div id="pauseType" class="ui button">Pause</div>
+  </div>
+  <br>
+  <br>
+  <h1>Acceleration</h1>
+  <div class="sliders" id="frequencySlider"></div>
+  <h4 id="slider-range-value1">Value</h4>
+  <hr>
+  <h1>MAX RPM</h1>
+  <div class="sliders" id="rpmSlider"></div>
+  <h4 id="slider-range-value2">Value</h4>
+  <br>
+  <div>
+    <h1 id="steppersData"></h1>
+  </div>
+  <hr>
+  <h1>Acceleration vs Static</h1>
+
+  <div id="testCycle" class="massive ui blue button">Test Cycle</div>
+  <div id="getStatsButton" class="massive ui purple button">Get Stats</div>
+  <br>
+  <br>
+  <div class="ui massive icon input">
+  <input id="numStepsInput" type="text" placeholder="steps...">
+  </div>
+  <br>
+  <br>
+  <div id="directionButtons" class="ui huge buttons">
+    <div id="downButton" class="ui button">Down</div>
+    <div class="or"></div>
+    <div id="upButton" class="ui button">Up</div>
+  </div>
+  <br>
+  <br>
+  <div id="customStepsButton" class="massive ui blue button">Move 1</div>
+  <div id="customStepsButton2" class="massive ui blue button">Move 2</div>
+  <div id="customStepsButton3" class="massive ui blue button">Move 3</div>
+  <div id="customStepsButton4" class="massive ui blue button">Move 4</div>
+  <div id="customStepsButtonAll" class="massive ui blue button">Move All</div>
+  <div id="customStepsButtonLoop" class="massive ui blue button">Loopy</div>
+  <br>
+  <br>
+  <div class="ui huge buttons">
+    <div id="resetButton" class="big ui orange button">reset motor1</div>
+    <div id="resetButton2" class="big ui orange button">reset motor2</div>
+    <div id="resetButton3" class="big ui orange button">reset motor3</div>
+    <div id="resetButton4" class="big ui orange button">reset motor4</div>
+  </div>
+  <br>
+  <br>
+  <h1>LIGHTS</h1>
+  <br>
+  <div id="lightsOn" class="massive ui green button">LIGHTS ON</div>
+  <div id="lightsOff" class="massive ui orange button">LIGHTS OFF</div>
+  <div class="ui massive icon input">
+  <input id="lightFade" type="text" placeholder="Time to Fade">
+  </div>
+  <br>
+  <br>
+  <div id="partyOn" class="massive ui green button">party ON</div>
+  <div id="partyOff" class="massive ui orange button">party OFF</div>
+  <br>
+  <br>
+  <div id="nameOn" class="massive ui green button">seseme.net ON</div>
+  <div id="nameOff" class="massive ui orange button">seseme.net OFF</div>
+  <div class="ui massive icon input">
+  <input id="nameFade" type="text" placeholder="Time to Fade">
+  </div>
+  <div class="ui massive icon input">
+  <input id="nameColor" type="text" placeholder="Hex Value of Color">
+  </div>
+  <br>
+  <br>
+  <div id="lightTrail" class="massive ui green button">LIGHT TRAIL</div>
+  <div class="ui massive icon input">
+  <input id="trailColor" type="text" placeholder="Trail Color">
+  </div>
+  <div class="ui massive icon input">
+  <input id="nodes" type="text" placeholder="Length of Trail">
+  </div>
+  <div class="ui massive icon input">
+  <input id="trailTime" type="text" placeholder="Revolution Time">
+  </div>
+  <div class="ui massive icon input">
+  <input id="trailRevs" type="text" placeholder="Number of Revolutions">
+  </div>
+  <br>
+  <br>
+  <div id="fadeCircle" class="massive ui green button">FADE CIRCLE</div>
+  <div class="ui massive icon input">
+  <input id="fadeTime" type="text" placeholder="Fade Duration (in seconds)">
+  </div>
+  <div class="ui massive icon input">
+  <input id="targetColor" type="text" placeholder="Stop Color">
+  </div>
+  <div class="ui massive icon input">
+  <input id="diodePct" type="text" placeholder="Stop Percent">
+  </div>
+  <!--
+  <div class="ui massive icon input">
+  <input id="fillTime" type="text" placeholder="Fill Duration (in seconds)">
+  </div>
+  <div class="ui massive icon input">
+  <input id="factor" type="text" placeholder="Factor">
+  </div>
+  <div class="ui massive icon input">
+  <input id="startColor" type="text" placeholder="Start Color">
+  </div>
+  <div class="ui massive icon input">
+  <input id="transitionFlag" type="text" placeholder="Transition(true, false)">
+  </div>
+  -->
+  <br>
+  <br>
+  <div id="blink" class="massive ui green button">Blink</div>
+  <div class="ui massive icon input">
+  <input id="blinkColor" type="text" placeholder="Blink Color">
+  </div>
+  <div class="ui massive icon input">
+  <input id="blinkDuration" type="text" placeholder="Blink Duration">
+  </div>
+  <br>
+  <br>
+  <h1>Hue</h1>
+    <div class="sliders" id="hue"></div>
+    <h4 id="hueValue">Value</h4>
+
+  <h1>Sat</h1>
+    <div class="sliders" id="sat"></div>
+    <h4 id="satValue">Value</h4>
+
+  <h1>Bri</h1>
+    <div class="sliders" id="bri"></div>
+    <h4 id="briValue">Value</h4>
+
+  <h1>Red</h1>
+    <div class="sliders" id="red"></div>
+    <h4 id="redValue">Value</h4>
+
+  <h1>Green</h1>
+    <div class="sliders" id="green"></div>
+    <h4 id="greenValue">Value</h4>
+
+  <h1>Blue</h1>
+    <div class="sliders" id="blue"></div>
+    <h4 id="blueValue">Value</h4>
+
+  <h1>Percentage</h1>
+    <div class="sliders" id="percentage"></div>
+    <h4 id="percentageValue">Value</h4>
+
+  <script type="text/javascript">
+
+  function Color(red, green, blue) {
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
+  }
+
+  function hexToObj(color){
+    if(color == "")
+      color = "FFFFFF";
+    var split = color.split("");
+    var rStr = split[0] + split[1];
+    var gStr = split[2] + split[3];
+    var bStr = split[4] + split[5];
+    var colorObj = new Color(parseInt(rStr, 16), parseInt(gStr, 16), parseInt(bStr, 16));
+    return colorObj;
+  }
+
+  function fadeCircle(current, storyParts){
+    var fadeTime = parseFloat( $("#fadeTime").val() )
+    var targetColor = hexToObj( $("#targetColor").val() )
+    var diodePct = current == null ? parseInt( $("#diodePct").val() ) : current / storyParts * 100;
+
+    /*
+    var fillTime = parseFloat( $("#fillTime").val() )
+    var factor = parseFloat( $("#factor").val() )
+    var transitionString = $("#transitionFlag").val()
+    var blinkDuration = parseFloat( $("#blinkDuration").val() )
+    var startColor = hexToObj( $("#startColor").val() )
+
+    var blinkColor = hexToObj( $("#blinkColor").val() )
+    var stopPercent, transitionFlag;
+
+
+    if(transitionString == "true" || transitionString == "t" || transitionString == "1")
+      transitionFlag = true;
+    else
+      transitionFlag = false;
+    */
+
+    //var data = {fadeTime, fillTime, factor, startColor, targetColor, diodePct, transitionFlag, blinkColor, blinkDuration}
+    var data = {targetColor, fadeTime, diodePct}
+    console.log('fade from top')
+    socket.emit('fadeCircle', data);
+  }
+
+  // var socket = io(':5000');
+  var socket = io.connect(':5000');
+  socket.on('connect', function() {
+      console.log('Connected to server!');
+  });
+
+  socket.on('newData', function(data){
+    console.log('new Data')
+    $('#steppersData').val("fgg");
+  });
+
+  socket.on('buttonPressed', function(data){
+    console.log('button pressed')
+    var current = data[0];
+    var storyParts = data[1];
+    fadeCircle(current, storyParts);
+  });
+
+// Display the counter
+  socket.on('updateTime', function(num) {
+     document.getElementById('timer').innerHTML = num;
+  });
+
+  var direction = null;
+
+
+// HUE BULBS
+// -----------------------
+  $('#hue').noUiSlider({
+    start: [ 100 ],
+    step: 1,
+    range: {
+      'min': [  0 ],
+      'max': [ 359 ]
+    }
+  });
+
+  $('#hue').Link('lower').to($('#hueValue'));
+
+  $('#sat').noUiSlider({
+    start: [ 50 ],
+    step: 1,
+    range: {
+      'min': [  0 ],
+      'max': [ 100 ]
+    }
+  });
+
+  $('#sat').Link('lower').to($('#satValue'));
+
+  $('#bri').noUiSlider({
+    start: [ 50 ],
+    step: 1,
+    range: {
+      'min': [  0 ],
+      'max': [ 100 ]
+    }
+  });
+
+  $('#bri').Link('lower').to($('#briValue'));
+
+
+  $("#hue").on({
+    slide: function(){
+
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      socket.emit('setHSL', {hue: $('#hue').val(), sat: $('#sat').val(), bri: $('#bri').val()} );
+      console.log('slide value : ' + $('#hue').val())
+
+    }
+  });
+
+  $("#sat").on({
+    slide: function(){
+      // insert
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      socket.emit('setHSL', {hue: $('#hue').val(), sat: $('#sat').val(), bri: $('#bri').val()} );
+      console.log('slide value : ' + $('#sat').val())
+    }
+  });
+
+  $("#bri").on({
+    slide: function(){
+      // insert
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      socket.emit('setHSL', {hue: $('#hue').val(), sat: $('#sat').val(), bri: $('#bri').val()} );
+      console.log('slide value : ' + $('#bri').val())
+    }
+  });
+
+
+
+// LED Seedling
+// -----------------------
+  $('#red').noUiSlider({
+    start: [ 0 ],
+    step: 1,
+    range: {
+      'min': [  0 ],
+      'max': [ 255 ]
+    }
+  });
+
+  $('#red').Link('lower').to($('#redValue'));
+
+  $('#green').noUiSlider({
+    start: [ 0 ],
+    step: 1,
+    range: {
+      'min': [  0 ],
+      'max': [ 255 ]
+    }
+  });
+
+  $('#green').Link('lower').to($('#greenValue'));
+
+  $('#blue').noUiSlider({
+    start: [ 0 ],
+    step: 1,
+    range: {
+      'min': [  0 ],
+      'max': [ 255 ]
+    }
+  });
+
+  $('#blue').Link('lower').to($('#blueValue'));
+
+  $('#percentage').noUiSlider({
+    start: [ 0 ],
+    step: 1,
+    range: {
+      'min': [  0 ],
+      'max': [ 100 ]
+    }
+  });
+
+  $('#percentage').Link('lower').to($('#percentageValue'));
+
+  $("#red").on({
+    slide: function(){
+
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      socket.emit('ledColor', {red: $('#red').val(), green: $('#green').val(), blue: $('#blue').val()} );
+      console.log('slide value : ' + $('#red').val())
+    }
+  });
+
+  $("#green").on({
+    slide: function(){
+      // insert
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      socket.emit('ledColor', {red: $('#red').val(), green: $('#green').val(), blue: $('#blue').val()} );
+      console.log('slide value : ' + $('#green').val())
+    }
+  });
+
+  $("#blue").on({
+    slide: function(){
+      // insert
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      socket.emit('ledColor', {red: $('#red').val(), green: $('#green').val(), blue: $('#blue').val()} );
+      console.log('slide value : ' + $('#blue').val())
+    }
+  });
+
+  $("#brightness").on({
+    slide: function(){
+      // insert
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      socket.emit('ledBrightness', {brightness: $('#brightness').val()} );
+      console.log('slide value : ' + $('#brigtness').val())
+    }
+  });
+
+  $("#percentage").on({
+    slide: function(){
+      // insert
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      socket.emit('ledPercentage', {percentage: $('#percentage').val()} );
+      console.log('slide value : ' + $('#percentage').val())
+    }
+  });
+
+
+
+
+  $('#frequencySlider').noUiSlider({
+    start: [ 1000 ],
+    step: 1,
+    range: {
+      'min': [  0 ],
+      'max': [ 4000 ]
+    }
+  });
+
+  $('#frequencySlider').Link('lower').to($('#slider-range-value1'));
+
+  $('#rpmSlider').noUiSlider({
+    start: [ 400 ],
+    step: 1,
+    range: {
+      'min': [  0 ],
+      'max': [ 600 ]
+    }
+  });
+
+  $('#rpmSlider').Link('lower').to($('#slider-range-value2'));
+
+  $("#frequencySlider").on({
+    slide: function(){
+      console.log('slide value : ' + $('#frequencySlider').val() )
+      socket.emit('updateFrequency', $('#frequencySlider').val() )
+    },
+    set: function(){
+      //insert
+    },
+    change: function(){
+      //insert
+    }
+  });
+
+    $("#rpmSlider").on({
+    slide: function(){
+      // insert
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      socket.emit('updateRPM', $('#rpmSlider').val())
+      console.log('slide value : ' + $('#rpmSlider').val() )
+    }
+  });
+
+
+
+  $("#motorSlider3").on({
+    slide: function(){
+      // insert
+    },
+    set: function(){
+      // insert
+    },
+    change: function(){
+      console.log('slide value : ' + $('#motorSlider3').val())
+    }
+  });
+
+
+
+  $("#startButton").on('click', function(){
+    console.log(' motor STARTED')
+    socket.emit('startMotor')
+    });
+
+  $("#stopButton").on('click', function(){
+    console.log(' motor STOPPED')
+    socket.emit('stopMotor')
+    });
+
+  $("#testCycle").on('click', function(){
+    console.log(' testCycle')
+    socket.emit('testCycle')
+    });
+
+  $("#getStatsButton").on('click', function(){
+    console.log('getting stats')
+    socket.emit('getBeagleStats')
+    });
+
+  $("#customStepsButton").on('click', function(){
+    var myData = {};
+    if(direction != null){
+      myData.motor = 'm1';
+      myData.dir = direction;
+      myData.steps = parseInt( $("#numStepsInput").val() )
+      console.log(myData)
+      socket.emit('webMoveMotor', myData)
+    }
+    else{
+      console.log('NO DIRECTION')
+    }
+
+    });
+    $("#customStepsButton2").on('click', function(){
+      var myData = {};
+      if(direction != null){
+        myData.motor = 'm2';
+        myData.dir = direction;
+        myData.steps = parseInt( $("#numStepsInput").val() )
+        console.log(myData)
+        socket.emit('webMoveMotor', myData)
+      }
+      else{
+        console.log('NO DIRECTION')
+      }
+
+      });
+      $("#customStepsButton3").on('click', function(){
+        var myData = {};
+        if(direction != null){
+          myData.motor = 'm3';
+          myData.dir = direction;
+          myData.steps = parseInt( $("#numStepsInput").val() )
+          console.log(myData)
+          socket.emit('webMoveMotor', myData)
+        }
+        else{
+          console.log('NO DIRECTION')
+        }
+
+        });
+        $("#customStepsButton4").on('click', function(){
+          var myData = {};
+          if(direction != null){
+            myData.motor = 'm4';
+            myData.dir = direction;
+            myData.steps = parseInt( $("#numStepsInput").val() )
+            console.log(myData)
+            socket.emit('webMoveMotor', myData)
+          }
+          else{
+            console.log('NO DIRECTION')
+          }
+
+        });
+
+        $("#customStepsButtonAll").on('click', function(){
+          if(direction != null){
+            moveAll();
+          }
+          else{
+            console.log('NO DIRECTION')
+          }
+        });
+
+        $("#customStepsButtonLoop").on('click', function(){
+          socket.emit('loopPillars')
+        });
+
+        function moveAll(){
+          console.log('Move All!!  :)')
+          var myData = {};
+          if(direction != null){
+            var mySteps = parseInt( $("#numStepsInput").val() )
+            socket.emit('webMoveMotor', {motor:'m1', dir: direction, steps: mySteps});
+            socket.emit('webMoveMotor', {motor:'m2', dir: direction, steps: mySteps});
+            socket.emit('webMoveMotor', {motor:'m3', dir: direction, steps: mySteps});
+            socket.emit('webMoveMotor', {motor:'m4', dir: direction, steps: mySteps});
+          }
+          else{
+            console.log('NO DIRECTION')
+          }
+
+        }
+
+  $("#downButton").on('click', function(){
+    direction = 0;
+  })
+
+  $("#upButton").on('click', function(){
+    direction = 1;
+    console.log('up direction : ' + direction);
+  })
+
+  $("#resetButton").on('click', function(){
+    socket.emit('resetPosition', 'm1')
+  })
+  $("#resetButton2").on('click', function(){
+    socket.emit('resetPosition', 'm2')
+  })
+  $("#resetButton3").on('click', function(){
+    socket.emit('resetPosition', 'm3')
+  })
+  $("#resetButton4").on('click', function(){
+    socket.emit('resetPosition', 'm4')
+  })
+
+  //  ***********
+  //  SOUNDS
+  //
+  $("#sound1").on('click', function(){
+    console.log('sound 1')
+    socket.emit('playSound1')
+  })
+
+  $("#sound2").on('click', function(){
+    console.log('sound 2')
+    socket.emit('playSound2')
+  })
+
+  $("#pausesound1").on('click', function(){
+    console.log('pause sound 1')
+    socket.emit('pauseSound1')
+  })
+
+  $("#pausesound2").on('click', function(){
+    console.log('pause sound 2')
+    socket.emit('pauseSound2')
+  })
+
+  $("#playButton").on('click', function(){
+    var name =  $("#soundName").val()
+    socket.emit('playButton', name)
+  })
+
+  $("#pauseButton").on('click', function(){
+    var name = $("#soundName").val()
+    socket.emit('pauseButton', name)
+  })
+
+  $("#playType").on('click', function(){
+    var name =  $("#soundType").val()
+    socket.emit('playType', name)
+  })
+
+  $("#pauseType").on('click', function(){
+    var name = $("#soundType").val()
+    socket.emit('pauseType', name)
+  })
+
+
+  //  ***********
+  //  LIGHTS
+  //
+
+  $("#lightsOn").on('click', function(){
+    console.log('lights on')
+    var time = parseFloat ( $("#lightFade").val() )
+    socket.emit('lightsOn', time)
+  });
+
+  $("#lightsOff").on('click', function(){
+    console.log('lights off')
+    var time = parseFloat ( $("#lightFade").val() )
+    socket.emit('lightsOff', time)
+  })
+
+  $("#partyOn").on('click', function(){
+    console.log('party on')
+    socket.emit('partyOn')
+  });
+
+  $("#partyOff").on('click', function(){
+    console.log('party off')
+    socket.emit('partyOff')
+  })
+
+  $("#nameOn").on('click', function(){
+    console.log('name on')
+    var hexVal = $("#nameColor").val();
+    var time = parseFloat( $("#nameFade").val() )
+    var data = {hexVal, time}
+    socket.emit('nameOn', data)
+  });
+
+  $("#nameOff").on('click', function(){
+    console.log('name off')
+    var hexVal = $("#nameColor").val();
+    var time = parseFloat( $("#nameFade").val() )
+    var data = {hexVal, time}
+    socket.emit('nameOff', data)
+  })
+
+  $("#lightTrail").on('click', function(){
+    var color = $("#trailColor").val()
+    var trailColor = hexToObj(color);
+    var maxBrightness = parseInt( $("#maxBrightness").val() )
+    var nodes = parseInt( $("#nodes").val() )
+    var time = parseFloat( $("#trailTime").val() )
+    var revolutions = parseInt( $("#trailRevs").val() )
+    var data = {trailColor, maxBrightness, nodes, time, revolutions}
+    console.log('light trail')
+    socket.emit('lightTrail', data);
+  });
+
+  $("#fadeCircle").on('click', function(){
+    fadeCircle(null, null);
+  });
+
+  $("#blink").on('click', function(){
+    var blinkColor = hexToObj( $("#blinkColor").val() );
+    var blinkDuration = parseFloat( $("#blinkDuration").val() )
+    var data = {blinkColor, blinkDuration}
+    console.log("blink")
+    socket.emit('blink', data)
+  });
+
+  </script>
+
+</body>
+</html>
