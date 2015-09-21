@@ -39,7 +39,7 @@ function setup(){
 	function dataOps(){
 			if(online){ //server is hooked up
 				socket = io.connect('http://169.237.123.19:5000')
-				socket.emit('ask')
+				socket.emit('ui request story')
 				socket.on('intro',function(d){
 					story = d.story; part = d.part
 					data = story.parts[part]
