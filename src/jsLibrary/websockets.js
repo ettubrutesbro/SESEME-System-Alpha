@@ -297,13 +297,15 @@ var io = new socket.listen(5000);
 var webbyOnline = 0;
 var webby = null;
 
-io.on('connection', function (socket){
+io.on('connection', function (socket) {
   webbyOnline = 1;
   webby = socket;
-  console.log(' someone connected to web socket.io')
+  console.log(socket.request.connection.remoteAddress + ' connected to web socket.io');
 
   socket.on('ui request story', function() {
-      console.log("Front-end asked for stufffff");
+      // Have the frontend acquire the story data
+      var data = 'hi jack :^)';
+      socket.emit('ui acquire story', data);
   });
 
   // Update the seconds in the web page
