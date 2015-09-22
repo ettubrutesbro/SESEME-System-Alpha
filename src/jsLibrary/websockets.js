@@ -123,7 +123,7 @@ io.on('connection', function (socket) {
   // Front-end simulation of a button press
   socket.on('sim new part', function() {
     //   var result = heightCalc(story[1].parts[1]);
-      socket.emit('ui different part', {part: 1, percentages: [0.9, 0.2, 0.6, 0.3]} );
+      socket.emit('ui update part', {part: 1, percentages: [0.9, 0.2, 0.6, 0.3]} );
   });
   socket.on('sim new story', function() {
     //   var result = heightCalc(story[2].parts[0]);
