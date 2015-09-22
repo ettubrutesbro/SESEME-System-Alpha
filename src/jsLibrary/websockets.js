@@ -98,6 +98,7 @@ io.on('connection', function (socket) {
 
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
+      console.log("Frontend requested story, emitting 'ui acquire story' now.")
       socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: seedlings[lastSeedlingUsed].currentPart,
         percentages: heightCalcGeneric(story[lastSeedlingUsed].parts[currentPart]) });
   });
