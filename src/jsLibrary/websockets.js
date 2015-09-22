@@ -8,7 +8,7 @@ module.exports = function(io) {
 //  HUE BULB
 
 var hue = require('./hue.js')
-var stories = require('./story.js')
+var stories = require('./stories.js')
 var led = require('./led.js')
 var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
@@ -304,8 +304,7 @@ io.on('connection', function (socket) {
 
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
-      var data = 'hi jack :^)';
-      socket.emit('ui acquire story', data);
+      socket.emit('ui acquire story', {story: story[0], part: currentPart });
   });
 
   // Update the seconds in the web page
