@@ -109,7 +109,8 @@ io.on('connection', function (socket) {
 
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
-      socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: currentPart });
+      socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: currentPart,
+        percentages: heightCalcGeneric(story[lastSeedlingUsed].parts[currentPart]) });
   });
 
   // var percentages = heightCalc();
@@ -308,6 +309,26 @@ var maxDistanceFlag = false;
 var beagleStats = null;
 var beagleTime = -1;
 var plrmax = 5000; // lazy without sockets
+// this plrmax refers to steps (motors)
+
+function heightCalcGeneric(data){
+  //pass in story[i].parts[part].values, get percentages
+  var top = 100, bottom = 0
+  if(!data.valueType || data.valueType === "moreIsTall"){
+    top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
+    bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
+  }
+  else if(data.valueType === 'lessIsTall'){
+    top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
+    bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
+  }
+  var range = Math.abs(bottom-top)
+  var percentagesArray = []
+  for(var i = 0; i < 4; i++){
+    percentagesArray[i] = Math.abs(bottom-data.values[i])/range
+  }
+  return percentagesArray
+}
 
 function heightCalc(data){
   var top = 100, bottom = 0

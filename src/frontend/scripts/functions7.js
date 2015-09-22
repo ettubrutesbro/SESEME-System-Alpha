@@ -554,7 +554,6 @@ function refill(){
 			anim3d(seseme['plr'+i], 'position', {y: seseme['plr'+i].targetY, spd: plrspd})
 		}
 	}
-	function
 	//DOM shit
 	dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
 	dom.bottom.style.backgroundColor = data.color
