@@ -253,6 +253,48 @@ io.on('connection', function (socket) {
     if(seedlings[0].online)  seedlings[0].socket.emit('nameOff', data);
   })
 
+
+    //
+    ///
+    //Sound stuff
+    ///
+    //
+    socket.on('playSound1', function(){
+      if(seedlings[0].online)  seedlings[0].socket.emit('playSound1');
+    })
+
+    socket.on('pauseSound1', function(){
+      if(seedlings[0].online)  seedlings[0].socket.emit('pauseSound1');
+    })
+
+
+    socket.on('playSound2', function(){
+      if(seedlings[0].online)  seedlings[0].socket.emit('playSound2');
+    })
+
+    socket.on('pauseSound2', function(){
+      if(seedlings[0].online)  seedlings[0].socket.emit('pauseSound2');
+    })
+
+    socket.on('playButton', function(data){
+      if(seedlings[0].online)  seedlings[0].socket.emit('playButton', data);
+    })
+
+    socket.on('pauseButton', function(data){
+      if(seedlings[0].online)  seedlings[0].socket.emit('pauseButton', data);
+    })
+
+    socket.on('playType', function(data){
+      if(seedlings[0].online)  seedlings[0].socket.emit('playType', data);
+    })
+
+    socket.on('pauseType', function(data){
+      if(seedlings[0].online)  seedlings[0].socket.emit('pauseType', data);
+    })
+
+  });
+
+
 ////////////////////////////////////////////////
 //  BEAGLE Vars
 ////////////////////////////////////////////////
@@ -461,46 +503,6 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('disconnect', function(){
     beagleOnline = false;
     console.log('beagle disconnected')
-  })
-
-});
-
-  //
-  ///
-  //Sound stuff
-  ///
-  //
-  socket.on('playSound1', function(){
-    if(seedlings[0].online)  seedlings[0].socket.emit('playSound1');
-  })
-
-  socket.on('pauseSound1', function(){
-    if(seedlings[0].online)  seedlings[0].socket.emit('pauseSound1');
-  })
-
-
-  socket.on('playSound2', function(){
-    if(seedlings[0].online)  seedlings[0].socket.emit('playSound2');
-  })
-
-  socket.on('pauseSound2', function(){
-    if(seedlings[0].online)  seedlings[0].socket.emit('pauseSound2');
-  })
-
-  socket.on('playButton', function(data){
-    if(seedlings[0].online)  seedlings[0].socket.emit('playButton', data);
-  })
-
-  socket.on('pauseButton', function(data){
-    if(seedlings[0].online)  seedlings[0].socket.emit('pauseButton', data);
-  })
-
-  socket.on('playType', function(data){
-    if(seedlings[0].online)  seedlings[0].socket.emit('playType', data);
-  })
-
-  socket.on('pauseType', function(data){
-    if(seedlings[0].online)  seedlings[0].socket.emit('pauseType', data);
   })
 
 });
