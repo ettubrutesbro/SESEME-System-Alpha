@@ -397,7 +397,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
         console.log("Sending the story part " + seedling.currentPart + " to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
         uiSocket.emit('ui update part', {part: seedling.currentPart, percentages: result} );
-    } else if(uiSocket) {
+    } else if(uiSocket && lastSeedlingUsed !== seedling.number) {
         console.log("Sending a new story to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
         uiSocket.emit('ui different story', {story: seedling.story, percentages: result} );
