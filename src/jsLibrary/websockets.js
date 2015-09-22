@@ -103,6 +103,10 @@ io.on('connection', function (socket) {
         percentages: heightCalcGeneric(story[lastSeedlingUsed].parts[currentPart]) });
   });
 
+  socket.on('debug', function() {
+      socket.emit('debug');
+  });
+
   // Front-end simulation of a button press
   socket.on('sim new part', function() {
     //   var result = heightCalc(story[1].parts[1]);
