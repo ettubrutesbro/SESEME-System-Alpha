@@ -110,18 +110,13 @@ io.on('connection', function (socket) {
   });
 
   // // Front-end simulation of a button press
-  // socket.on('sim new part', function() {
-  //   //   var result = heightCalc(story[1].parts[1]);
-  //     socket.emit('ui update part', {part: 1, percentages: [0.9, 0.2, 0.6, 0.3]} );
-  // });
-  // socket.on('sim new story', function() {
-  //   //   var result = heightCalc(story[2].parts[0]);
-  //     socket.emit('ui different story', {story: story[2], percentages: [0.1, 0.8, 0.2, 0.9]} );
-  // });
-  //
   socket.on('sim button', function(seedlingNum) {
       // Set the variable to keep track of the last seedling that had its button pressed
       lastSeedlingUsed = seedlingNum;
+      seedlings[seedlingNum].currentPart = (seedlings[seedlingNum].currentPart+1) % seedlings[seedlingNum].totalStoryParts;
+      if(idleCountdown) clearTimeout(idleCountdown);
+      seconds = 300;
+      countdown();
 
       // Send the new height calculations to the frontend
       var result;
