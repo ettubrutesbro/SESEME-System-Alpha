@@ -321,16 +321,10 @@ function viewInfoText(){
 			dom.closebutton.show()
 		}
 
-		//is newheight greater than oldheight?
-		//there's only an oldheight if the first condition (pre existing view content) is met, do the camprison there
-		//
-
 		Velocity(targettext, {opacity: 1, translateX: [0, feedX], translateY: [0, feedY]},
 			{duration: 500, delay: 100, visibility: 'visible'})
 		Velocity(dom.bottom, {translateX: [0,0], translateY: -newheight, backgroundColorAlpha: 0.91}, {duration: 275+ newheight ,
 			visibility: 'visible', complete: heightcb })
-		// dom.closebutton.show()
-		// Velocity(dom.closebutton, {translateX: 0}, {duration: 250, delay: 100, visibility: 'visible'})
 		Velocity(dom.rule, {translateY: 0})
 	}
 }
@@ -544,63 +538,24 @@ function clickedLR(left){
 	else target = facing===3?0: facing+1
 	rotateTo(target)
 }
-function refill(newstory, newpart){
-	// show new data - could be next, could be first, could be totally diff
-	refillObj(info.titleblock, compareObjs(data.title, story.parts[newpart].title))
 
-	function refillObj(obj, diffs){
-		//mesh, sprite, or group
-		//how to avoid replacing things like line / pointer?
-
-		//info.name[i].txt = sprite/group or info.titleblock = group
-		//if its a group, iterate through its children alongside diffs
-			// everything that is 'true' (different) gets removed/replaced
-				//how to ensure preservation of position...???
-				//recalculation of all position y's (size change)?
-		//if its not, look at it
-
-	}
-}
-function compareObjs(oldobj, newobj){
-	// compares 2 objects and finds differences (when showing new content)
-	// true = needs to change
-	var newkeys = Object.keys(newobj),
-	oldkeys = Object.keys(oldobj),
-	diffs = []
-
-	for(var i = 0; i<newkeys.length; i++){
-		if(oldobj[oldkeys[i]] && newobj[newkeys[i]]){
-			var oldcontent = oldobj[oldkeys[i]].c
-			newcontent = newobj[newkeys[i]].c
-			// console.log(oldcontent, newcontent)
-			if(oldcontent instanceof Array && newcontent instanceof Array) diffs.push(!newcontent.equals(oldcontent))
-			else if(oldcontent === newcontent) diffs.push(false) //same
-			else diffs.push(true) //different key at index
-		}
-	}
-	if(newkeys.length < oldkeys.length){
-		for(var i = 0; i< oldkeys.length-newkeys.length; i++){
-			diffs.push(true)
-		}
-	}
-	return diffs
-}
-
-function lightsOn(on){
-	lights.traverse(function(child){
-		if(child.intensity) anim3d(child, 'intensity', {intensity: on?child.default:0.01, spd: child.default*500})
-	})
-}
-
-
+//REFILLING AND CONTENT POPULATION
 function refill(){
 	//prototype doesn't have any animations
-	//3d shit - color, namesprites, titleblock, main button position
-	for(var i = 0; i<4; i++){
-		seseme['plr'+i].position.y = seseme['plr'+i].targetY
+	//3D SHIT - color, namesprites, titleblock, main button position
+	movePillars()
+	makeNames()
+
+	function movePillars(){
+		//get distance, multiply/add, anim3d
+		//future: flags and queueing?
+		for(var i = 0; i<4; i++){
+			var plrspd = (Math.abs(seseme['plr'+i].targetY - seseme['plr'+i].position.y) * constspd) + spdcompensator
+			anim3d(seseme['plr'+i], 'position', {y: seseme['plr'+i].targetY, spd: plrspd})
+		}
 	}
-
-
+	function
+	//DOM shit
 	dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
 	dom.bottom.style.backgroundColor = data.color
 	dom.maintext.textContent = data.text
@@ -611,31 +566,78 @@ function refill(){
 		}
 	}
 }
-
-function heightCalc(){
-	if(data.values.allSame()){
-		console.log('values are all the same')
-		var autoset = data.values[0] < 1? 0 : plrmax
-		for(var i = 0; i<4; i++){
-			seseme['plr'+i].targetY = autoset
-		}
-		return
-	}
-	var top = 100, bottom = 0
-	if(!data.valueType || data.valueType === "moreIsTall"){
-		top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
-		bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
-	}
-	else if(data.valueType === 'lessIsTall'){
-		top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
-		bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
-	}
-	var range = Math.abs(bottom-top)
+function makeNames(){
+	console.log('make names')
+	const lnheight = 1.4
 	for(var i = 0; i<4; i++){
-		seseme['plr'+i].targetY = Math.abs(bottom-data.values[i])/range * plrmax
-	}
+		//individual sprite name
+		var n = new THREE.Group()
+		var txt = new THREE.Object3D()// group or sprite depending on name type
+		if(data.details){
+			if(data.details[i]){
+				if(data.details[i].name){
+					n.lines = 1
+					//name is string
+					if(typeof data.details[i].name === 'string'){
+						console.log('string name')
+						txt = new THREE.Sprite()
+						var sprtxt = new Text(data.details[i].name,11,240,125,'black','Karla',30,600,'center')
+						var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
+						txt.material = sprmtl
+						txt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
+					}
+					//name is array
+					else if(data.details[i].name instanceof Array){
+						console.log('array name')
+						txt = new THREE.Group()
+						for(var it = 0; it<data.details[i].name.length; it++){
+							var subtxt = new THREE.Sprite()
+							var sprtxt = new Text(data.details[i].name[it],11,240,125,'black','Karla',30,600,'center')
+							var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
+							subtxt.material = sprmtl
+							subtxt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
+							subtxt.position.y = subtxt.expand = -it*lnheight;
+							subtxt.origin = -it*lnheight + lnheight
+							if(it>0) n.lines += 1
+							txt.add(subtxt)
+						}
+					}
+					//invalid type
+					else {
+						console.log('data.details['+i+'].name is invalid type')
+					}
+				}
+			}
+		}
+		n.txt = txt
+		n.add(n.txt)
+		n.position.set(-3.6, 17.5, 1.1)
+		n.isoHt = 17.5; n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
 
-} // end heightCalc
+		var pointer = new THREE.Sprite(new THREE.SpriteMaterial({transparent:true,map:resources.mtls.chevron.map,opacity:0, color: 0x000000}))
+		pointer.position.y = pointer.isoHt = (-(n.lines*lnheight) - ((17.5 - seseme['plr'+i].targetY)-(n.lines*lnheight)))+2
+		pointer.elevHt = -(n.lines*lnheight)
+		n.pointer = pointer; n.add(n.pointer)
+
+		var linelength = (17.5-seseme['plr'+i].targetY -(n.lines*lnheight)) - 2.5
+		var line
+		if(linelength > 3){
+			line = new THREE.Mesh(new THREE.BoxGeometry(.15, linelength ,.15),
+				new THREE.MeshBasicMaterial({color:0x000000, depthWrite: false, transparent: true, opacity: 0}))
+			line.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,-linelength/2,0 ))
+			line.position.y = -(n.lines*lnheight)
+		}else{
+			line = new THREE.Mesh(new THREE.BoxGeometry(.15,.15,.15), new THREE.MeshBasicMaterial(
+				{color: 0x000000, transparent: true, depthWrite: false, opacity: 0}))
+			line.visible = false
+			pointer.position.y = pointer.isoHt = -(n.lines*lnheight)
+		}
+		n.line = line; n.add(n.line)
+
+		info.name[i] = n; seseme['quad'+i].add(n)
+		projectionMgr.itemEnd('name'+i)
+	}
+}
 
 //MATH / UTILITY FUNCTIONS
 function degs(rads){return rads*(180/Math.PI)}
@@ -689,9 +691,6 @@ function performanceLevel(){
 }
 
 //TWEENS / ANIMATIONS
-
-function direct(destination, spd, dolly){ //camera angle control
-}
 function anim3d(obj, property, options){
 	var start = {}, destination = {}, update
 	//property defines how obj gets updated....
