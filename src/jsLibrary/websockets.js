@@ -126,7 +126,7 @@ io.on('connection', function (socket) {
       // Send the new height calculations to the frontend
       var result;
       if(lastSeedlingUsed === seedlingNum) {
-          console.log("Sending the story part " + seedling[seedlingNum].currentPart + " to the frontend!")
+          console.log("Sending the story part " + seedlings[seedlingNum].currentPart + " to the frontend!")
           result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
           socket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
       } else if(lastSeedlingUsed !== seedlingNum) {
