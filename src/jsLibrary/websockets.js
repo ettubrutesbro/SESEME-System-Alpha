@@ -1,8 +1,3 @@
-var io;
-module.exports = function(io) {
-  io = io;
-};
-
 ////////////////////////////////////////////////
 //
 //  HUE BULB
@@ -13,16 +8,6 @@ var led = require('./led.js')
 var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
 var socket = require('socket.io');
-
-
-/*
-var io = require('socket.io')(2000);
-
-io.on('connection', function (socket) {
-  console.log("io connection");
-  socket.broadcast.emit('xps connected');
-});
-*/
 
 function seedlingObj(story, currentPart, totalStoryParts, seedlingOnline, seedlingSocket, buttonPressed, number){
   this.story = story;
@@ -76,10 +61,9 @@ function countdown() {
         console.log("[SESEME NOW IN IDLE MODE]!");
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
-            if(lastSeedlingUsed === i) {
-                seedlingIO[i].emit('start-breathing', 6);
-            }
-            else seedlingIO[i].emit('start-breathing', 12)
+            if(lastSeedlingUsed === i)
+                seedlings[i].socket.emit('seedling start breathing', 6, seedlings[i].number);
+            else seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number)
         }
 		return;
 	}
@@ -109,7 +93,7 @@ io.on('connection', function (socket) {
 
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
-      socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: currentPart,
+      socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: seedlings[lastSeedlingUsed].currentPart,
         percentages: heightCalcGeneric(story[lastSeedlingUsed].parts[currentPart]) });
   });
 
@@ -409,10 +393,12 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
 
   else{
     // ===============================================================================
+    lastSeedlingUsed = seedling.number;
+
     // Send the new height calculations to the frontend
     if(uiSocket && lastSeedlingUsed === seedling.number) {
         var result = heightCalc(seedling.story.parts[seedling.currentPart]);
-        uiSocket.emit('ui different story', {part: seedling.currentPart, percentages: result} );
+        uiSocket.emit('ui update part', {part: seedling.currentPart, percentages: result} );
     } else {
         var result = heightCalc(seedling.story.parts[seedling.currentPart]);
         uiSocket.emit('ui different story', {story: seedling.story, percentages: result} );
@@ -431,8 +417,6 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
       seedling.buttonPressed = false;
     }, Math.ceil(duration)*1000); // update seedling attributes after animation done
   }
-
-
 }
 
 
