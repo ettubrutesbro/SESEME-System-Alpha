@@ -23,7 +23,7 @@ facingRotations = [-45,45,135,-135]
 var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
-var online = false
+var online = true
 var performance = 'med'
 
 function setup(){
@@ -40,21 +40,26 @@ function setup(){
 			if(online){ //server is hooked up
 				socket = io.connect('http://169.237.123.19:5000')
 				socket.emit('ui request story')
-				socket.on('intro',function(d){
-					story = d.story; part = d.part
-					data = story.parts[part]
+				socket.on('ui acquire story', function(d){
+					console.log('ui acquired story')
 					ready.itemEnd('firstdata')
 				})
-				socket.on('announce'),function(d){
-					//d = {story: story, part: x}
-					if(d.story.id === story.id){ //within same story
-						if(d.part === part) return //same part, do nothing
-						else{ //same story, new part
-							refill(false, d.part)
-						}
-					}
-					else refill(d.story, d.part) //new story
-				}
+
+				// socket.on('intro',function(d){
+				// 	story = d.story; part = d.part
+				// 	data = story.parts[part]
+				// 	ready.itemEnd('firstdata')
+				// })
+				// socket.on('announce'),function(d){
+				// 	//d = {story: story, part: x}
+				// 	if(d.story.id === story.id){ //within same story
+				// 		if(d.part === part) return //same part, do nothing
+				// 		else{ //same story, new part
+				// 			refill(false, d.part)
+				// 		}
+				// 	}
+				// 	else refill(d.story, d.part) //new story
+				// }
 			}
 			//development w/o server: mock
 			else if(!online){
