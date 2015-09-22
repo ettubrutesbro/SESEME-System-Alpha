@@ -97,14 +97,6 @@ io.on('connection', function (socket) {
         percentages: heightCalcGeneric(story[lastSeedlingUsed].parts[currentPart]) });
   });
 
-  // var percentages = heightCalc();
-  // socket.emit('ui different story', data);
-  //    only send story ^
-
-  // var percentages = heightCalc();
-  // socket.emit('ui update part', percentages);
-  //    only send part ^
-
   // Front-end simulation of a button press
   socket.on('sim new part', function() {
     //   var result = heightCalc(story[1].parts[1]);
@@ -392,24 +384,24 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
     seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
 
   else{
+    // Increment current part of the story
+    seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+
     // ===============================================================================
     // Set the variable to keep track of the last seedling that had its button pressed
     lastSeedlingUsed = seedling.number;
 
-    var result;
-
     // Send the new height calculations to the frontend
+    var result;
     if(uiSocket && lastSeedlingUsed === seedling.number) {
         console.log("Sending the story part " + seedling.currentPart + " to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-        console.log("Result that was sent to the frontend: " + JSON.stringify(result,null,2));
         uiSocket.emit('ui update part', {part: seedling.currentPart, percentages: result} );
-    } else {
+    } else if(uiSocket) {
         console.log("Sending a new story to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-        console.log("Result that was sent to the frontend: " + JSON.stringify(result,null,2));
         uiSocket.emit('ui different story', {story: seedling.story, percentages: result} );
-    }
+    } else console.log("Connection with server not made...")
 
     for(var i = 0; i < 3; i++){
       if(seedlings[i].online) {
@@ -420,7 +412,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
 
     setTimeout(function(){
       console.log("update seedling attributes");
-      seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+    //   seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
       seedling.buttonPressed = false;
     }, Math.ceil(duration)*1000); // update seedling attributes after animation done
   }
