@@ -18,7 +18,8 @@ app.use('/static', express.static(__dirname + '/web'));
 app.use('/bower_components', express.static(__dirname + '/web/bower_components'));
 
 app.get('/', function (req, res) {
-  res.sendFile(__dirname + '../frontend/index.html');
+  var path = require('path');
+  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
 app.get('/control-center', function (req, res) {
