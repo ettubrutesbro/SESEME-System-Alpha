@@ -393,13 +393,16 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
 
   else{
     // ===============================================================================
+    // Set the variable to keep track of the last seedling that had its button pressed
     lastSeedlingUsed = seedling.number;
 
     // Send the new height calculations to the frontend
     if(uiSocket && lastSeedlingUsed === seedling.number) {
+        console.log("Sending the story part " + seedling.currentPart + " to the frontend!")
         var result = heightCalc(seedling.story.parts[seedling.currentPart]);
         uiSocket.emit('ui update part', {part: seedling.currentPart, percentages: result} );
     } else {
+        console.log("Sending a new story to the frontend!")
         var result = heightCalc(seedling.story.parts[seedling.currentPart]);
         uiSocket.emit('ui different story', {story: seedling.story, percentages: result} );
     }
