@@ -10,6 +10,7 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var path = require('path');
 
 server.listen(8888);
 console.log('listening on port 8888  !!!')
@@ -19,7 +20,6 @@ app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
 app.use('/bower_components', express.static(__dirname + '/web/bower_components'));
 
 app.get('/', function (req, res) {
-  var path = require('path');
   res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
