@@ -76,8 +76,10 @@ function countdown() {
         console.log("[SESEME NOW IN IDLE MODE]!");
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
-            if(lastSeedlingUsed === i)
+            if(lastSeedlingUsed === i) {
+                console.log('i: '+i);
                 seedlingIO[i].socket.emit('start-breathing', 6);
+            }
             else seedlingIO[i].socket.emit('start-breathing', 12)
         }
 		return;
