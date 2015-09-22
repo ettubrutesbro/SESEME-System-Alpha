@@ -96,6 +96,7 @@ countdown();
 var io = new socket.listen(5000);
 var webbyOnline = 0;
 var webby = null;
+var uiSocket = null;
 
 io.on('connection', function (socket) {
   webbyOnline = 1;
@@ -104,6 +105,8 @@ io.on('connection', function (socket) {
 
   // ===========================================================================================
   // Front-end communication
+  uiSocket = socket;
+
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
       socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: currentPart });
@@ -111,8 +114,22 @@ io.on('connection', function (socket) {
 
   // var percentages = heightCalc();
   // socket.emit('ui different story', data);
+  //    only send story ^
+
   // var percentages = heightCalc();
   // socket.emit('ui update part', percentages);
+  //    only send part ^
+
+  // Front-end simulation of a button press
+  socket.on('sim new part', function() {
+      var result = heightCalc(story[1].parts[1]);
+      socket.emit('ui different part', {part: 1, percentages: result} );
+  });
+  socket.on('sim new story', function() {
+      var result = heightCalc(story[2].parts[0]);
+      socket.emit('ui different story', {story: story[2], percentages: result} );
+  });
+
 
   // Update the seconds in the web page
   setInterval(function(){
@@ -328,10 +345,18 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
     seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
 
   else{
+    // ===============================================================================
+    // Send the new height calculations to the frontend
+    if(uiSocket && lastSeedlingUsed === seedling.number) {
+        var result = heightCalc(seedling.story.parts[seedling.currentPart]);
+        uiSocket.emit('ui different story', {part: seedling.currentPart, percentages: result} );
+    } else {
+        var result = heightCalc(seedling.story.parts[seedling.currentPart]);
+        uiSocket.emit('ui different story', {story: seedling.story, percentages: result} );
+    }
+
     for(var i = 0; i < 3; i++){
       if(seedlings[i].online) {
-        // Send the new height calculations to the front end
-
         seedlings[i].socket.emit("buttonPressed", seedling.number, fadeCircleData, lightTrailData);
       }
     }
