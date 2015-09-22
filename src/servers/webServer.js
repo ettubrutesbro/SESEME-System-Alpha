@@ -14,10 +14,16 @@ var io = require('socket.io')(server);
 server.listen(8888);
 console.log('listening on port 8888  !!!')
 
+console.log("__dirname: "+__dirname);
+
 app.use('/static', express.static(__dirname + '/web'));
 app.use('/bower_components', express.static(__dirname + '/web/bower_components'));
 
 app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/web/index.html');
+});
+
+app.get('/control-center', function (req, res) {
   res.sendFile(__dirname + '/web/index.html');
 });
 
