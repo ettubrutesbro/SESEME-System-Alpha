@@ -245,7 +245,11 @@
     */
 
     //var data = {fadeTime, fillTime, factor, startColor, targetColor, diodePct, transitionFlag, blinkColor, blinkDuration}
-    var data = {targetColor, fadeTime, diodePct}
+    var data = {
+        'targetgetColor' : targetColor,
+        'fadeTime' : fadeTime,
+        'diodePct' : diodePct
+    };
     console.log('fade from top')
     socket.emit('fadeCircle', data);
   }
