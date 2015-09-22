@@ -109,14 +109,31 @@ io.on('connection', function (socket) {
       socket.emit('pong');
   });
 
-  // Front-end simulation of a button press
-  socket.on('sim new part', function() {
-    //   var result = heightCalc(story[1].parts[1]);
-      socket.emit('ui update part', {part: 1, percentages: [0.9, 0.2, 0.6, 0.3]} );
-  });
-  socket.on('sim new story', function() {
-    //   var result = heightCalc(story[2].parts[0]);
-      socket.emit('ui different story', {story: story[2], percentages: [0.1, 0.8, 0.2, 0.9]} );
+  // // Front-end simulation of a button press
+  // socket.on('sim new part', function() {
+  //   //   var result = heightCalc(story[1].parts[1]);
+  //     socket.emit('ui update part', {part: 1, percentages: [0.9, 0.2, 0.6, 0.3]} );
+  // });
+  // socket.on('sim new story', function() {
+  //   //   var result = heightCalc(story[2].parts[0]);
+  //     socket.emit('ui different story', {story: story[2], percentages: [0.1, 0.8, 0.2, 0.9]} );
+  // });
+  //
+  socket.on('sim button', function(seedlingNum) {
+      // Set the variable to keep track of the last seedling that had its button pressed
+      lastSeedlingUsed = seedlingNum;
+
+      // Send the new height calculations to the frontend
+      var result;
+      if(lastSeedlingUsed === seedlingNum) {
+          console.log("Sending the story part " + seedling[seedlingNum].currentPart + " to the frontend!")
+          result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
+          socket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
+      } else if(lastSeedlingUsed !== seedlingNum) {
+          console.log("Sending a new story to the frontend!")
+          result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedling.currentPart]);
+          socket.emit('ui different story', {story: seedlings[seedlingNum].story, percentages: result} );
+      } else console.log("Connection with server not made...")
   });
 
 
