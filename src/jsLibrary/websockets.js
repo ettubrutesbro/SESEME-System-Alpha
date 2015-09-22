@@ -57,17 +57,17 @@ for(var i = 0; i < 3; i++){
 var seconds = 300; // Global seconds variable
 var lastSeedlingUsed = 0; // Global variable to store the seedling pressed last
 function countdown() {
+    seconds = 300;
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
-            if(lastSeedlingUsed === i) {
-                console.log("i: "+i);
-                seedlings[i].socket.emit('seedling start breathing', 6, seedlings[i].number);
-            }
-            else {
-                console.log("i: "+i);
-                seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number);
+            // Check if the seedlings are connected first to emit to them
+            if(seedlings[i].socket) {
+                // For the seedling that was active last, set the interval to 6s
+                if(lastSeedlingUsed === i)  // Set interval for 12s for the others
+                    seedlings[i].socket.emit('seedling start breathing', 6, seedlings[i].number);
+                else seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number);
             }
         }
 		return;
