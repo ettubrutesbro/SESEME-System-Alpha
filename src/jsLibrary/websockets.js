@@ -304,7 +304,7 @@ io.on('connection', function (socket) {
 
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
-      socket.emit('ui acquire story', {story: story[0], part: currentPart });
+      socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: currentPart });
   });
 
   // Update the seconds in the web page
