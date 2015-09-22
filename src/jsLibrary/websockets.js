@@ -76,11 +76,10 @@ function countdown() {
         console.log("[SESEME NOW IN IDLE MODE]!");
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
-            console.log('i: '+i);
             if(lastSeedlingUsed === i) {
-                seedlingIO[i].socket.emit('start-breathing', 6);
+                seedlingIO[i].emit('start-breathing', 6);
             }
-            else seedlingIO[i].socket.emit('start-breathing', 12)
+            else seedlingIO[i].emit('start-breathing', 12)
         }
 		return;
 	}
@@ -305,10 +304,16 @@ io.on('connection', function (socket) {
   console.log(socket.request.connection.remoteAddress + ' connected to web socket.io');
 
   // ===========================================================================================
+  // Front-end communication
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
       socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: currentPart });
   });
+
+  // var percentages = new heightCalc();
+  // socket.emit('ui different story', data);
+  // var percentages = new heightCalc();
+  // socket.emit('ui update part', percentages);
 
   // Update the seconds in the web page
   setInterval(function(){
