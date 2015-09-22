@@ -61,9 +61,14 @@ function countdown() {
         console.log("[SESEME NOW IN IDLE MODE]!");
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
-            if(lastSeedlingUsed === i)
+            if(lastSeedlingUsed === i) {
+                console.log("i: "+i);
                 seedlings[i].socket.emit('seedling start breathing', 6, seedlings[i].number);
-            else seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number)
+            }
+            else {
+                console.log("i: "+i);
+                seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number);
+            }
         }
 		return;
 	}
@@ -384,10 +389,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
     seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
 
   else{
+    // ===============================================================================
     // Increment current part of the story
     seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
 
-    // ===============================================================================
     // Set the variable to keep track of the last seedling that had its button pressed
     lastSeedlingUsed = seedling.number;
 
