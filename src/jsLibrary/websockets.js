@@ -76,8 +76,8 @@ function countdown() {
         console.log("[SESEME NOW IN IDLE MODE]!");
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
+            console.log('i: '+i);
             if(lastSeedlingUsed === i) {
-                console.log('i: '+i);
                 seedlingIO[i].socket.emit('start-breathing', 6);
             }
             else seedlingIO[i].socket.emit('start-breathing', 12)
@@ -304,6 +304,7 @@ io.on('connection', function (socket) {
   webby = socket;
   console.log(socket.request.connection.remoteAddress + ' connected to web socket.io');
 
+  // ===========================================================================================
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
       socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: currentPart });
