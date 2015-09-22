@@ -15,6 +15,7 @@ server.listen(8888);
 console.log('listening on port 8888  !!!')
 
 app.use('/static', express.static(__dirname + '/web'));
+app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
 app.use('/bower_components', express.static(__dirname + '/web/bower_components'));
 
 app.get('/', function (req, res) {
