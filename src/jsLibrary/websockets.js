@@ -89,207 +89,6 @@ function countdown() {
 // Make sure to broadcast to all when the button is pressed
 countdown();
 
-////////////////////////////////////////////////
-//  BEAGLE Vars
-////////////////////////////////////////////////
-var beagleIO = new socket.listen(4000);
-var beagle = null;
-var beagleOnline = false;
-var sesemeRunning = false;
-var updateFlag = false;
-var beagleStatsFlag = false;
-var maxDistanceFlag = false;
-var beagleStats = null;
-var beagleTime = -1;
-var plrmax = 5000; // lazy without sockets
-
-function heightCalc(data){
-  var top = 100, bottom = 0
-  var destSteps = {m1: null, m2: null, m3: null, m4: null};
-  if(!data.valueType || data.valueType === "moreIsTall"){
-    top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
-    bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
-  }
-  else if(data.valueType === 'lessIsTall'){
-    top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
-    bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
-  }
-  var range = Math.abs(bottom-top)
-  for(var i = 0; i < 4; i++){
-    destSteps["m"+(i+1)] = Math.round( Math.abs(bottom-data.values[i])/range * plrmax )
-  }
-  return destSteps;
-}
-
-function fadeCircleObj(targetColor, duration, diodePct){
-    this.targetColor = targetColor;
-    this.duration = duration;
-    this.diodePct = diodePct;
-}
-
-
-function seedlingConnected(seedSocket, seedlingNum){
-  var seedling = seedlings[seedlingNum];
-  console.log('$$$ SEEDLING ' + (seedlingNum+1) + ' CONNECTED')
-  seedling.socket = seedSocket;
-
-  seedling.socket.on('checkin', function(data){
-    console.log('$$$  SEEDLING ' + (seedlingNum+1) + ' checkin')
-    console.log(data)
-  });
-
-  seedling.socket.on('bigRedButton', function(){
-    console.log('$$$ SEEDLING ' + (seedlingNum+1) + ' Big red button pressed!')
-    if(!seedling.buttonPressed){
-      console.log("correct");
-      seedling.buttonPressed = true;
-      bigRedButton(seedling);
-    }
-    else{
-      console.log("wrong");
-    } // currently in animation
-  });
-
-  seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
-    seedling.online = true;
-    seedling.currentPart = 0;
-    console.log('seedling', (seedlingNum+1), 'On');
-  });
-
-  seedling.socket.on('disconnect', function(){
-    seedling.online = false;
-    console.log('seedling', (seedlingNum+1), 'disconnected')
-  })
-}
-
-function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
-  console.log("in bigRedButtonHelper Function");
-  var trailColor = led.hexToObj("FFFFFF");
-  var targetColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
-  var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
-  var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
-  var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
-  var fadeCircleData = new fadeCircleObj(targetColor, duration, diodePct);
-
-  if(seedling.currentPart + 1 == seedling.totalStoryParts){
-    duration += 3;
-  } // will run fill circle so add 3 sec to duration of lightTrail and timeout
-
-  var lightTrailData = new lightTrailObj(trailColor, 6, duration / seedling.totalStoryParts, seedling.totalStoryParts);
-
-  if(error)
-    seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
-
-  else{
-    for(var i = 0; i < 3; i++){
-      if(seedlings[i].online)
-        seedlings[i].socket.emit("buttonPressed", seedling.number, fadeCircleData, lightTrailData);
-    }
-    if(beagleOnline) beagle.emit("buttonPressed", targetStats, targetColor);
-
-    setTimeout(function(){
-      console.log("update seedling attributes");
-      seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
-      seedling.buttonPressed = false;
-    }, Math.ceil(duration)*1000); // update seedling attributes after animation done
-  }
-
-
-}
-
-
-function bigRedButton(seedling){
-  if(beagleOnline){
-    beagle.emit('getBeagleStats');
-    beagle.emit('isRunning'); // check if seseme is running
-    var targetStats = heightCalc(seedling.story.parts[seedling.currentPart]);
-    var maxDistance = 0;
-
-    var timer1 = setInterval(function(){
-      if(beagleStatsFlag){
-        clearInterval(timer1);
-        for(var i = 1; i <= 4; i++){
-          var temp = Math.abs( targetStats["m"+i] - beagleStats["m"+i] );
-          if(temp > maxDistance) maxDistance = temp;
-        }
-        console.log("maxDistance: " + maxDistance);
-        beagleStats = false;
-        maxDistanceFlag = true; // done with setting maxDistance
-      } //
-    }, 20);
-
-    var timer2 = setInterval(function(){
-      if(updateFlag && maxDistanceFlag){
-        clearInterval(timer2);
-        maxDistanceFlag = false;
-        if(!sesemeRunning){
-          bigRedButtonHelper(seedling, maxDistance, targetStats, false);
-        }
-        else
-          console.log("seseme currently running")
-          bigRedButtonHelper(seedling, maxDistance, targetStats, true);
-          //seedling.socket.emit("playType", "idler");
-      }
-    }, 20);
-  }
-  else{
-    console.log("will run button helper");
-    bigRedButtonHelper(seedling, 5000, null, false);
-  }
-}
-
-
-////////////////////////////////////////////////
-//  SEEDLING
-////////////////////////////////////////////////
-
-seedlingIO[0].on('connection', function(seedSocket){
-  seedlingConnected(seedSocket, 0);
-});
-seedlingIO[1].on('connection', function(seedSocket){
-  seedlingConnected(seedSocket, 1);
-});
-seedlingIO[2].on('connection', function(seedSocket){
-  seedlingConnected(seedSocket, 2);
-});
-
-
-////////////////////////////////////////////////
-//  BEAGLE - Seseme Monument
-////////////////////////////////////////////////
-
-beagleIO.on('connection', function(beagleSocket){
-  beagle = beagleSocket;
-  console.log('### BEAGLE CONNECTED')
-  beagleSocket.on('checkin', function(data){
-    console.log('###  Beaglebone checkin')
-    console.log(data)
-  })
-
-  beagleSocket.on('checkSesemeRunning', function(data){
-    console.log("checkSesemeRunning data: " + data);
-    sesemeRunning = data;
-    updateFlag = true; // finished isRunning check and change flag
-  })
-
-  beagleSocket.on('returnBeagleStats', function(data){
-    console.log("returnBeagleStats data: " + JSON.stringify(data));
-    beagleStats = data;
-    beagleStatsFlag = true; // got beagle stats
-  })
-
-  beagleSocket.on('beagle 1 On', function(){
-    beagleOnline = true;
-    console.log('beagle Online');
-  });
-
-  beagleSocket.on('disconnect', function(){
-    beagleOnline = false;
-    console.log('beagle disconnected')
-  })
-
-});
-
 
 ////////////////////////////////////////////////
 //  web
@@ -310,9 +109,9 @@ io.on('connection', function (socket) {
       socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: currentPart });
   });
 
-  // var percentages = new heightCalc();
+  // var percentages = heightCalc();
   // socket.emit('ui different story', data);
-  // var percentages = new heightCalc();
+  // var percentages = heightCalc();
   // socket.emit('ui update part', percentages);
 
   // Update the seconds in the web page
@@ -437,7 +236,209 @@ io.on('connection', function (socket) {
     if(seedlings[0].online)  seedlings[0].socket.emit('nameOff', data);
   })
 
+////////////////////////////////////////////////
+//  BEAGLE Vars
+////////////////////////////////////////////////
+var beagleIO = new socket.listen(4000);
+var beagle = null;
+var beagleOnline = false;
+var sesemeRunning = false;
+var updateFlag = false;
+var beagleStatsFlag = false;
+var maxDistanceFlag = false;
+var beagleStats = null;
+var beagleTime = -1;
+var plrmax = 5000; // lazy without sockets
 
+function heightCalc(data){
+  var top = 100, bottom = 0
+  var destSteps = {m1: null, m2: null, m3: null, m4: null};
+  if(!data.valueType || data.valueType === "moreIsTall"){
+    top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
+    bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
+  }
+  else if(data.valueType === 'lessIsTall'){
+    top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
+    bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
+  }
+  var range = Math.abs(bottom-top)
+  for(var i = 0; i < 4; i++){
+    destSteps["m"+(i+1)] = Math.round( Math.abs(bottom-data.values[i])/range * plrmax )
+  }
+  return destSteps;
+}
+
+function fadeCircleObj(targetColor, duration, diodePct){
+    this.targetColor = targetColor;
+    this.duration = duration;
+    this.diodePct = diodePct;
+}
+
+
+function seedlingConnected(seedSocket, seedlingNum){
+  var seedling = seedlings[seedlingNum];
+  console.log('$$$ SEEDLING ' + (seedlingNum+1) + ' CONNECTED')
+  seedling.socket = seedSocket;
+
+  seedling.socket.on('checkin', function(data){
+    console.log('$$$  SEEDLING ' + (seedlingNum+1) + ' checkin')
+    console.log(data)
+  });
+
+  seedling.socket.on('bigRedButton', function(){
+    console.log('$$$ SEEDLING ' + (seedlingNum+1) + ' Big red button pressed!')
+    if(!seedling.buttonPressed){
+      console.log("correct");
+      seedling.buttonPressed = true;
+      bigRedButton(seedling);
+    }
+    else{
+      console.log("wrong");
+    } // currently in animation
+  });
+
+  seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
+    seedling.online = true;
+    seedling.currentPart = 0;
+    console.log('seedling', (seedlingNum+1), 'On');
+  });
+
+  seedling.socket.on('disconnect', function(){
+    seedling.online = false;
+    console.log('seedling', (seedlingNum+1), 'disconnected')
+  })
+}
+
+function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
+  console.log("in bigRedButtonHelper Function");
+  var trailColor = led.hexToObj("FFFFFF");
+  var targetColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
+  var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
+  var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
+  var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
+  var fadeCircleData = new fadeCircleObj(targetColor, duration, diodePct);
+
+  if(seedling.currentPart + 1 == seedling.totalStoryParts){
+    duration += 3;
+  } // will run fill circle so add 3 sec to duration of lightTrail and timeout
+
+  var lightTrailData = new lightTrailObj(trailColor, 6, duration / seedling.totalStoryParts, seedling.totalStoryParts);
+
+  if(error)
+    seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
+
+  else{
+    for(var i = 0; i < 3; i++){
+      if(seedlings[i].online) {
+        // Send the new height calculations to the front end
+
+        seedlings[i].socket.emit("buttonPressed", seedling.number, fadeCircleData, lightTrailData);
+      }
+    }
+    if(beagleOnline) beagle.emit("buttonPressed", targetStats, targetColor);
+
+    setTimeout(function(){
+      console.log("update seedling attributes");
+      seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+      seedling.buttonPressed = false;
+    }, Math.ceil(duration)*1000); // update seedling attributes after animation done
+  }
+
+
+}
+
+
+function bigRedButton(seedling){
+  if(beagleOnline){
+    beagle.emit('getBeagleStats');
+    beagle.emit('isRunning'); // check if seseme is running
+    var targetStats = heightCalc(seedling.story.parts[seedling.currentPart]);
+    var maxDistance = 0;
+
+    var timer1 = setInterval(function(){
+      if(beagleStatsFlag){
+        clearInterval(timer1);
+        for(var i = 1; i <= 4; i++){
+          var temp = Math.abs( targetStats["m"+i] - beagleStats["m"+i] );
+          if(temp > maxDistance) maxDistance = temp;
+        }
+        console.log("maxDistance: " + maxDistance);
+        beagleStats = false;
+        maxDistanceFlag = true; // done with setting maxDistance
+      } //
+    }, 20);
+
+    var timer2 = setInterval(function(){
+      if(updateFlag && maxDistanceFlag){
+        clearInterval(timer2);
+        maxDistanceFlag = false;
+        if(!sesemeRunning){
+          bigRedButtonHelper(seedling, maxDistance, targetStats, false);
+        }
+        else
+          console.log("seseme currently running")
+          bigRedButtonHelper(seedling, maxDistance, targetStats, true);
+          //seedling.socket.emit("playType", "idler");
+      }
+    }, 20);
+  }
+  else{
+    console.log("will run button helper");
+    bigRedButtonHelper(seedling, 5000, null, false);
+  }
+}
+
+
+////////////////////////////////////////////////
+//  SEEDLING
+////////////////////////////////////////////////
+
+seedlingIO[0].on('connection', function(seedSocket){
+  seedlingConnected(seedSocket, 0);
+});
+seedlingIO[1].on('connection', function(seedSocket){
+  seedlingConnected(seedSocket, 1);
+});
+seedlingIO[2].on('connection', function(seedSocket){
+  seedlingConnected(seedSocket, 2);
+});
+
+
+////////////////////////////////////////////////
+//  BEAGLE - Seseme Monument
+////////////////////////////////////////////////
+
+beagleIO.on('connection', function(beagleSocket){
+  beagle = beagleSocket;
+  console.log('### BEAGLE CONNECTED')
+  beagleSocket.on('checkin', function(data){
+    console.log('###  Beaglebone checkin')
+    console.log(data)
+  })
+
+  beagleSocket.on('checkSesemeRunning', function(data){
+    console.log("checkSesemeRunning data: " + data);
+    sesemeRunning = data;
+    updateFlag = true; // finished isRunning check and change flag
+  })
+
+  beagleSocket.on('returnBeagleStats', function(data){
+    console.log("returnBeagleStats data: " + JSON.stringify(data));
+    beagleStats = data;
+    beagleStatsFlag = true; // got beagle stats
+  })
+
+  beagleSocket.on('beagle 1 On', function(){
+    beagleOnline = true;
+    console.log('beagle Online');
+  });
+
+  beagleSocket.on('disconnect', function(){
+    beagleOnline = false;
+    console.log('beagle disconnected')
+  })
+
+});
 
   //
   ///
