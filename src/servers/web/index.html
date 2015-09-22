@@ -738,7 +738,10 @@
     console.log('name on')
     var hexVal = $("#nameColor").val();
     var time = parseFloat( $("#nameFade").val() )
-    var data = {hexVal, time}
+    var data = {
+        'hexVal': hexVal,
+        'time':time
+    }
     socket.emit('nameOn', data)
   });
 
