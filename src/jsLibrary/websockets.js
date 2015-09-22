@@ -56,8 +56,8 @@ for(var i = 0; i < 3; i++){
 ////////////////////////////////////////////////
 var seconds = 300; // Global seconds variable
 var lastSeedlingUsed = 0; // Global variable to store the seedling pressed last
+var idleCountdown;
 function countdown() {
-    seconds = 300;
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
 		// Broadcast to all clients that state is now idle
@@ -73,7 +73,7 @@ function countdown() {
 		return;
 	}
 	seconds--;
-	setTimeout(countdown, 1000);
+	idleCountdown = setTimeout(countdown, 1000);
 }
 // Make sure to broadcast to all when the button is pressed
 countdown();
@@ -390,8 +390,11 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
 
   else{
     // ===============================================================================
-    // Increment current part of the story
+    // Increment current part of the story and reset the idle countdown
     seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+    if(idleCountdown) clearTimeout(idleCountdown);
+    seconds = 300;
+    countdown();
 
     // Set the variable to keep track of the last seedling that had its button pressed
     lastSeedlingUsed = seedling.number;
