@@ -23,7 +23,7 @@ facingRotations = [-45,45,135,-135]
 var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
-var online = true
+var online = false
 var performance = 'med'
 
 function setup(){
@@ -32,16 +32,19 @@ function setup(){
 	var ready = new THREE.LoadingManager()
 	ready.itemStart('firstdata'); ready.itemStart('3d')
 	ready.onLoad = function(){ fill(); behaviors(); display() }
-	dataOps() //data from server
+	netOps() //data from server
 	initDOM() //dom
 	assets() //animate & 3d
 
-	function dataOps(){
+	function netOps(){
 			if(online){ //server is hooked up
 				socket = io.connect('http://169.237.123.19:5000')
 				socket.emit('ui request story')
 				socket.on('ui acquire story', function(d){
 					console.log('ui acquired story')
+					console.log(d)
+						story = d.story; part = d.part
+						data = story.parts[part]
 					ready.itemEnd('firstdata')
 				})
 
@@ -252,7 +255,6 @@ function setup(){
 				console.log('projections initialized'); allMgr.itemEnd('projectionMgr')
 			}
 		}//end loadingManagers
-
 		function makeNames(){
 			console.log('make names')
 			const lnheight = 1.4
@@ -559,16 +561,12 @@ function setup(){
 				else if(symbol.type==='img'){ //image mapped plane
 					symbolobj.geometry = new THREE.PlaneBufferGeometry(2.75,2.75)
 				}
-				else{ //no icon provided in data
-					// seseme['plr'+i].symbol = new THREE.Object3d()
-					// seseme['plr']
-				}
-				symbolobj.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,.5,0))
+				symbolobj.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,.4,0))
 				symbolobj.position.y = 0
 				symbolobj.expand = {y: 1.375, delay: i*75} //half the height; templatebox is 2.75Y
 				symbolobj.origin = {x: 0.1, y:0.1, z:0.1, delay: i*75}
 				seseme['plr'+i].symbol = symbolobj
-				seseme['plr'+i].add(seseme['plr'+i].symbol)
+				// seseme['plr'+i].add(seseme['plr'+i].symbol)
 
 			}
 		}
@@ -589,7 +587,6 @@ function setup(){
 					else anim3d(q, 'position', {y:0, delay: i*300, spd: 1000, cb:function(){ quadMgr.itemEnd('quad') } })
 				}
 		}//end initQuads
-
 
 	} //END FILL --------------------
 	function behaviors(){
@@ -627,7 +624,6 @@ function setup(){
 
 		}) // end click event listener
 		//HASHING
-		//TODO: this could become the navigation standard...
 		window.addEventListener('hashchange', function(){
 			console.log('hash is now: ' + window.location.hash)
 			if(window.location.hash===''){
