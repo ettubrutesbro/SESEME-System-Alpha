@@ -435,7 +435,6 @@ function setup(){
 			dom.closebutton.hide = function(){
 				Velocity(this, {translateX:'100%'}, {duration:250,visibility:'hidden'})
 			}
-
 			dom.bottom.refill = function(){
 				//only run after contents have refilled textcontent
 				var targetht = view.text? dom[view.content].offsetHeight : 0
