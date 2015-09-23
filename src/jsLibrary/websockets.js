@@ -1,3 +1,13 @@
+function systemOnline() {
+    // Check if the beagle is connected
+    if(!beagleOnline) return false;
+    for(var i = 0; i < 3; i++) {
+        // Check if all seedlings are connected
+        if(!seedlings[i].online) { return false; }
+    }
+    return true;
+}
+
 ////////////////////////////////////////////////
 //
 //  HUE BULB
@@ -332,6 +342,9 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.online = true;
     seedling.currentPart = 0;
     console.log('seedling', (seedlingNum+1), 'On');
+
+    if(systemOnline())
+        seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
   seedling.socket.on('disconnect', function(){
@@ -452,6 +465,13 @@ seedlingIO[2].on('connection', function(seedSocket){
   seedlingConnected(seedSocket, 2);
 });
 
+// Listen for when to pass the next sync sequence to the next seedling
+seedlingIO[0].on('seedling finish sync-sequence-1', function() {
+  seedlingIO[1].emit('seedling start sync-sequence-2');
+});
+seedlingIO[1].on('seedling finish sync-sequence-2', function() {
+    seedlingIO[2].emit('seedling start sync-sequence-3');
+});
 
 ////////////////////////////////////////////////
 //  BEAGLE - Seseme Monument
