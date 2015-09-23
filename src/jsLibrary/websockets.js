@@ -112,7 +112,7 @@ io.on('connection', function (socket) {
 
   socket.on('ping', function() {
       console.log("ping");
-      socket.emit('pong');
+      io.sockets.emit('pong');
   });
 
   // // Front-end simulation of a button press
@@ -122,7 +122,7 @@ io.on('connection', function (socket) {
 
   // Update the seconds in the web page
   setInterval(function(){
-    socket.emit('updateTime', seconds);
+    io.sockets.emit('updateTime', seconds);
   },1000);
 
   socket.on('checkin', function(data){
@@ -411,11 +411,11 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
     if(uiSocket && lastSeedlingUsed === seedling.number) {
         console.log("Sending the story part " + seedling.currentPart + " to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-        uiSocket.emit('ui update part', {part: seedling.currentPart, percentages: result} );
+        io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
     } else if(uiSocket && lastSeedlingUsed !== seedling.number) {
         console.log("Sending a new story to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-        uiSocket.emit('ui different story', {story: seedling.story, percentages: result} );
+        io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
     } else console.log("Connection with server not made...")
 
     for(var i = 0; i < 3; i++){
