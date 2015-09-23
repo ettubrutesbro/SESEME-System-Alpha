@@ -117,8 +117,10 @@ io.on('connection', function (socket) {
 
   // // Front-end simulation of a button press
   socket.on('sim button', function(seedlingNum) {
-      seedlings[seedlingNum].buttonPressed = true;
-      bigRedButton(seedlings[seedlingNum]);
+      if(!seedling.buttonPressed){
+          seedlings[seedlingNum].buttonPressed = true;
+          bigRedButton(seedlings[seedlingNum]);
+      } else { console.log('Wrong'); }
   });
 
   // Update the seconds in the web page
