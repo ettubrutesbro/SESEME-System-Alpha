@@ -572,9 +572,10 @@
 		function recolor3d(){
 			var rgb = data.color? hexToRgb(data.color): {r:0,g:0,b:0}
 			for(var i = 0; i<4; i++){
-				anim3d(seseme['plr'+i].outline, 'color', {r:rgb.r,g:rgb.g,b:rgb.b})
-				anim3d(seseme['plr'+i].outcap, 'color', {r:rgb.r,g:rgb.g,b:rgb.b})
+				anim3d(seseme['plr'+i].outline, 'color', rgb)
+				anim3d(seseme['plr'+i].outcap, 'color', rgb)
 			}
+			anim3d(info.btn.color, 'color', rgb)
 		}
 		//DOM shit: these need to fade and replace as well....
 		//fades and replaces: maintext and detailtexts
@@ -654,7 +655,7 @@
 				pointer = new THREE.Sprite(new THREE.SpriteMaterial({transparent:true,map:resources.mtls.chevron.map,opacity:0, color: 0x000000}))
 				n.pointer = pointer; n.add(n.pointer)
 			}
-			else if(!init) {pointer = n.pointer; }
+			else if(!init) pointer = n.pointer
 			pointer.isoHt = (-(n.lines*lnheight) - ((17.5 - seseme['plr'+i].targetY)-(n.lines*lnheight)))+2
 			pointer.elevHt = -(n.lines*lnheight)
 			if(init) pointer.position.y = pointer.isoHt

@@ -94,11 +94,11 @@ function setup(socket, seedlingNum, callback) {
         }); // call from seedlings folder in directory
 
         /* prototype to fill in arrays of sounds */
-        var topical = ["shortCircuit.mp3"];
-        var dumb = ["waterDropLow.mp3"];
-        var no = ["waterDrop.mp3"];
-        var ready = ["waterSplash.mp3", "shortCircuit.mp3", "bubble.mp3"];
-        var celebratory = ["bubble.mp3", "dialup.mp3", "dogLaugh.mp3", "electricShock.mp3", "fizzle.mp3"];
+        var topical = ['cash','police','vroom','water1','water2','horhorhor'];
+        var dumb = ['baa','horse','quak1','quak2','meow1','meow2','moo1','moo2','moo3','moo4','moo5'];
+        var no = ['error1','error2','error3','no1','no2','no3','no4'];
+        var ready = ['chime1','chime2','chime3','chime4','ready1','ready2','ready3','ready4'];
+        var celebratory = ['sad','roar'];
         soundObj = new SoundsObj(topical, dumb, no, ready, celebratory);
 
         // Init LED socket listeners
