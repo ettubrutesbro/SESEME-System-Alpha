@@ -550,7 +550,8 @@
 {
 	function refill(){
 		//TODO: keep track of old information (delegate data assigmnent here?)
-		//but for now, it functionally works, just removes and re-adds the same content (clumsy UXwise)
+		//but for now, it functionally works, just removes and re-adds the same content (clumsy, UXwise)
+		var reopen // store content to recall when refill has completed?
 		controls.enabled = false
 		//prototype doesn't have any animations
 		//3D SHIT - color, namesprites, titleblock, main button position
@@ -582,11 +583,12 @@
 			}
 			anim3d(info.btn.color, 'color', rgb)
 		}
+
 		function refillDOM(){
+			console.log('running refillDOM')
 			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
-			Velocity([dom.bottom, dom.maintext], 'finish')
-			Velocity(dom.maintext, {opacity:0},{visibility: 'none',
-				complete: function(){ dom.maintext.textContent = data.text }})
+
+			dom.maintext.textContent = data.text
 			Velocity(dom.bottom, {backgroundColor: data.color}) // dom.bottom.style.backgroundColor = data.color
 			for(var i = 0; i<4; i++){
 				var navname = data.details? data.details[i].name : '',

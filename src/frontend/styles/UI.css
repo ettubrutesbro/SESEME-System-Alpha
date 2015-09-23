@@ -121,19 +121,19 @@ hr {
 	visibility: hidden;
   position: absolute; bottom: 0; right: 0;
   width: 0; height: 0; border: 3rem solid transparent;
-  border-right-color: #3A3A3A; border-bottom-color: #3A3A3A;
+  border-right-color: #ededed; border-bottom-color: #ededed;
+}
+#closebutton::before{
+	content: '';
+	position: absolute; bottom: -3rem; right: -3rem;
+	width: 0; height:0; border: 2.75rem solid transparent;
+	border-right-color: #3A3A3A; border-bottom-color: #3A3A3A;
 }
 #closebutton::after{
 	content: '';
-	position: absolute; top: -.125rem; left: -.125rem;
+	position: absolute; top: 0rem; left: 0rem;
 	width: 1.9rem; height: 1.9rem; background-image: url('../assets/exit.png');
 	background-size: cover;
-}
-#closebutton div{
-  content: '';
-  position: absolute; bottom: -3rem; right: -3rem;
-  width: 0; height: 0; border: 2.5rem solid transparent;
-  border-right-color: red; border-bottom-color: red;
 }
 
 

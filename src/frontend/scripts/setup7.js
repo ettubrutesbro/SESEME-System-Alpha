@@ -435,6 +435,14 @@ function setup(){
 				Velocity(this, {translateX:'100%'}, {duration:250,visibility:'hidden'})
 			}
 
+			dom.bottom.refill = function(){
+				//only run after contents have refilled textcontent
+				var targetht = view.text? dom[view.content].offsetHeight : 0
+				Velocity(this, {backgroundColor: data.color, backgroundColorAlpha: view.text?.91:.35,
+					translateY: -targetht })
+			}
+
+
 			var hyphensettings = { onhyphenationdonecallback: function(){
 				console.log('hyphenation complete'); if(init) allMgr.itemEnd('hyphenation')
 			} }
