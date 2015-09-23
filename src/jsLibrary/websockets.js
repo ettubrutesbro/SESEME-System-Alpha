@@ -113,10 +113,19 @@ io.on('connection', function (socket) {
   socket.on('sim button', function(seedlingNum) {
       // Set the variable to keep track of the last seedling that had its button pressed
       lastSeedlingUsed = seedlingNum;
+      console.log("==============Before================================")
+      console.log('seedlingNum: '+ seedlingNum);
+      console.log('seedlings[seedlingNum].currentPart'+seedlings[seedlingNum].currentPart);
+      console.log("==============After=================================")
+
       seedlings[seedlingNum].currentPart = (seedlings[seedlingNum].currentPart+1) % seedlings[seedlingNum].totalStoryParts;
       if(idleCountdown) clearTimeout(idleCountdown);
       seconds = 300;
       countdown();
+
+      console.log('seedlingNum: '+ seedlingNum);
+      console.log('seedlings[seedlingNum].currentPart'+seedlings[seedlingNum].currentPart);
+
 
       // Send the new height calculations to the frontend
       var result;
