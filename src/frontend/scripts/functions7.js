@@ -549,6 +549,8 @@
 //4. REFILLING AND GLOBAL CONTENT POPULATION (shared b/w setup and refill)
 {
 	function refill(){
+		//TODO: keep track of old information (delegate data assigmnent here?)
+		//but for now, it functionally works, just removes and re-adds the same content (clumsy UXwise)
 		controls.enabled = false
 		//prototype doesn't have any animations
 		//3D SHIT - color, namesprites, titleblock, main button position
@@ -580,11 +582,6 @@
 			}
 			anim3d(info.btn.color, 'color', rgb)
 		}
-		//DOM shit: these need to fade and replace as well....
-		//fades and replaces: maintext and detailtexts
-		function refillDOM(){
-
-		}
 		function refillDOM(){
 			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
 			Velocity([dom.bottom, dom.maintext], 'finish')
@@ -597,6 +594,7 @@
 				dom.navnames[i].textContent = navname
 				dom['detail'+i].textContent = detailtext
 			}
+			Hyphenator.run()
 		}
 	} //END REFILL
 	function pctsToHeights(){
@@ -893,4 +891,4 @@
 				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_worst
 			}
 		}
-}
+	}

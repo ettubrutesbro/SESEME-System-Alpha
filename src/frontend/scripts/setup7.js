@@ -42,31 +42,31 @@ function setup(){
 				socket.on('connect', function(){
 					console.log('successfully connected')
 					socket.emit('ui request story')
-			 	})
-				socket.on('ui acquire story', function(d){
-					console.log('ui acquired story')
-					console.log(d)
-						story = d.story; part = d.part; percentages = d.percentages
+					socket.on('ui acquire story', function(d){
+						console.log('ui acquired story')
+						console.log(d)
+							story = d.story; part = d.part; percentages = d.percentages
+							data = story.parts[part]
+						ready.itemEnd('firstdata')
+					})
+					//can also get the below through socket.emit('sim button',buttonNum)
+					socket.on('ui update part', function(d){
+						console.log(d)
+						part = d.part; percentages = d.percentages
 						data = story.parts[part]
-					ready.itemEnd('firstdata')
-				})
-				//can also get the below through socket.emit('sim button',buttonNum)
-				socket.on('ui update part', function(d){
-					console.log(d)
-					part = d.part; percentages = d.percentages
-					data = story.parts[part]
-					refill()
-				})
-				socket.on('ui different story', function(d){
-					console.log(d)
-					story = d.story; part = 0; percentages = d.percentages
-					data = story.parts[part]
-					//story specific....
-					dom.navspans[1].textContent = story.seedling
-					dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
-					dom.overtext.textContent = story.description
-					refill()
-				})
+						refill()
+					})
+					socket.on('ui different story', function(d){
+						console.log(d)
+						story = d.story; part = 0; percentages = d.percentages
+						data = story.parts[part]
+						//story specific....
+						dom.navspans[1].textContent = story.seedling
+						dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
+						dom.overtext.textContent = story.description
+						refill()
+					})
+			 	})
 			}
 			//development w/o server: mock
 			else if(!online){
@@ -436,7 +436,7 @@ function setup(){
 			}
 
 			var hyphensettings = { onhyphenationdonecallback: function(){
-				console.log('hyphenation complete'); allMgr.itemEnd('hyphenation')
+				console.log('hyphenation complete'); if(init) allMgr.itemEnd('hyphenation')
 			} }
 			Hyphenator.config(hyphensettings)
 			Hyphenator.run()

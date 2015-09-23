@@ -129,12 +129,12 @@ hr {
 	width: 1.9rem; height: 1.9rem; background-image: url('../assets/exit.png');
 	background-size: cover;
 }
-/*#closebutton div{
+#closebutton div{
   content: '';
   position: absolute; bottom: -3rem; right: -3rem;
   width: 0; height: 0; border: 2.5rem solid transparent;
   border-right-color: red; border-bottom-color: red;
-}*/
+}
 
 
 #leftarrow, #rightarrow {
