@@ -169,7 +169,7 @@
 		}
 	} // end viewNames
 	function viewTitleblock(){
-		var on = view.text || view.zoom === 'close' || view.zoom === 'far' ? false: true
+		var on = view.text||view.zoom === 'close'||view.zoom === 'far'||view.height==='plan'?false: true
 		if(view.height==='isometric'){
 			anim3d(info.orbiter, 'position', {y: 0})
 			anim3d(info.titleblock, 'rotation', {x: Math.atan( - 1 / Math.sqrt( 2 )) })
@@ -186,6 +186,7 @@
 		var ite = 0
 		info.titleblock.traverse(function(child){
 			if(child.material){
+				if(child.opacityTween) child.opacityTween.stop()
 				if(on) child.fadeIn(ite*100); else child.fadeOut((info.titleblock.children.length-ite)*50)
 				anim3d(child, 'position', {y: on?child.expand:child.origin,
 					delay:on?ite*100:(info.titleblock.children.length-ite)*50})
