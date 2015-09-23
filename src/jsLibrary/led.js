@@ -33,8 +33,7 @@ var self = module.exports = {
     },
 
     hexToObj: function(color){
-        if(color == "")
-          color = "FFFFFF";
+        if(!color) color = "FFFFFF";
         var split = color.split("");
         var i = split[0] == "#" ? 1 : 0 // shift to right if first char is "#"
         var rStr = split[0+i] + split[1+i];
