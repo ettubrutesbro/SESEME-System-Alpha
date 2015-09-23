@@ -243,7 +243,6 @@
 		Velocity([dom.bottom, dom.closebutton], 'stop')
 		if(view.text){
 			if(view.height === 'plan') view.text = false
-			// if(view.height === 'plan') { }
 			else if(view.zoom==='normal'){
 				if(view.content==='maintext') return //already
 				callText(dom.maintext)
@@ -313,7 +312,7 @@
 			view.content = targettext.id
 			Velocity(dom[view.content], 'stop')
 			//if calling text-less content, 'semi-hide':
-			if(view.zoom === 'close' && !dom['detail'+facing].textContent){
+			if(!dom['detail'+facing].textContent){
 				dom.closebutton.hide()
 				heightcb = function(){ dom.bottomwrapper.style.height = 0 }
 				wrapperwait = true
@@ -326,7 +325,7 @@
 				}
 				dom.closebutton.show()
 			}
-
+			console.log(newheight)
 			Velocity(targettext, {opacity: 1, translateX: [0, feedX], translateY: [0, feedY]},
 				{duration: 500, delay: 100, visibility: 'visible'})
 			Velocity(dom.bottom, {translateX: [0,0], translateY: -newheight, backgroundColorAlpha: 0.91}, {duration: 275+ newheight ,
@@ -589,7 +588,8 @@
 			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
 
 			dom.maintext.textContent = data.text
-			Velocity(dom.bottom, {backgroundColor: data.color}) // dom.bottom.style.backgroundColor = data.color
+			// Velocity(dom.bottom, {backgroundColor: data.color})
+			dom.bottom.style.backgroundColor = data.color
 			for(var i = 0; i<4; i++){
 				var navname = data.details? data.details[i].name : '',
 				detailtext = data.details? data.details[i].text : ''

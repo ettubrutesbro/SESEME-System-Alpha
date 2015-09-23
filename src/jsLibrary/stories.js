@@ -38,7 +38,7 @@ module.exports = {
       },
 
       {
-        values: [80,29,36,15], customLo: 0,
+        values: [80,29,40,15], customLo: 0,
         title: {
           pre: {c: 'THE DROUGHT', size: 18},
           main: {c: ['Water Expensive Crops,','Ranked.'], size: 28, font: 'Droid Serif', weight: 400, margin: -.2, align: 'left'},
