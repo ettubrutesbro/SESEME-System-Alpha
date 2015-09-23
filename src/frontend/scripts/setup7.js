@@ -78,7 +78,7 @@ function setup(){
 			}
 	} // end query
 	function initDOM(){ // defining global DOM items
-		document.addEventListener('DOMContentLoaded', function(){
+		// document.addEventListener('DOMContentLoaded', function(){
 			dom.containerSESEME = $('containerSESEME')
 			dom.bottom = $('bottom'); dom.closebutton = $('closebutton');
 			dom.bottomwrapper = $('bottomwrapper')
@@ -97,7 +97,8 @@ function setup(){
 				dom.navfigures.push( dom.navitems[i].querySelector('figure') )
 			}
 			dom.leftarrow = $('leftarrow'); dom.rightarrow = $('rightarrow')
-		})
+			assets()
+		// })
 	} //end domOps
 	function assets(){
 		var allModels = ['quaped','pillar','outline3','outcap'] //symbolgeos?
@@ -439,7 +440,7 @@ function setup(){
 				//only run after contents have refilled textcontent
 				var targetht = view.text? dom[view.content].offsetHeight : 0
 				Velocity(this, {backgroundColor: data.color, backgroundColorAlpha: view.text?.91:.35,
-					translateY: -targetht })
+					translateY: -targetht})
 			}
 
 

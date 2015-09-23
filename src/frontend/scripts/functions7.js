@@ -257,14 +257,12 @@
 			}
 		}
 
-		if(!view.text){
+		else if(!view.text){
 			if(view.content === '') return
 			console.log('hide text')
 			Velocity(dom[view.content],'stop')
-			// Velocity([dom.bottom, dom.closebutton, dom[view.content]], 'stop')
-			if(view.content){ //hide old text (if applicable), translate
-				Velocity(dom[view.content], {opacity: 0}, {visibility: 'hidden'})
-			}
+			Velocity(dom[view.content], {opacity: 0}, {visibility: 'hidden'})
+
 			Velocity(dom.bottom, {translateY: 0, backgroundColorAlpha: 0.35}, {delay: 50, duration: 350, visibility: 'hidden',
 			complete: function(){ dom.bottomwrapper.style.height = 0 }})
 			dom.closebutton.hide()
