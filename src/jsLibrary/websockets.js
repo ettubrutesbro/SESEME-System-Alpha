@@ -95,7 +95,7 @@ io.on('connection', function (socket) {
   // Play a sound from all seedlings
   for(var i = 0; i < 3; i++) {
     // Check if the seedlings are connected first to emit to them
-    if(seedlings[i].socket) seedlings[i].socket.emit('playSound1');
+    if(seedlings[i].socket) seedlings[i].socket.emit('seedling play sound', 'bubble');
   }
 
   // ===========================================================================================

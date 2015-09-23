@@ -7,6 +7,12 @@ function listeners(socket, soundObj) {
     var music2 = new Sound('../../../sounds/waterDrop.mp3');
     var soundTypes = ["topical", "dumb", "no", "ready", "celebratory"];
 
+    socket.on('seedling play sound', function(soundName) {
+        console.log("Played sound '"+soundName+"'");
+        var sound = new Sound('../../../sounds/'+soundName+'.mp3');
+        sound.play();
+    });
+
     socket.on('playSound1', function(){
       console.log("play sound 1");
       music1.play();
