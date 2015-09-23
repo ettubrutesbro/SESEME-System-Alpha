@@ -39,7 +39,7 @@ function setup(){
 	function netOps(){
 			if(online){ //server is hooked up
 				socket = io.connect('http://169.237.123.19:5000')
-				socket.on('connect', function(){
+				socket.once('connect', function(){
 					console.log('successfully connected')
 					socket.emit('ui request story')
 					socket.on('ui acquire story', function(d){
@@ -444,7 +444,11 @@ function setup(){
 
 
 			var hyphensettings = { onhyphenationdonecallback: function(){
-				console.log('hyphenation complete'); if(init) allMgr.itemEnd('hyphenation')
+				console.log('hyphenation complete')
+				if(init) {allMgr.itemEnd('hyphenation'); return }
+				var allHyphenates = $$('hyphenate')
+				for(var i = 0; i<allHyphenates.length; i++){ allHyphenates[i].style.display = 'block' }
+				if(view.text) Velocity(dom[view.content], {opacity: 1} )
 			} }
 			Hyphenator.config(hyphensettings)
 			Hyphenator.run()

@@ -547,7 +547,7 @@
 	function refill(){
 		//TODO: keep track of old information (delegate data assigmnent here?)
 		//but for now, it functionally works, just removes and re-adds the same content (clumsy, UXwise)
-		var reopen // store content to recall when refill has completed?
+		// var reopen // store content to recall when refill has completed?
 		controls.enabled = false
 		//prototype doesn't have any animations
 		//3D SHIT - color, namesprites, titleblock, main button position
@@ -582,18 +582,25 @@
 
 		function refillDOM(){
 			console.log('running refillDOM')
-			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
+			Velocity($$('hyphenate'), 'stop')
+			Velocity($$('hyphenate'), {opacity: 0}, {display: 'none', queue: false, complete: function(){
+				dom.maintext.textContent = data.text
+				for(var i = 0; i<4; i++){
+					detailtext = data.details? data.details[i].text : ''
+					dom['detail'+i].textContent = detailtext
+				}
+				Hyphenator.run()
+			}})
+			//TODO: only view.content should be faded back in (and only if view.text is active)
 
-			dom.maintext.textContent = data.text
-			// Velocity(dom.bottom, {backgroundColor: data.color})
+
+
+			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
 			dom.bottom.style.backgroundColor = data.color
 			for(var i = 0; i<4; i++){
-				var navname = data.details? data.details[i].name : '',
-				detailtext = data.details? data.details[i].text : ''
+				var navname = data.details? data.details[i].name : ''
 				dom.navnames[i].textContent = navname
-				dom['detail'+i].textContent = detailtext
 			}
-			Hyphenator.run()
 		}
 	} //END REFILL
 	function pctsToHeights(){
