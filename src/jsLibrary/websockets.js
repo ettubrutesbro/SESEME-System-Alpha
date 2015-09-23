@@ -106,13 +106,13 @@ io.on('connection', function (socket) {
       // Have the frontend acquire the story data
       console.log("===============================================");
       console.log("Frontend requested story, emitting 'ui acquire story' now.")
-      socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: seedlings[lastSeedlingUsed].currentPart,
+      socket.broadcast.emit('ui acquire story', {story: story[lastSeedlingUsed], part: seedlings[lastSeedlingUsed].currentPart,
         percentages: heightCalcGeneric(story[lastSeedlingUsed].parts[currentPart]) });
   });
 
   socket.on('ping', function() {
       console.log("ping");
-      socket.emit('pong');
+      socket.broadcast.emit('pong');
   });
 
   // // Front-end simulation of a button press
@@ -122,7 +122,7 @@ io.on('connection', function (socket) {
 
   // Update the seconds in the web page
   setInterval(function(){
-    socket.emit('updateTime', seconds);
+    socket.broadcast.emit('updateTime', seconds);
   },1000);
 
   socket.on('checkin', function(data){
@@ -411,11 +411,11 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
     if(uiSocket && lastSeedlingUsed === seedling.number) {
         console.log("Sending the story part " + seedling.currentPart + " to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-        uiSocket.emit('ui update part', {part: seedling.currentPart, percentages: result} );
+        uiSocket.broadcast.emit('ui update part', {part: seedling.currentPart, percentages: result} );
     } else if(uiSocket && lastSeedlingUsed !== seedling.number) {
         console.log("Sending a new story to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-        uiSocket.emit('ui different story', {story: seedling.story, percentages: result} );
+        uiSocket.broadcast.emit('ui different story', {story: seedling.story, percentages: result} );
     } else console.log("Connection with server not made...")
 
     for(var i = 0; i < 3; i++){
