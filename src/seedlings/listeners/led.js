@@ -40,8 +40,8 @@ function listeners(socket, obj, soundObj) {
     // // ********************CHECK IF THIS IS AIGHT******************************
     // // **********Specifically, check the light1/light2 params******************
     // // ************************************************************************
-    // // Socket listener to start breathing to represent idle mode
-    // socket.on('start-breathing', function(intervalTime) {
+    // Socket listener to start breathing to represent idle mode
+    // socket.on('seedling start breathing', function(intervalTime, seedlingNum) {
     //     if(intervalTime === 6) {        // breatheHI
     //         breatheInterval = led.breathe(intervalTime, obj.ringLight???, obj.buttonLight);
     //         breatheInterval.start;
@@ -54,7 +54,7 @@ function listeners(socket, obj, soundObj) {
     // });
     //
     // // Socket listener to stop breathing to end the idle mode
-    // socket.on('stop-breathing', function() {
+    // socket.on('seedling stop breathing', function() {
     //     if(breatheInterval && breatheInterval.running) {
     //         clearInterval(breatheInterval.sustain);
     //         breatheInterval.running = false;

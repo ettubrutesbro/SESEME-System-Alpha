@@ -1,8 +1,3 @@
-var io;
-module.exports = function(io) {
-  io = io;
-};
-
 ////////////////////////////////////////////////
 //
 //  HUE BULB
@@ -13,16 +8,6 @@ var led = require('./led.js')
 var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
 var socket = require('socket.io');
-
-
-/*
-var io = require('socket.io')(2000);
-
-io.on('connection', function (socket) {
-  console.log("io connection");
-  socket.broadcast.emit('xps connected');
-});
-*/
 
 function seedlingObj(story, currentPart, totalStoryParts, seedlingOnline, seedlingSocket, buttonPressed, number){
   this.story = story;
@@ -71,20 +56,24 @@ for(var i = 0; i < 3; i++){
 ////////////////////////////////////////////////
 var seconds = 300; // Global seconds variable
 var lastSeedlingUsed = 0; // Global variable to store the seedling pressed last
+var idleCountdown;
 function countdown() {
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
-            if(lastSeedlingUsed === i) {
-                seedlingIO[i].emit('start-breathing', 6);
+            // Check if the seedlings are connected first to emit to them
+            if(seedlings[i].socket) {
+                // For the seedling that was active last, set the interval to 6s
+                if(lastSeedlingUsed === i)  // Set interval for 12s for the others
+                    seedlings[i].socket.emit('seedling start breathing', 6, seedlings[i].number);
+                else seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number);
             }
-            else seedlingIO[i].emit('start-breathing', 12)
         }
 		return;
 	}
 	seconds--;
-	setTimeout(countdown, 1000);
+	idleCountdown = setTimeout(countdown, 1000);
 }
 // Make sure to broadcast to all when the button is pressed
 countdown();
@@ -109,26 +98,46 @@ io.on('connection', function (socket) {
 
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
-      socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: currentPart,
+      console.log("===============================================");
+      console.log("Frontend requested story, emitting 'ui acquire story' now.")
+      socket.emit('ui acquire story', {story: story[lastSeedlingUsed], part: seedlings[lastSeedlingUsed].currentPart,
         percentages: heightCalcGeneric(story[lastSeedlingUsed].parts[currentPart]) });
   });
 
-  // var percentages = heightCalc();
-  // socket.emit('ui different story', data);
-  //    only send story ^
-
-  // var percentages = heightCalc();
-  // socket.emit('ui update part', percentages);
-  //    only send part ^
-
-  // Front-end simulation of a button press
-  socket.on('sim new part', function() {
-    //   var result = heightCalc(story[1].parts[1]);
-      socket.emit('ui update part', {part: 1, percentages: [0.9, 0.2, 0.6, 0.3]} );
+  socket.on('ping', function() {
+      console.log("ping");
+      socket.emit('pong');
   });
-  socket.on('sim new story', function() {
-    //   var result = heightCalc(story[2].parts[0]);
-      socket.emit('ui different story', {story: story[2], percentages: [0.1, 0.8, 0.2, 0.9]} );
+
+  // // Front-end simulation of a button press
+  socket.on('sim button', function(seedlingNum) {
+      // Set the variable to keep track of the last seedling that had its button pressed
+      lastSeedlingUsed = seedlingNum;
+      console.log("==============Before================================")
+      console.log('seedlingNum: '+ seedlingNum);
+      console.log('seedlings[seedlingNum].currentPart'+seedlings[seedlingNum].currentPart);
+      console.log("==============After=================================")
+
+      seedlings[seedlingNum].currentPart = (seedlings[seedlingNum].currentPart+1) % seedlings[seedlingNum].totalStoryParts;
+      if(idleCountdown) clearTimeout(idleCountdown);
+      seconds = 300;
+      countdown();
+
+      console.log('seedlingNum: '+ seedlingNum);
+      console.log('seedlings[seedlingNum].currentPart'+seedlings[seedlingNum].currentPart);
+
+
+      // Send the new height calculations to the frontend
+      var result;
+      if(lastSeedlingUsed === seedlingNum) {
+          console.log("Sending the story part " + seedlings[seedlingNum].currentPart + " to the frontend!")
+          result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
+          socket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
+      } else if(lastSeedlingUsed !== seedlingNum) {
+          console.log("Sending a new story to the frontend!")
+          result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedling.currentPart]);
+          socket.emit('ui different story', {story: seedlings[seedlingNum].story, percentages: result} );
+      } else console.log("Connection with server not made...")
   });
 
 
@@ -409,14 +418,26 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
 
   else{
     // ===============================================================================
+    // Increment current part of the story and reset the idle countdown
+    seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+    if(idleCountdown) clearTimeout(idleCountdown);
+    seconds = 300;
+    countdown();
+
+    // Set the variable to keep track of the last seedling that had its button pressed
+    lastSeedlingUsed = seedling.number;
+
     // Send the new height calculations to the frontend
+    var result;
     if(uiSocket && lastSeedlingUsed === seedling.number) {
-        var result = heightCalc(seedling.story.parts[seedling.currentPart]);
-        uiSocket.emit('ui different story', {part: seedling.currentPart, percentages: result} );
-    } else {
-        var result = heightCalc(seedling.story.parts[seedling.currentPart]);
+        console.log("Sending the story part " + seedling.currentPart + " to the frontend!")
+        result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+        uiSocket.emit('ui update part', {part: seedling.currentPart, percentages: result} );
+    } else if(uiSocket && lastSeedlingUsed !== seedling.number) {
+        console.log("Sending a new story to the frontend!")
+        result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
         uiSocket.emit('ui different story', {story: seedling.story, percentages: result} );
-    }
+    } else console.log("Connection with server not made...")
 
     for(var i = 0; i < 3; i++){
       if(seedlings[i].online) {
@@ -427,12 +448,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
 
     setTimeout(function(){
       console.log("update seedling attributes");
-      seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+    //   seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
       seedling.buttonPressed = false;
     }, Math.ceil(duration)*1000); // update seedling attributes after animation done
   }
-
-
 }
 
 
