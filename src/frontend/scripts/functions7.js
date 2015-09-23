@@ -240,8 +240,8 @@
 		anim3d(info.btn, 'position', {y: destination, spd: btnspd })
 	} // end viewMainButton
 	function viewInfoText(){
-		Velocity([dom.bottom, dom.closebutton], 'stop')
 		if(view.text){
+			Velocity([dom.bottom, dom.closebutton], 'stop') //necessary for zoom trolling
 			if(view.height === 'plan') view.text = false
 			else if(view.zoom==='normal'){
 				if(view.content==='maintext') return //already
@@ -256,21 +256,19 @@
 				callText(dom.overtext)
 			}
 		}
-
 		else if(!view.text){
 			if(view.content === '') return
 			console.log('hide text')
-			Velocity(dom[view.content],'stop')
+			Velocity([dom[view.content], dom.bottom],'stop')
 			Velocity(dom[view.content], {opacity: 0}, {visibility: 'hidden'})
-
 			Velocity(dom.bottom, {translateY: 0, backgroundColorAlpha: 0.35}, {delay: 50, duration: 350, visibility: 'hidden',
 			complete: function(){ dom.bottomwrapper.style.height = 0 }})
 			dom.closebutton.hide()
-			// Velocity(dom.closebutton, {translateX: '100%'}, {duration: 250, visibility: 'hidden'})
 			Velocity(dom.rule, {translateY: '100%'})
 			view.content = ''
 		}
 		function callText(targettext){
+			console.log('calling text: ' + view.content)
 			var newheight = 0, bottomspd, feedX = 0, feedY = 0,
 			heightcb = function(){ console.log('height anim finished') }, wrapperwait = false
 

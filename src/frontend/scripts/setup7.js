@@ -99,7 +99,7 @@ function setup(){
 			dom.leftarrow = $('leftarrow'); dom.rightarrow = $('rightarrow')
 			assets()
 		// })
-	} //end domOps
+	} //end initDOM
 	function assets(){
 		var allModels = ['quaped','pillar','outline3','outcap'] //symbolgeos?
 		var allTextures = ['chevron','shadow','bookeyemag', 'circle'] //names of external imgs (PNG)
