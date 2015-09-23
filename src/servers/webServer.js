@@ -17,7 +17,7 @@ console.log('listening on port 8888  !!!')
 
 // app.use('/static', express.static(__dirname + '/web'));
 app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
-app.use('/frontend/assets', express.static(path.join(__dirname, '..', 'frontend/assets')));
+app.use('/assets', express.static(path.join(__dirname, '..', 'frontend/assets')));
 app.use('/bower_components', express.static(__dirname + '/web/bower_components'));
 
 console.log("static: "+path.join(__dirname, '..', 'frontend'));
