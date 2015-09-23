@@ -23,6 +23,28 @@ function listeners(socket, soundObj) {
         var sound = new Sound('../../sounds/' + soundName + '.mp3');
         sound.play();
     });
+
+    // Listeners to play a chime sequence upon syncing
+    socket.on('seedling start sync-sequence-1', function() {
+        var chime = new Sound('../../sounds/chime5.mp3');
+        chime.play();
+    	chime.on('complete', function() {
+            socket.emit('seedling finish sync-sequence-1');
+        });
+    });
+
+    socket.on('seedling start sync-sequence-2', function() {
+        var chime = new Sound('../../sounds/chime1.mp3');
+        chime.play();
+    	chime.on('complete', function() {
+            socket.emit('seedling finish sync-sequence-2');
+        });
+    });
+
+    socket.on('seedling start sync-sequence-3', function() {
+        var chime = new Sound('../../sounds/chime4.mp3');
+        chime.play();
+    });
 }
 
 exports.listeners = listeners;
