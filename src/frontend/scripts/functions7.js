@@ -240,6 +240,7 @@
 		anim3d(info.btn, 'position', {y: destination, spd: btnspd })
 	} // end viewMainButton
 	function viewInfoText(){
+		Velocity([dom.bottom, dom.closebutton], 'stop')
 		if(view.text){
 			if(view.height === 'plan') view.text = false
 			// if(view.height === 'plan') { }
@@ -260,7 +261,8 @@
 		if(!view.text){
 			if(view.content === '') return
 			console.log('hide text')
-			Velocity([dom.bottom, dom.closebutton, dom[view.content]], 'stop')
+			Velocity(dom[view.content],'stop')
+			// Velocity([dom.bottom, dom.closebutton, dom[view.content]], 'stop')
 			if(view.content){ //hide old text (if applicable), translate
 				Velocity(dom[view.content], {opacity: 0}, {visibility: 'hidden'})
 			}
@@ -277,6 +279,7 @@
 
 			if(view.content){ //hide old text (if applicable), translate
 				var animOld = {opacity: 0}
+				Velocity(dom[view.content], 'stop')
 				if(view.zoom === 'close'){ // REQUEST DETAIL TEXT
 					if(view.content==='maintext') { //zoomed in
 						animOld.translateY = '-25%'
@@ -308,7 +311,7 @@
 			}//end check for / collapsing of old text-
 
 			view.content = targettext.id
-
+			Velocity(dom[view.content], 'stop')
 			//if calling text-less content, 'semi-hide':
 			if(view.zoom === 'close' && !dom['detail'+facing].textContent){
 				dom.closebutton.hide()
