@@ -9,7 +9,7 @@ function listeners(socket, soundObj) {
 
     socket.on('seedling play sound', function(soundName) {
         console.log("Played sound '"+soundName+"'");
-        var sound = new Sound('../../../sounds/'+soundName+'.mp3');
+        var sound = new Sound('../../sounds/'+soundName+'.mp3');
         sound.play();
     });
 
