@@ -24,6 +24,8 @@ app.use('/frontend/assets', express.static(path.join(__dirname, '..', 'frontend/
 app.use('/frontend/scripts', express.static(path.join(__dirname, '..', 'frontend/scripts')));
 app.use('/bower_components', express.static(__dirname + '/web/bower_components'));
 
+console.log("static: "+path.join(__dirname, '..', 'frontend'));
+
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
