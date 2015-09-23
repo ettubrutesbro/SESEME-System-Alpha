@@ -854,40 +854,40 @@
 }
 //9. ETC / other
 	function performanceLevel(){
-	var allLevels = ['barren', 'lo', 'med', 'hi']
-	performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: 'barren'
-	// alert('performance is now ' + performance)
-	if(performance === 'hi'){
-		// 128^2 texture maps, realtime shadows (someday), and phong material
-		for(var i = 0; i<4; i++){
-			seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
+		var allLevels = ['barren', 'lo', 'med', 'hi']
+		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: 'barren'
+		// alert('performance is now ' + performance)
+		if(performance === 'hi'){
+			// 128^2 texture maps, realtime shadows (someday), and phong material
+			for(var i = 0; i<4; i++){
+				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
+			}
 		}
-	}
-	else if(performance === 'med'){
-		//64^2 texture maps, lambert material
-		lights.children[0].intensity = lights.children[0].default
-		lights.children[2].intensity = lights.children[2].default
-	}
-	else if(performance === 'lo'){
-		//single light, 32^2 textures
-		var viewport = document.querySelector("meta[name=viewport]")
-		viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no')
-		Velocity.mock = false
-		lights.children[2].intensity = .5
-		shadow.visible = true
-		for(var i = 0; i<4; i++){
-			seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_lambert
+		else if(performance === 'med'){
+			//64^2 texture maps, lambert material
+			lights.children[0].intensity = lights.children[0].default
+			lights.children[2].intensity = lights.children[2].default
 		}
-	}
-	else if(performance === 'barren'){
-		//affect meta viewport (less AA), 32^2 textures, turn off lights, no 2d animations
-		var viewport = document.querySelector("meta[name=viewport]")
-		viewport.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=0.75, user-scalable=no')
-		Velocity.mock = true
-		lights.children[0].intensity = lights.children[2].intensity =  0
-		shadow.visible = false
-		for(var i = 0; i<4; i++){
-			seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_worst
+		else if(performance === 'lo'){
+			//single light, 32^2 textures
+			var viewport = document.querySelector("meta[name=viewport]")
+			viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no')
+			Velocity.mock = false
+			lights.children[2].intensity = .5
+			shadow.visible = true
+			for(var i = 0; i<4; i++){
+				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_lambert
+			}
 		}
-	}
+		else if(performance === 'barren'){
+			//affect meta viewport (less AA), 32^2 textures, turn off lights, no 2d animations
+			var viewport = document.querySelector("meta[name=viewport]")
+			viewport.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=0.75, user-scalable=no')
+			Velocity.mock = true
+			lights.children[0].intensity = lights.children[2].intensity =  0
+			shadow.visible = false
+			for(var i = 0; i<4; i++){
+				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_worst
+			}
+		}
 }
