@@ -15,7 +15,8 @@ var path = require('path');
 server.listen(8888);
 console.log('listening on port 8888  !!!')
 
-app.use('/static', express.static(__dirname + '/web'));
+// app.use('/static', express.static(__dirname + '/web'));
+app.use('/static', express.static(path.join(__dirname, '..')));
 app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
 app.use('/bower_components', express.static(__dirname + '/web/bower_components'));
 
