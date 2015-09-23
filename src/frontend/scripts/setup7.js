@@ -1,7 +1,7 @@
 
 //global data
 var socket
-var story = nostory, part = 0, data = story.parts[part]
+var story = nostory, part = 0, data = story.parts[part], percentages
 var info = {name: []}
 // info.prev = [], info.name = [], info.detail = []
 //objects and resources
@@ -39,35 +39,34 @@ function setup(){
 	function netOps(){
 			if(online){ //server is hooked up
 				socket = io.connect('http://169.237.123.19:5000')
-				socket.emit('ui request story')
+				socket.on('connect', function(){
+					console.log('successfully connected')
+					socket.emit('ui request story')
+			 	})
 				socket.on('ui acquire story', function(d){
 					console.log('ui acquired story')
 					console.log(d)
-						story = d.story; part = d.part
+						story = d.story; part = d.part; percentages = d.percentages
 						data = story.parts[part]
 					ready.itemEnd('firstdata')
 				})
-
+				//can also get the below through socket.emit('sim button',buttonNum)
 				socket.on('ui update part', function(d){
 					console.log(d)
-					part = d.part
+					part = d.part; percentages = d.percentages
 					data = story.parts[part]
-					for(var i = 0; i<4; i++){ seseme['plr'+i].targetY = d.percentages[i]*plrmax }
 					refill()
 				})
-
 				socket.on('ui different story', function(d){
 					console.log(d)
-					story = d.story; part = 0
+					story = d.story; part = 0; percentages = d.percentages
 					data = story.parts[part]
-					for(var i = 0; i<4; i++){ seseme['plr'+i].targetY = d.percentages[i]*plrmax }
 					//story specific....
 					dom.navspans[1].textContent = story.seedling
 					dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
 					dom.overtext.textContent = story.description
 					refill()
 				})
-
 			}
 			//development w/o server: mock
 			else if(!online){
@@ -213,13 +212,15 @@ function setup(){
 	}//assets
 	function fill(){
 		var plrMgr, projectionMgr
-		heightCalc(); loadingManagers();
+		// heightCalc();
+		pctsToHeights()
+		loadingManagers();
 
 		initQuads() //completion of each also runs initPillar
 		makeOrbiter()
 		highlightColor()
-		makeNames()
-		makeTitleblock()
+		makeNames(); projectionMgr.itemEnd('names')
+		makeTitleblock(); projectionMgr.itemEnd('titleblock')
 		makeSymbols()
 		fillDOM()
 		placeMainButton()
@@ -231,18 +232,20 @@ function setup(){
 			plrMgr = new THREE.LoadingManager()
 			projectionMgr = new THREE.LoadingManager()
 			allMgr.itemStart('quadMgr'); allMgr.itemStart('plrMgr'); allMgr.itemStart('projectionMgr')
-			projectionMgr.itemStart('titleblock'); projectionMgr.itemStart('mainbtn')
+			allMgr.itemStart('hyphenation')
+			projectionMgr.itemStart('titleblock'); projectionMgr.itemStart('mainbtn'); projectionMgr.itemStart('names')
 			for(var i= 0; i<4; i++){
 				quadMgr.itemStart('quad')
 				plrMgr.itemStart('plr'+i)
-				projectionMgr.itemStart('name'+i)
 				projectionMgr.itemStart('helpSection'+i)
 			}
 			allMgr.onLoad = function(){
 				//all things done moving and animating; app is ready
-				console.log('quads, pillars, projections initalized')
+				console.log('quads, pillars, projections, hyphenation initalized')
+				init = false
 				check()
 			}
+			allMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total) }
 			quadMgr.onLoad = function(){
 				console.log('quads initialized'); allMgr.itemEnd('quadMgr')
 				anim3d(shadow, 'opacity', {opacity: 1, spd: 800})
@@ -261,85 +264,11 @@ function setup(){
 			}
 		}//end loadingManagers
 		function highlightColor(){
-			if(data.color){
-				var rgb = hexToRgb(data.color)
+				var rgb = data.color? hexToRgb(data.color): {r:0,g:0,b:0}
 				for(var i = 0; i<4; i++){
 					seseme['plr'+i].outline.material.color = {r: rgb.r/255, g: rgb.g/255, b: rgb.b/255}
 					seseme['plr'+i].outcap.material.color = {r: rgb.r/255, g: rgb.g/255, b: rgb.b/255}
 				}
-			}
-		}
-		function makeNames(){
-			console.log('make names')
-			const lnheight = 1.4
-			for(var i = 0; i<4; i++){
-				//individual sprite name
-				var n = new THREE.Group()
-				var txt = new THREE.Object3D()// group or sprite depending on name type
-				if(data.details){
-					if(data.details[i]){
-						if(data.details[i].name){
-							n.lines = 1
-							//name is string
-							if(typeof data.details[i].name === 'string'){
-								console.log('string name')
-								txt = new THREE.Sprite()
-								var sprtxt = new Text(data.details[i].name,11,240,125,'black','Karla',30,600,'center')
-								var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
-								txt.material = sprmtl
-								txt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
-							}
-							//name is array
-							else if(data.details[i].name instanceof Array){
-								console.log('array name')
-								txt = new THREE.Group()
-								for(var it = 0; it<data.details[i].name.length; it++){
-									var subtxt = new THREE.Sprite()
-									var sprtxt = new Text(data.details[i].name[it],11,240,125,'black','Karla',30,600,'center')
-									var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
-									subtxt.material = sprmtl
-									subtxt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
-									subtxt.position.y = subtxt.expand = -it*lnheight;
-									subtxt.origin = -it*lnheight + lnheight
-									if(it>0) n.lines += 1
-									txt.add(subtxt)
-								}
-							}
-							//invalid type
-							else {
-								console.log('data.details['+i+'].name is invalid type')
-							}
-						}
-					}
-				}
-				n.txt = txt
-				n.add(n.txt)
-				n.position.set(-3.6, 17.5, 1.1)
-				n.isoHt = 17.5; n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
-
-				var pointer = new THREE.Sprite(new THREE.SpriteMaterial({transparent:true,map:resources.mtls.chevron.map,opacity:0, color: 0x000000}))
-				pointer.position.y = pointer.isoHt = (-(n.lines*lnheight) - ((17.5 - seseme['plr'+i].targetY)-(n.lines*lnheight)))+2
-				pointer.elevHt = -(n.lines*lnheight)
-				n.pointer = pointer; n.add(n.pointer)
-
-				var linelength = (17.5-seseme['plr'+i].targetY -(n.lines*lnheight)) - 2.5
-				var line
-				if(linelength > 3){
-					line = new THREE.Mesh(new THREE.BoxGeometry(.15, linelength ,.15),
-						new THREE.MeshBasicMaterial({color:0x000000, depthWrite: false, transparent: true, opacity: 0}))
-					line.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,-linelength/2,0 ))
-					line.position.y = -(n.lines*lnheight)
-				}else{
-					line = new THREE.Mesh(new THREE.BoxGeometry(.15,.15,.15), new THREE.MeshBasicMaterial(
-						{color: 0x000000, transparent: true, depthWrite: false, opacity: 0}))
-					line.visible = false
-					pointer.position.y = pointer.isoHt = -(n.lines*lnheight)
-				}
-				n.line = line; n.add(n.line)
-
-				info.name[i] = n; seseme['quad'+i].add(n)
-				projectionMgr.itemEnd('name'+i)
-			}
 		}
 		function makeOrbiter(){
 			console.log('make orbiter')
@@ -348,50 +277,7 @@ function setup(){
 			info.orbiter.rotation.y = -rads(45)
 			seseme.add(info.orbiter)
 		}
-		function makeTitleblock(){
-			console.log('make titleblock')
-			//title block
-			info.titleblock = new THREE.Group()
-			info.titleblock.ht = 0
-			if(data.title){
-				var t = data.title
-				var titlekeys = Object.keys(data.title)
-				for(var i = 0; i<titlekeys.length; i++){
-					if(t[titlekeys[i]].margin) info.titleblock.ht+=t[titlekeys[i]].margin
-					var width = t[titlekeys[i]].size?t[titlekeys[i]].size/2:9,
-					height = t[titlekeys[i]].size?t[titlekeys[i]].size*5:110,
-					font = t[titlekeys[i]].font?t[titlekeys[i]].font:'Karla',
-					fontsize = t[titlekeys[i]].size?t[titlekeys[i]].size:21,
-					weight = t[titlekeys[i]].weight?t[titlekeys[i]].weight:600,
-					align = t[titlekeys[i]].align?t[titlekeys[i]].align:'center'
-					//arrayed title (multi-line)
-					if(t[titlekeys[i]].c instanceof Array){
-						var txt = new THREE.Group()
-						info.titleblock.add(txt)
-						for(var it = 0; it<t[titlekeys[i]].c.length; it++){
-							var arrtxt = meshify(new Text(t[titlekeys[i]].c[it],width,100, height, 'white', font, fontsize, weight, align))
-							if(t[titlekeys[i]].size) info.titleblock.ht += t[titlekeys[i]].size/12.5
-							else if(i>0) info.titleblock.ht += 1.65
-							arrtxt.position.y = arrtxt.origin = -info.titleblock.ht
-							arrtxt.expand = -info.titleblock.ht
-							txt.add(arrtxt)
-						}
-					//single string
-					}else{
-						var txt = meshify(new Text(t[titlekeys[i]].c,width,100, height, 'white', font, fontsize, weight, align))
-						if(t[titlekeys[i]].size) info.titleblock.ht += t[titlekeys[i]].size/12.5
-						else if(i>0) info.titleblock.ht += 1.65
-						txt.position.y = txt.origin = -info.titleblock.ht
-						txt.expand = -info.titleblock.ht
-						info.titleblock.add(txt)
-					}
-				}
-			}// end data.title
-			info.titleblock.position.y = info.titleblock.isoHt = info.titleblock.ht/4.25 - .5
-			info.titleblock.position.z = 7.5
-			info.orbiter.add(info.titleblock)
-			projectionMgr.itemEnd('titleblock')
-		}
+
 		function placeMainButton(){
 			var titlebtn = new THREE.Mesh(new THREE.PlaneBufferGeometry(4.5,4.5), new THREE.MeshBasicMaterial({ map: resources.mtls.circle.map, transparent: true, opacity: 0, color: 0xededed}))
 			titlebtn.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,-1,0))
@@ -550,8 +436,7 @@ function setup(){
 			}
 
 			var hyphensettings = { onhyphenationdonecallback: function(){
-				// only store offsetHeights when hyphenator is finished running
-				// or, text can only be called once hyphenator's run
+				console.log('hyphenation complete'); allMgr.itemEnd('hyphenation')
 			} }
 			Hyphenator.config(hyphensettings)
 			Hyphenator.run()
