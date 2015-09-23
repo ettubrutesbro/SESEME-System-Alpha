@@ -13,6 +13,15 @@ function listeners(socket, soundObj) {
         sound.play();
     });
 
+    socket.on('seedling play random-sound', function(type) {
+        console.log("Playing random sound of type " + type);
+        // Determine the sound type and its corresponding sound array and play the sound
+        var randValue = Math.floor((Math.random() * soundObj[type].length-1) + 1);
+        var soundName = soundObj[type][randValue];
+        var sound = new Sound('../../sounds/' + soundName + '.mp3');
+        sound.play();
+    });
+
     socket.on('playSound1', function(){
       console.log("play sound 1");
       music1.play();
