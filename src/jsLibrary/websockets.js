@@ -122,7 +122,7 @@ io.on('connection', function (socket) {
 
   // Update the seconds in the web page
   setInterval(function(){
-    io.sockets.emit('updateTime', seconds);
+    socket.emit('updateTime', seconds);
   },1000);
 
   socket.on('checkin', function(data){
