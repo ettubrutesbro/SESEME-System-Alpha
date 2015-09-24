@@ -1,12 +1,11 @@
 var Sound = require('node-mpg123');
+// ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
+function addToStaticArray(obj) {
+	if(previousSounds.length === 4) previousSounds.shift();
+	previousSounds.push(obj);
+}
 
 var self = module.exports = {
-
-	// ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
-	addToStaticArray: function(obj) {
-		if(previousSounds.length === 4) previousSounds.shift();
-		previousSounds.push(obj);
-	},
 
 	playRandomSound: function(soundObj, type, previousSounds){
 		// Determine the sound type and its corresponding sound array and play the sound
@@ -20,13 +19,13 @@ var self = module.exports = {
 		// Create the sound file that hasn't been played in a while
 		var soundName = soundObj[type][randValue];
 		var sound = new Sound('../../sounds/' + soundName + '.mp3');
-		addToStaticArray({
+		this.addToStaticArray({
 			'soundName':soundName,
 			'index':randValue,
 			'type':type
 		});
 		sound.play();
-	},
+	}
 /*
 	playRandom: function(array){
 		var num = Math.floor(Math.random() * array.length);
