@@ -88,9 +88,7 @@ function setup(socket, seedlingNum, callback) {
 
         obj = new Board(seedlingNum, strip, pixelNum, firstDiode, buttonLight, urlLight, iconLight, lmLight);
 
-        // __dirname = /home/pi/git/SESEME-System-Alpha/src/seedlings/setup
-        console.log('sound path: '+path.join(__dirname, '..', '..', 'sounds'));
-        fs.readdir(path.join(__dirname, '..', '..', 'sounds'), function(err, files){
+        fs.readdir(path.join(__dirname, '..', '..', '..', 'sounds'), function(err, files){
             if(err) throw err;
             console.log("read directory")
             filesAr = files;
@@ -105,11 +103,11 @@ function setup(socket, seedlingNum, callback) {
         soundObj = new SoundsObj(topical, dumb, no, ready, celebratory);
 
         // Init LED socket listeners
-        var initLED = require('../listeners/led.js');
+        var initLED = require(path.join(__dirname, '..', 'listeners', 'led.js'));
         initLED.listeners(socket, obj, soundObj);
 
         // Init music socket listeners
-        var initMusic = require('../listeners/music.js');
+        var initMusic = require(path.join(__dirname, '..', 'listeners', '/music.js');
         initMusic.listeners(socket, soundObj);
 
         callback(obj);
