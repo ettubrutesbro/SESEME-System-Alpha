@@ -26,7 +26,7 @@ function listeners(socket, soundObj) {
         console.log("Playing sync-sequence-1");
         var chime = new Sound('../../sounds/chime5.mp3');
         chime.play();
-    	chime.on('complete' function() {
+    	chime.on('complete', function() {
             socket.emit('seedling finish sync-sequence-1');
         });
     });
@@ -35,7 +35,7 @@ function listeners(socket, soundObj) {
         console.log("Playing sync-sequence-2");
         var chime = new Sound('../../sounds/chime1.mp3');
         chime.play();
-    	chime.on('complete' function() {
+    	chime.on('complete', function() {
             socket.emit('seedling finish sync-sequence-2');
         });
     });
