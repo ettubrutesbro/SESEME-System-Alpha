@@ -6,7 +6,6 @@ function listeners(socket, soundObj) {
     var music1 = new Sound('../../../sounds/bubble.mp3');
     var music2 = new Sound('../../../sounds/waterDrop.mp3');
     var soundTypes = ["topical", "dumb", "no", "ready", "celebratory"];
-    var previousSounds = [];
 
     // Listener to play a specific sound given a sound name
     socket.on('seedling play sound', function(soundName) {
@@ -16,9 +15,10 @@ function listeners(socket, soundObj) {
     });
 
     // Listener to play a random sound given a sound type
-    socket.on('seedling play random-sound', function(type) {
+    socket.on('seedling play random-sound', function(type, previousSounds) {
         console.log("Playing random sound of type " + type);
         sounds.playRandomSound(soundObj, type, previousSounds);
+        socket.emit('xps update previous-sounds', previousSounds);
     });
 
     // Listeners to play a chime sequence upon syncing
