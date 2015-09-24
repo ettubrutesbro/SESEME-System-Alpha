@@ -485,6 +485,7 @@ seedlingIO[1].on('seedling finish sync-sequence-2', function() {
 ////////////////////////////////////////////////
 
 beagleIO.on('connection', function(beagleSocket){
+  systemOnline();
   beagle = beagleSocket;
   console.log('### BEAGLE CONNECTED')
   beagleSocket.on('checkin', function(data){
