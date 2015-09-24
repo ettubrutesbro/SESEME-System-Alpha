@@ -107,7 +107,7 @@ function setup(socket, seedlingNum, callback) {
         initLED.listeners(socket, obj, soundObj);
 
         // Init music socket listeners
-        var initMusic = require(path.join(__dirname, '..', 'listeners', '/music.js');
+        var initMusic = require(path.join(__dirname, '..', 'listeners', '/music.js'));
         initMusic.listeners(socket, soundObj);
 
         callback(obj);
