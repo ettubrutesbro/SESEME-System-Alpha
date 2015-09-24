@@ -367,8 +367,19 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.currentPart = 0;
     console.log('seedling', (seedlingNum+1), 'On');
 
-    if(systemOnline())
+    if(systemOnline()) {
         seedlings[0].socket.emit('seedling start sync-sequence-1');
+
+        // Listen for when to pass the next sync sequence to the next seedling
+        seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
+            console.log("Finished sync-sequence-1")
+            seedlings[1].socket.emit('seedling start sync-sequence-2');
+        });
+        seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
+            seedlings[2].socket.emit('seedling start sync-sequence-3');
+        });
+    }
+
   });
 
   seedling.socket.on('disconnect', function(){
@@ -491,16 +502,6 @@ seedlingIO[1].on('connection', function(seedSocket){
 seedlingIO[2].on('connection', function(seedSocket){
   seedlingConnected(seedSocket, 2);
 });
-
-// Listen for when to pass the next sync sequence to the next seedling
-seedlingIO[0].on('seedling finish sync-sequence-1', function() {
-    console.log("Finished sync-sequence-1")
-    seedlingIO[1].emit('seedling start sync-sequence-2');
-});
-seedlingIO[1].on('seedling finish sync-sequence-2', function() {
-    seedlingIO[2].emit('seedling start sync-sequence-3');
-});
-
 
 ////////////////////////////////////////////////
 //  BEAGLE - Seseme Monument
