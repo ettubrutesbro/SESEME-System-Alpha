@@ -591,7 +591,6 @@
 				}
 				Hyphenator.run()
 			}})
-			//TODO: only view.content should be faded back in (and only if view.text is active)
 
 
 
@@ -699,7 +698,7 @@
 			var titlekeys = Object.keys(data.title)
 			for(var i = 0; i<titlekeys.length; i++){
 				if(t[titlekeys[i]].margin) info.titleblock.ht+=t[titlekeys[i]].margin
-				var width = 800,
+				var width = 750,
 				height = t[titlekeys[i]].size?t[titlekeys[i]].size*5:110,
 				font = t[titlekeys[i]].font?t[titlekeys[i]].font:'Karla',
 				fontsize = t[titlekeys[i]].size?t[titlekeys[i]].size:21,
@@ -840,7 +839,7 @@
 		// this.ctx.strokeStyle = '#FF0000', this.ctx.lineWidth=5, this.ctx.strokeRect(0,0,this.cvs.width,this.cvs.height)
 		this.ctx.scale(3,3); this.ctx.fillStyle = color; this.ctx.font = 'normal '+fontWeight+' '+fontSize+'pt '+font
 		this.ctx.textAlign = align
-		if(align==='center') this.ctx.fillText(words,this.cvs.width/6,this.cvs.height/6+fontSize/2.2)
+		if(align==='center' || !align) this.ctx.fillText(words,this.cvs.width/6,this.cvs.height/6+fontSize/2.2)
 		else if(align==='start') this.ctx.fillText(words,1,this.cvs.height/6+fontSize/2.2)
 		else this.ctx.fillText(words,this.cvs.width/3-10,this.cvs.height/6+fontSize/2.2)
 	}
