@@ -40,10 +40,10 @@ module.exports = {
       {
         values: [80,29,40,15], customLo: 0,
         title: {
-          pre: {c: 'THE DROUGHT', size: 18},
-          main: {c: ['Water Expensive Crops,','Ranked.'], size: 28, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'},
+          pre: {c: 'THE DROUGHT & YOUR FOOD', size: 16, align: 'start'},
+          main: {c: ['Water Intense','Crops,','Ranked.'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'},
         },
-        text: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad. I mean this thing is really serious fucking up our agriculture and my property value and I cant have that because im trynig to start this #family in CA', //recommended 230 character maximum
+        text: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
         color: '#00ff00',
         details: [
           {name: 'Beef', text: 'K i love hamburgers too but they are BODYING our water supply, this is seriously like tho most inefficient ass use of water ever'},
