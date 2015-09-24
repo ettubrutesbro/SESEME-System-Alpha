@@ -390,8 +390,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
   var lightTrailData = new lightTrailObj(trailColor, 6, duration / seedling.totalStoryParts, seedling.totalStoryParts);
 
-  if(error)
-    seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
+  if(error) {
+    if(seedling.socket)
+        seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
+  }
 
   else{
     // ===============================================================================
