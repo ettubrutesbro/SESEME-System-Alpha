@@ -245,7 +245,7 @@
 			Velocity([dom.bottom, dom.closebutton], 'stop') //necessary for zoom trolling
 			if(view.height === 'plan') view.text = false
 			else if(view.zoom==='normal'){
-				if(view.content==='maintext') return //already
+				if(view.content==='maintext' && !view.filling) {console.log('FOH') ;return} //already
 				callText(dom.maintext)
 			 }
 			else if(view.zoom === 'close'){
@@ -267,15 +267,22 @@
 			dom.closebutton.hide()
 			Velocity(dom.rule, {translateY: '100%'})
 			view.content = ''
+			view.lastTextHeight = 0
 		}
 		function callText(targettext){
-			console.log('calling text: ' + view.content)
-			var newheight = 0, bottomspd, feedX = 0, feedY = 0,
-			heightcb = function(){ console.log('height anim finished') }, wrapperwait = false
+			var newheight = targettext.offsetHeight,
+			bottomspd, feedX = 0, feedY = 0,
+			heightcb = function(){ console.log('height anim finished') },
+			wrapperwait = false
 
-			if(view.content){ //hide old text (if applicable), translate
+			if(newheight > view.lastTextHeight) wrapperwait = false
+			else wrapperwait = true
+
+			//different content sections
+			if(view.content && !view.filling){ //hide old text (if applicable), translate
 				var animOld = {opacity: 0}
 				Velocity(dom[view.content], 'stop')
+				//determining how old content will animate away
 				if(view.zoom === 'close'){ // REQUEST DETAIL TEXT
 					if(view.content==='maintext') { //zoomed in
 						animOld.translateY = '-25%'
@@ -299,17 +306,18 @@
 						animOld.translateY = '25%'; feedY = '-50%'
 					}
 				}
+				//running animation
 				Velocity(dom[view.content], animOld, {duration: 300, visibility: 'hidden'})
-				newheight = targettext.offsetHeight
-				if(newheight > dom[view.content].offsetHeight) wrapperwait = false
-				else wrapperwait = true
-				heightcb = function(){ dom.bottomwrapper.style.height = newheight }
-			}//end check for / collapsing of old text-
+				//determining if wrapper snaps height after or before
 
-			view.content = targettext.id
-			Velocity(dom[view.content], 'stop')
+
+				heightcb = function(){ dom.bottomwrapper.style.height = newheight }
+			}//end check for old content
+			//same content sections, but new part
+
 			//if calling text-less content, 'semi-hide':
-			if(!dom['detail'+facing].textContent){
+			if(view.zoom ==='close'&& !dom['detail'+facing].textContent){
+				newheight = 0
 				dom.closebutton.hide()
 				heightcb = function(){ dom.bottomwrapper.style.height = 0 }
 				wrapperwait = true
@@ -322,12 +330,17 @@
 				}
 				dom.closebutton.show()
 			}
-			console.log(newheight)
+			// console.log(newheight)
+			console.log(newheight, view.lastTextHeight, wrapperwait)
+			// console.log('wrapperwait is ' + wrapperwait)
 			Velocity(targettext, {opacity: 1, translateX: [0, feedX], translateY: [0, feedY]},
 				{duration: 500, delay: 100, visibility: 'visible'})
 			Velocity(dom.bottom, {translateX: [0,0], translateY: -newheight, backgroundColorAlpha: 0.91}, {duration: 275+ newheight ,
 				visibility: 'visible', complete: heightcb })
 			Velocity(dom.rule, {translateY: 0})
+
+			view.content = targettext.id
+			view.lastTextHeight = newheight
 		}
 	}
 	function viewNavigationHelper(){
@@ -548,20 +561,30 @@
 		//TODO: keep track of old information (delegate data assigmnent here?)
 		//but for now, it functionally works, just removes and re-adds the same content (clumsy, UXwise)
 		// var reopen // store content to recall when refill has completed?
-		controls.enabled = false
-		//prototype doesn't have any animations
+		controls.enabled = false; view.filling = true
+		data = story.parts[part]
+		var refillMgr = new THREE.LoadingManager()
+		refillMgr.itemStart('DOM'); refillMgr.itemStart('names'); refillMgr.itemStart('titleblock')
+		refillMgr.itemStart('sceneHt')
+		refillMgr.onLoad = function(){
+			console.log('done replacing, reenabling controls')
+			setView()
+			controls.enabled = true; view.filling = false
+		}
+		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
 		//3D SHIT - color, namesprites, titleblock, main button position
 		pctsToHeights()
 		movePillars()
-		//fades and replaces: names, titleblock, detail things...
 		makeNames()
+		refillMgr.itemEnd('names')
 		makeTitleblock()
+		refillMgr.itemEnd('titleblock')
 		recolor3d()
+		sceneHeightTransition()
 		//DOM shit
 		refillDOM()
 		//REAPPEAR AND REENABLE
-		setView() //reappear stuff
-		controls.enabled = true
+		// setView() //reappear stuff
 
 		function movePillars(){
 			//get distance, multiply/add, anim3d
@@ -579,18 +602,49 @@
 			}
 			anim3d(info.btn.color, 'color', rgb)
 		}
-
+		function sceneHeightTransition(){
+			if(camera.zoom > 1){
+				var addzoom = Math.abs(1-camera.zoom)
+				var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+facing].position.y) * 100
+				console.log(addzoom, switchdist)
+				anim3d(scene, 'position', {y: -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3),
+				spd: 200+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ refillMgr.itemEnd('sceneHt') }})
+			}
+			else refillMgr.itemEnd('sceneHt')
+		}
 		function refillDOM(){
 			console.log('running refillDOM')
-			Velocity($$('hyphenate'), 'stop')
-			Velocity($$('hyphenate'), {opacity: 0}, {display: 'none', queue: false, complete: function(){
-				dom.maintext.textContent = data.text
-				for(var i = 0; i<4; i++){
-					detailtext = data.details? data.details[i].text : ''
-					dom['detail'+i].textContent = detailtext
-				}
-				Hyphenator.run()
-			}})
+			//won't actually change if story didn't change...
+			dom.navspans[1].textContent = story.seedling
+			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
+			dom.overtext.textContent = story.description
+			//just hide what's being viewed, cb changes content and animates bottom
+			var allContent = ['maintext', 'overtext', 'detail0', 'detail1', 'detail2', 'detail3']
+
+			if(view.content){
+				Velocity(dom[view.content],'finish')
+				Velocity(dom[view.content], {opacity:0}, {visibility:'hidden', complete: function(){
+					console.log('faded viewed content, refilling it')
+					dom[view.content].refill()
+					Hyphenator.run()
+					refillMgr.itemEnd('DOM')
+				}})
+				allContent.splice(allContent.indexOf(view.content),1)
+			}
+			for(var i = 0; i<allContent.length; i++){ dom[allContent[i]].refill()}
+			if(!view.content){ Hyphenator.run(); refillMgr.itemEnd('DOM') }
+
+			//at the same(ish) time, all non-viewed text fields are instantly changed
+
+			// Velocity($$('hyphenate'), 'stop')
+			// Velocity($$('hyphenate'), {opacity: 0}, {display: 'none', queue: false, complete: function(){
+			// 	dom.maintext.textContent = data.text
+			// 	for(var i = 0; i<4; i++){
+			// 		detailtext = data.details? data.details[i].text : ''
+			// 		dom['detail'+i].textContent = detailtext
+			// 	}
+			// 	Hyphenator.run()
+			// }})
 
 
 
@@ -621,7 +675,6 @@
 						n.lines = 1
 						//name is string
 						if(typeof data.details[i].name === 'string'){
-							console.log('string name')
 							txt = new THREE.Sprite()
 							var sprtxt = new Text(data.details[i].name,1100,125,'black','Karla',30,600,'center')
 							var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
@@ -630,7 +683,6 @@
 						}
 						//name is array
 						else if(data.details[i].name instanceof Array){
-							console.log('array name')
 							txt = new THREE.Group()
 							for(var it = 0; it<data.details[i].name.length; it++){
 								var subtxt = new THREE.Sprite()
@@ -846,7 +898,6 @@
 	//turns Text objects into mesh/mat, storing them as attributes in the original obj
 	function meshify(target){
 		var mtl = new THREE.MeshBasicMaterial({transparent: true, opacity: 0, depthWrite:false, map: target.tex})
-		console.log(target.cvs.width/60)
 		var obj = new THREE.Mesh(new THREE.PlaneBufferGeometry(target.cvs.width/60,target.cvs.height/60), mtl)
 		obj.canvas = target
 		return obj

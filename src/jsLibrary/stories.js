@@ -30,7 +30,7 @@ module.exports = {
         text: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
         color: '#ff0000',
         details: [
-          {name: 'UC Davis', text: 'Since then we crashed hard. That was pretty inexcusable because lowlights such as Chico State were bodying us in the paint.'},
+          {name: 'UC Davis', text: 'Since then we crashed hard. That was pretty inexcusable because nobodies such as Chico State were bodying us in the paint.'},
           {name: 'testo2', text: 'Fuck outta here this is short text :)'},
           {name: 'testo3', text: 'Anteaters can eat my butt'},
           {name: 'testo4', text: 'Now the bears have text!!! What a bunch of schmucks blah blah blah get rich or die trying hehehehe ',}
@@ -40,8 +40,9 @@ module.exports = {
       {
         values: [80,29,40,15], customLo: 0,
         title: {
-          pre: {c: 'THE DROUGHT & YOUR FOOD', size: 16, align: 'start'},
-          main: {c: ['Water Intense','Crops,','Ranked.'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'},
+          pre: {c: 'DROUGHT VS. FOOD', size: 16, align: 'start'},
+          main: {c: ['Water Intensity','by Food Product'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'},
+          post: {c: '(protip: don\'t eat meat)', size: 16, align: 'start'}
         },
         text: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
         color: '#00ff00',
