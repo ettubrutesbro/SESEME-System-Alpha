@@ -1,19 +1,32 @@
 var Sound = require('node-mpg123');
-var soundTypes = ["topical", "dumb", "no", "ready", "celebratory"];
 
 var self = module.exports = {
-	play: function(type){
-		if(type == "idler"){
-
-		}
-		else if(type == "topical"){
-
-		}
-		else{
-
-		}
+	
+	addToStaticArray: function(obj) {
+		if(previousSounds.length === 5) previousSounds.pop();
+		else previousSounds.push(obj);
 	},
 
+	customRandom: function() {
+		return sound;
+	},
+
+	playRandomSound: function(soundObj, type){
+		// Determine the sound type and its corresponding sound array and play the sound
+		var randValue = 0;
+		for(var i = 0; i < previousSounds.length-1; i++)
+			randValue = Math.floor((Math.random() * soundObj[type].length-1) + 1);
+
+		var soundName = soundObj[type][randValue];
+		var sound = new Sound('../../sounds/' + soundName + '.mp3');
+		addToStaticArray({
+			'soundName':soundName,
+			'index':randValue,
+			'type':type
+		});
+		sound.play();
+	},
+/*
 	playRandom: function(array){
 		var num = Math.floor(Math.random() * array.length);
 		var string = "../../sounds/" + array[num];
@@ -37,4 +50,5 @@ var self = module.exports = {
         	music = this.playRandom(soundObj[type]); // pass in array of sounds
       	}
 	},
+	*/
 }

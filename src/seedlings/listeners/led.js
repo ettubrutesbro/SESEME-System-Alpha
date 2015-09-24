@@ -25,7 +25,7 @@ function listeners(socket, obj, soundObj) {
         led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
           console.log("in callback for fadeCircle");
           led.lightOn(1, obj.buttonLight, null, emptyCallback);
-          sounds.playRandomType("ready", soundObj);
+          sounds.playRandomSound(soundObj, 'ready');
         });
       } // this seedling matches button press seedling
       else{
@@ -71,7 +71,7 @@ function listeners(socket, obj, soundObj) {
         led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
           console.log("in callback for fadeCircle");
           led.lightOn(1, obj.buttonLight, null, emptyCallback);
-          sounds.playRandomType("ready", soundObj);
+          sounds.playRandomSound(soundObj, 'ready');
         });
       }
 
@@ -111,7 +111,7 @@ function listeners(socket, obj, soundObj) {
       else
         led.blinking(blinkColor, 0.3, 0, obj, inactiveCallback);
 
-      sounds.playRandomType("no", soundObj);
+      sounds.playRandomSound(soundObj, 'no');
       // ring blinks, play sound "no"
 
 

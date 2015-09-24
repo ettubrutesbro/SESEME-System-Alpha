@@ -303,6 +303,8 @@ function heightCalcGeneric(data){
   return percentagesArray
 }
 
+/*
+// delete if heightcalc generic work
 function heightCalc(data){
   var top = 100, bottom = 0
   var destSteps = {m1: null, m2: null, m3: null, m4: null};
@@ -320,6 +322,7 @@ function heightCalc(data){
   }
   return destSteps;
 }
+*/
 
 function fadeCircleObj(targetColor, duration, diodePct){
     this.targetColor = targetColor;
@@ -365,7 +368,7 @@ function seedlingConnected(seedSocket, seedlingNum){
   })
 }
 
-function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
+function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   console.log("in bigRedButtonHelper Function");
   var trailColor = led.hexToObj("FFFFFF");
   var targetColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
@@ -411,7 +414,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
         seedlings[i].socket.emit("buttonPressed", seedling.number, fadeCircleData, lightTrailData);
       }
     }
-    if(beagleOnline) beagle.emit("buttonPressed", targetStats, targetColor);
+    if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
 
     setTimeout(function(){
       console.log("update seedling attributes");
@@ -426,18 +429,19 @@ function bigRedButton(seedling){
   if(beagleOnline){
     beagle.emit('getBeagleStats');
     beagle.emit('isRunning'); // check if seseme is running
-    var targetStats = heightCalc(seedling.story.parts[seedling.currentPart]);
+    var plrmax = 5000;
+    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     var maxDistance = 0;
 
     var timer1 = setInterval(function(){
       if(beagleStatsFlag){
         clearInterval(timer1);
-        for(var i = 1; i <= 4; i++){
-          var temp = Math.abs( targetStats["m"+i] - beagleStats["m"+i] );
+        for(var i = 0; i < 4; i++){
+          var temp = Math.round( Math.abs( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] ) );
           if(temp > maxDistance) maxDistance = temp;
         }
         console.log("maxDistance: " + maxDistance);
-        beagleStats = false;
+        beagleStatsFlag = false;
         maxDistanceFlag = true; // done with setting maxDistance
       } //
     }, 20);
@@ -447,11 +451,11 @@ function bigRedButton(seedling){
         clearInterval(timer2);
         maxDistanceFlag = false;
         if(!sesemeRunning){
-          bigRedButtonHelper(seedling, maxDistance, targetStats, false);
+          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, false);
         }
         else
           console.log("seseme currently running")
-          bigRedButtonHelper(seedling, maxDistance, targetStats, true);
+          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, true);
           //seedling.socket.emit("playType", "idler");
       }
     }, 20);

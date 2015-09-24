@@ -8,17 +8,6 @@ function listeners(socket, soundObj) {
     var soundTypes = ["topical", "dumb", "no", "ready", "celebratory"];
     var previousSounds = [];
 
-    function addToStaticArray(obj) {
-        if(previousSounds.length === 5) previousSounds.pop();
-        else previousSounds.push(obj);
-    }
-
-    function customRandom() {
-
-
-        return sound;
-    }
-
     // Listener to play a specific sound given a sound name
     socket.on('seedling play sound', function(soundName) {
         console.log("Played sound '"+soundName+"'");
@@ -29,18 +18,7 @@ function listeners(socket, soundObj) {
     // Listener to play a random sound given a sound type
     socket.on('seedling play random-sound', function(type) {
         console.log("Playing random sound of type " + type);
-        // Determine the sound type and its corresponding sound array and play the sound
-        var randValue = 0;
-        for(var i = 0; i < previousSounds.length-1; i++)
-            randValue = Math.floor((Math.random() * soundObj[type].length-1) + 1);
-        var soundName = soundObj[type][randValue];
-        var sound = new Sound('../../sounds/' + soundName + '.mp3');
-        addToStaticArray({
-            'soundName':soundName,
-            'index':randValue,
-            'type':type
-        });
-        sound.play();
+        sounds.playRandomSound(soundObj, type);
     });
 
     // Listeners to play a chime sequence upon syncing
