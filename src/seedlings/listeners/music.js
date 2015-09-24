@@ -18,10 +18,13 @@ function listeners(socket, soundObj) {
     socket.on('seedling play random-sound', function(type) {
         console.log("Playing random sound of type " + type);
         // Determine the sound type and its corresponding sound array and play the sound
+        sounds.playRandomSound(soundObj, type); // put it in sounds.js file to call elsewhere
+        /*
         var randValue = Math.floor((Math.random() * soundObj[type].length-1) + 1);
         var soundName = soundObj[type][randValue];
         var sound = new Sound('../../sounds/' + soundName + '.mp3');
         sound.play();
+        */
     });
 
     // Listeners to play a chime sequence upon syncing
