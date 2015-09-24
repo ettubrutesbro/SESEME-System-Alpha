@@ -18,7 +18,7 @@ function listeners(socket, soundObj) {
     // Listener to play a random sound given a sound type
     socket.on('seedling play random-sound', function(type) {
         console.log("Playing random sound of type " + type);
-        sounds.playRandomSound(soundObj, type);
+        sounds.playRandomSound(soundObj, type, previousSounds);
     });
 
     // Listeners to play a chime sequence upon syncing
