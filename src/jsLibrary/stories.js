@@ -41,7 +41,7 @@ module.exports = {
         values: [80,29,40,15], customLo: 0,
         title: {
           pre: {c: 'THE DROUGHT', size: 18},
-          main: {c: ['Water Expensive Crops,','Ranked.'], size: 28, font: 'Droid Serif', weight: 400, margin: -.2, align: 'left'},
+          main: {c: ['Water Expensive Crops,','Ranked.'], size: 28, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'},
         },
         text: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad. I mean this thing is really serious fucking up our agriculture and my property value and I cant have that because im trynig to start this #family in CA', //recommended 230 character maximum
         color: '#00ff00',
