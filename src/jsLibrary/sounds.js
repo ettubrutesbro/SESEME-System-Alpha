@@ -14,15 +14,15 @@ var self = module.exports = {
 		// Create the sound file that hasn't been played in a while
 		var soundName = soundObj[type][randValue];
 		var sound = new Sound('../../sounds/' + soundName + '.mp3');
-		
+
 		if(previousSounds.length === 4) previousSounds.shift();
 
 		// ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
-		previousSounds.push(addToStaticArray({
+		previousSounds.push({
 			'soundName':soundName,
 			'index':randValue,
 			'type':type
-		}));
+		});
 		sound.play();
 	}
 /*
