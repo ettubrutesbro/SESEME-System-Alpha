@@ -1,10 +1,17 @@
 function systemOnline() {
     // Check if the beagle is connected
-    if(!beagleOnline) return false;
+    if(!beagleOnline) {
+        console.log("System offline: Beagle offline")
+        return false;
+    }
     for(var i = 0; i < 3; i++) {
         // Check if all seedlings are connected
-        if(!seedlings[i].online) { return false; }
+        if(!seedlings[i].online) {
+            console.log("System offline: Seedling["+i+"] offline")
+            return false;
+        }
     }
+    console.log("[SYSTEM IS ONLINE]")
     return true;
 }
 
