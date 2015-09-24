@@ -1,4 +1,5 @@
 var animationTimer;
+var hue = require('./hue.js');
 
 var self = module.exports = {
     r: 0,
@@ -496,8 +497,29 @@ var self = module.exports = {
     },
     */
 
+    lightsOn: function(obj, callback){
+        if(obj.number === 0){
+            // turn on hue
+            var data = {'hue' : 0,
+                        'sat' : 0,
+                        'bri' : 100
+            } // set hue color to white;
+            hue.setHSL(data); // turn on hue to white
+            this.lightOn(1, obj.urlLight, "FFFFFF")
+        } // seedling 1
+        else if(obj.number === 1){
+            this.lightOn(1, obj.iconLight, null);
+            this.lightOn(1, obj.urlLight, null);
+            this.lightOn(1, obj.lmLight, null);
+        } // seedling 2
+        else if(obj.number === 2){
 
-    lightOn: function(time, obj, color, callback){
+        } // seedling 3 has no lights currently
+        callback();
+    } // excluding button light on
+
+
+    lightOn: function(time, obj, color){
         var light = obj;
         var timer = null;
         if(color == null){
@@ -515,13 +537,11 @@ var self = module.exports = {
                 this.lightPercentage += 1;
                 light.intensity(this.lightPercentage);
                 if(this.lightPercentage == 100){
-                    callback(light, color);
                     clearInterval(timer);
                     console.log("finaltimer: " + timer);
                 }
             }, intervalTime);
         } // rgb led strip
-        return timer;
     },
 
     lightOff: function(time, obj, color){
@@ -531,7 +551,7 @@ var self = module.exports = {
             light.fadeOut(time*1000);
             console.log("lights are off");
         } // halogen or led light bulb
-        else{dej
+        else{
             //var this.lightPercentage = 100;
             var intervalTime = time * 1000 / (this.lightPercentage);
             light.intensity(this.lightPercentage);
@@ -547,7 +567,6 @@ var self = module.exports = {
                 }
             }, intervalTime);
         } // rgb led strip
-        return timer;
     },
 
     // Breathe function that returns an interval object

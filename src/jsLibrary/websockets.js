@@ -72,7 +72,7 @@ for(var i = 0; i < 3; i++){
 // COUNTDOWN 'TIL IDLE STATE
 ////////////////////////////////////////////////
 var seconds = 300; // Global seconds variable
-var lastSeedlingUsed = 0; // Global variable to store the seedling pressed last
+var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
 var idleCountdown;
 function countdown() {
 	if (seconds < 1) {
@@ -82,7 +82,7 @@ function countdown() {
             // Check if the seedlings are connected first to emit to them
             if(seedlings[i].socket) {
                 // For the seedling that was active last, set the interval to 6s
-                if(lastSeedlingUsed === i)  // Set interval for 12s for the others
+                if(lastActiveSeedling === i)  // Set interval for 12s for the others
                     seedlings[i].socket.emit('seedling start breathing', 6, seedlings[i].number);
                 else seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number);
             }
@@ -103,16 +103,21 @@ var io = new socket.listen(5000);
 var webbyOnline = 0;
 var webby = null;
 var uiSocket = null;
+var lastSeedlingPlayed = 0;
 
 io.on('connection', function (socket) {
   webbyOnline = 1;
   webby = socket;
   console.log(socket.request.connection.remoteAddress + ' connected to web socket.io');
 
-  // Play a sound from all seedlings
-  for(var i = 0; i < 3; i++) {
-    // Check if the seedlings are connected first to emit to them
-    if(seedlings[i].socket) seedlings[i].socket.emit('seedling play random-sound', 'dumb');
+  // Play a sound from one seedlings
+  // Check if the seedlings are connected first to emit to them
+  var seedlingToPlay = Math.floor((Math.random() * 3) + 1);
+  if(seedlingToPlay === lastSeedlingPlayed)
+      seedlingToPlay = (seedlingToPlay + 1) % 3;
+  if(seedlings[seedlingToPlay].socket) {
+      seedlings[lastSeedlingPlayed].socket.emit('seedling play random-sound', 'dumb');
+      lastSeedlingPlayed = seedlingToPlay;
   }
 
   // ===========================================================================================
@@ -123,8 +128,8 @@ io.on('connection', function (socket) {
       // Have the frontend acquire the story data
       console.log("===============================================");
       console.log("Frontend requested story, emitting 'ui acquire story' now.")
-      io.sockets.emit('ui acquire story', {story: story[lastSeedlingUsed], part: seedlings[lastSeedlingUsed].currentPart,
-        percentages: heightCalcGeneric(story[lastSeedlingUsed].parts[currentPart]) });
+      io.sockets.emit('ui acquire story', {story: story[lastActiveSeedling], part: seedlings[lastActiveSeedling].currentPart,
+        percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart]) });
   });
 
   socket.on('ping', function() {
@@ -298,6 +303,8 @@ function heightCalcGeneric(data){
   return percentagesArray
 }
 
+/*
+// delete if heightcalc generic work
 function heightCalc(data){
   var top = 100, bottom = 0
   var destSteps = {m1: null, m2: null, m3: null, m4: null};
@@ -315,6 +322,7 @@ function heightCalc(data){
   }
   return destSteps;
 }
+*/
 
 function fadeCircleObj(targetColor, duration, diodePct){
     this.targetColor = targetColor;
@@ -360,7 +368,7 @@ function seedlingConnected(seedSocket, seedlingNum){
   })
 }
 
-function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
+function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   console.log("in bigRedButtonHelper Function");
   var trailColor = led.hexToObj("FFFFFF");
   var targetColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
@@ -387,15 +395,15 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
     countdown();
 
     // Set the variable to keep track of the last seedling that had its button pressed
-    lastSeedlingUsed = seedling.number;
+    lastActiveSeedling = seedling.number;
 
     // Send the new height calculations to the frontend
     var result;
-    if(uiSocket && lastSeedlingUsed === seedling.number) {
+    if(uiSocket && lastActiveSeedling === seedling.number) {
         console.log("Sending the story part " + seedling.currentPart + " to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
         io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
-    } else if(uiSocket && lastSeedlingUsed !== seedling.number) {
+    } else if(uiSocket && lastActiveSeedling !== seedling.number) {
         console.log("Sending a new story to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
         io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
@@ -406,7 +414,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetStats, error){
         seedlings[i].socket.emit("buttonPressed", seedling.number, fadeCircleData, lightTrailData);
       }
     }
-    if(beagleOnline) beagle.emit("buttonPressed", targetStats, targetColor);
+    if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
 
     setTimeout(function(){
       console.log("update seedling attributes");
@@ -421,18 +429,19 @@ function bigRedButton(seedling){
   if(beagleOnline){
     beagle.emit('getBeagleStats');
     beagle.emit('isRunning'); // check if seseme is running
-    var targetStats = heightCalc(seedling.story.parts[seedling.currentPart]);
+    var plrmax = 5000;
+    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     var maxDistance = 0;
 
     var timer1 = setInterval(function(){
       if(beagleStatsFlag){
         clearInterval(timer1);
-        for(var i = 1; i <= 4; i++){
-          var temp = Math.abs( targetStats["m"+i] - beagleStats["m"+i] );
+        for(var i = 0; i < 4; i++){
+          var temp = Math.round( Math.abs( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] ) );
           if(temp > maxDistance) maxDistance = temp;
         }
         console.log("maxDistance: " + maxDistance);
-        beagleStats = false;
+        beagleStatsFlag = false;
         maxDistanceFlag = true; // done with setting maxDistance
       } //
     }, 20);
@@ -442,11 +451,11 @@ function bigRedButton(seedling){
         clearInterval(timer2);
         maxDistanceFlag = false;
         if(!sesemeRunning){
-          bigRedButtonHelper(seedling, maxDistance, targetStats, false);
+          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, false);
         }
         else
           console.log("seseme currently running")
-          bigRedButtonHelper(seedling, maxDistance, targetStats, true);
+          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, true);
           //seedling.socket.emit("playType", "idler");
       }
     }, 20);

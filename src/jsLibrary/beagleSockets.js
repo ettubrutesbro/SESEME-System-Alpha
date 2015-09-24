@@ -73,15 +73,15 @@ socket.on('disconnect', function() {
   console.log('beagle 1 Off', socket.disconnected);
 });
 
-socket.on('buttonPressed', function(targetStats, targetColor) {
+socket.on('buttonPressed', function(targetPercentagesArray, plrmax, targetColor) {
   console.log('buttonPressed, move seseme');
 
   /* move seseme motors*/
-  console.log(JSON.stringify(targetStats));
+  console.log(targetPercentagesArray);
   var beagleStats = seseme.getStats();
   console.log(JSON.stringify(beagleStats));
-  for(var i = 1; i <= 4; i++){
-    var steps = targetStats["m"+i] - beagleStats["m"+i]
+  for(var i = 0; i < 4; i++){
+    var steps = Math.round( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] );
     var dir = steps > 0 ? 1 : 0; // dir=1 move up; dir=0 move down
     console.log("steps: " + steps);
     //seseme.moveMotor("m"+i, Math.abs(steps), dir);

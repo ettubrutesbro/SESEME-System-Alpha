@@ -48,7 +48,7 @@ function setup(socket, seedlingNum, callback) {
             pixelNum = 29;
             firstDiode = 2;
 
-            buttonLight = new five.Led(12);
+            buttonLight = new five.Led(11);
             urlLight = new five.Led.RGB({
               pins: {
                 red: 3,
@@ -72,8 +72,8 @@ function setup(socket, seedlingNum, callback) {
         else if(seedlingNum == 2){
             pixelNum = 26;
             firstDiode = 4;
-            buttonLight = new five.Led(12);
-            iconLight = new five.Led(11);
+            buttonLight = new five.Led(3);
+            //iconLight = new five.Led(11);
         }
 
         /***       Same for all seedlings      ***/
