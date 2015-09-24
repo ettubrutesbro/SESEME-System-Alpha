@@ -373,7 +373,7 @@ function seedlingConnected(seedSocket, seedlingNum){
           seedlings[0].socket.emit('seedling start sync-sequence-1');
 
           // Listen for when to pass the next sync sequence to the next seedling
-          seedlings[0].socket.once('seedling finish sync-sequence-1', function() {
+          seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
               console.log("Finished sync-sequence-1")
               seedlings[1].socket.emit('seedling start sync-sequence-2');
           });

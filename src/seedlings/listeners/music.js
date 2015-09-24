@@ -22,7 +22,7 @@ function listeners(socket, soundObj) {
     });
 
     // Listeners to play a chime sequence upon syncing
-    socket.on('seedling start sync-sequence-1', function() {
+    socket.once('seedling start sync-sequence-1', function() {
         console.log("Playing sync-sequence-1");
         var chime = new Sound('../../sounds/chime5.mp3');
         chime.play();
