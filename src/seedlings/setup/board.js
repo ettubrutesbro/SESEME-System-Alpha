@@ -2,6 +2,7 @@
 function setup(socket, seedlingNum, callback) {
     var five = require("johnny-five");
     var pixel = require("node-pixel");
+    var path = require('path');
     var fs = require('fs');
 
     var opts = {};
@@ -40,7 +41,7 @@ function setup(socket, seedlingNum, callback) {
     board.on("ready", function() {
 
         console.log("Board ready, lets add light");
-        console.log('dirname: '+__dirname);
+
         /***       Different for seedlings      ***/
         if(seedlingNum == 0){
             pixelNum = 29;
@@ -87,7 +88,9 @@ function setup(socket, seedlingNum, callback) {
 
         obj = new Board(seedlingNum, strip, pixelNum, firstDiode, buttonLight, urlLight, iconLight, lmLight);
 
-        fs.readdir("../../sounds", function(err, files){
+        // __dirname = /home/pi/git/SESEME-System-Alpha/src/seedlings/setup
+        console.log('sound path: '+path.join(__dirname, '..', '..', 'sounds'));
+        fs.readdir(path.join(__dirname, '..', '..', 'sounds'), function(err, files){
             if(err) throw err;
             console.log("read directory")
             filesAr = files;
