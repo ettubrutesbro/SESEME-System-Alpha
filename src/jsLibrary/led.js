@@ -515,8 +515,15 @@ var self = module.exports = {
         else if(obj.number === 2){
 
         } // seedling 3 has no lights currently
-        callback();
-    }, // excluding button light on
+        callback(obj);
+    }, // turn lights on excluding button light
+
+    lightsOff: function(obj){
+        if(obj.number === 0){
+
+        }
+
+    }, // turn lights off excluding button light
 
 
     lightOn: function(time, obj, color){

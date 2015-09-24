@@ -9,22 +9,24 @@ function listeners(socket, obj, soundObj) {
     var Timer = require("../../jsLibrary/timer.js");
     var music = null;
 
+    var lightOnDuration = 10000;
     var fadeTime = 3; // default fade time
     var trailLength = 6; // default light trail length
     var trailTime = 1.5; // default light trail revolution time
     var trailRevs = 5; // default light trail revolution numbers
-    var lightTimer = null; // global light timer for lights
-    var timerLastUpdate = null; // var to hold time when timer was last updated
+    var lightTimer = []; // global light timer for lights
+    var timerLastUpdate = []; // ar to hold time when timer was last updated for each seedling
 
     var breatheInterval = null;
 
-    function lightsOnCallback(){
-        timerLastUpdate = Date.now();
-        lightTimer = new Timer.Timer(function() { // init timer with 5 seconds
-            console.log('turning lights off now');
-            console.log('duration of timer in sec:', (Date.now - timerLastUpdate) / 1000)
-            timerLastUpdate = null;
-        }, 10000);
+    function lightsOnCallback(obj){
+      timerLastUpdate[obj.number] = Date.now();
+      lightTimer[obj.number] = new Timer.Timer(function() { // init timer with 5 seconds
+        console.log('turning lights off now');
+        console.log('duration of timer in sec:', (Date.now - timerLastUpdate[obj.number]) / 1000);
+        led.lightsOff(obj);
+        timerLastUpdate[obj.number] = null;
+      }, lightOnDuration);
     }
 
     socket.on('buttonPressed', function(seedlingNum, fadeCircleData, lightTrailData){
@@ -33,13 +35,21 @@ function listeners(socket, obj, soundObj) {
       led.lightOff(1, obj.buttonLight, null);
 
       if(seedlingNum == obj.seedlingNum){
-        led.lightsOn(obj, lightsOnCallback);
+        if(timerLastUpdate[seedlingNum]){
+          lightTimer[seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[seedlingNum])); //
+          timerLastUpdate[seedlingNum] = Date.now();
+        } // lights of seedling currently on so add to timer
+        else{
+          led.lightsOn(obj, lightsOnCallback);
+        } // turn on lights of seedlingNum
+
         led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
           console.log("in callback for fadeCircle");
           led.lightOn(1, obj.buttonLight, null);
           sounds.playRandomSound(soundObj, 'ready');
         });
       } // this seedling matches button press seedling
+
       else{
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
           console.log("in callback for lightTrail");
