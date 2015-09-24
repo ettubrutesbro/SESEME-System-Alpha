@@ -605,10 +605,10 @@
 		function sceneHeightTransition(){
 			if(camera.zoom > 1){
 				var addzoom = Math.abs(1-camera.zoom)
-				var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+facing].position.y) * 50
+				var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+facing].position.y) * 100
 				console.log(addzoom, switchdist)
 				anim3d(scene, 'position', {y: -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3),
-				spd: 300+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ refillMgr.itemEnd('sceneHt') }})
+				spd: 200+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ refillMgr.itemEnd('sceneHt') }})
 			}
 			else refillMgr.itemEnd('sceneHt')
 		}
