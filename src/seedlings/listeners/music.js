@@ -27,6 +27,7 @@ function listeners(socket, soundObj) {
         var chime = new Sound('../../sounds/chime5.mp3');
         chime.play();
     	chime.on('complete', function() {
+            console.log('completed sequence-1');
             socket.emit('seedling finish sync-sequence-1');
         });
     });
