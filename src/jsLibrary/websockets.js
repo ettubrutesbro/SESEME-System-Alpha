@@ -492,21 +492,22 @@ seedlingIO[2].on('connection', function(seedSocket){
   seedlingConnected(seedSocket, 2);
 });
 
-// Listen for when to pass the next sync sequence to the next seedling
-seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
-    seedlings[1].socket.emit('seedling start sync-sequence-2');
-});
-seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
-    seedlings[2].socket.emit('seedling start sync-sequence-3');
-});
-
 ////////////////////////////////////////////////
 //  BEAGLE - Seseme Monument
 ////////////////////////////////////////////////
 
 beagleIO.on('connection', function(beagleSocket){
-  if(systemOnline())
+  if(systemOnline()) {
         seedlings[0].socket.emit('seedling start sync-sequence-1');
+
+        // Listen for when to pass the next sync sequence to the next seedling
+        seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
+            seedlings[1].socket.emit('seedling start sync-sequence-2');
+        });
+        seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
+            seedlings[2].socket.emit('seedling start sync-sequence-3');
+        });
+    }
   beagle = beagleSocket;
   console.log('### BEAGLE CONNECTED')
   beagleSocket.on('checkin', function(data){
