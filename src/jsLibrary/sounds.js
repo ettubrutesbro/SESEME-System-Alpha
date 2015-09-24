@@ -19,7 +19,7 @@ var self = module.exports = {
 		// Create the sound file that hasn't been played in a while
 		var soundName = soundObj[type][randValue];
 		var sound = new Sound('../../sounds/' + soundName + '.mp3');
-		this.addToStaticArray({
+		addToStaticArray({
 			'soundName':soundName,
 			'index':randValue,
 			'type':type
