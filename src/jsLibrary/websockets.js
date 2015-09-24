@@ -1,3 +1,5 @@
+var path = require('path');
+
 function systemOnline() {
     // Check if the beagle is connected
     if(!beagleOnline) {
@@ -19,9 +21,9 @@ function systemOnline() {
 //
 //  HUE BULB
 
-var hue = require('./hue.js')
-var stories = require('./stories.js')
-var led = require('./led.js')
+var hue = require(path.join(__dirname, 'hue.js'));
+var stories = require(path.join(__dirname, 'stories.js'));
+var led = require(path.join(__dirname, 'led.js'));
 var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
 var socket = require('socket.io');
