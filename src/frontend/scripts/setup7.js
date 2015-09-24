@@ -10,13 +10,15 @@ var resources = {geos: {}, mtls: {}}
 var seseme = new THREE.Group(), ground, lights, shadow
 //global states
 var facing = 0, startHash = window.location.hash.slice(1)
-view = {text: false, content: '', help: false, helpContent: '', helpReady: true,
+view = {text: false, content: '', lastTextHeight: 0, filling: false,
+	help: false, helpContent: '', helpReady: true,
 	height: '', zoom: '', zoomswitch: false,
 	cycleDirection: false, zoomDirection: false},
 init = true
 var controls, mouse = new THREE.Vector2(), raycast
 // 3d constants
 var plrmax = 12, constspd = 10000, spdcompensator = 400,
+plrSlope = 638.5, plrConstant = 1112.2
 thresholds = {zoom: [.675,1.15], height: [-3,-56]},
 facingRotations = [-45,45,135,-135]
 //dom
@@ -53,17 +55,11 @@ function setup(){
 					socket.on('ui update part', function(d){
 						console.log(d)
 						part = d.part; percentages = d.percentages
-						data = story.parts[part]
 						refill()
 					})
 					socket.on('ui different story', function(d){
 						console.log(d)
 						story = d.story; part = 0; percentages = d.percentages
-						data = story.parts[part]
-						//story specific....
-						dom.navspans[1].textContent = story.seedling
-						dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
-						dom.overtext.textContent = story.description
 						refill()
 					})
 			 	})
@@ -437,18 +433,23 @@ function setup(){
 			}
 			dom.bottom.refill = function(){
 				//only run after contents have refilled textcontent
-				var targetht = view.text? dom[view.content].offsetHeight : 0
-				Velocity(this, {backgroundColor: data.color, backgroundColorAlpha: view.text?.91:.35,
+				if(!view.text) return
+				var targetht = dom[view.content].offsetHeight
+				Velocity(this, {backgroundColor: data.color, backgroundColorAlpha: .91,
 					translateY: -targetht})
 			}
-
+			//content changers
+			dom.maintext.refill = function(){ this.textContent = data.text}
+			dom.overtext.refill = function(){ this.textContent = story.description}
+			dom.detail0.refill = function(){ this.textContent = data.details[0].text }
+			dom.detail1.refill = function(){ this.textContent = data.details[1].text }
+			dom.detail2.refill = function(){ this.textContent = data.details[2].text }
+			dom.detail3.refill = function(){ this.textContent = data.details[3].text }
 
 			var hyphensettings = { onhyphenationdonecallback: function(){
 				console.log('hyphenation complete')
 				if(init) {allMgr.itemEnd('hyphenation'); return }
-				var allHyphenates = $$('hyphenate')
-				for(var i = 0; i<allHyphenates.length; i++){ allHyphenates[i].style.display = 'block' }
-				if(view.text) Velocity(dom[view.content], {opacity: 1} )
+				// if(view.text) dom.bottom.refill()
 			} }
 			Hyphenator.config(hyphensettings)
 			Hyphenator.run()
