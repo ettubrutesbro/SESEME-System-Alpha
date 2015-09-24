@@ -14,6 +14,7 @@ function setup(socket, seedlingNum, callback) {
     var filesAr = null;
     var pixelNum = null;
     var firstDiode = null;
+    var buttonLight = null;
     var iconLight = null;
     var urlLight = null;
     var lmLight = null;
@@ -47,6 +48,7 @@ function setup(socket, seedlingNum, callback) {
             pixelNum = 29;
             firstDiode = 2;
 
+            buttonLight = new five.Led(12);
             urlLight = new five.Led.RGB({
               pins: {
                 red: 3,
@@ -61,6 +63,7 @@ function setup(socket, seedlingNum, callback) {
             firstDiode = 4;
 
             iconLight = new five.Led(11);
+            buttonLight = new five.Led(10);
             urlLight = new five.Led(9);
             lmLight = new five.Led(5);
 
@@ -70,6 +73,7 @@ function setup(socket, seedlingNum, callback) {
             pixelNum = 26;
             firstDiode = 4;
             iconLight = new five.Led(11);
+            buttonLight = new five.Led(10);
         }
 
         /***       Same for all seedlings      ***/
@@ -83,7 +87,6 @@ function setup(socket, seedlingNum, callback) {
             console.log("Strip initialized");
             //obj = new Board(board, strip, pixelNum, name, light, button);
         });
-        var buttonLight = new five.Led(10); // button light up
 
 
         obj = new Board(seedlingNum, strip, pixelNum, firstDiode, buttonLight, urlLight, iconLight, lmLight);
