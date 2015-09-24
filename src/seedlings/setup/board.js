@@ -40,7 +40,7 @@ function setup(socket, seedlingNum, callback) {
     board.on("ready", function() {
 
         console.log("Board ready, lets add light");
-
+        console.log('dirname: '+__dirname);
         /***       Different for seedlings      ***/
         if(seedlingNum == 0){
             pixelNum = 29;
