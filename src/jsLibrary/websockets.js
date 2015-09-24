@@ -103,16 +103,21 @@ var io = new socket.listen(5000);
 var webbyOnline = 0;
 var webby = null;
 var uiSocket = null;
+var lastSeedlingPlayed = 0;
 
 io.on('connection', function (socket) {
   webbyOnline = 1;
   webby = socket;
   console.log(socket.request.connection.remoteAddress + ' connected to web socket.io');
 
-  // Play a sound from all seedlings
-  for(var i = 0; i < 3; i++) {
-    // Check if the seedlings are connected first to emit to them
-    if(seedlings[i].socket) seedlings[i].socket.emit('seedling play random-sound', 'dumb');
+  // Play a sound from one seedlings
+  // Check if the seedlings are connected first to emit to them
+  var seedlingToPlay = Math.floor((Math.random() * 3) + 1);
+  if(seedlingToPlay === lastSeedlingPlayed)
+      seedlingToPlay = (seedlingToPlay + 1) % 3;
+  if(seedlings[seedlingToPlay].socket) {
+      seedlings[lastSeedlingPlayed].socket.emit('seedling play random-sound', 'dumb');
+      lastSeedlingPlayed = seedlingToPlay;
   }
 
   // ===========================================================================================
