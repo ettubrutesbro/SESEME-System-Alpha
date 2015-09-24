@@ -493,11 +493,11 @@ seedlingIO[2].on('connection', function(seedSocket){
 });
 
 // Listen for when to pass the next sync sequence to the next seedling
-seedlingIO[0].on('seedling finish sync-sequence-1', function() {
-  seedlingIO[1].emit('seedling start sync-sequence-2');
+seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
+    seedlings[1].socket.emit('seedling start sync-sequence-2');
 });
-seedlingIO[1].on('seedling finish sync-sequence-2', function() {
-    seedlingIO[2].emit('seedling start sync-sequence-3');
+seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
+    seedlings[2].socket.emit('seedling start sync-sequence-3');
 });
 
 ////////////////////////////////////////////////
