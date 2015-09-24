@@ -118,7 +118,7 @@ io.on('connection', function (socket) {
   if(seedlings[seedlingToPlay].socket) {
       seedlings[lastSeedlingPlayed].socket.emit('seedling play random-sound', 'dumb');
       lastSeedlingPlayed = seedlingToPlay;
-  }
+  } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
 
   // ===========================================================================================
   // Front-end communication
