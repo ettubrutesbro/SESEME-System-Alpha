@@ -367,18 +367,20 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.currentPart = 0;
     console.log('seedling', (seedlingNum+1), 'On');
 
-    if(systemOnline()) {
-        seedlings[0].socket.emit('seedling start sync-sequence-1');
+    socket.on('seedling finished inits', function() {
+        if(systemOnline()) {
+            seedlings[0].socket.emit('seedling start sync-sequence-1');
 
-        // Listen for when to pass the next sync sequence to the next seedling
-        seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
-            console.log("Finished sync-sequence-1")
-            seedlings[1].socket.emit('seedling start sync-sequence-2');
-        });
-        seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
-            seedlings[2].socket.emit('seedling start sync-sequence-3');
-        });
-    }
+            // Listen for when to pass the next sync sequence to the next seedling
+            seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
+                console.log("Finished sync-sequence-1")
+                seedlings[1].socket.emit('seedling start sync-sequence-2');
+            });
+            seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
+                seedlings[2].socket.emit('seedling start sync-sequence-3');
+            });
+        }
+    });
 
   });
 

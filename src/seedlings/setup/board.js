@@ -113,6 +113,7 @@ function setup(socket, seedlingNum, callback) {
         var initMusic = require(path.join(__dirname, '..', 'listeners', '/music.js'));
         initMusic.listeners(socket, soundObj);
 
+        socket.emit('seedling finished inits');
         callback(obj);
     });
 }
