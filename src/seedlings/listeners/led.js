@@ -6,6 +6,7 @@ function emptyCallback(){};
 function listeners(socket, obj, soundObj) {
     var led = require("../../jsLibrary/led.js");
     var sounds = require("../../jsLibrary/sounds.js");
+    var Timer = require("../../jsLibrary/timer.js");
     var music = null;
 
     var fadeTime = 3; // default fade time
@@ -13,8 +14,18 @@ function listeners(socket, obj, soundObj) {
     var trailTime = 1.5; // default light trail revolution time
     var trailRevs = 5; // default light trail revolution numbers
     var lightTimer = null; // global light timer for lights
+    var timerLastUpdate = null; // var to hold time when timer was last updated
 
     var breatheInterval = null;
+
+    function lightsOnCallback(){
+        timerLastUpdate = Date.now();
+        lightTimer = new Timer.Timer(function() { // init timer with 5 seconds
+            console.log('turning lights off now');
+            console.log('duration of timer in sec:', (Date.now - timerLastUpdate) / 1000)
+            timerLastUpdate = null;
+        }, 10000);
+    }
 
     socket.on('buttonPressed', function(seedlingNum, fadeCircleData, lightTrailData){
       console.log("buttonPressed");
@@ -22,16 +33,17 @@ function listeners(socket, obj, soundObj) {
       led.lightOff(1, obj.buttonLight, null);
 
       if(seedlingNum == obj.seedlingNum){
+        led.lightsOn(obj, lightsOnCallback);
         led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
           console.log("in callback for fadeCircle");
-          led.lightOn(1, obj.buttonLight, null, emptyCallback);
+          led.lightOn(1, obj.buttonLight, null);
           sounds.playRandomSound(soundObj, 'ready');
         });
       } // this seedling matches button press seedling
       else{
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
           console.log("in callback for lightTrail");
-          led.lightOn(1, obj.buttonLight, null, emptyCallback);
+          led.lightOn(1, obj.buttonLight, null);
         });
       } // other seedlings animate light trail
     })
@@ -70,7 +82,7 @@ function listeners(socket, obj, soundObj) {
       function activeCallback(){
         led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
           console.log("in callback for fadeCircle");
-          led.lightOn(1, obj.buttonLight, null, emptyCallback);
+          led.lightOn(1, obj.buttonLight, null);
           sounds.playRandomSound(soundObj, 'ready');
         });
       }
@@ -78,7 +90,7 @@ function listeners(socket, obj, soundObj) {
       function inactiveCallback(){
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
           console.log("in callback for lightTrail");
-          led.lightOn(1, obj.buttonLight, null, emptyCallback);
+          led.lightOn(1, obj.buttonLight, null);
         });
       }
 
@@ -93,17 +105,17 @@ function listeners(socket, obj, soundObj) {
       if(active){
         if(seedlingNum == 0){
           var color = led.hexToObj("FFFFFF");
-          led.lightOn(1, obj.urlLight, color, lightOnCallback);
+          led.lightOn(1, obj.urlLight, color);
 
           // maybe turn on hue iconLight?
         }
         else if(seedlingNum == 1){
-          led.lightOn(1, obj.urlLight, null, lightOnCallback);
-          led.lightOn(1, obj.lmLight. null, lightOnCallback);
-          led.lightOn(1, obj.iconLight, null, lightOnCallback);
+          led.lightOn(1, obj.urlLight, null);
+          led.lightOn(1, obj.lmLight. null);
+          led.lightOn(1, obj.iconLight, null);
         }
         else if(seedlingNum == 2){
-          led.lightOn(1, obj.iconLight, null, lightOnCallback);
+          led.lightOn(1, obj.iconLight, null);
         }
 
         led.blinking(blinkColor, 0.3, 0, obj, activeCallback);
@@ -151,7 +163,7 @@ function listeners(socket, obj, soundObj) {
       }
       console.log("hexval: " + data.hexVal);
       //led.nameOn(data.hexVal, data.time, obj.urlLight);
-      lightTimer = led.lightOn(data.time, obj.urlLight, data.hexVal, emptyCallback);
+      led.lightOn(data.time, obj.urlLight, data.hexVal);
     })
 
     socket.on('nameOff', function(data){
@@ -162,21 +174,21 @@ function listeners(socket, obj, soundObj) {
       if(data == null)
         data = fadeTime;
       //led.nameOff(data, obj.urlLight);
-      lightTimer = led.lightOff(data.time, obj.urlLight, data.hexVal);
+      led.lightOff(data.time, obj.urlLight, data.hexVal);
     })
 
     socket.on('lightsOn', function(data){
       console.log("lights on");
       if(data == null)
         data = fadeTime;
-      lightTimer = led.lightOn(data, obj.iconLight, null, emptyCallback);
+      led.lightOn(data, obj.iconLight, null);
     })
 
     socket.on('lightsOff', function(data){
       console.log("lights off");
       if(data == null)
         data = fadeTime;
-      lightTimer = led.lightOff(data, obj.iconlight, null);
+      led.lightOff(data, obj.iconlight, null);
     })
 
     socket.on('lightTrail', function(data){

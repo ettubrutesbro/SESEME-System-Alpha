@@ -73,7 +73,7 @@ function setup(socket, seedlingNum, callback) {
             pixelNum = 26;
             firstDiode = 4;
             buttonLight = new five.Led(3);
-            iconLight = new five.Led(11);
+            //iconLight = new five.Led(11);
         }
 
         /***       Same for all seedlings      ***/

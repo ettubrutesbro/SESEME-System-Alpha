@@ -72,7 +72,7 @@ for(var i = 0; i < 3; i++){
 // COUNTDOWN 'TIL IDLE STATE
 ////////////////////////////////////////////////
 var seconds = 300; // Global seconds variable
-var lastSeedlingUsed = 0; // Global variable to store the seedling pressed last
+var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
 var idleCountdown;
 function countdown() {
 	if (seconds < 1) {
@@ -82,7 +82,7 @@ function countdown() {
             // Check if the seedlings are connected first to emit to them
             if(seedlings[i].socket) {
                 // For the seedling that was active last, set the interval to 6s
-                if(lastSeedlingUsed === i)  // Set interval for 12s for the others
+                if(lastActiveSeedling === i)  // Set interval for 12s for the others
                     seedlings[i].socket.emit('seedling start breathing', 6, seedlings[i].number);
                 else seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number);
             }
@@ -128,8 +128,8 @@ io.on('connection', function (socket) {
       // Have the frontend acquire the story data
       console.log("===============================================");
       console.log("Frontend requested story, emitting 'ui acquire story' now.")
-      io.sockets.emit('ui acquire story', {story: story[lastSeedlingUsed], part: seedlings[lastSeedlingUsed].currentPart,
-        percentages: heightCalcGeneric(story[lastSeedlingUsed].parts[currentPart]) });
+      io.sockets.emit('ui acquire story', {story: story[lastActiveSeedling], part: seedlings[lastActiveSeedling].currentPart,
+        percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart]) });
   });
 
   socket.on('ping', function() {
@@ -395,15 +395,15 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     countdown();
 
     // Set the variable to keep track of the last seedling that had its button pressed
-    lastSeedlingUsed = seedling.number;
+    lastActiveSeedling = seedling.number;
 
     // Send the new height calculations to the frontend
     var result;
-    if(uiSocket && lastSeedlingUsed === seedling.number) {
+    if(uiSocket && lastActiveSeedling === seedling.number) {
         console.log("Sending the story part " + seedling.currentPart + " to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
         io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
-    } else if(uiSocket && lastSeedlingUsed !== seedling.number) {
+    } else if(uiSocket && lastActiveSeedling !== seedling.number) {
         console.log("Sending a new story to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
         io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
