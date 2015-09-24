@@ -516,7 +516,7 @@ var self = module.exports = {
 
         } // seedling 3 has no lights currently
         callback();
-    } // excluding button light on
+    }, // excluding button light on
 
 
     lightOn: function(time, obj, color){
