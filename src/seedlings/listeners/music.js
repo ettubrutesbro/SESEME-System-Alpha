@@ -32,7 +32,7 @@ function listeners(socket, soundObj) {
         });
     });
 
-    socket.on('seedling start sync-sequence-2', function() {
+    socket.once('seedling start sync-sequence-2', function() {
         console.log("Playing sync-sequence-2");
         var chime = new Sound('../../sounds/chime1.mp3');
         chime.play();
@@ -41,7 +41,7 @@ function listeners(socket, soundObj) {
         });
     });
 
-    socket.on('seedling start sync-sequence-3', function() {
+    socket.once('seedling start sync-sequence-3', function() {
         console.log("Playing sync-sequence-3");
         var chime = new Sound('../../sounds/chime4.mp3');
         chime.play();
