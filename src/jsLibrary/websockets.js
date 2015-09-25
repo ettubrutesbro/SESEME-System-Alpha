@@ -16,9 +16,9 @@ function systemOnline(debug) {
             print.push("Seedling "+(i+1)+": [offline]");
         } else if(!seedlings[i].ready) {
             isOnline = false;
-            print.push("Seedling "+(i+1)+": [board not ready]");
+            print.push("Seedling "+(i+1)+": [online, not ready]");
         } else {
-            print.push("Seedling "+(i+1)+": [online, board ready]");
+            print.push("Seedling "+(i+1)+": [online and ready]");
         }
     }
     if(debug) {
@@ -30,7 +30,7 @@ function systemOnline(debug) {
 }
 
 // Check the system every 5 mins
-setInterval(function() { systemOnline(1); }, 3000);
+setInterval(function() { systemOnline(1); }, 300000);
 
 ////////////////////////////////////////////////
 //
