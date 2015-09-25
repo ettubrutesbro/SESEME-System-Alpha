@@ -164,7 +164,7 @@ io.on('connection', function (socket) {
           console.log("Playing random sound of type " + type);
           console.log("In randomSoundWeight callback");
           sounds.playRandomSound('dumb', randValue);
-      };
+      });
 
       lastSeedlingPlayed = seedlingToPlay;
   } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");

@@ -1,4 +1,5 @@
 var Sound = require('node-mpg123');
+var path = require('path');
 var soundObj = require(path.join(__dirname, 'soundObj.js'));
 
 var self = module.exports = {
