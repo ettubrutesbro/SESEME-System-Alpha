@@ -22,6 +22,9 @@ function systemOnline() {
     return true;
 }
 
+// Check the system every 5 mins
+setInterval(function() { systemOnline(); }, 3000);
+
 ////////////////////////////////////////////////
 //
 //  HUE BULB
@@ -514,7 +517,7 @@ beagleIO.on('connection', function(beagleSocket){
         seedlingIO[0].emit('seedling start sync-sequence-1');
   }
   beagle = beagleSocket;
-  console.log('### BEAGLE CONNECTED')
+  console.log('[BEAGLE: CONNECTED]')
   beagleSocket.on('checkin', function(data){
       console.log('[BEAGLE: CHECKED IN]')
     console.log(data)
