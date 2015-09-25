@@ -2,6 +2,7 @@ var path = require('path');
 var readySeedlings = [];
 
 function systemOnline() {
+    console.log("======================= [SYSTEM CHECK] =======================");
     // Check if the beagle is connected
     if(!beagleOnline) {
         console.log("System offline: Beagle offline")
@@ -141,8 +142,6 @@ io.on('connection', function (socket) {
 
   socket.on('ui request story', function() {
       // Have the frontend acquire the story data
-      console.log("===============================================");
-      console.log("Frontend requested story, emitting 'ui acquire story' now.")
       io.sockets.emit('ui acquire story', {story: story[lastActiveSeedling], part: seedlings[lastActiveSeedling].currentPart,
         percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart]) });
   });
@@ -348,30 +347,29 @@ function fadeCircleObj(targetColor, duration, diodePct){
 
 function seedlingConnected(seedSocket, seedlingNum){
   var seedling = seedlings[seedlingNum];
-  console.log('$$$ SEEDLING ' + (seedlingNum+1) + ' CONNECTED')
+  console.log('[SEEDLING ' + (seedlingNum+1) + ': CONNECTED]')
   seedling.socket = seedSocket;
 
   seedling.socket.on('checkin', function(data){
-    console.log('$$$  SEEDLING ' + (seedlingNum+1) + ' checkin')
+    console.log('[SEEDLING ' + (seedlingNum+1) + ': CHECKED IN]')
     console.log(data)
   });
 
   seedling.socket.on('bigRedButton', function(){
-    console.log('$$$ SEEDLING ' + (seedlingNum+1) + ' Big red button pressed!')
     if(!seedling.buttonPressed){
-      console.log("correct");
+      console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
       bigRedButton(seedling);
     }
     else{
-      console.log("wrong");
+      console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
     } // currently in animation
   });
 
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
     seedling.online = true;
     seedling.currentPart = 0;
-    console.log('seedling', (seedlingNum+1), 'On');
+    console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
   });
 
   seedling.socket.on('seedling finished inits', function(num) {
@@ -382,12 +380,11 @@ function seedlingConnected(seedSocket, seedlingNum){
 
   seedling.socket.on('disconnect', function(){
     seedling.online = false;
-    console.log('seedling', (seedlingNum+1), 'disconnected')
+    console.log('[SEEDLING ' + (seedlingNum+1) + ': DISCONNECTED]')
   })
 }
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
-  console.log("in bigRedButtonHelper Function");
   var trailColor = led.hexToObj("FFFFFF");
   var targetColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
   var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
@@ -420,11 +417,9 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     // Send the new height calculations to the frontend
     var result;
     if(uiSocket && lastActiveSeedling === seedling.number) {
-        console.log("Sending the story part " + seedling.currentPart + " to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
         io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
     } else if(uiSocket && lastActiveSeedling !== seedling.number) {
-        console.log("Sending a new story to the frontend!")
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
         io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
     } else console.log("Connection with server not made...")
@@ -437,7 +432,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
 
     setTimeout(function(){
-      console.log("update seedling attributes");
+      console.log("--> updated seedling attributes");
     //   seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
       seedling.buttonPressed = false;
     }, Math.ceil(duration)*1000); // update seedling attributes after animation done
@@ -521,7 +516,7 @@ beagleIO.on('connection', function(beagleSocket){
   beagle = beagleSocket;
   console.log('### BEAGLE CONNECTED')
   beagleSocket.on('checkin', function(data){
-    console.log('###  Beaglebone checkin')
+      console.log('[BEAGLE: CHECKED IN]')
     console.log(data)
   })
 
@@ -539,12 +534,12 @@ beagleIO.on('connection', function(beagleSocket){
 
   beagleSocket.on('beagle 1 On', function(){
     beagleOnline = true;
-    console.log('beagle Online');
+    console.log('[BEAGLE: ONLINE]')
   });
 
   beagleSocket.on('disconnect', function(){
     beagleOnline = false;
-    console.log('beagle disconnected')
+    console.log('[BEAGLE: DISCONNECTED]')
   })
 
 });
