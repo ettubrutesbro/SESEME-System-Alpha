@@ -595,7 +595,7 @@
 			}
 		}
 		function replaceTitleblock(){
-			var allFaded = new THREE.LoadingManager, ite
+			var allFaded = new THREE.LoadingManager, ite = 0
 			allFaded.onLoad = function(){
 				makeTitleblock()
 				refillMgr.itemEnd('titleblock')
@@ -603,11 +603,12 @@
 			for(var i = 0; i<info.titleblock.children.length; i++){
 				allFaded.itemStart('titleblockItem')
 			}
-			info.titleblock.traverse(function(child)){
-				child.fadeOut((info.titleblock.children-ite)*100)
+			info.titleblock.traverse(function(child){
+				console.log('info.titleblock child#' + ite)
+				if(child.material) anim3d(child, 'opacity', {opacity: 0, delay:(info.titleblock.children.length-ite)*50,
+					cb: function(){ allFaded.itemEnd('titleblockItem')}})
 				ite++
-				allFaded.itemEnd('titleblockItem')
-			}
+			})
 		}
 		function recolor3d(){
 			var rgb = data.color? hexToRgb(data.color): {r:0,g:0,b:0}
