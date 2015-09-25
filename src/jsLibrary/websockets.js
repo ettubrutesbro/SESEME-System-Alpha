@@ -126,7 +126,7 @@ io.on('connection', function (socket) {
   // Check if the seedlings are connected first to emit to them
   if(seedlings[seedlingToPlay].socket) {
       console.log("Playing random sound from seedling "+seedlingToPlay);
-      seedlings[lastSeedlingPlayed].socket.emit('seedling play random-sound', 'dumb', previousSounds);
+      seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
       lastSeedlingPlayed = seedlingToPlay;
   } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
 
