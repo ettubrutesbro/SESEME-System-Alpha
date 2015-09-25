@@ -1,6 +1,7 @@
 // Module to initialize all socket listeners related to to sound and music
 function listeners(socket, soundObj) {
     var Sound = require('node-mpg123');
+    var path = require('path');
     var sounds = require(path.join(__dirname, '..', 'jsLibrary', 'sounds.js'));
     var music = null;
     var soundTypes = ["topical", "dumb", "no", "ready", "celebratory"];
