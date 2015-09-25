@@ -23,17 +23,6 @@ pinData.m3.step = 6
 pinData.m3.enable = 7
 pinData.m3.halSensor = 24
 
-pinData.m1.dir = 8
-pinData.m1.step = 9
-pinData.m1.enable = 10
-pinData.m1.halSensor = 26
-
-pinData.m2.dir = 11
-pinData.m2.step = 12
-pinData.m2.enable = 13
-pinData.m2.halSensor = 28
-
-/*
 pinData.m2.dir = 8
 pinData.m2.step = 9
 pinData.m2.enable = 10
@@ -43,7 +32,6 @@ pinData.m1.dir = 11
 pinData.m1.step = 12
 pinData.m1.enable = 13
 pinData.m1.halSensor = 28
-*/
 
 /*
 // old layout of counterclockwise pillars
