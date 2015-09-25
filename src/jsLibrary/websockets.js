@@ -372,12 +372,12 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.online = true;
     seedling.currentPart = 0;
     console.log('seedling', (seedlingNum+1), 'On');
-    if(systemOnline())
-        seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
   seedling.socket.on('seedling finished inits', function(num) {
       seedlings[num].ready = true;
+      if(systemOnline())
+          seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
   seedling.socket.on('disconnect', function(){
