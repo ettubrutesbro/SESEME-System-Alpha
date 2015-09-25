@@ -509,8 +509,8 @@ var self = module.exports = {
         } // seedling 1
         else if(obj.number === 1){
             this.lightOn(1, obj.iconLight, null);
-            this.lightOn(1, obj.urlLight, null);
-            this.lightOn(1, obj.lmLight, null);
+            //this.lightOn(1, obj.urlLight, null);
+            //this.lightOn(1, obj.lmLight, null);
         } // seedling 2
         else if(obj.number === 2){
 
@@ -521,11 +521,12 @@ var self = module.exports = {
     lightsOff: function(obj){
         if(obj.number === 0){
             hue.turnOff();
+            this.lightOff(1, obj.urlLight, "FFFFFF")
         }
         else if(obj.number === 1){
             this.lightOff(1, obj.iconLight, null);
-            this.lightOff(1, obj.urlLight, null);
-            this.lightOff(1, obj.lmLight, null);
+            //this.lightOff(1, obj.urlLight, null);
+            //this.lightOff(1, obj.lmLight, null);
         }
         else if(obj.number === 2){
 

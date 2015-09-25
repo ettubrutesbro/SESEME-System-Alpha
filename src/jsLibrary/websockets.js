@@ -244,7 +244,8 @@ function seedlingConnected(seedSocket, seedlingNum){
     if(!seedling.buttonPressed){
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
-      bigRedButton(seedling);
+      seedling.socket.emit('seedling play sound', seedling.story.sound);
+      //bigRedButton(seedling);
     }
     else{
       console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
