@@ -71,8 +71,9 @@ var currentPart = 0; // set story Part currently on
 var seedlingOnline = false;
 var seedlingSocket = null;
 var buttonPressed = false;
+var readyState = false;
 for(var i = 0; i < 3; i++){
-  seedlings[i] = new seedlingObj(story[i], currentPart, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, false);
+  seedlings[i] = new seedlingObj(story[i], currentPart, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, readyState);
 }
 
 ////////////////////////////////////////////////
