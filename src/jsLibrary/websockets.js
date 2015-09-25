@@ -159,7 +159,7 @@ io.on('connection', function (socket) {
   if(seedlings[seedlingToPlay].socket) {
       console.log("Playing random sound from seedling "+seedlingToPlay);
       //seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
-      randomSoundWeight('dumb', seedlings[seedlingToPlay].socket;
+      randomSoundWeight('dumb', seedlings[seedlingToPlay].socket);
 
       lastSeedlingPlayed = seedlingToPlay;
   } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
