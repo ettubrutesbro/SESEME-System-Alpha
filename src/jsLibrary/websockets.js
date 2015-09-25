@@ -29,7 +29,7 @@ function systemOnline(debug) {
     var isOnline = true;
         print.push("Beagle status: [offline]");
         isOnline = false;
-    } else print.push("Beagle status: [online]");
+    //} else print.push("Beagle status: [online]");
     for(var i = 0; i < 3; i++) {
         // Check if all seedlings are connected
         if(!seedlings[i].online) {
