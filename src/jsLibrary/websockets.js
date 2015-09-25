@@ -22,7 +22,8 @@ function systemOnline() {
             print.push("Seedling "+i+": [online, board ready]");
         }
     }
-    var status = online ? "[SYSTEM ONLINE]" : "[SYSTEM OFFLINE]";
+    var status = online ? "------> [SYSTEM ONLINE] <------"
+        : "------> [SYSTEM OFFLINE] <------";
     for(var logs in print) console.log(print[logs]);
     console.log(status);
     return online;
