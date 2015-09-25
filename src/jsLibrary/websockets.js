@@ -1,6 +1,28 @@
 var path = require('path');
 var readySeedlings = [];
 
+////////////////////////////////////////////////
+//  Create Objects Vars
+////////////////////////////////////////////////
+
+function seedlingObj(story, currentPart, totalStoryParts, seedlingOnline, seedlingSocket, buttonPressed, number, readyState){
+  this.story = story;
+  this.currentPart = currentPart;
+  this.totalStoryParts = totalStoryParts;
+  this.online = seedlingOnline;
+  this.socket = seedlingSocket;
+  this.buttonPressed = buttonPressed;
+  this.number = number;
+  this.ready = readyState;
+}
+
+function lightTrailObj(trailColor, nodes, time, revolutions){
+  this.trailColor = trailColor
+  this.nodes = nodes;
+  this.time = time;
+  this.revolutions = revolutions;
+}
+
 function systemOnline(debug) {
     // Check if the beagle is connected
     var print = [];
@@ -31,33 +53,17 @@ function systemOnline(debug) {
 setInterval(function() { systemOnline(1); }, 300000);
 
 ////////////////////////////////////////////////
-//
-//  HUE BULB
+//  Constants
+////////////////////////////////////////////////
 
 var hue = require(path.join(__dirname, 'hue.js'));
 var stories = require(path.join(__dirname, 'stories.js'));
 var led = require(path.join(__dirname, 'led.js'));
+var soundObj = require(path.join(__dirname, 'soundObj.js'));
+var sounds = require(path.join(__dirname, 'sounds.js'));
 var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
 var socket = require('socket.io');
-
-function seedlingObj(story, currentPart, totalStoryParts, seedlingOnline, seedlingSocket, buttonPressed, number, readyState){
-  this.story = story;
-  this.currentPart = currentPart;
-  this.totalStoryParts = totalStoryParts;
-  this.online = seedlingOnline;
-  this.socket = seedlingSocket;
-  this.buttonPressed = buttonPressed;
-  this.number = number;
-  this.ready = readyState;
-}
-
-function lightTrailObj(trailColor, nodes, time, revolutions){
-  this.trailColor = trailColor
-  this.nodes = nodes;
-  this.time = time;
-  this.revolutions = revolutions;
-}
 
 ////////////////////////////////////////////////
 //  SEEDLING Vars
@@ -122,6 +128,24 @@ var uiSocket = null;
 var lastSeedlingPlayed = 0;
 var previousSounds = [];
 
+function randomSoundWeight(type, callback){
+  var randValue;
+  for(;;) { // Keep replacing the random value until it is a desired value
+    randValue = Math.floor((Math.random() * soundObj[type].length-1) + 1);
+    for(var i = 0; i < previousSounds.length-1; i++)
+      if(randValue === previousSounds[i].index) continue;
+    break;
+  }
+  // ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
+  if(previousSounds.length === 4) previousSounds.shift();
+  previousSounds.push({
+    'soundName':soundName,
+    'index':randValue,
+    'type':type
+  });
+  callback(randValue);
+}
+
 io.on('connection', function (socket) {
   webbyOnline = 1;
   webby = socket;
@@ -135,7 +159,13 @@ io.on('connection', function (socket) {
   // Check if the seedlings are connected first to emit to them
   if(seedlings[seedlingToPlay].socket) {
       console.log("Playing random sound from seedling "+seedlingToPlay);
-      seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
+      //seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
+      randomSoundWeight('dumb', function(randValue){
+          console.log("Playing random sound of type " + type);
+          console.log("In randomSoundWeight callback");
+          sounds.playRandomSound('dumb', randValue);
+      };
+
       lastSeedlingPlayed = seedlingToPlay;
   } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
 
@@ -244,7 +274,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     if(!seedling.buttonPressed){
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
-      seedling.socket.emit('seedling play sound', seedling.story.sound);
+      //seedling.socket.emit('seedling play sound', seedling.story.sound);
       //bigRedButton(seedling);
     }
     else{

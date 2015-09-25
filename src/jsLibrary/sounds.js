@@ -1,7 +1,27 @@
 var Sound = require('node-mpg123');
+var soundObj = require(path.join(__dirname, 'soundObj.js'));
 
 var self = module.exports = {
 
+	playRandomSound: function(type, randValue){
+		// Create the sound file that hasn't been played in a while
+		var soundName = soundObj[type][randValue];
+		var sound = new Sound('../../sounds/' + soundName + '.mp3');
+		sound.play();
+
+		console.log('Playing sound: '+soundName);
+	},
+
+	playRandomType: function(type){
+		// Generate random value here; don't need to update array
+		var randValue = Math.floor(Math.random() * soundObj[type].length);
+		var sound = new Sound('../../sounds/' + soundName + '.mp3');
+	  sound.play()
+
+		console.log('Playing sound: '+soundName);
+	},
+
+	/*
 	playRandomSound: function(soundObj, type, previousSounds){
 		// Determine the sound type and its corresponding sound array and play the sound
 		var randValue;
@@ -26,7 +46,21 @@ var self = module.exports = {
 
 		console.log('Playing sound: '+soundName);
 	}
-/*
+
+	playRandomType: function(type, soundObj){
+		var itr;
+				for(itr = 0; itr < soundTypes.length; itr++){
+					if(soundTypes[itr] == type)
+						break;
+			}
+			if(itr == soundTypes.length){
+					console.log("incorrect type");
+				}
+			else{
+				music = this.playRandom(soundObj[type]); // pass in array of sounds
+			}
+	},
+
 	playRandom: function(array){
 		var num = Math.floor(Math.random() * array.length);
 		var string = "../../sounds/" + array[num];
@@ -37,18 +71,6 @@ var self = module.exports = {
 	    return music;
 	},
 
-	playRandomType: function(type, soundObj){
-		var itr;
-      	for(itr = 0; itr < soundTypes.length; itr++){
-	       	if(soundTypes[itr] == type)
-	       		break;
-	    }
-     	if(itr == soundTypes.length){
-        	console.log("incorrect type");
-      	}
-      	else{
-        	music = this.playRandom(soundObj[type]); // pass in array of sounds
-      	}
-	},
+
 	*/
 }
