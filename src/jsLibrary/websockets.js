@@ -133,7 +133,7 @@ function randomSoundWeight(obj, type, socket){
     console.log("------------------- type: "+type)
     console.log("obj[type]: "+JSON.stringify(obj[type],null,2));
     console.log("obj[type]: "+JSON.stringify(obj,null,2));
-    randValue = Math.floor((Math.random() * obj[type].length-1) + 1);
+    randValue = Math.floor((Math.random() * obj.type.length-1) + 1);
     for(var i = 0; i < previousSounds.length-1; i++)
       if(randValue === previousSounds[i].index) continue;
     break;
@@ -145,7 +145,7 @@ function randomSoundWeight(obj, type, socket){
     'index':randValue,
     'type':type
   });
-  socket.emit('seedling play sound', obj[type][randValue]);
+  socket.emit('seedling play sound', obj.type[randValue]);
 }
 
 io.on('connection', function (socket) {
