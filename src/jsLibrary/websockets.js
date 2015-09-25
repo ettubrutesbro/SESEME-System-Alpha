@@ -5,28 +5,28 @@ function systemOnline() {
     console.log("======================= [SYSTEM CHECK] =======================");
     // Check if the beagle is connected
     var print = [];
-    var online = true;
+    var isOnline = true;
     if(!beagleOnline) {
         print.push("Beagle status: [offline]");
-        online = false;
+        isOnline = false;
     } else print.push("Beagle status: [online]");
     for(var i = 0; i < 3; i++) {
         // Check if all seedlings are connected
         if(!seedlings[i].online) {
-            online = false;
+            isOnline = false;
             print.push("Seedling "+i+": [offline]");
         } else if(!seedlings[i].ready) {
-            online = false;
+            isOnline = false;
             print.push("Seedling "+i+": [board not ready]");
         } else {
             print.push("Seedling "+i+": [online, board ready]");
         }
     }
-    var status = online ? "------> [SYSTEM ONLINE] <------"
+    var status = isOnline ? "------> [SYSTEM ONLINE] <------"
         : "------> [SYSTEM OFFLINE] <------";
     for(var logs in print) console.log(print[logs]);
     console.log(status);
-    return online;
+    return isOnline;
 }
 
 // Check the system every 5 mins
