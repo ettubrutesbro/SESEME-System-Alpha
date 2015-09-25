@@ -376,6 +376,7 @@ function seedlingConnected(seedSocket, seedlingNum){
   });
 
   seedling.socket.on('seedling finished inits', function(num) {
+      console.log('num: '+ num);
       seedlings[i].ready = true;
   });
 
