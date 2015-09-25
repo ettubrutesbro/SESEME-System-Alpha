@@ -1,4 +1,5 @@
 var path = require('path');
+var readySeedlings = [];
 
 function systemOnline() {
     // Check if the beagle is connected
@@ -10,6 +11,9 @@ function systemOnline() {
         // Check if all seedlings are connected
         if(!seedlings[i].online) {
             console.log("System offline: Seedling["+i+"] offline")
+            return false;
+        } else if(!seedlings[i].ready) {
+            console.log("System offline: Seedling["+i+"] not ready")
             return false;
         }
     }
@@ -28,7 +32,7 @@ var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
 var socket = require('socket.io');
 
-function seedlingObj(story, currentPart, totalStoryParts, seedlingOnline, seedlingSocket, buttonPressed, number){
+function seedlingObj(story, currentPart, totalStoryParts, seedlingOnline, seedlingSocket, buttonPressed, number, readyState){
   this.story = story;
   this.currentPart = currentPart;
   this.totalStoryParts = totalStoryParts;
@@ -36,6 +40,7 @@ function seedlingObj(story, currentPart, totalStoryParts, seedlingOnline, seedli
   this.socket = seedlingSocket;
   this.buttonPressed = buttonPressed;
   this.number = number;
+  this.ready = readyState;
 }
 
 function lightTrailObj(trailColor, nodes, time, revolutions){
@@ -67,7 +72,7 @@ var seedlingOnline = false;
 var seedlingSocket = null;
 var buttonPressed = false;
 for(var i = 0; i < 3; i++){
-  seedlings[i] = new seedlingObj(story[i], currentPart, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i);
+  seedlings[i] = new seedlingObj(story[i], currentPart, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, false);
 }
 
 ////////////////////////////////////////////////
@@ -366,21 +371,12 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.online = true;
     seedling.currentPart = 0;
     console.log('seedling', (seedlingNum+1), 'On');
+    if(systemOnline())
+        seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
-  seedling.socket.on('seedling finished inits', function() {
-      if(systemOnline()) {
-          seedlings[0].socket.emit('seedling start sync-sequence-1');
-
-          // Listen for when to pass the next sync sequence to the next seedling
-          seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
-              console.log("Finished sync-sequence-1")
-              seedlings[1].socket.emit('seedling start sync-sequence-2');
-          });
-          seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
-              seedlings[2].socket.emit('seedling start sync-sequence-3');
-          });
-      }
+  seedling.socket.on('seedling finished inits', function(num) {
+      seedlings[i].ready = true;
   });
 
   seedling.socket.on('disconnect', function(){
@@ -503,6 +499,17 @@ seedlingIO[1].on('connection', function(seedSocket){
 seedlingIO[2].on('connection', function(seedSocket){
   seedlingConnected(seedSocket, 2);
 });
+
+// Listen for when to pass the next sync sequence to the next seedling
+seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
+    console.log("Finished sync-sequence-1")
+    seedlings[1].socket.emit('seedling start sync-sequence-2');
+});
+seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
+    console.log("Finished sync-sequence-2")
+    seedlings[2].socket.emit('seedling start sync-sequence-3');
+});
+
 
 ////////////////////////////////////////////////
 //  BEAGLE - Seseme Monument
