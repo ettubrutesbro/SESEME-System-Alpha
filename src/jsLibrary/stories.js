@@ -4,6 +4,7 @@ module.exports = {
     description: 'The stories in this series all deal with environmental issues - from the vain ones (our sustainability rank, as determined by the Sierra Club) to the transformative and immediate (the CA drought). Find the pedestal with the leaf on it and press its button to see more stories about this topic.',
     parts: [
       {
+        sound: ['cheer1','cheer2'],
         values: [1,3,9,20], valueType: 'lessIsTall', customLo: 24,
         title: {
           pre: {c: 'SUSTAINABILITY', size: 18},
@@ -21,6 +22,7 @@ module.exports = {
       },
 
       {
+        sound: ['boo','toilet'],
         values: [10,13,19,5], valueType: 'lessIsTall', customLo: 24,
         title: {
           pre: {c: 'WTF WE SUCK???', size: 18},
@@ -38,11 +40,12 @@ module.exports = {
       },
 
       {
+        sound: ['water1','toilet'],
         values: [80,29,40,15], customLo: 0,
         title: {
           pre: {c: 'DROUGHT VS. FOOD', size: 16, align: 'start'},
-          main: {c: ['Water Intensity','by Food Product'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'},
-          post: {c: '(protip: don\'t eat meat)', size: 16, align: 'start'}
+          main: {c: ['Water Wasteful','Foods, Ranked.'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'},
+          post: {c: '(protip: don\'t eat meat)', size: 16, align: 'start', margin: -.5}
         },
         text: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
         color: '#00ff00',
