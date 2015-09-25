@@ -153,23 +153,23 @@ io.on('connection', function (socket) {
   webby = socket;
   console.log(socket.request.connection.remoteAddress + ' connected to web socket.io');
 
-  // ===========================================================================================
-  // Seedling communication related to sounds
-  var seedlingToPlay = Math.floor(Math.random() * 3);
-  if(seedlingToPlay === lastSeedlingPlayed)
-      seedlingToPlay = (seedlingToPlay + 1) % 3;
-  // Check if the seedlings are connected first to emit to them
-  if(seedlings[seedlingToPlay].socket) {
-      console.log("Playing random sound from seedling "+seedlingToPlay);
-      //seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
-      randomSoundWeight(soundObj, 'dumb', seedlings[seedlingToPlay].socket);
-
-      lastSeedlingPlayed = seedlingToPlay;
-  } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
-
-  socket.on('xps update previous-sounds', function(updatedSounds) {
-    previousSounds = updatedSounds;
-  });
+//  // ===========================================================================================
+//  // Seedling communication related to sounds
+//  var seedlingToPlay = Math.floor(Math.random() * 3);
+//  if(seedlingToPlay === lastSeedlingPlayed)
+//      seedlingToPlay = (seedlingToPlay + 1) % 3;
+//  // Check if the seedlings are connected first to emit to them
+//  if(seedlings[seedlingToPlay].socket) {
+//      console.log("Playing random sound from seedling "+seedlingToPlay);
+//      //seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
+//      randomSoundWeight(soundObj, 'dumb', seedlings[seedlingToPlay].socket);
+//
+//      lastSeedlingPlayed = seedlingToPlay;
+//  } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
+//
+//  socket.on('xps update previous-sounds', function(updatedSounds) {
+//    previousSounds = updatedSounds;
+//  });
 
   // ===========================================================================================
   // Front-end communication
