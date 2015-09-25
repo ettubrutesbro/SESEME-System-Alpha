@@ -15,4 +15,10 @@ var celebratory = ['sad','roar'];
 
 //var soundObj = new SoundsObj(topical, dumb, no, ready, celebratory); // create soundObj full of all arrays
 
-exports.soundObj = new SoundsObj(topical, dumb, no, ready, celebratory);
+exports.soundObj = {
+    'topical' : topical,
+    'dumb' : dumb,
+    'no' : no,
+    'ready' : ready,
+    'celebratory' : celebratory
+};
