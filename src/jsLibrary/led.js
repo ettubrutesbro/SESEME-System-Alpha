@@ -520,6 +520,14 @@ var self = module.exports = {
 
     lightsOff: function(obj){
         if(obj.number === 0){
+            hue.turnOff();
+        }
+        else if(obj.number === 1){
+            this.lightOff(1, obj.iconLight, null);
+            this.lightOff(1, obj.urlLight, null);
+            this.lightOff(1, obj.lmLight, null);
+        }
+        else if(obj.number === 2){
 
         }
 
