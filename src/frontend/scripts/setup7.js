@@ -411,6 +411,7 @@ function setup(){
 			dom.bottom.style.backgroundColor = data.color
 			dom.maintext.textContent = data.text
 			dom.overtext.textContent = story.description
+			Velocity(dom.closebutton, {translateX: '0%'})
 
 			//details fills
 			if(data.details){
@@ -431,13 +432,6 @@ function setup(){
 			dom.closebutton.hide = function(){
 				Velocity(this, {translateX:'100%'}, {duration:250,visibility:'hidden'})
 			}
-			dom.bottom.refill = function(){
-				//only run after contents have refilled textcontent
-				if(!view.text) return
-				var targetht = dom[view.content].offsetHeight
-				Velocity(this, {backgroundColor: data.color, backgroundColorAlpha: .91,
-					translateY: -targetht})
-			}
 			//content changers
 			dom.maintext.refill = function(){ this.textContent = data.text}
 			dom.overtext.refill = function(){ this.textContent = story.description}
@@ -449,11 +443,9 @@ function setup(){
 			var hyphensettings = { onhyphenationdonecallback: function(){
 				console.log('hyphenation complete')
 				if(init) {allMgr.itemEnd('hyphenation'); return }
-				// if(view.text) dom.bottom.refill()
 			} }
 			Hyphenator.config(hyphensettings)
 			Hyphenator.run()
-
 		}
 		function makeSymbols(){
 			// if(!story.parts[part].details) return

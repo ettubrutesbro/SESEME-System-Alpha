@@ -73,7 +73,7 @@
 			if((zoom==='close') || (zoom==='normal' && view.zoom==='far')) view.zoomDirection = true
 			else if((zoom === 'far') || (zoom === 'normal' && view.zoom === 'close')) view.zoomDirection = false
 			view.zoom = zoom
-			setView()
+			setView(false,false,true)
 			return
 		}
 		// height change
@@ -89,7 +89,7 @@
 		if(init) init = false
 	}//end 'check'
 	//package function uses states to set displayed objects
-	function setView(button,height){
+	function setView(button,height,zoom){
 		console.log('set view')
 		viewTitleblock()
 		viewMainButton()
@@ -100,7 +100,7 @@
 		camHeight()
 		viewColors()
 		if(view.height==='plan') viewHelp()
-		if(!button && !height) shiftNavBars()
+		if(!button && !height && !zoom) shiftNavBars()
 		else if(height && view.height!=='plan') {viewHelp(); return}
 		viewInfoText()
 	}
@@ -568,7 +568,7 @@
 		refillMgr.itemStart('sceneHt')
 		refillMgr.onLoad = function(){
 			console.log('done replacing, reenabling controls')
-			setView()
+			setView(true)
 			controls.enabled = true; view.filling = false
 		}
 		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
@@ -577,8 +577,8 @@
 		movePillars()
 		makeNames()
 		refillMgr.itemEnd('names')
-		makeTitleblock()
-		refillMgr.itemEnd('titleblock')
+		replaceTitleblock()
+		// refillMgr.itemEnd('titleblock')
 		recolor3d()
 		sceneHeightTransition()
 		//DOM shit
@@ -594,6 +594,22 @@
 				anim3d(seseme['plr'+i], 'position', {y: seseme['plr'+i].targetY, spd: plrspd})
 			}
 		}
+		function replaceTitleblock(){
+			var allFaded = new THREE.LoadingManager, ite = 0
+			allFaded.onLoad = function(){
+				makeTitleblock()
+				refillMgr.itemEnd('titleblock')
+			}
+			for(var i = 0; i<info.titleblock.children.length; i++){
+				allFaded.itemStart('titleblockItem')
+			}
+			info.titleblock.traverse(function(child){
+				console.log('info.titleblock child#' + ite)
+				if(child.material) anim3d(child, 'opacity', {opacity: 0, delay:(info.titleblock.children.length-ite)*50,
+					cb: function(){ allFaded.itemEnd('titleblockItem')}})
+				ite++
+			})
+		}
 		function recolor3d(){
 			var rgb = data.color? hexToRgb(data.color): {r:0,g:0,b:0}
 			for(var i = 0; i<4; i++){
@@ -606,7 +622,6 @@
 			if(camera.zoom > 1){
 				var addzoom = Math.abs(1-camera.zoom)
 				var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+facing].position.y) * 100
-				console.log(addzoom, switchdist)
 				anim3d(scene, 'position', {y: -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3),
 				spd: 200+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ refillMgr.itemEnd('sceneHt') }})
 			}
@@ -614,13 +629,14 @@
 		}
 		function refillDOM(){
 			console.log('running refillDOM')
+			//STORY CHANGES?
 			//won't actually change if story didn't change...
 			dom.navspans[1].textContent = story.seedling
 			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
 			dom.overtext.textContent = story.description
+			//MAJOR CONTENT CHANGES / FADE
 			//just hide what's being viewed, cb changes content and animates bottom
 			var allContent = ['maintext', 'overtext', 'detail0', 'detail1', 'detail2', 'detail3']
-
 			if(view.content){
 				Velocity(dom[view.content],'finish')
 				Velocity(dom[view.content], {opacity:0}, {visibility:'hidden', complete: function(){
@@ -633,29 +649,22 @@
 			}
 			for(var i = 0; i<allContent.length; i++){ dom[allContent[i]].refill()}
 			if(!view.content){ Hyphenator.run(); refillMgr.itemEnd('DOM') }
+			//NAV AND ACCESSORIES
 
-			//at the same(ish) time, all non-viewed text fields are instantly changed
-
-			// Velocity($$('hyphenate'), 'stop')
-			// Velocity($$('hyphenate'), {opacity: 0}, {display: 'none', queue: false, complete: function(){
-			// 	dom.maintext.textContent = data.text
-			// 	for(var i = 0; i<4; i++){
-			// 		detailtext = data.details? data.details[i].text : ''
-			// 		dom['detail'+i].textContent = detailtext
-			// 	}
-			// 	Hyphenator.run()
-			// }})
-
-
-
-			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
-			dom.bottom.style.backgroundColor = data.color
+			var plrOrder = data.values.concat().sort(function(a,b){return a-b})
+			if(data.valueType === 'lessIsTall'){plrOrder.reverse()}
 			for(var i = 0; i<4; i++){
 				var navname = data.details? data.details[i].name : ''
 				dom.navnames[i].textContent = navname
+				Velocity(dom.databars[i], {height: (plrOrder.indexOf(data.values[i])+1)*25+'%' })
 			}
-		}
+			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
+			// dom.bottom.style.backgroundColor = data.color
+			Velocity(dom.bottom, {backgroundColor: data.color})
+
+		}//end refillDOM
 	} //END REFILL
+	//
 	function pctsToHeights(){
 		for(var i=0; i<4; i++){
 			seseme['plr'+i].targetY = percentages[i]*plrmax
