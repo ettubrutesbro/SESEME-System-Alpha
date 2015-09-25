@@ -11,7 +11,30 @@ pinData ={
   m4: {},
 }
 
-// Lays out all the pin numbers
+// Lays out all the pin numbers (clockwise)
+
+pinData.m4.dir = 2
+pinData.m4.step = 3
+pinData.m4.enable = 4
+pinData.m4.halSensor = 22
+
+pinData.m3.dir = 5
+pinData.m3.step = 6
+pinData.m3.enable = 7
+pinData.m3.halSensor = 24
+
+pinData.m2.dir = 8
+pinData.m2.step = 9
+pinData.m2.enable = 10
+pinData.m2.halSensor = 26
+
+pinData.m1.dir = 11
+pinData.m1.step = 12
+pinData.m1.enable = 13
+pinData.m1.halSensor = 28
+
+/*
+// old layout of counterclockwise pillars
 pinData.m1.dir = 2
 pinData.m1.step = 3
 pinData.m1.enable = 4
@@ -31,7 +54,7 @@ pinData.m4.dir = 11
 pinData.m4.step = 12
 pinData.m4.enable = 13
 pinData.m4.halSensor = 28
-
+*/
 
 board.on("ready", function() {
 
