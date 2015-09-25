@@ -59,7 +59,6 @@ var hue = require(path.join(__dirname, 'hue.js'));
 var stories = require(path.join(__dirname, 'stories.js'));
 var led = require(path.join(__dirname, 'led.js'));
 var soundObj = require(path.join(__dirname, 'soundObj.js'));
-console.log("SOUDNF;ASD : "+JSON.stringify(soundObj, null, 2));
 var sounds = require(path.join(__dirname, 'sounds.js'));
 var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
@@ -128,10 +127,10 @@ var uiSocket = null;
 var lastSeedlingPlayed = 0;
 var previousSounds = [];
 
-function randomSoundWeight(type, socket){
+function randomSoundWeight(obj, type, socket){
   var randValue;
   for(;;) { // Keep replacing the random value until it is a desired value
-    randValue = Math.floor((Math.random() * soundObj[type].length-1) + 1);
+    randValue = Math.floor((Math.random() * obj[type].length-1) + 1);
     for(var i = 0; i < previousSounds.length-1; i++)
       if(randValue === previousSounds[i].index) continue;
     break;
@@ -139,11 +138,11 @@ function randomSoundWeight(type, socket){
   // ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
   if(previousSounds.length === 4) previousSounds.shift();
   previousSounds.push({
-    'soundName':soundObj[type][randValue],
+    'soundName':obj[type][randValue],
     'index':randValue,
     'type':type
   });
-  socket.emit('seedling play sound', soundObj[type][randValue]);
+  socket.emit('seedling play sound', obj[type][randValue]);
 }
 
 io.on('connection', function (socket) {
@@ -160,7 +159,7 @@ io.on('connection', function (socket) {
   if(seedlings[seedlingToPlay].socket) {
       console.log("Playing random sound from seedling "+seedlingToPlay);
       //seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
-      randomSoundWeight('dumb', seedlings[seedlingToPlay].socket);
+      randomSoundWeight(soundObj, 'dumb', seedlings[seedlingToPlay].socket);
 
       lastSeedlingPlayed = seedlingToPlay;
   } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
