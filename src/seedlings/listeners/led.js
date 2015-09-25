@@ -5,9 +5,9 @@ function emptyCallback(){};
 
 function listeners(socket, obj, soundObj) {
     var path = require('path');
-    var led = require(path.join(__dirname, '..', 'jsLibrary', 'led.js'));
-    var sounds = require(path.join(__dirname, '..', 'jsLibrary', 'sounds.js'));
-    var Timer = require(path.join(__dirname, '..', 'jsLibrary', 'timer.js'));
+    var led = require(path.join(__dirname, '..', '..', 'jsLibrary', 'led.js'));
+    var sounds = require(path.join(__dirname, '..', '..', 'jsLibrary', 'sounds.js'));
+    var Timer = require(path.join(__dirname, '..', '..', 'jsLibrary', 'timer.js'));
     var music = null;
 
     var lightOnDuration = 10000;
