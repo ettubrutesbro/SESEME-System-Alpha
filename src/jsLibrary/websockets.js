@@ -1,7 +1,7 @@
 var path = require('path');
 var readySeedlings = [];
 
-function systemOnline(seedlings) {
+function systemOnline() {
     // Check if the beagle is connected
     if(!beagleOnline) {
         console.log("System offline: Beagle offline")
