@@ -127,7 +127,7 @@ var uiSocket = null;
 var lastSeedlingPlayed = 0;
 var previousSounds = [];
 
-function randomSoundWeight(type, callback){
+function randomSoundWeight(type, socket){
   var randValue;
   for(;;) { // Keep replacing the random value until it is a desired value
     randValue = Math.floor((Math.random() * soundObj[type].length-1) + 1);
@@ -138,11 +138,11 @@ function randomSoundWeight(type, callback){
   // ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
   if(previousSounds.length === 4) previousSounds.shift();
   previousSounds.push({
-    'soundName':soundName,
+    'soundName':soundObj[type][randValue],
     'index':randValue,
     'type':type
   });
-  callback(randValue);
+  socket.emit('seedling play sound', soundObj[type][randValue]);
 }
 
 io.on('connection', function (socket) {
@@ -159,11 +159,7 @@ io.on('connection', function (socket) {
   if(seedlings[seedlingToPlay].socket) {
       console.log("Playing random sound from seedling "+seedlingToPlay);
       //seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
-      randomSoundWeight('dumb', function(randValue){
-          console.log("Playing random sound of type " + type);
-          console.log("In randomSoundWeight callback");
-          sounds.playRandomSound('dumb', randValue);
-      });
+      randomSoundWeight('dumb', seedlings[seedlingToPlay].socket;
 
       lastSeedlingPlayed = seedlingToPlay;
   } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
