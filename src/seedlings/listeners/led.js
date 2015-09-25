@@ -112,7 +112,7 @@ function listeners(socket, obj, soundObj) {
       }
 
       var blinkColor = led.hexToObj("FFFFFF");
-
+      /*
       if(active){
         if(seedlingNum == 0){
           var color = led.hexToObj("FFFFFF");
@@ -136,7 +136,7 @@ function listeners(socket, obj, soundObj) {
 
       sounds.playRandomSound(soundObj, 'no');
       // ring blinks, play sound "no"
-
+      */
 
     })
 
