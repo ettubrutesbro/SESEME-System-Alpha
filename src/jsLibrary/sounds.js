@@ -11,13 +11,6 @@ var self = module.exports = {
 				if(randValue === previousSounds[i].index) continue;
 			break;
 		}
-		// Create the sound file that hasn't been played in a while
-		var soundName = soundObj[type][randValue];
-		var sound = new Sound('../../sounds/' + soundName + '.mp3');
-		sound.play();
-
-		console.log('Playing sound: '+soundName);
-
 		// ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
 		if(previousSounds.length === 4) previousSounds.shift();
 		previousSounds.push({
@@ -25,6 +18,13 @@ var self = module.exports = {
 			'index':randValue,
 			'type':type
 		});
+
+		// Create the sound file that hasn't been played in a while
+		var soundName = soundObj[type][randValue];
+		var sound = new Sound('../../sounds/' + soundName + '.mp3');
+		sound.play();
+
+		console.log('Playing sound: '+soundName);
 	}
 /*
 	playRandom: function(array){

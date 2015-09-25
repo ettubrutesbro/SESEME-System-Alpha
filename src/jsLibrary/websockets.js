@@ -260,7 +260,8 @@ function seedlingConnected(seedSocket, seedlingNum){
   seedling.socket.on('seedling finished inits', function(num) {
       seedlings[num].ready = true;
       if(systemOnline())
-          seedlings[0].socket.emit('seedling start sync-sequence-1');
+        seedlingIO[0].emit('seedling start sync-sequence-1');
+        //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
   seedling.socket.on('disconnect', function(){

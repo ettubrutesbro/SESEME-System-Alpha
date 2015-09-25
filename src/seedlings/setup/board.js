@@ -88,7 +88,6 @@ function setup(socket, seedlingNum, callback) {
             //obj = new Board(board, strip, pixelNum, name, light, button);
         });
 
-
         obj = new Board(seedlingNum, strip, pixelNum, firstDiode, buttonLight, urlLight, iconLight, lmLight);
 
         fs.readdir(path.join(__dirname, '..', '..', '..', 'sounds'), function(err, files){
