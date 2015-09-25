@@ -21,11 +21,9 @@ function systemOnline(debug) {
             print.push("Seedling "+(i+1)+": [online and ready]");
         }
     }
-    if(debug) {
-        var status = isOnline ? "ONLINE" : "OFFLINE";
-        console.log("======================= [SYSTEM "+status+"] =======================");
-        for(var logs in print) console.log(print[logs]);
-    }
+    var status = isOnline ? "ONLINE" : "OFFLINE";
+    console.log("======================= [SYSTEM "+status+"] =======================");
+    if(debug) for(var logs in print) console.log(print[logs]);
     return isOnline;
 }
 
