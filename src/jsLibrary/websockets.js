@@ -130,7 +130,9 @@ var previousSounds = [];
 function randomSoundWeight(obj, type, socket){
   var randValue;
   for(;;) { // Keep replacing the random value until it is a desired value
-      console.log("------------------- type: "+type)
+    console.log("------------------- type: "+type)
+    console.log("obj[type]: "+JSON.stringify(obj[type],null,2));
+    console.log("obj[type]: "+JSON.stringify(obj,null,2));
     randValue = Math.floor((Math.random() * obj[type].length-1) + 1);
     for(var i = 0; i < previousSounds.length-1; i++)
       if(randValue === previousSounds[i].index) continue;
