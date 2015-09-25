@@ -13,6 +13,13 @@ var no = ['error1','error2','error3','no1','no2','no3','no4'];
 var ready = ['chime1','chime2','chime3','chime4','chime5','ready1','ready2','ready3','ready4'];
 var celebratory = ['sad','roar'];
 
-var soundObj = new SoundsObj(topical, dumb, no, ready, celebratory); // create soundObj full of all arrays
+//var soundObj = new SoundsObj(topical, dumb, no, ready, celebratory); // create soundObj full of all arrays
 
-exports.soundObj = soundObj;
+exports.soundObj = {
+  'topical' : topical,
+  'dumb' : dumb,
+  'no' : no,
+  'ready' : ready,
+  'celebratory' : celebratory,
+
+};

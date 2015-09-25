@@ -27,7 +27,6 @@ function systemOnline(debug) {
     // Check if the beagle is connected
     var print = [];
     var isOnline = true;
-    if(!beagleOnline) {
         print.push("Beagle status: [offline]");
         isOnline = false;
     } else print.push("Beagle status: [online]");
@@ -195,6 +194,15 @@ io.on('connection', function (socket) {
   setInterval(function(){
     socket.emit('updateTime', seconds);
   }, 1000);
+
+  socket.on('webMoveMotor', function(data){
+    console.log('motor:' + data.motor + '  steps:' + data.steps + '  direction:' + data.dir)
+    if(beagleOnline){
+      console.log('beagle ONLINE')
+      beagle.emit('webMoveMotor', data);
+    }
+  })
+
 
 });
 
