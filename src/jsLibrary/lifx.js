@@ -98,7 +98,7 @@ function tier1() {
 		
 	// Main breathe logic using a recursive promise chain with a timeout of 6s
 	var breathe = function() {
-		fadeOn(2)
+		fadeOn(1)
 			.then( function() { return fadeOff(2); })
 			.then( function() { 
 				inhale = setTimeout(breathe, 6000);
