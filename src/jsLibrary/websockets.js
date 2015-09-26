@@ -338,12 +338,11 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
     // Set the variable to keep track of the last seedling that had its button pressed
     lastActiveSeedling = seedling.number;
-
-	console.log("STORY: "+JSON.stringify(story,null,2));
 	
 	// Begin lifx valid button press behavior
 	if(story[lastActiveSeedling].parts[currentPart].monumentColor) {
 		console.log("Case 1");
+		console.log("MONUMENT COLOR: "+JSON.stringify(story[lastActiveSeedling].parts[currentPart].monumentColor,null,2));
 		var lifxHex = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.hex;
 		var lifxBri = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.bri;
 		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
