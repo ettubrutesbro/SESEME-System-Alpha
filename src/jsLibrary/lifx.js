@@ -91,17 +91,17 @@ function rampDown(factor, duration) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Idle Tier 1 Breathe Function
-function breatheTier1() {
+function tier1() {
 	// 2 seconds to fade on and off
 	// 6 seconds to 'neglect'
-	var neglect;
+	var inhale;
 		
 	// Main breathe logic using a recursive promise chain with a timeout of 6s
 	var breathe = function() {
 		fadeOn(1)
 			.then( function() { return fadeOff(1); })
 			.then( function() { 
-				neglect = setTimeout(breathe, 6000);
+				inhale = setTimeout(breathe, 6000);
 			});
 	};
 
@@ -150,5 +150,5 @@ function breatheTier2() {
 
 }
 
-
+exports.tier1 = tier1;
 exports.validButtonPress = validButtonPress;
