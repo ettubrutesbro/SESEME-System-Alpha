@@ -330,17 +330,6 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
   else{
     // ===============================================================================
-	// First begin lifx valid button press behavior
-	if(stories[lastActiveSeedling].parts[part].monumentColor) {
-		var lifxHex = stories[lastActiveSeedling].parts[part].monumentColor.hex;
-		var lifxBri = stories[lastActiveSeedling].parts[part].monumentColor.bri;
-		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
-	} else if(stories[lastActiveSeedling].parts[part].color) {
-		lifx.validButtonPress(stories[lastActiveSeedling].parts[part].color, 0.5);
-	} else {
-		lifx.validButtonPress('red', 0);
-	}
-
     // Increment current part of the story and reset the idle countdown
     seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
     if(idleCountdown) clearTimeout(idleCountdown);
@@ -349,6 +338,20 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
     // Set the variable to keep track of the last seedling that had its button pressed
     lastActiveSeedling = seedling.number;
+	
+	// Begin lifx valid button press behavior
+	if(stories[lastActiveSeedling].parts[part].monumentColor) {
+		console.log("Case 1");
+		var lifxHex = stories[lastActiveSeedling].parts[seedling.currentPart].monumentColor.hex;
+		var lifxBri = stories[lastActiveSeedling].parts[seedling.currentPart].monumentColor.bri;
+		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
+	} else if(stories[lastActiveSeedling].parts[seedling.currentPart].color) {
+		console.log("Case 2");
+		lifx.validButtonPress(stories[lastActiveSeedling].parts[seedling.currentPart].color, 0.5);
+	} else {
+		console.log("Case 3");
+		lifx.validButtonPress('red', 0);
+	}
 
     // Send the new height calculations to the frontend
     var result;
