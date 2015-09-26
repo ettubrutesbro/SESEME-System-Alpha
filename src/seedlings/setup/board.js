@@ -48,7 +48,7 @@ function setup(socket, seedlingNum, callback) {
             pixelNum = 29;
             firstDiode = 2;
 
-            buttonLight = new five.Led(11);
+            buttonLight = new five.Led(10);
             urlLight = new five.Led.RGB({
               pins: {
                 red: 3,
