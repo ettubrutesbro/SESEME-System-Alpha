@@ -178,14 +178,21 @@ io.on('connection', function (socket) {
   uiSocket = socket;
 
   socket.on('ui request story', function() {
-      // Have the frontend acquire the story data
-      io.sockets.emit('ui acquire story', {story: story[lastActiveSeedling], part: seedlings[lastActiveSeedling].currentPart,
-        percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart]) });
+		// Have the frontend acquire the story data
+		io.sockets.emit('ui acquire story', {
+			story: story[lastActiveSeedling], 
+			part: seedlings[lastActiveSeedling].currentPart,
+			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart]) 
+		});
   });
 
   socket.on('sim lifx', function(data) {
 		lifx.validButtonPress(data.hex, data.bri);
 		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;
+  });
+
+  socket.on('sim tier1', function(data) {
+		lifx.breatheTier1();
   });
 
   // Front-end simulation of a button press
