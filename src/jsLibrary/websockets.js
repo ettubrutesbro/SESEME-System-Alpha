@@ -192,7 +192,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('sim tier1', function(data) {
-		lifx.breatheTier1();
+		lifx.tier1();
   });
 
   // Front-end simulation of a button press
