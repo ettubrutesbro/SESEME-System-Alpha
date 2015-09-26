@@ -558,12 +558,29 @@
 //4. REFILLING AND GLOBAL CONTENT POPULATION (shared b/w setup and refill)
 {
 	function refill(){
-		//TODO: keep track of old information (delegate data assigmnent here?)
-		//but for now, it functionally works, just removes and re-adds the same content (clumsy, UXwise)
-		// var reopen // store content to recall when refill has completed?
-		controls.enabled = false; view.filling = true
+		//CHECKING FOR RETENTION
+		{
+			var retainMainText = false, retainDetailText = [false,false,false,false],
+			retainName = [false,false,false,false]
+			// var retain = {maintext:false, detail0:false,detail1:false,detail2:false,detail3:false,
+			// name0:false,name1:false,name2:false,name3:false,titleblock:false}
+			if(data.text === story.parts[part].text) retainMainText = true
+			for(var i = 0; i<4; i++){
+				if(data.details[i].text === story.parts[part].details[i].text) retainDetailText[i] = true
+				if(typeof data.details[i].name !== typeof story.parts[part].details[i].name) return
+				if(typeof data.details[i].name === 'string') {
+					if(data.details[i].name === story.parts[part].details[i].name) retainName[i] = true
+				}
+				else if(data.details[i].name instanceof Array){
+					if(data.details[i].name.equals(story.parts[part].details[i].name)) retainName[i] = true
+				}
+			}
+		}
+		//ESTABLISHING DATA, DISABLING CONTROLS, AND 'WAITING' FOR CONTENT FILLING
 		data = story.parts[part]
 		var refillMgr = new THREE.LoadingManager()
+		controls.enabled = false; view.filling = true
+
 		refillMgr.itemStart('DOM'); refillMgr.itemStart('names'); refillMgr.itemStart('titleblock')
 		refillMgr.itemStart('sceneHt')
 		refillMgr.onLoad = function(){
@@ -575,17 +592,14 @@
 		//3D SHIT - color, namesprites, titleblock, main button position
 		pctsToHeights()
 		movePillars()
-		makeNames()
+		makeNames(retainName)
 		refillMgr.itemEnd('names')
 		replaceTitleblock()
-		// refillMgr.itemEnd('titleblock')
 		recolor3d()
 		sceneHeightTransition()
 		//DOM shit
 		refillDOM()
 		//REAPPEAR AND REENABLE
-		// setView() //reappear stuff
-
 		function movePillars(){
 			//get distance, multiply/add, anim3d
 			//future: flags and queueing?
@@ -595,16 +609,21 @@
 			}
 		}
 		function replaceTitleblock(){
+			//if titleblock isnt visible at time of replacement, no need for fade
+			if(view.zoom==='close' || view.zoom === 'far' || view.height === 'plan'){
+				makeTitleblock()
+				refillMgr.itemEnd('titleblock')
+				return
+			}
 			var allFaded = new THREE.LoadingManager, ite = 0
 			allFaded.onLoad = function(){
 				makeTitleblock()
 				refillMgr.itemEnd('titleblock')
 			}
 			for(var i = 0; i<info.titleblock.children.length; i++){
-				allFaded.itemStart('titleblockItem')
+				if(info.titleblock.children[i].material) allFaded.itemStart('titleblockItem')
 			}
 			info.titleblock.traverse(function(child){
-				console.log('info.titleblock child#' + ite)
 				if(child.material) anim3d(child, 'opacity', {opacity: 0, delay:(info.titleblock.children.length-ite)*50,
 					cb: function(){ allFaded.itemEnd('titleblockItem')}})
 				ite++
@@ -650,7 +669,6 @@
 			for(var i = 0; i<allContent.length; i++){ dom[allContent[i]].refill()}
 			if(!view.content){ Hyphenator.run(); refillMgr.itemEnd('DOM') }
 			//NAV AND ACCESSORIES
-
 			var plrOrder = data.values.concat().sort(function(a,b){return a-b})
 			if(data.valueType === 'lessIsTall'){plrOrder.reverse()}
 			for(var i = 0; i<4; i++){
@@ -670,14 +688,16 @@
 			seseme['plr'+i].targetY = percentages[i]*plrmax
 		}
 	}
-	function makeNames(){
+	function makeNames(rtn){
 		console.log('make names')
 		const lnheight = 1.4
 		for(var i = 0; i<4; i++){
+
 			//individual sprite name
 			var n = init? new THREE.Group() : info.name[i]
 			if(!init) {n.remove(n.txt); delete n.txt } //delete old
 			var txt = new THREE.Object3D()// group or sprite depending on name type
+
 			if(data.details){
 				if(data.details[i]){
 					if(data.details[i].name){

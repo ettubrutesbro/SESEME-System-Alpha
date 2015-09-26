@@ -216,7 +216,7 @@ function setup(){
 		initQuads() //completion of each also runs initPillar
 		makeOrbiter()
 		highlightColor()
-		makeNames(); projectionMgr.itemEnd('names')
+		makeNames([false,false,false,false]); projectionMgr.itemEnd('names')
 		makeTitleblock(); projectionMgr.itemEnd('titleblock')
 		makeSymbols()
 		fillDOM()
