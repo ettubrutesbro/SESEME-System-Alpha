@@ -191,7 +191,7 @@ io.on('connection', function (socket) {
 		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;
   });
 
-  socket.on('sim tier1', function(data) {
+  socket.on('sim breathe', function(data) {
 		lifx.tier1();
   });
 
