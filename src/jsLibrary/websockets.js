@@ -182,6 +182,10 @@ io.on('connection', function (socket) {
         percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart]) });
   });
 
+  socket.on('sim lifx', function(data) {
+		lifx.validButtonPress(data.hex, data.bri);
+  });
+
   // Front-end simulation of a button press
   socket.on('sim button', function(seedlingNum) {
       if(!seedlings[seedlingNum].buttonPressed){
