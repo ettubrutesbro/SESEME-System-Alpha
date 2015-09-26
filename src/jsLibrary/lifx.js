@@ -89,5 +89,16 @@ function rampDown(factor, duration) {
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Idle Tier 1 Breathe Function
+function idleTier1Breathe() {
+
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// Idle Tier 2 Breathe Function
+function idleTier2Breathe() {
+
+}
+
 
 exports.validButtonPress = validButtonPress;
