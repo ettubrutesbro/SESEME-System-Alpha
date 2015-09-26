@@ -123,7 +123,7 @@ countdown();
 
 function getMonumentColors() {
 	var states = [];
-	for(var i = 0; i < story[lastActiveSeedling].parts.length-1; i++) {
+	for(var i = 0; i < story[lastActiveSeedling].parts.length; i++) {
 		var state = {};
 		if(story[lastActiveSeedling].parts[i].monumentColor) {
 			state.hex = story[lastActiveSeedling].parts[i].monumentColor.hex;
