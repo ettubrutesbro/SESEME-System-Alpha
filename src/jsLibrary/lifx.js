@@ -99,7 +99,7 @@ function tier1() {
 	// Main breathe logic using a recursive promise chain with a timeout of 6s
 	var breathe = function() {
 		fadeOn(1)
-			.then( setTimeout(function() { return fadeOff(1); }, 3000))
+			.then( setTimeout(function() { return fadeOff(1); }, 1000))
 			.then( function() { 
 				inhale = setTimeout(breathe, 5000);
 			});
@@ -114,7 +114,7 @@ function fadeOn(duration) {
 		// Configurations and custom headers to send to the API
 		options.body = JSON.stringify({
 			'power'			: 'on',
-			'brightness'	: 0.1,
+			'brightness'	: 1,
 			'duration'		: duration,
 		});
 	
