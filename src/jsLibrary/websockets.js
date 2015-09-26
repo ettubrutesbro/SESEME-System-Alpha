@@ -101,6 +101,8 @@ var idleCountdown;
 function countdown() {
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
+		// Begin lifx idle state behavior
+	
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
             // Check if the seedlings are connected first to emit to them
@@ -118,6 +120,27 @@ function countdown() {
 }
 // Make sure to broadcast to all when the button is pressed
 countdown();
+
+function getMonumentColors() {
+	var states = [];
+	for(var i = 0; i < story[lastActiveSeedling].parts.length-1; i++) {
+		var state = {};
+		if(story[lastActiveSeedling].parts[i].monumentColor) {
+			state.hex = story[lastActiveSeedling].parts[i].monumentColor.hex;
+			state.bri = 1 * story[lastActiveSeedling].parts[i].monumentColor.bri;
+		} else if(story[lastActiveSeedling].parts[i].color) {
+			state.hex = story[lastActiveSeedling].parts[i].color;
+			state.bri = 0.5;
+		} else {
+			state.hex = 'red', 
+			state.bri = 0;
+		}
+		states.push(state);
+	}
+
+	console.log(JSON.stringify(states,null,2));
+	return states;
+}
 
 ////////////////////////////////////////////////
 //  web
@@ -492,3 +515,5 @@ beagleIO.on('connection', function(beagleSocket){
   })
 
 });
+
+getMonumentColors();
