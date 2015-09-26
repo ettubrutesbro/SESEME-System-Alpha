@@ -25,7 +25,7 @@ var options = {
 //		--> Flash (1 down 2 down) 
 //		
 // [ Idle Tier 1 Breathe ]
-//		--> random duration (go to 0.075 brightness and back to 0.6) 
+//		--> random duration (go to 0.075 brightness and back to 0.5) 
 //
 // [ Idle Tier 2 Breathe ]
 //		--> after 4 minutes of breathing, turn it off 
@@ -55,7 +55,8 @@ function validButtonPress(color, factor) {
 
 	// Promise to update the light, then ramp down 
 	updateLight(properties);
-	setTimeout(function() {rampDown(factor, 1.25)}, 12000);
+	if(!factor) 
+		setTimeout(function() {rampDown(factor, 1.25)}, 12000);
 }
 
 // Function to update the light with custom properties that could take:
@@ -91,7 +92,55 @@ function rampDown(factor, duration) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Idle Tier 1 Breathe Function
 function idleTier1Breathe() {
+	// 2 seconds to fade on and off
+	// 6 seconds to do nothing after the breathe
+	var neglect;
+		
+	// Main breathe logic using recursive promise chaining with a timeout of 6s
+	var breathe = function() {
+		fadeOn(1)
+			.then( function() { return fadeOff(1); })
+			.then( function() { 
+				neglect = setTimeout(breathe, 6000);
+			});
+	};
 
+	breathe();
+}
+
+function fadeOn(duration) {
+	return new Promise(function(resolve, reject) {
+		// Configurations and custom headers to send to the API
+		options.body = JSON.stringify({
+			'power'			: 'on',
+			'brightness'	: 0.5,
+			'duration'		: duration,
+		});
+	
+		// PUT http request to update the hue color 
+		request(options, function(error, response, body) {
+			if(error) reject(error);
+			else if(response.statusCode == 200 || response.statusCode == 201) 
+				resolve();
+		}); // end of request
+	}); // end of promise
+}
+
+function fadeOff(duration) {
+	return new Promise(function(resolve, reject) {
+		// Configurations and custom headers to send to the API
+		options.body = JSON.stringify({
+			'power'		: 'off',
+			'duration'	: duration
+		});
+	
+		// PUT http request to update the hue color 
+		request(options, function(error, response, body) {
+			if(error) reject(error);
+			else if(response.statusCode == 200 || response.statusCode == 201) 
+				resolve();
+		}); // end of request
+	}); // end of promise
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
