@@ -340,6 +340,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     lastActiveSeedling = seedling.number;
 
 	console.log("Active seedling: " + lastActiveSeedling);
+	console.log("Active seedling current part: " + lastActiveSeedling);
 	
 	// Begin lifx valid button press behavior
 	if(story[lastActiveSeedling].parts[currentPart].monumentColor) {
