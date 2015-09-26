@@ -70,7 +70,7 @@ function updateLight(properties) {
 	// PUT http request to update the hue color 
 	request(options, function(error, response, body) {
 		if(error) console.log("Error: " + error);
-	}); // end of request
+	inhale }); // end of request
 }
 
 // Function to ramp down the brightness with a duration
@@ -86,27 +86,26 @@ function rampDown(factor, duration) {
 	// PUT http request to update the hue color 
 	request(options, function(error, response, body) {
 		if(error) console.log("Error: " + error); 
-	}); // end of request
+	inhale }); // end of request
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Idle Tier 1 Breathe Function
-function tier1() {
-	// 2 seconds to fade on and off
-	// 6 seconds to 'neglect'
-	var inhale;
+function breathe() {
+	// 2 seconds to fade on and fade off, 6 seconds of offtime 
+	var offtime;
 		
 	// Main breathe logic using a recursive promise chain with a timeout of 6s
-	var breathe = function() {
+	var breatheSequence = function() {
 		fadeOn(1)
 			.then( setTimeout(function() { return fadeOff(1); }, 1250))
 			.then( function() { 
-				inhale = setTimeout(breathe, 5000);
+				offtime = setTimeout(breatheSequence, 5000);
 			});
 	};
 
-	// Driver to start breathing
-	breathe();
+	// Driver to start the breathing breatheSequence
+	breatheSequence();
 }
 
 function fadeOn(duration) {
@@ -114,7 +113,7 @@ function fadeOn(duration) {
 		// Configurations and custom headers to send to the API
 		options.body = JSON.stringify({
 			'power'			: 'on',
-			'brightness'	: 1,
+			'brightness'	: 0.85,
 			'duration'		: duration,
 		});
 	
@@ -146,9 +145,9 @@ function fadeOff(duration) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Idle Tier 2 Breathe Function
-function breatheTier2() {
-
+function desperation(monumentColors) {
+	
 }
 
-exports.tier1 = tier1;
+exports.breathe = breathe;
 exports.validButtonPress = validButtonPress;
