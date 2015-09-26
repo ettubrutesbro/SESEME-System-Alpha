@@ -15,6 +15,13 @@ var celebratory = ['sad','roar'];
 
 //var soundObj = new SoundsObj(topical, dumb, no, ready, celebratory); // create soundObj full of all arrays
 
+exports.topical = topical;
+exports.dumb = dumb;
+exports.no = no;
+exports.ready = ready;
+exports.celebratory = celebratory;
+
+/*
 exports.soundObj = {
     'topical' : topical,
     'dumb' : dumb,
@@ -22,3 +29,4 @@ exports.soundObj = {
     'ready' : ready,
     'celebratory' : celebratory
 };
+*/
