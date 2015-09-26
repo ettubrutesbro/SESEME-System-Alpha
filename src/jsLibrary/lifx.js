@@ -146,7 +146,7 @@ function fadeOff(duration) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Idle Tier 2 Breathe Function
-function breatheTier2(1) {
+function breatheTier2() {
 
 }
 
