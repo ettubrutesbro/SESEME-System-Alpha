@@ -44,7 +44,7 @@ function validButtonPress(color, factor) {
 	if(factor > 1) {
 		console.log("Error: Brightness factor greater than 1");
 		return;
-	}
+	} 
 
 	// Hardcoded properties for a behavior specific to a valid button press
 	var properties = {

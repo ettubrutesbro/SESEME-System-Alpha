@@ -60,6 +60,7 @@ var stories = require(path.join(__dirname, 'stories.js'));
 var led = require(path.join(__dirname, 'led.js'));
 var soundObj = require(path.join(__dirname, 'soundObj.js'));
 var sounds = require(path.join(__dirname, 'sounds.js'));
+var lifx = require(path.join(__dirname, 'lifx.js'));
 var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
 var socket = require('socket.io');
@@ -329,6 +330,17 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
   else{
     // ===============================================================================
+	// First begin lifx valid button press behavior
+	if(stories[lastActiveSeedling].parts[part].monumentColor) {
+		var lifxHex = stories[lastActiveSeedling].parts[part].monumentColor.hex;
+		var lifxBri = stories[lastActiveSeedling].parts[part].monumentColor.bri;
+		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
+	} else if(stories[lastActiveSeedling].parts[part].color) {
+		lifx.validButtonPress(stories[lastActiveSeedling].parts[part].color, 0.5);
+	} else {
+		lifx.validButtonPress('red', 0);
+	}
+
     // Increment current part of the story and reset the idle countdown
     seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
     if(idleCountdown) clearTimeout(idleCountdown);
