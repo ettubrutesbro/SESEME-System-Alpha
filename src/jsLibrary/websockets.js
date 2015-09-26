@@ -283,7 +283,7 @@ function seedlingConnected(seedSocket, seedlingNum){
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
       //seedling.socket.emit('seedling play sound', seedling.story.sound);
-      //bigRedButton(seedling);
+      bigRedButton(seedling);
     }
     else{
       console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
