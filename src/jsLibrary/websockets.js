@@ -1,4 +1,5 @@
 var path = require('path');
+var lifxState = {};
 var readySeedlings = [];
 
 ////////////////////////////////////////////////
@@ -184,6 +185,7 @@ io.on('connection', function (socket) {
 
   socket.on('sim lifx', function(data) {
 		lifx.validButtonPress(data.hex, data.bri);
+		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;
   });
 
   // Front-end simulation of a button press
