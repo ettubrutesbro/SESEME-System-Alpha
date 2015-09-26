@@ -340,17 +340,13 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     lastActiveSeedling = seedling.number;
 	
 	// Begin lifx valid button press behavior
-	if(story[lastActiveSeedling].parts[currentPart].monumentColor) {
-		console.log("Case 1");
-		console.log("MONUMENT COLOR: "+JSON.stringify(story[lastActiveSeedling].parts[currentPart].monumentColor,null,2));
+	if(story[lastActiveSeedling].parts[seedling.currentPart].monumentColor) {
 		var lifxHex = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.hex;
 		var lifxBri = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.bri;
 		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
 	} else if(story[lastActiveSeedling].parts[seedling.currentPart].color) {
-		console.log("Case 2");
 		lifx.validButtonPress(story[lastActiveSeedling].parts[seedling.currentPart].color, 0.5);
 	} else {
-		console.log("Case 3");
 		lifx.validButtonPress('red', 0);
 	}
 
