@@ -114,7 +114,7 @@ function fadeOn(duration) {
 		// Configurations and custom headers to send to the API
 		options.body = JSON.stringify({
 			'power'			: 'on',
-			'brightness'	: 0.5,
+			'brightness'	: 0.75,
 			'duration'		: duration,
 		});
 	
