@@ -152,7 +152,7 @@ function desperation(states) {
 		'states'	: states,
 		'defaults'	: {
 			'power'		: 'on',
-			'duration'	: 15.0
+			'duration'	: 5 * states.length
 		}
 	});
 	

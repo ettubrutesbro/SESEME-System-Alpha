@@ -220,7 +220,8 @@ io.on('connection', function (socket) {
 
   socket.on('sim desperation', function(data) {
 		console.log("Simulating desperation");
-		lifx.desperation(getStates());
+		var states = getStates();
+		var desperation = setInterval(lifx.desperation(states), states.length * 5000);
   });
 
   // Front-end simulation of a button press
