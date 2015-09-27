@@ -261,7 +261,6 @@ io.on('connection', function (socket) {
 		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;
   });
 
-
   socket.on('sim breathe', function(data) {
 		console.log("Simulating breathe");
 		lifx.breathe();
@@ -429,7 +428,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     // Increment current part of the story and reset the idle countdown
     seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
     if(idleCountdown) clearTimeout(idleCountdown);
-    seconds = 300;
+    seconds = 120;
     countdown();
 
     // Set the variable to keep track of the last seedling that had its button pressed
@@ -437,17 +436,12 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
 	// Begin lifx valid button press behavior
 	if(story[lastActiveSeedling].parts[seedling.currentPart].monumentColor) {
-		console.log("Lifx Case 1");
 		var lifxHex = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.hex;
 		var lifxBri = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.bri;
 		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
-	} else if(story[lastActiveSeedling].parts[seedling.currentPart].color) {
-		console.log("Lifx Case 2");
+	} else if(story[lastActiveSeedling].parts[seedling.currentPart].color)
 		lifx.validButtonPress(story[lastActiveSeedling].parts[seedling.currentPart].color, 0.5);
-	} else {
-		console.log("Lifx Case 3");
-		lifx.validButtonPress('red', 0);
-	}
+	else lifx.validButtonPress('red', 0);
 
     // Send the new height calculations to the frontend
     var result;
