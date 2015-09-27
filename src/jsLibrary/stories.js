@@ -16,7 +16,7 @@ module.exports = {
         details: [
           {name: 'UC Davis', text: '2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.', symbol: {type:'img',src:'planetest'}},
           {name: 'Stanford', text: 'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.', symbol: {type:'img',src:'planetest'}},
-          {name: 'UC Irvine', text: 'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.', symbol: {type:'img',src:'planetest'}},
+          {name: 'UC Irvine', text: 'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.', symbol: {type:'geo',src:'templategeo'}},
           {name: 'UC Berkeley', text: '', symbol: {type:'img',src:'planetest'}}
         ]
       },
@@ -35,7 +35,7 @@ module.exports = {
         details: [
           {name: 'UC Davis', text: 'Since then we crashed hard. That was pretty inexcusable because nobodies such as Chico State were bodying us in the paint.' , symbol: {type:'img',src:'planetest'}},
           {name: 'testo2', text: 'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.' , symbol: {type:'img',src:'planetest'}},
-          {name: 'testo3', text: 'Anteaters can eat my butt' , symbol: {type:'img',src:'planetest'}},
+          {name: 'testo3', text: 'Anteaters can eat my butt' , symbol: {type:'geo',src:'templategeo'}},
           {name: 'testo4', text: 'Now the bears have text!!! What a bunch of schmucks blah blah blah get rich or die trying hehehehe ' , symbol: {type:'img',src:'planetest'}}
         ]
       },
@@ -53,7 +53,7 @@ module.exports = {
         details: [
           {name: 'Beef', text: 'K i love hamburgers too but they are BODYING our water supply, this is seriously like tho most inefficient ass use of water ever', symbol: {type:'img',src:'planetest'}},
           {name: 'ALMONDS', text: '', symbol: {type:'img',src:'planetest'}},
-          {name: 'Alfalfa', text: 'I actualyl like this stuff but its pretty water intense and unfortunately thats not gonna be ok in this climate', symbol: {type:'img',src:'planetest'}},
+          {name: 'Alfalfa', text: 'I actualyl like this stuff but its pretty water intense and unfortunately thats not gonna be ok in this climate', symbol: {type:'geo',src:'templategeo'}},
           {name: 'Global Warming', text: '???', symbol: {type:'img',src:'planetest'}}
         ]
       }

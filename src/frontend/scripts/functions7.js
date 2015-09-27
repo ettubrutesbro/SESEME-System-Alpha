@@ -835,6 +835,7 @@
 					new THREE.MeshBasicMaterial({map: resources.mtls[symbol.src]}) )
 			}
 			else obj = new THREE.Object3D()
+			obj.rotation.y = rads(45)
 			seseme['plr'+i].symbol = obj
 			seseme['plr'+i].add(seseme['plr'+i].symbol)
 		}
