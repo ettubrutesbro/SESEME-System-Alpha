@@ -95,6 +95,7 @@
 		viewMainButton()
 		viewPillarOutlines()
 		viewPillarNames()
+		viewSymbols()
 		viewNavigationHelper()
 		viewLRArrows()
 		camHeight()
@@ -240,6 +241,22 @@
 		var btnspd = 350+(Math.abs(info.btn.position.y - destination) * 35)
 		anim3d(info.btn, 'position', {y: destination, spd: btnspd })
 	} // end viewMainButton
+	function viewSymbols(){
+		if(view.zoom === 'close'){
+			for(var i = 0; i<4; i++){
+				var s = seseme['plr'+i].symbol
+				var d = Math.abs(facing - i) * 75
+				anim3d(s, 'scale', {x: 1, y:1, z:1, delay: d, spd: 575} )
+				anim3d(s, 'position', {y:0, delay: d} )
+			}
+		}else{
+			for(var i = 0; i<4; i++){
+				var s = seseme['plr'+i].symbol
+				anim3d(s, 'scale', {x: 0.25, y:0.25, z:0.25, spd: 350} )
+				anim3d(s, 'position', {y: -1, delay: d, spd: 350} )
+			}
+		}
+	}
 	function viewInfoText(){
 		if(view.text){
 			Velocity([dom.bottom, dom.closebutton], 'stop') //necessary for zoom trolling
@@ -827,18 +844,24 @@
 			if(rtn[i] || !data.details[i]) continue
 			var symbol = data.details[i].symbol?data.details[i].symbol : {type: ''}, obj
 			if(symbol.type === 'img'){
-				obj = new THREE.Mesh( new THREE.PlaneBufferGeometry(2.75,2.75),
-					new THREE.MeshBasicMaterial({map: resources.mtls[symbol.src].map, transparent: true}))
+				obj = new THREE.Mesh( new THREE.PlaneBufferGeometry(3.5,3.5), resources.mtls[symbol.src] )
+				obj.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,1.75,0))
 			}
 			else if(symbol.type === 'geo'){
 				obj = new THREE.Mesh( resources.geos[symbol.src], resources.mtls[symbol.src] )
+
+			}
+			else if(symbol.type === 'spr'){
+				var sprmtl = new THREE.SpriteMaterial({transparent: true, map: resources.mtls[symbols.src].map})
+				obj = new THREE.Sprite( sprmtl )
 			}
 			else obj = new THREE.Object3D()
+			obj.material.depthWrite = true
 			obj.rotation.y = rads(45)
+			// obj.expand = {y: 0, delay: i*75}; obj.origin = {y: -1, spd: 300}
 			seseme['plr'+i].symbol = obj
 			seseme['plr'+i].add(seseme['plr'+i].symbol)
 		}
-
 
 	}
 }

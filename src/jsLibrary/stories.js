@@ -17,7 +17,7 @@ module.exports = {
           {name: 'UC Davis', text: '2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.', symbol: {type:'img',src:'planetest'}},
           {name: 'Stanford', text: 'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.', symbol: {type:'img',src:'planetest'}},
           {name: 'UC Irvine', text: 'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.', symbol: {type:'geo',src:'templategeo'}},
-          {name: 'UC Berkeley', text: '', symbol: {type:'img',src:'planetest'}}
+          {name: 'UC Berkeley', text: '', symbol: {type:'spr',src:'planetest'}}
         ]
       },
 
