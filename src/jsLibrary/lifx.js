@@ -98,21 +98,23 @@ function rampDown(factor, duration) {
 // Idle State: Breathe
 function breathe() {
 	// 2 seconds to fade on and fade off, 6 seconds of offtime
-	var offtime;
+	var depth = 0;
 
 	// Main breathe logic using a recursive promise chain with a timeout of 6s
 	var breatheSequence = function() {
-		console.log("--> in breatheSequence()");
+		console.log("--> "+depth);
 		fadeOn(1)
 			.then( setTimeout(function() { return fadeOff(1); }, 1250))
 			.then( function() {
-				offtime = setTimeout(breatheSequence, 5000);
+				if(depth !== 20) {
+					depth++;
+					setTimeout(breatheSequence, 5000);
+				}
 			});
 	};
 
 	// Driver to start the breathing breatheSequence
 	breatheSequence();
-	return offtime;
 }
 
 function fadeOn(duration) {
