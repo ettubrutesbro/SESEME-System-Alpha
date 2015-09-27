@@ -189,10 +189,10 @@ function randomSoundWeight(obj, type, socket){
   var randValue;
   for(;;) { // Keep replacing the random value until it is a desired value
     randValue = Math.floor((Math.random() * obj[type].length-1) + 1);
-    if(randValue === previousSounds[0].index) ||
-      (randValue === previousSounds[1].index) ||
-      (randValue === previousSounds[2].index) ||
-      (randValue === previousSounds[3].index) continue;
+    if((randValue === previousSounds[0].index) ||
+       (randValue === previousSounds[1].index) ||
+       (randValue === previousSounds[2].index) ||
+       (randValue === previousSounds[3].index)) continue;
     else break;
   }
   // ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
