@@ -100,35 +100,42 @@ var lastActiveSeedling = 0; // Global variable to store the seedling pressed las
 var idleCountdown;
 var desperation;
 var idleBehavior;
+
+// Function to start the lifx idle behavior
+function idleBehavior() { 
+		
+	// Start breathing (no maintenance needed to clear it)
+	console.log("Start breathing");
+	lifx.breathe();
+
+	// Set a timeout to start desperation after a minute of breathing
+	setTimeout(function() {
+
+		// Start desperation immediately after breathing ends
+		console.log("Start desperation");
+		var states = getStates();
+		lifx.desperation(states);
+
+		// Make sure to clear the interval if it was already initialized
+		if(desperation) clearInterval(desperation);
+
+		// Set the interval of cycles through the story part colors
+		desperation = setInterval(function() { 
+			lifx.desperation(states) 
+		}, states.length * 5000);
+	}, 60000); 
+}
+
 function countdown() {
 	console.log("[Time Left]: "+seconds);
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
 
 		// Begin the lifx idle state behavior
-		idleBehavior = setInterval(function() { 
-				
-			// Start breathing (no maintenance needed to clear it)
-			console.log("Start breathing");
-			lifx.breathe();
-		
-			// Set a timeout to start desperation after a minute of breathing
-			setTimeout(function() {
+		idleBehavior();
 
-				// Start desperation immediately after breathing ends
-				console.log("Start desperation");
-				var states = getStates();
-				lifx.desperation(states);
-	
-				// Make sure to clear the interval if it was already initialized
-				if(desperation) clearInterval(desperation);
-	
-				// Set the interval of cycles through the story part colors
-				desperation = setInterval(function() { 
-					lifx.desperation(states) 
-				}, states.length * 5000);
-			}, 60000); 
-		}, 120000); // Restart and cycle through breathe and desperation every 2 minutes
+		// Restart and cycle through breathe and desperation every 2 minutes
+		setInterval(idleBehavior, 120000); 
 
 		// Set a 4 minute timeout to turn off the bulb after the idle behavior
 		setTimeout(function() {
