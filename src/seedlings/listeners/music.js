@@ -8,7 +8,7 @@ function listeners(socket, soundObj) {
 
     // Listener to play a specific sound given a sound name
     socket.on('seedling play sound', function(soundName) {
-        console.log("Played sound '"+soundName+"' from "+path.join(__dirname, '..', '..', 'sounds', soundName+'.mp3');
+        console.log("Played sound '"+soundName+"' from "+path.join(__dirname, '..', '..', 'sounds', soundName+'.mp3'));
         var soundPath = path.join(__dirname, '..', '..', 'sounds', soundName+'.mp3');
         var sound = new Sound(soundPath);
         sound.play();
