@@ -67,6 +67,7 @@ function updateLight(properties) {
 
 	// Configurations and custom headers to send to the API
 	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+	options.method = 'PUT';
 	options.body = JSON.stringify(properties);
 
 	// PUT http request to update the hue color
@@ -81,6 +82,7 @@ function rampDown(factor, duration) {
 
 	// Configurations and custom headers to send to the API
 	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+	options.method = 'PUT';
 	options.body = JSON.stringify({
 		'brightness': 0.5 * factor,
 		'duration': duration
@@ -115,6 +117,7 @@ function fadeOn(duration) {
 	return new Promise(function(resolve, reject) {
 		// Configurations and custom headers to send to the API
 		options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+		options.method = 'PUT';
 		options.body = JSON.stringify({
 			'power'			: 'on',
 			'brightness'	: 0.85,
@@ -134,6 +137,7 @@ function fadeOff(duration) {
 	return new Promise(function(resolve, reject) {
 		// Configurations and custom headers to send to the API
 		options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+		options.method = 'PUT';
 		options.body = JSON.stringify({
 			'power'		: 'off',
 			'duration'	: duration
