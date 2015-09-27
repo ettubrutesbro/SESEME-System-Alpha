@@ -214,10 +214,12 @@ io.on('connection', function (socket) {
   });
 
   socket.on('sim breathe', function(data) {
+		console.log("Simulating breathe");
 		lifx.breathe();
   });
 
   socket.on('sim desperation', function(data) {
+		console.log("Simulating desperation");
 		lifx.desperation(getStates());
   });
 
