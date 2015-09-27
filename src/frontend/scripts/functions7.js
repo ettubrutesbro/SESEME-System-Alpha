@@ -95,6 +95,7 @@
 		viewMainButton()
 		viewPillarOutlines()
 		viewPillarNames()
+		viewSymbols()
 		viewNavigationHelper()
 		viewLRArrows()
 		camHeight()
@@ -240,6 +241,22 @@
 		var btnspd = 350+(Math.abs(info.btn.position.y - destination) * 35)
 		anim3d(info.btn, 'position', {y: destination, spd: btnspd })
 	} // end viewMainButton
+	function viewSymbols(){
+		if(view.zoom === 'close'){
+			for(var i = 0; i<4; i++){
+				var s = seseme['plr'+i].symbol
+				var d = Math.abs(facing - i) * 75
+				anim3d(s, 'scale', {x: 1, y:1, z:1, delay: d, spd: 575} )
+				anim3d(s, 'position', {y:0, delay: d} )
+			}
+		}else{
+			for(var i = 0; i<4; i++){
+				var s = seseme['plr'+i].symbol
+				anim3d(s, 'scale', {x: 0.25, y:0.25, z:0.25, spd: 350} )
+				anim3d(s, 'position', {y: -1, delay: d, spd: 350} )
+			}
+		}
+	}
 	function viewInfoText(){
 		if(view.text){
 			Velocity([dom.bottom, dom.closebutton], 'stop') //necessary for zoom trolling
@@ -500,21 +517,25 @@
 //3. CLICK RESPONSES
 {
 	function clickedMainButton(){ //clicked big button
+		if(!controls.enabled) return
 		view.text = true
 		if(view.zoom==='normal' && view.content==='maintext') anim3d(camera, 'zoom', {zoom: 2.1, spd: 1000, easing: ['Quadratic','InOut']})
 		else if(view.zoom==='far' && view.content === 'overtext') anim3d(camera, 'zoom', {zoom: 0.875, spd: 750, easing: ['Quadratic','InOut']})
 		setView(true)
 	}
 	function clickedToClose(){ //clicked main triangular close OR just off text
+		if(!controls.enabled) return
 		view.text = false
 		setView(true)
 	}
-	function clickedNav(){ //clicked nav zooms in by one level
+	function clickedNav(){
+		if(!controls.enabled) return //clicked nav zooms in by one level
 		if(view.zoom === 'normal') anim3d(camera,'zoom',{zoom:2.1, spd: 1000, easing: ['Quadratic', 'InOut']})
 		else if(view.zoom === 'close') anim3d(camera,'zoom',{zoom:.5, spd: 1250, easing: ['Quadratic', 'InOut']})
 		else if(view.zoom === 'far') anim3d(camera,'zoom',{zoom:.875, spd: 750, easing: ['Quadratic', 'InOut']})
 	}
 	function clickedGoToHelp(){
+		if(!controls.enabled) return
 		if(view.zoom!=='far' || view.height !== 'plan'){
 			zoomspd = view.zoom === 'far'? 200: view.zoom === 'close'? 600: 250
 			anim3d(camera,'zoom',{zoom:0.5, spd: zoomspd})
@@ -549,6 +570,7 @@
 			}
 		}
 	function clickedLR(left){
+		if(!controls.enabled) return
 		var target
 		if(left) target = facing===0?3: facing-1
 		else target = facing===3?0: facing+1
@@ -654,6 +676,7 @@
 			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
 			dom.overtext.textContent = story.description
 			//MAJOR CONTENT CHANGES / FADE
+			Velocity(dom.bottom, {backgroundColor: data.color})
 			//just hide what's being viewed, cb changes content and animates bottom
 			var allContent = ['maintext', 'overtext', 'detail0', 'detail1', 'detail2', 'detail3']
 			if(view.content){
@@ -671,14 +694,19 @@
 			//NAV AND ACCESSORIES
 			var plrOrder = data.values.concat().sort(function(a,b){return a-b})
 			if(data.valueType === 'lessIsTall'){plrOrder.reverse()}
+			if(view.zoom==='close' && !retainName[facing]){
+				Velocity(dom.navnames[facing], {opacity: 0, translateX: '-4rem'}, {visibility: 'hidden', complete:
+					function(){ dom.navnames[facing].textContent = data.details[facing].name;
+						dom.navnames[facing].style.visibility = 'visible' }})
+			}
 			for(var i = 0; i<4; i++){
 				var navname = data.details? data.details[i].name : ''
-				dom.navnames[i].textContent = navname
+				if(view.zoom==='close'){ if(i!==facing) dom.navnames[i].textContent = navname }
 				Velocity(dom.databars[i], {height: (plrOrder.indexOf(data.values[i])+1)*25+'%' })
 			}
 			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
 			// dom.bottom.style.backgroundColor = data.color
-			Velocity(dom.bottom, {backgroundColor: data.color})
+
 
 		}//end refillDOM
 	} //END REFILL
@@ -692,50 +720,48 @@
 		console.log('make names')
 		const lnheight = 1.4
 		for(var i = 0; i<4; i++){
-
 			//individual sprite name
 			var n = init? new THREE.Group() : info.name[i]
-			if(!init) {n.remove(n.txt); delete n.txt } //delete old
-			var txt = new THREE.Object3D()// group or sprite depending on name type
 
-			if(data.details){
-				if(data.details[i]){
-					if(data.details[i].name){
-						n.lines = 1
-						//name is string
-						if(typeof data.details[i].name === 'string'){
-							txt = new THREE.Sprite()
-							var sprtxt = new Text(data.details[i].name,1100,125,'black','Karla',30,600,'center')
+			if(rtn[i]){ //name is the same from last part: just make height adjustment
+				n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
+				if(view.height === 'elevation') anim3d(n, 'position', {y: n.elevHt})
+			}else{
+				if(!init) { n.remove(n.txt); delete n.txt } //delete old
+				var txt
+					n.lines = 1
+					//name is string
+					if(typeof data.details[i].name === 'string'){
+						txt = new THREE.Sprite()
+						var sprtxt = new Text(data.details[i].name,1100,125,'black','Karla',30,600,'center')
+						var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
+						txt.material = sprmtl
+						txt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
+					}
+					//name is array
+					else if(data.details[i].name instanceof Array){
+						txt = new THREE.Group()
+						for(var it = 0; it<data.details[i].name.length; it++){
+							var subtxt = new THREE.Sprite()
+							var sprtxt = new Text(data.details[i].name[it],1100,125,'black','Karla',30,600,'center')
 							var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
-							txt.material = sprmtl
-							txt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
-						}
-						//name is array
-						else if(data.details[i].name instanceof Array){
-							txt = new THREE.Group()
-							for(var it = 0; it<data.details[i].name.length; it++){
-								var subtxt = new THREE.Sprite()
-								var sprtxt = new Text(data.details[i].name[it],1100,125,'black','Karla',30,600,'center')
-								var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
-								subtxt.material = sprmtl
-								subtxt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
-								subtxt.position.y = subtxt.expand = -it*lnheight;
-								subtxt.origin = -it*lnheight + lnheight
-								if(it>0) n.lines += 1
-								txt.add(subtxt)
-							}
-						}
-						//invalid type
-						else {
-							console.log('data.details['+i+'].name is invalid type')
+							subtxt.material = sprmtl
+							subtxt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
+							subtxt.position.y = subtxt.expand = -it*lnheight;
+							subtxt.origin = -it*lnheight + lnheight
+							if(it>0) n.lines += 1
+							txt.add(subtxt)
 						}
 					}
-				}
+					//invalid type
+					else console.log('data.details['+i+'].name is invalid type')
+
+
+				n.txt = txt
+				n.add(n.txt)
+				n.position.set(-3.6, 17.5, 1.1)
+				n.isoHt = 17.5; n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
 			}
-			n.txt = txt
-			n.add(n.txt)
-			n.position.set(-3.6, 17.5, 1.1)
-			n.isoHt = 17.5; n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
 
 			var pointer
 			if(init){
@@ -746,7 +772,6 @@
 			pointer.isoHt = (-(n.lines*lnheight) - ((17.5 - seseme['plr'+i].targetY)-(n.lines*lnheight)))+2
 			pointer.elevHt = -(n.lines*lnheight)
 			if(init) pointer.position.y = pointer.isoHt
-			else anim3d(pointer, 'position', {y: pointer.isoHt})
 
 			var linelength = (17.5-seseme['plr'+i].targetY -(n.lines*lnheight)) - 2.5
 			var line
@@ -765,7 +790,6 @@
 			n.line = line; n.add(n.line)
 
 			if(init) {info.name[i] = n; seseme['quad'+i].add(n)}
-			// projectionMgr.itemEnd('name'+i)
 		}
 	}
 	function makeTitleblock(){
@@ -814,7 +838,32 @@
 		// if(!init) setView()
 		// projectionMgr.itemEnd('titleblock')
 	}//END MAKETITLEBLOCK
+	function makeSymbols(rtn){
+		if(!data.details) return
+		for(var i = 0; i<4; i++){
+			if(rtn[i] || !data.details[i]) continue
+			var symbol = data.details[i].symbol?data.details[i].symbol : {type: ''}, obj
+			if(symbol.type === 'img'){
+				obj = new THREE.Mesh( new THREE.PlaneBufferGeometry(3.5,3.5), resources.mtls[symbol.src] )
+				obj.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,1.75,0))
+			}
+			else if(symbol.type === 'geo'){
+				obj = new THREE.Mesh( resources.geos[symbol.src], resources.mtls[symbol.src] )
 
+			}
+			else if(symbol.type === 'spr'){
+				var sprmtl = new THREE.SpriteMaterial({transparent: true, map: resources.mtls[symbols.src].map})
+				obj = new THREE.Sprite( sprmtl )
+			}
+			else obj = new THREE.Object3D()
+			obj.material.depthWrite = true
+			obj.rotation.y = rads(45)
+			// obj.expand = {y: 0, delay: i*75}; obj.origin = {y: -1, spd: 300}
+			seseme['plr'+i].symbol = obj
+			seseme['plr'+i].add(seseme['plr'+i].symbol)
+		}
+
+	}
 }
 //5. MATH / UTILITY FUNCTIONS
 {
