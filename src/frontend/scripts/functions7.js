@@ -831,8 +831,7 @@
 					new THREE.MeshBasicMaterial({map: resources.mtls[symbol.src].map, transparent: true}))
 			}
 			else if(symbol.type === 'geo'){
-				obj = new THREE.Mesh( resources.geos[symbol.src],
-					new THREE.MeshBasicMaterial({map: resources.mtls[symbol.src]}) )
+				obj = new THREE.Mesh( resources.geos[symbol.src], resources.mtls[symbol.src] )
 			}
 			else obj = new THREE.Object3D()
 			obj.rotation.y = rads(45)
