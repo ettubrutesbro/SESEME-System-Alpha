@@ -188,13 +188,12 @@ var previousSounds = [];
 function randomSoundWeight(obj, type, socket){
   var randValue;
   for(;;) { // Keep replacing the random value until it is a desired value
-    console.log("------------------- type: "+type)
-    console.log("obj[type]: "+JSON.stringify(obj[type],null,2));
-    console.log("obj[type]: "+JSON.stringify(obj,null,2));
     randValue = Math.floor((Math.random() * obj[type].length-1) + 1);
-    for(var i = 0; i < previousSounds.length-1; i++)
-      if(randValue === previousSounds[i].index) continue;
-    break;
+    if(randValue === previousSounds[0].index) ||
+      (randValue === previousSounds[1].index) ||
+      (randValue === previousSounds[2].index) ||
+      (randValue === previousSounds[3].index) continue;
+    else break;
   }
   // ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
   if(previousSounds.length === 4) previousSounds.shift();
