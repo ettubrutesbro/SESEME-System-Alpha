@@ -224,7 +224,10 @@ io.on('connection', function (socket) {
       randomSoundWeight(soundObj, 'dumb', seedlings[seedlingToPlay].socket);
 
       lastSeedlingPlayed = seedlingToPlay;
-  } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
+  } else {
+      console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
+      lastSeedlingPlayed = seedlingToPlay;
+  }
 
   socket.on('xps update previous-sounds', function(updatedSounds) {
     previousSounds = updatedSounds;
