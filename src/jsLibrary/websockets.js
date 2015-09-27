@@ -144,7 +144,7 @@ function countdown() {
 		setTimeout(function() {
 			if(desperation) clearInterval(desperation);
 			if(breatheTimeout) clearTimeout(breatheTimeout);
-			lifx.fadeOff(5).then( console.log("Bulb off :)"); );
+			lifx.fadeOff(5).then( console.log("Bulb off :)") );
 		}, 240000);
 			
 		// Broadcast to all clients that state is now idle
