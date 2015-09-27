@@ -102,6 +102,7 @@ function countdown() {
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
 		// Begin lifx idle state behavior
+		lifx.desperation(getStates());
 	
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
@@ -121,24 +122,22 @@ function countdown() {
 // Make sure to broadcast to all when the button is pressed
 countdown();
 
-function getMonumentColors() {
+function getStates() {
 	var states = [];
 	for(var i = 0; i < story[lastActiveSeedling].parts.length; i++) {
 		var state = {};
 		if(story[lastActiveSeedling].parts[i].monumentColor) {
-			state.hex = story[lastActiveSeedling].parts[i].monumentColor.hex;
-			state.bri = 1 * story[lastActiveSeedling].parts[i].monumentColor.bri;
+			state.color = story[lastActiveSeedling].parts[i].monumentColor.hex;
+			state.brightness = 1 * story[lastActiveSeedling].parts[i].monumentColor.bri;
 		} else if(story[lastActiveSeedling].parts[i].color) {
-			state.hex = story[lastActiveSeedling].parts[i].color;
-			state.bri = 0.5;
+			state.color = story[lastActiveSeedling].parts[i].color;
+			state.brightness = 0.5;
 		} else {
-			state.hex = 'red', 
-			state.bri = 0;
+			state.color = 'red', 
+			state.brightness = 0;
 		}
 		states.push(state);
 	}
-
-	console.log(JSON.stringify(states,null,2));
 	return states;
 }
 
@@ -216,6 +215,10 @@ io.on('connection', function (socket) {
 
   socket.on('sim breathe', function(data) {
 		lifx.breathe();
+  });
+
+  socket.on('sim desperation', function(data) {
+		lifx.desperation(getStates());
   });
 
   // Front-end simulation of a button press
