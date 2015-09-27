@@ -127,7 +127,6 @@ function idleBehavior() {
 }
 
 function countdown() {
-	console.log("[Time Left]: "+seconds);
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
 
