@@ -500,21 +500,25 @@
 //3. CLICK RESPONSES
 {
 	function clickedMainButton(){ //clicked big button
+		if(!controls.enabled) return
 		view.text = true
 		if(view.zoom==='normal' && view.content==='maintext') anim3d(camera, 'zoom', {zoom: 2.1, spd: 1000, easing: ['Quadratic','InOut']})
 		else if(view.zoom==='far' && view.content === 'overtext') anim3d(camera, 'zoom', {zoom: 0.875, spd: 750, easing: ['Quadratic','InOut']})
 		setView(true)
 	}
 	function clickedToClose(){ //clicked main triangular close OR just off text
+		if(!controls.enabled) return
 		view.text = false
 		setView(true)
 	}
-	function clickedNav(){ //clicked nav zooms in by one level
+	function clickedNav(){
+		if(!controls.enabled) return //clicked nav zooms in by one level
 		if(view.zoom === 'normal') anim3d(camera,'zoom',{zoom:2.1, spd: 1000, easing: ['Quadratic', 'InOut']})
 		else if(view.zoom === 'close') anim3d(camera,'zoom',{zoom:.5, spd: 1250, easing: ['Quadratic', 'InOut']})
 		else if(view.zoom === 'far') anim3d(camera,'zoom',{zoom:.875, spd: 750, easing: ['Quadratic', 'InOut']})
 	}
 	function clickedGoToHelp(){
+		if(!controls.enabled) return
 		if(view.zoom!=='far' || view.height !== 'plan'){
 			zoomspd = view.zoom === 'far'? 200: view.zoom === 'close'? 600: 250
 			anim3d(camera,'zoom',{zoom:0.5, spd: zoomspd})
@@ -549,6 +553,7 @@
 			}
 		}
 	function clickedLR(left){
+		if(!controls.enabled) return
 		var target
 		if(left) target = facing===0?3: facing-1
 		else target = facing===3?0: facing+1
