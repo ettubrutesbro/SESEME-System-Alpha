@@ -100,19 +100,16 @@ var lastActiveSeedling = 0; // Global variable to store the seedling pressed las
 var idleCountdown;
 var desperation;
 var idleBehavior;
-var breatheTimeout;
 
 // Function to start the lifx idle behavior
-function idleBehavior() { 
-		
+function idleBehavior(lifx) {
+
 	// Start breathing (no maintenance needed to clear it)
 	console.log("Start breathing");
-	if(desperation) clearInterval(desperation);
-	if(breatheTimeout) clearTimeout(breatheTimeout);
 	lifx.breathe();
 
 	// Set a timeout to start desperation after a minute of breathing
-	breatheTimeout = setTimeout(function() {
+	setTimeout(function() {
 
 		// Start desperation immediately after breathing ends
 		console.log("Start desperation");
@@ -120,10 +117,11 @@ function idleBehavior() {
 		lifx.desperation(states);
 
 		// Set the interval of cycles through the story part colors
-		desperation = setInterval(function() { 
-			lifx.desperation(states) 
+		desperation = setInterval(function() {
+            console.log("in desperation");
+			lifx.desperation(states)
 		}, states.length * 5000);
-	}, 60000); 
+	}, 120000);
 }
 
 function countdown() {
@@ -131,19 +129,14 @@ function countdown() {
         console.log("[SESEME NOW IN IDLE MODE]!");
 
 		// Begin the lifx idle state behavior
-		idleBehavior();
-
-		// Restart and cycle through breathe and desperation every 2 minutes
-		var idleMode = setInterval(idleBehavior, 120000); 
+		idleBehavior(lifx);
 
 		// Set a 4 minute timeout to turn off the bulb after the idle behavior
 		setTimeout(function() {
 			if(desperation) clearInterval(desperation);
-			if(breatheTimeout) clearTimeout(breatheTimeout);
-			if(idleMode) clearInterval(idleMode);
 			lifx.fadeOff(5).then( console.log("Bulb off :)") );
 		}, 240000);
-			
+
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
             // Check if the seedlings are connected first to emit to them
@@ -163,7 +156,6 @@ function countdown() {
 // Make sure to broadcast to all when the button is pressed
 countdown();
 
-
 function getStates() {
 	var states = [];
 	for(var i = 0; i < story[lastActiveSeedling].parts.length; i++) {
@@ -175,7 +167,7 @@ function getStates() {
 			state.color = story[lastActiveSeedling].parts[i].color;
 			state.brightness = 0.5;
 		} else {
-			state.color = 'red', 
+			state.color = 'red',
 			state.brightness = 0;
 		}
 		states.push(state);
@@ -229,10 +221,10 @@ io.on('connection', function (socket) {
       console.log("Playing random sound from seedling "+seedlingToPlay);
       seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
       randomSoundWeight(soundObj, 'dumb', seedlings[seedlingToPlay].socket);
-  
+
       lastSeedlingPlayed = seedlingToPlay;
   } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
-  
+
   socket.on('xps update previous-sounds', function(updatedSounds) {
     previousSounds = updatedSounds;
   });
@@ -244,9 +236,9 @@ io.on('connection', function (socket) {
   socket.on('ui request story', function() {
 		// Have the frontend acquire the story data
 		io.sockets.emit('ui acquire story', {
-			story: story[lastActiveSeedling], 
+			story: story[lastActiveSeedling],
 			part: seedlings[lastActiveSeedling].currentPart,
-			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart]) 
+			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart])
 		});
   });
 
@@ -267,8 +259,8 @@ io.on('connection', function (socket) {
 		lifx.desperation(states);
 
 		if(desperation) clearInterval(desperation);
-		desperation = setInterval(function() { 
-			lifx.desperation(states) 
+		desperation = setInterval(function() {
+			lifx.desperation(states)
 		}, states.length * 5000);
   });
 
@@ -428,7 +420,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
     // Set the variable to keep track of the last seedling that had its button pressed
     lastActiveSeedling = seedling.number;
-	
+
 	// Begin lifx valid button press behavior
 	if(story[lastActiveSeedling].parts[seedling.currentPart].monumentColor) {
 		console.log("Lifx Case 1");
