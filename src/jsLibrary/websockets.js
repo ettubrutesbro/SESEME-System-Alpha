@@ -518,5 +518,3 @@ beagleIO.on('connection', function(beagleSocket){
   })
 
 });
-
-getMonumentColors();
