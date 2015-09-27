@@ -50,6 +50,7 @@ function validButtonPress(color, factor) {
 	var properties = {
 		'brightness': 1 * factor,
 		'color'		: color,
+		'power'		: 'on',
 		'duration'	: 2
 	};
 
