@@ -119,9 +119,6 @@ function idleBehavior() {
 		var states = getStates();
 		lifx.desperation(states);
 
-		// Make sure to clear the interval if it was already initialized
-		if(desperation) clearInterval(desperation);
-
 		// Set the interval of cycles through the story part colors
 		desperation = setInterval(function() { 
 			lifx.desperation(states) 
