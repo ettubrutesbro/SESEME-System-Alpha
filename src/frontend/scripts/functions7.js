@@ -654,6 +654,7 @@
 			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
 			dom.overtext.textContent = story.description
 			//MAJOR CONTENT CHANGES / FADE
+			Velocity(dom.bottom, {backgroundColor: data.color})
 			//just hide what's being viewed, cb changes content and animates bottom
 			var allContent = ['maintext', 'overtext', 'detail0', 'detail1', 'detail2', 'detail3']
 			if(view.content){
@@ -671,14 +672,19 @@
 			//NAV AND ACCESSORIES
 			var plrOrder = data.values.concat().sort(function(a,b){return a-b})
 			if(data.valueType === 'lessIsTall'){plrOrder.reverse()}
+			if(view.zoom==='close' && !retainName[facing]){
+				Velocity(dom.navnames[facing], {opacity: 0, translateX: '-4rem'}, {visibility: 'hidden', complete:
+					function(){ dom.navnames[facing].textContent = data.details[facing].name;
+						dom.navnames[facing].style.visibility = 'visible' }})
+			}
 			for(var i = 0; i<4; i++){
 				var navname = data.details? data.details[i].name : ''
-				dom.navnames[i].textContent = navname
+				if(view.zoom==='close'){ if(i!==facing) dom.navnames[i].textContent = navname }
 				Velocity(dom.databars[i], {height: (plrOrder.indexOf(data.values[i])+1)*25+'%' })
 			}
 			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
 			// dom.bottom.style.backgroundColor = data.color
-			Velocity(dom.bottom, {backgroundColor: data.color})
+
 
 		}//end refillDOM
 	} //END REFILL
