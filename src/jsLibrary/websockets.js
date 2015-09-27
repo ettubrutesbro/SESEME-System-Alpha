@@ -203,6 +203,7 @@ function randomSoundWeight(obj, type, socket){
     'index':randValue,
     'type':type
   });
+  console.log("Sending '"+obj[type][randValue]+"' to the seedling")
   socket.emit('seedling play sound', obj[type][randValue]);
 }
 
@@ -219,7 +220,7 @@ io.on('connection', function (socket) {
   // Check if the seedlings are connected first to emit to them
   if(seedlings[seedlingToPlay].socket) {
       console.log("Playing random sound from seedling "+seedlingToPlay);
-      seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
+    //   seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
       randomSoundWeight(soundObj, 'dumb', seedlings[seedlingToPlay].socket);
 
       lastSeedlingPlayed = seedlingToPlay;
