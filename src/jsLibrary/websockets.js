@@ -183,7 +183,7 @@ var webbyOnline = 0;
 var webby = null;
 var uiSocket = null;
 var lastSeedlingPlayed = 0;
-var previousSounds = [];
+var previousSounds = new Array(4);
 
 function randomSoundWeight(obj, type, socket){
   var randValue;
