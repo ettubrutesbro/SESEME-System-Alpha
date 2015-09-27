@@ -145,6 +145,8 @@ function fadeOff(duration) {
 }
 
 function turnOff(duration) {
+	console.log("--> In turnOff()")
+
 	// Configurations and custom headers to send to the API
 	options.body = JSON.stringify({
 		'power'		: 'off',
@@ -153,6 +155,7 @@ function turnOff(duration) {
 
 	// PUT http request to turn the bulb off
 	request(options, function(error, response, body) {
+		console.log("Response: "+JSON.stringify(response, null, 2));
 		if(error) console.log(error);
 		else if(response.statusCode == 200 || response.statusCode == 201)
 			console.log("Turning off bulb now");
