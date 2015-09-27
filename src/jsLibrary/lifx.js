@@ -66,6 +66,7 @@ function updateLight(properties) {
 	console.log("Updating light color now");
 
 	// Configurations and custom headers to send to the API
+	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
 	options.body = JSON.stringify(properties);
 
 	// PUT http request to update the hue color
@@ -79,6 +80,7 @@ function rampDown(factor, duration) {
 	console.log("Ramping down now");
 
 	// Configurations and custom headers to send to the API
+	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
 	options.body = JSON.stringify({
 		'brightness': 0.5 * factor,
 		'duration': duration
@@ -112,6 +114,7 @@ function breathe() {
 function fadeOn(duration) {
 	return new Promise(function(resolve, reject) {
 		// Configurations and custom headers to send to the API
+		options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
 		options.body = JSON.stringify({
 			'power'			: 'on',
 			'brightness'	: 0.85,
@@ -130,6 +133,7 @@ function fadeOn(duration) {
 function fadeOff(duration) {
 	return new Promise(function(resolve, reject) {
 		// Configurations and custom headers to send to the API
+		options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
 		options.body = JSON.stringify({
 			'power'		: 'off',
 			'duration'	: duration
@@ -142,24 +146,6 @@ function fadeOff(duration) {
 				resolve();
 		}); // end of request
 	}); // end of promise
-}
-
-function turnOff(duration) {
-	console.log("--> In turnOff()")
-
-	// Configurations and custom headers to send to the API
-	options.body = JSON.stringify({
-		'power'		: 'off',
-		'duration'	: duration
-	});
-
-	// PUT http request to turn the bulb off
-	request(options, function(error, response, body) {
-		console.log("Response: "+JSON.stringify(response, null, 2));
-		if(error) console.log(error);
-		else if(response.statusCode == 200 || response.statusCode == 201)
-			console.log("Turning off bulb now");
-	}); // end of request
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -184,6 +170,6 @@ function desperation(states) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 exports.breathe = breathe;
-exports.turnOff = turnOff;
+exports.fadeOff = fadeOff;
 exports.desperation = desperation;
 exports.validButtonPress = validButtonPress;
