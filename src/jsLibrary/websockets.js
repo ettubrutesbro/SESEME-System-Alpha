@@ -372,7 +372,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     if(!seedling.buttonPressed){
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
-      //seedling.socket.emit('seedling play sound', seedling.story.sound);
+      seedling.socket.emit('seedling play sound', seedling.story.sound);
       bigRedButton(seedling);
     }
     else{
@@ -431,12 +431,15 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 	
 	// Begin lifx valid button press behavior
 	if(story[lastActiveSeedling].parts[seedling.currentPart].monumentColor) {
+		console.log("Lifx Case 1");
 		var lifxHex = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.hex;
 		var lifxBri = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.bri;
 		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
 	} else if(story[lastActiveSeedling].parts[seedling.currentPart].color) {
+		console.log("Lifx Case 2");
 		lifx.validButtonPress(story[lastActiveSeedling].parts[seedling.currentPart].color, 0.5);
 	} else {
+		console.log("Lifx Case 3");
 		lifx.validButtonPress('red', 0);
 	}
 
