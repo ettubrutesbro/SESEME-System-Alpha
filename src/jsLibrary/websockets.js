@@ -134,7 +134,7 @@ function countdown() {
 		// Set a 4 minute timeout to turn off the bulb after the idle behavior
 		setTimeout(function() {
 			if(desperation) clearInterval(desperation);
-			lifx.turnOff(5);
+			lifx.fadeOff(5);
 		}, 240000);
 
 		// Broadcast to all clients that state is now idle
