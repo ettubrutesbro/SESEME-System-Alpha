@@ -165,5 +165,6 @@ function desperation(states) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 exports.breathe = breathe;
+exports.fadeOff = fadeOff;
 exports.desperation = desperation;
 exports.validButtonPress = validButtonPress;
