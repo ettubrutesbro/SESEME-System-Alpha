@@ -692,50 +692,50 @@
 		console.log('make names')
 		const lnheight = 1.4
 		for(var i = 0; i<4; i++){
-
 			//individual sprite name
 			var n = init? new THREE.Group() : info.name[i]
-			if(!init) {n.remove(n.txt); delete n.txt } //delete old
-			var txt = new THREE.Object3D()// group or sprite depending on name type
 
-			if(data.details){
-				if(data.details[i]){
-					if(data.details[i].name){
-						n.lines = 1
-						//name is string
-						if(typeof data.details[i].name === 'string'){
-							txt = new THREE.Sprite()
-							var sprtxt = new Text(data.details[i].name,1100,125,'black','Karla',30,600,'center')
+			if(rtn[i]){ //name is the same from last part: just make height adjustment
+				console.log('retain name '+i)
+				n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
+				if(view.height === 'elevation') anim3d(n, 'position', {y: n.elevHt})
+			}else{
+				console.log('new name '+i)
+				if(!init) { n.remove(n.txt); delete n.txt } //delete old
+				var txt
+					n.lines = 1
+					//name is string
+					if(typeof data.details[i].name === 'string'){
+						txt = new THREE.Sprite()
+						var sprtxt = new Text(data.details[i].name,1100,125,'black','Karla',30,600,'center')
+						var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
+						txt.material = sprmtl
+						txt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
+					}
+					//name is array
+					else if(data.details[i].name instanceof Array){
+						txt = new THREE.Group()
+						for(var it = 0; it<data.details[i].name.length; it++){
+							var subtxt = new THREE.Sprite()
+							var sprtxt = new Text(data.details[i].name[it],1100,125,'black','Karla',30,600,'center')
 							var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
-							txt.material = sprmtl
-							txt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
-						}
-						//name is array
-						else if(data.details[i].name instanceof Array){
-							txt = new THREE.Group()
-							for(var it = 0; it<data.details[i].name.length; it++){
-								var subtxt = new THREE.Sprite()
-								var sprtxt = new Text(data.details[i].name[it],1100,125,'black','Karla',30,600,'center')
-								var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
-								subtxt.material = sprmtl
-								subtxt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
-								subtxt.position.y = subtxt.expand = -it*lnheight;
-								subtxt.origin = -it*lnheight + lnheight
-								if(it>0) n.lines += 1
-								txt.add(subtxt)
-							}
-						}
-						//invalid type
-						else {
-							console.log('data.details['+i+'].name is invalid type')
+							subtxt.material = sprmtl
+							subtxt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
+							subtxt.position.y = subtxt.expand = -it*lnheight;
+							subtxt.origin = -it*lnheight + lnheight
+							if(it>0) n.lines += 1
+							txt.add(subtxt)
 						}
 					}
-				}
+					//invalid type
+					else console.log('data.details['+i+'].name is invalid type')
+
+
+				n.txt = txt
+				n.add(n.txt)
+				n.position.set(-3.6, 17.5, 1.1)
+				n.isoHt = 17.5; n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
 			}
-			n.txt = txt
-			n.add(n.txt)
-			n.position.set(-3.6, 17.5, 1.1)
-			n.isoHt = 17.5; n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
 
 			var pointer
 			if(init){
@@ -746,7 +746,6 @@
 			pointer.isoHt = (-(n.lines*lnheight) - ((17.5 - seseme['plr'+i].targetY)-(n.lines*lnheight)))+2
 			pointer.elevHt = -(n.lines*lnheight)
 			if(init) pointer.position.y = pointer.isoHt
-			else anim3d(pointer, 'position', {y: pointer.isoHt})
 
 			var linelength = (17.5-seseme['plr'+i].targetY -(n.lines*lnheight)) - 2.5
 			var line
@@ -765,7 +764,6 @@
 			n.line = line; n.add(n.line)
 
 			if(init) {info.name[i] = n; seseme['quad'+i].add(n)}
-			// projectionMgr.itemEnd('name'+i)
 		}
 	}
 	function makeTitleblock(){
