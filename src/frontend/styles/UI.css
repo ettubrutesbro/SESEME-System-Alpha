@@ -62,12 +62,13 @@ section { position: absolute; }
 	top: 1rem; right: .75rem;
 	width: 2.5rem; height: 2.5rem;
 	background-image: url(../assets/helpx.png);
-	background-size: 2200% 100%; background-position: 0 0;
+	background-size: 2200% 100%; background-position: 0% 0%;
 	font-family: 'Karla', sans-serif;
 	font-weight: 700; font-size: 2.75rem;
+	visibility: hidden;
 }
 	#help.open{
-		-webkit-animation: openHelp .7s steps(21); -moz-animation: openHelp .7s steps(21); animation: openHelp .7s steps(21);
+		-webkit-animation: openHelp .6s steps(21); -moz-animation: openHelp .6s steps(21); animation: openHelp .6s steps(21);
 		-webkit-animation-fill-mode: forwards; -moz-animation-fill-mode: forwards; animation-fill-mode: forwards;
 	}
 		@-webkit-keyframes openHelp {from {background-position: 0% 0%;} to {background-position: 100% 0%;}}
@@ -75,7 +76,7 @@ section { position: absolute; }
 		@keyframes openHelp {from {background-position: 0% 0%;} to {background-position: 100% 0%;}}
 
 	#help.close{
-		-webkit-animation: closeHelp .7s steps(21); -moz-animation: closeHelp .7s steps(21); animation: closeHelp .7s steps(21);
+		-webkit-animation: closeHelp .6s steps(21); -moz-animation: closeHelp .6s steps(21); animation: closeHelp .6s steps(21);
 		-webkit-animation-fill-mode: forwards; -moz-animation-fill-mode: forwards; animation-fill-mode: forwards;
 	}
 		@-webkit-keyframes closeHelp {from {background-position: 100% 0%;} to {background-position: 0% 0%;}}
