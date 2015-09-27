@@ -146,6 +146,8 @@ function fadeOff(duration) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Idle State: Desperation 
 function desperation(states) {
+	options.uri = 'https://api.lifx.com/v1beta1/lights/'+id+'/cycle';
+	options.method = 'POST';
 	options.body = JSON.stringify({
 		'states'	: states,
 		'defaults'	: {
