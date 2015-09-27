@@ -70,7 +70,7 @@ function updateLight(properties) {
 	// PUT http request to update the hue color 
 	request(options, function(error, response, body) {
 		if(error) console.log("Error: " + error);
-	inhale }); // end of request
+	}); // end of request
 }
 
 // Function to ramp down the brightness with a duration
@@ -86,7 +86,7 @@ function rampDown(factor, duration) {
 	// PUT http request to ramp down 
 	request(options, function(error, response, body) {
 		if(error) console.log("Error: " + error); 
-	inhale }); // end of request
+	}); // end of request
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
