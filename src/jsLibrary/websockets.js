@@ -1,4 +1,5 @@
 var path = require('path');
+var lifxState = {};
 var readySeedlings = [];
 
 ////////////////////////////////////////////////
@@ -94,12 +95,48 @@ for(var i = 0; i < 3; i++){
 ////////////////////////////////////////////////
 // COUNTDOWN 'TIL IDLE STATE
 ////////////////////////////////////////////////
-var seconds = 300; // Global seconds variable
+var seconds = 120; // Global seconds variable
 var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
 var idleCountdown;
+var desperation;
+var idleBehavior;
+
+// Function to start the lifx idle behavior
+function idleBehavior(lifx) {
+
+	// Start breathing (no maintenance needed to clear it)
+	console.log("Start breathing");
+	lifx.breathe();
+
+	// Set a timeout to start desperation after a minute of breathing
+	setTimeout(function() {
+
+		// Start desperation immediately after breathing ends
+		console.log("Start desperation");
+		var states = getStates();
+		lifx.desperation(states);
+
+		// Set the interval of cycles through the story part colors
+		desperation = setInterval(function() {
+            console.log("in desperation");
+			lifx.desperation(states)
+		}, states.length * 5000);
+	}, 120000);
+}
+
 function countdown() {
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
+
+		// Begin the lifx idle state behavior
+		idleBehavior(lifx);
+
+		// Set a 4 minute timeout to turn off the bulb after the idle behavior
+		setTimeout(function() {
+			if(desperation) clearInterval(desperation);
+			lifx.fadeOff(5).then( console.log("Bulb off :)") );
+		}, 240000);
+
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
             // Check if the seedlings are connected first to emit to them
@@ -110,6 +147,7 @@ function countdown() {
                 else seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number);
             }
         }
+		// Stop decrementing counting down and return
 		return;
 	}
 	seconds--;
@@ -117,6 +155,25 @@ function countdown() {
 }
 // Make sure to broadcast to all when the button is pressed
 countdown();
+
+function getStates() {
+	var states = [];
+	for(var i = 0; i < story[lastActiveSeedling].parts.length; i++) {
+		var state = {};
+		if(story[lastActiveSeedling].parts[i].monumentColor) {
+			state.color = story[lastActiveSeedling].parts[i].monumentColor.hex;
+			state.brightness = 1 * story[lastActiveSeedling].parts[i].monumentColor.bri;
+		} else if(story[lastActiveSeedling].parts[i].color) {
+			state.color = story[lastActiveSeedling].parts[i].color;
+			state.brightness = 0.5;
+		} else {
+			state.color = 'red',
+			state.brightness = 0;
+		}
+		states.push(state);
+	}
+	return states;
+}
 
 ////////////////////////////////////////////////
 //  web
@@ -154,32 +211,57 @@ io.on('connection', function (socket) {
   webby = socket;
   console.log(socket.request.connection.remoteAddress + ' connected to web socket.io');
 
- // ===========================================================================================
- // Seedling communication related to sounds
- var seedlingToPlay = Math.floor(Math.random() * 3);
- if(seedlingToPlay === lastSeedlingPlayed)
-     seedlingToPlay = (seedlingToPlay + 1) % 3;
- // Check if the seedlings are connected first to emit to them
- if(seedlings[seedlingToPlay].socket) {
-     console.log("Playing random sound from seedling "+seedlingToPlay);
-     //seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
-     randomSoundWeight(soundObj, 'dumb', seedlings[seedlingToPlay].socket);
+  // ===========================================================================================
+  // Seedling communication related to sounds
+  var seedlingToPlay = Math.floor(Math.random() * 3);
+  if(seedlingToPlay === lastSeedlingPlayed)
+      seedlingToPlay = (seedlingToPlay + 1) % 3;
+  // Check if the seedlings are connected first to emit to them
+  if(seedlings[seedlingToPlay].socket) {
+      console.log("Playing random sound from seedling "+seedlingToPlay);
+      seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
+      randomSoundWeight(soundObj, 'dumb', seedlings[seedlingToPlay].socket);
 
-     lastSeedlingPlayed = seedlingToPlay;
- } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
+      lastSeedlingPlayed = seedlingToPlay;
+  } else console.log("Error playing login sound: Seedling " + seedlingToPlay + " is disconnected.");
 
- socket.on('xps update previous-sounds', function(updatedSounds) {
-   previousSounds = updatedSounds;
- });
+  socket.on('xps update previous-sounds', function(updatedSounds) {
+    previousSounds = updatedSounds;
+  });
 
   // ===========================================================================================
   // Front-end communication
   uiSocket = socket;
 
   socket.on('ui request story', function() {
-      // Have the frontend acquire the story data
-      io.sockets.emit('ui acquire story', {story: story[lastActiveSeedling], part: seedlings[lastActiveSeedling].currentPart,
-        percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart]) });
+		// Have the frontend acquire the story data
+		io.sockets.emit('ui acquire story', {
+			story: story[lastActiveSeedling],
+			part: seedlings[lastActiveSeedling].currentPart,
+			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart])
+		});
+  });
+
+  socket.on('sim lifx', function(data) {
+		lifx.validButtonPress(data.hex, data.bri);
+		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;
+  });
+
+
+  socket.on('sim breathe', function(data) {
+		console.log("Simulating breathe");
+		lifx.breathe();
+  });
+
+  socket.on('sim desperation', function(data) {
+		console.log("Simulating desperation");
+		var states = getStates();
+		lifx.desperation(states);
+
+		if(desperation) clearInterval(desperation);
+		desperation = setInterval(function() {
+			lifx.desperation(states)
+		}, states.length * 5000);
   });
 
   // Front-end simulation of a button press
@@ -282,8 +364,8 @@ function seedlingConnected(seedSocket, seedlingNum){
     if(!seedling.buttonPressed){
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
-      //seedling.socket.emit('seedling play sound', seedling.story.sound);
-      //bigRedButton(seedling);
+      seedling.socket.emit('seedling play sound', seedling.story.sound);
+      bigRedButton(seedling);
     }
     else{
       console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
@@ -330,17 +412,6 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
   else{
     // ===============================================================================
-	// First begin lifx valid button press behavior
-	if(stories[lastActiveSeedling].parts[part].monumentColor) {
-		var lifxHex = stories[lastActiveSeedling].parts[part].monumentColor.hex;
-		var lifxBri = stories[lastActiveSeedling].parts[part].monumentColor.bri;
-		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
-	} else if(stories[lastActiveSeedling].parts[part].color) {
-		lifx.validButtonPress(stories[lastActiveSeedling].parts[part].color, 0.5);
-	} else {
-		lifx.validButtonPress('red', 0);
-	}
-
     // Increment current part of the story and reset the idle countdown
     seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
     if(idleCountdown) clearTimeout(idleCountdown);
@@ -349,6 +420,20 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
     // Set the variable to keep track of the last seedling that had its button pressed
     lastActiveSeedling = seedling.number;
+
+	// Begin lifx valid button press behavior
+	if(story[lastActiveSeedling].parts[seedling.currentPart].monumentColor) {
+		console.log("Lifx Case 1");
+		var lifxHex = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.hex;
+		var lifxBri = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.bri;
+		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
+	} else if(story[lastActiveSeedling].parts[seedling.currentPart].color) {
+		console.log("Lifx Case 2");
+		lifx.validButtonPress(story[lastActiveSeedling].parts[seedling.currentPart].color, 0.5);
+	} else {
+		console.log("Lifx Case 3");
+		lifx.validButtonPress('red', 0);
+	}
 
     // Send the new height calculations to the frontend
     var result;

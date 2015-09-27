@@ -6,11 +6,11 @@ var self = module.exports = {
 
 	playRandomSound: function(type, randValue){
 		// Create the sound file that hasn't been played in a while
-		var soundName = soundObj[type][randValue];
-		var sound = new Sound('../../sounds/' + soundName + '.mp3');
-		sound.play();
-
-		console.log('Playing sound: '+soundName);
+//		var soundName = soundObj[type][randValue];
+//		var sound = new Sound('../../sounds/' + soundName + '.mp3');
+//		sound.play();
+//
+//		console.log('Playing sound: '+soundName);
 	},
 
 	playRandomType: function(type){
