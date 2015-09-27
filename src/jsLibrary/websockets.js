@@ -135,12 +135,13 @@ function countdown() {
 		idleBehavior();
 
 		// Restart and cycle through breathe and desperation every 2 minutes
-		setInterval(idleBehavior, 120000); 
+		var idleMode = setInterval(idleBehavior, 120000); 
 
 		// Set a 4 minute timeout to turn off the bulb after the idle behavior
 		setTimeout(function() {
 			if(desperation) clearInterval(desperation);
 			if(breatheTimeout) clearTimeout(breatheTimeout);
+			if(idleMode) clearInterval(idleMode);
 			lifx.fadeOff(5).then( console.log("Bulb off :)") );
 		}, 240000);
 			
