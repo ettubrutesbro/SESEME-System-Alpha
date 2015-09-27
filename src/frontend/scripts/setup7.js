@@ -97,8 +97,8 @@ function setup(){
 		// })
 	} //end initDOM
 	function assets(){
-		var allModels = ['quaped','pillar','outline3','outcap'] //symbolgeos?
-		var allTextures = ['chevron','shadow','bookeyemag', 'circle'] //names of external imgs (PNG)
+		var allModels = ['quaped','pillar','outline3','outcap','templategeo'] //symbolgeos?
+		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
@@ -218,7 +218,7 @@ function setup(){
 		highlightColor()
 		makeNames([false,false,false,false]); projectionMgr.itemEnd('names')
 		makeTitleblock(); projectionMgr.itemEnd('titleblock')
-		makeSymbols()
+		makeSymbols([false,false,false,false])
 		fillDOM()
 		placeMainButton()
 		populateHelp()
@@ -244,16 +244,15 @@ function setup(){
 			}
 			allMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total) }
 			quadMgr.onLoad = function(){
-				console.log('quads initialized'); allMgr.itemEnd('quadMgr')
+				console.log('quads in place'); allMgr.itemEnd('quadMgr')
 				anim3d(shadow, 'opacity', {opacity: 1, spd: 800})
 				seseme.remove(seseme.getObjectByName('covercube'))
 			}
 			quadMgr.onProgress = function(item,loaded,total){
-				console.log('quad'+(loaded-1)+' loaded, starting plr'+(loaded-1))
 				initPillar(loaded-1)
 			}
 			plrMgr.onLoad = function(){
-				console.log('pillars initialized'); allMgr.itemEnd('plrMgr')
+				console.log('pillars in place'); allMgr.itemEnd('plrMgr')
 			}
 			// projectionMgr.onProgress = function(item,loaded,total){console.log(item,loaded,total)}
 			projectionMgr.onLoad = function(){
@@ -446,27 +445,6 @@ function setup(){
 			} }
 			Hyphenator.config(hyphensettings)
 			Hyphenator.run()
-		}
-		function makeSymbols(){
-			// if(!story.parts[part].details) return
-			// for(var i = 0; i<4; i++){
-			// 	var symbol = story.parts[part].details[i].icon?story.parts[part].details[i].icon:{type:''}
-			// 	var symbolobj = new THREE.Mesh()
-			// 	if(symbol.type==='geo'){ //3d icon
-			// 		symbolobj.geometry = resources.geos[symbol.src]
-			// 		symbolobj.material = resources.mtls[symbol.src]
-			// 	}
-			// 	else if(symbol.type==='img'){ //image mapped plane
-			// 		symbolobj.geometry = new THREE.PlaneBufferGeometry(2.75,2.75)
-			// 	}
-			// 	symbolobj.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,.4,0))
-			// 	symbolobj.position.y = 0
-			// 	symbolobj.expand = {y: 1.375, delay: i*75} //half the height; templatebox is 2.75Y
-			// 	symbolobj.origin = {x: 0.1, y:0.1, z:0.1, delay: i*75}
-			// 	seseme['plr'+i].symbol = symbolobj
-				// seseme['plr'+i].add(seseme['plr'+i].symbol)
-
-			// }
 		}
 		//startup animations
 		function initPillar(which){

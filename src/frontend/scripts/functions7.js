@@ -707,11 +707,9 @@
 			var n = init? new THREE.Group() : info.name[i]
 
 			if(rtn[i]){ //name is the same from last part: just make height adjustment
-				console.log('retain name '+i)
 				n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
 				if(view.height === 'elevation') anim3d(n, 'position', {y: n.elevHt})
 			}else{
-				console.log('new name '+i)
 				if(!init) { n.remove(n.txt); delete n.txt } //delete old
 				var txt
 					n.lines = 1
@@ -823,7 +821,26 @@
 		// if(!init) setView()
 		// projectionMgr.itemEnd('titleblock')
 	}//END MAKETITLEBLOCK
+	function makeSymbols(rtn){
+		if(!data.details) return
+		for(var i = 0; i<4; i++){
+			if(rtn[i] || !data.details[i]) continue
+			var symbol = data.details[i].symbol?data.details[i].symbol : {type: ''}, obj
+			if(symbol.type === 'img'){
+				obj = new THREE.Mesh( new THREE.PlaneBufferGeometry(2.75,2.75),
+					new THREE.MeshBasicMaterial({map: resources.mtls[symbol.src].map, transparent: true}))
+			}
+			else if(symbol.type === 'geo'){
+				obj = new THREE.Mesh( resources.geos[symbol.src],
+					new THREE.MeshBasicMaterial({map: resources.mtls[symbol.src]}) )
+			}
+			else obj = new THREE.Object3D()
+			seseme['plr'+i].symbol = obj
+			seseme['plr'+i].add(seseme['plr'+i].symbol)
+		}
 
+
+	}
 }
 //5. MATH / UTILITY FUNCTIONS
 {
