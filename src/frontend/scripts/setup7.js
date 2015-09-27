@@ -18,7 +18,7 @@ init = true
 var controls, mouse = new THREE.Vector2(), raycast
 // 3d constants
 var plrmax = 12, constspd = 10000, spdcompensator = 400,
-plrSlope = 638.5, plrConstant = 1112.2
+// plrSlope = 638.5, plrConstant = 1112.2,
 thresholds = {zoom: [.675,1.15], height: [-3,-56]},
 facingRotations = [-45,45,135,-135]
 //dom
@@ -240,6 +240,7 @@ function setup(){
 				//all things done moving and animating; app is ready
 				console.log('quads, pillars, projections, hyphenation initalized')
 				init = false
+				Velocity(dom.help, {opacity: [1,0], translateX: [0, '2rem']}, {delay: 650, visibility: 'visible'})
 				check()
 			}
 			allMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total) }
