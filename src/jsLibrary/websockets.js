@@ -95,15 +95,47 @@ for(var i = 0; i < 3; i++){
 ////////////////////////////////////////////////
 // COUNTDOWN 'TIL IDLE STATE
 ////////////////////////////////////////////////
-var seconds = 300; // Global seconds variable
+var seconds = 120; // Global seconds variable
 var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
 var idleCountdown;
+var desperation;
+var idleBehavior;
 function countdown() {
+	console.log("[Time Left]: "+seconds);
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
-		// Begin lifx idle state behavior
-		lifx.desperation(getStates());
+
+		// Begin the lifx idle state behavior
+		idleBehavior = setInterval(function() { 
+				
+			// Start breathing (no maintenance needed to clear it)
+			console.log("Start breathing");
+			lifx.breathe();
+		
+			// Set a timeout to start desperation after a minute of breathing
+			setTimeout(function() {
+
+				// Start desperation immediately after breathing ends
+				console.log("Start desperation");
+				var states = getStates();
+				lifx.desperation(states);
 	
+				// Make sure to clear the interval if it was already initialized
+				if(desperation) clearInterval(desperation);
+	
+				// Set the interval of cycles through the story part colors
+				desperation = setInterval(function() { 
+					lifx.desperation(states) 
+				}, states.length * 5000);
+			}, 60000); 
+		}, 120000); // Restart and cycle through breathe and desperation every 2 minutes
+
+		// Set a 4 minute timeout to turn off the bulb after the idle behavior
+		setTimeout(function() {
+			if(desperation) clearInterval(desperation);
+			lifx.fadeOff(5);
+		}, 240000);
+			
 		// Broadcast to all clients that state is now idle
         for(var i = 0; i < 3; i++) {
             // Check if the seedlings are connected first to emit to them
@@ -114,6 +146,7 @@ function countdown() {
                 else seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number);
             }
         }
+		// Stop decrementing counting down and return
 		return;
 	}
 	seconds--;
@@ -121,6 +154,7 @@ function countdown() {
 }
 // Make sure to broadcast to all when the button is pressed
 countdown();
+
 
 function getStates() {
 	var states = [];
@@ -213,6 +247,7 @@ io.on('connection', function (socket) {
 		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;
   });
 
+
   socket.on('sim breathe', function(data) {
 		console.log("Simulating breathe");
 		lifx.breathe();
@@ -221,7 +256,10 @@ io.on('connection', function (socket) {
   socket.on('sim desperation', function(data) {
 		console.log("Simulating desperation");
 		var states = getStates();
-		var desperation = setInterval(function() { 
+		lifx.desperation(states);
+
+		if(desperation) clearInterval(desperation);
+		desperation = setInterval(function() { 
 			lifx.desperation(states) 
 		}, states.length * 5000);
   });
