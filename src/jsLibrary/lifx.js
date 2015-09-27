@@ -83,14 +83,14 @@ function rampDown(factor, duration) {
 		'duration': duration 
 	});
 
-	// PUT http request to update the hue color 
+	// PUT http request to ramp down 
 	request(options, function(error, response, body) {
 		if(error) console.log("Error: " + error); 
 	inhale }); // end of request
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Idle Tier 1 Breathe Function
+// Idle State: Breathe 
 function breathe() {
 	// 2 seconds to fade on and fade off, 6 seconds of offtime 
 	var offtime;
@@ -117,7 +117,7 @@ function fadeOn(duration) {
 			'duration'		: duration,
 		});
 	
-		// PUT http request to update the hue color 
+		// PUT http request to fade on
 		request(options, function(error, response, body) {
 			if(error) reject(error);
 			else if(response.statusCode == 200 || response.statusCode == 201) 
@@ -134,7 +134,7 @@ function fadeOff(duration) {
 			'duration'	: duration
 		});
 	
-		// PUT http request to update the hue color 
+		// PUT http request to fade off
 		request(options, function(error, response, body) {
 			if(error) reject(error);
 			else if(response.statusCode == 200 || response.statusCode == 201) 
@@ -144,10 +144,24 @@ function fadeOff(duration) {
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// Idle Tier 2 Breathe Function
-function desperation(monumentColors) {
+// Idle State: Desperation 
+function desperation(states) {
+	options.body = JSON.stringify({
+		'states'	: states,
+		'defaults'	: {
+			'power'		: 'on',
+			'duration'	: 5.0
+		}
+	});
 	
+	// PUT http request to set a cycle of states representing each part in the story
+	request(options, function(error, response, body) {
+		if(error) console.log(error) 
+	}); // end of request
+
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 exports.breathe = breathe;
+exports.desperation = desperation;
 exports.validButtonPress = validButtonPress;
