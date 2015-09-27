@@ -183,17 +183,15 @@ var webbyOnline = 0;
 var webby = null;
 var uiSocket = null;
 var lastSeedlingPlayed = 0;
-var previousSounds = new Array(4);
+var previousSounds = [];
 
 function randomSoundWeight(obj, type, socket){
   var randValue;
   for(;;) { // Keep replacing the random value until it is a desired value
     randValue = Math.floor((Math.random() * obj[type].length-1) + 1);
-    if(previousSounds && ((randValue === previousSounds[0].index) ||
-       (randValue === previousSounds[1].index) ||
-       (randValue === previousSounds[2].index) ||
-       (randValue === previousSounds[3].index))) continue;
-    else break;
+    for(var i = 0; i < previousSounds.length-1; i++)
+      if(randValue === previousSounds[i].index) continue;
+    break;
   }
   // ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
   if(previousSounds.length === 4) previousSounds.shift();
