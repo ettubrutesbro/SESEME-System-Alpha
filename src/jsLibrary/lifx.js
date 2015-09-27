@@ -102,6 +102,7 @@ function breathe() {
 
 	// Main breathe logic using a recursive promise chain with a timeout of 6s
 	var breatheSequence = function() {
+		console.log("--> in breatheSequence()");
 		fadeOn(1)
 			.then( setTimeout(function() { return fadeOff(1); }, 1250))
 			.then( function() {
@@ -111,6 +112,7 @@ function breathe() {
 
 	// Driver to start the breathing breatheSequence
 	breatheSequence();
+	return offtime;
 }
 
 function fadeOn(duration) {
