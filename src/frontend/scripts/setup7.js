@@ -283,7 +283,6 @@ function setup(){
 			titlebtn.rotation.x = camera.rotation.x;
 			titlebtn.position.z = 12
 			info.btn = titlebtn
-			// var btncolor = data.color instanceof Array? data.color[facing] : data.color? data.color : 0x000000
 			var btncolor = data.color.ui || 0x000000
 			var colorbtn = new THREE.Mesh(new THREE.PlaneBufferGeometry(4,4), new THREE.MeshBasicMaterial({map:resources.mtls.circle.map ,transparent: true, opacity: 0,
 				color: btncolor, depthWrite: false}))

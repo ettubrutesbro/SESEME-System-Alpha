@@ -98,7 +98,6 @@
 		viewNavigationHelper()
 		viewLRArrows()
 		camHeight()
-		viewColors()
 		if(view.height==='plan') viewHelp()
 		if(!button && !height && !zoom) shiftNavBars()
 		else if(height && view.height!=='plan') {viewHelp(); return}
@@ -446,13 +445,6 @@
 		else{ //hide
 			Velocity(dom.leftarrow, {opacity: 0, translateX: '500%', scale: 0.3}, {visibility: 'hidden'})
 			Velocity(dom.rightarrow, {opacity: 0, translateX: '-500%', scale: 0.3}, {visibility: 'hidden'})
-		}
-	}
-	function viewColors(){
-		if(data.color instanceof Array){ //arrayed colors
-			var rgb = hexToRgb(data.color[facing])
-			Velocity(dom.bottom, {backgroundColor: data.color[facing]})
-			anim3d(info.btn.color, 'color',{r:rgb.r, g:rgb.g, b:rgb.b})
 		}
 	}
 	function viewHelp(){
