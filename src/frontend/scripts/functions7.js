@@ -580,12 +580,12 @@
 			if(data.maintext === story.parts[part].text) retainMainText = true
 			for(var i = 0; i<4; i++){
 				if(data.pTexts[i] === story.parts[part].pTexts[i]) retainDetailText[i] = true
-				if(typeof data.pNames[i] !== typeof story.parts[part].details[i].name) return
+				if(typeof data.pNames[i] !== typeof story.parts[part].pNames[i]) return
 				if(typeof data.pNames[i] === 'string') {
-					if(data.pNames[i] === story.parts[part].details[i].name) retainName[i] = true
+					if(data.pNames[i] === story.parts[part].pNames[i]) retainName[i] = true
 				}
 				else if(data.pNames[i] instanceof Array){
-					if(data.pNames[i].equals(story.parts[part].details[i].name)) retainName[i] = true
+					if(data.pNames[i].equals(story.parts[part].pNames[i])) retainName[i] = true
 				}
 			}
 		}
@@ -831,28 +831,28 @@
 	function makeSymbols(rtn){
 		for(var i = 0; i<4; i++){
 			if(rtn[i]) continue
-			var symbol = data.pSymbols[i] || {type: ''}, obj
+			var symbol = data.pSymbols[i] || {type: ''}
+			var obj = new THREE.Object3D()
+			seseme['plr'+i].symbol = obj
+			seseme['plr'+i].add(seseme['plr'+i].symbol)
+			obj.expand = {y: 0, s:1}; obj.origin = {y: -1, s: 0.25}
 			if(symbol.type === 'img'){
 				obj = new THREE.Mesh( new THREE.PlaneBufferGeometry(3.5,3.5), resources.mtls[symbol.src] )
 				obj.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,1.75,0))
-				obj.expand = {y: 0, s:1}; obj.origin = {y: -1, s: 0.25}
 			}
 			else if(symbol.type === 'geo'){
 				obj = new THREE.Mesh( resources.geos[symbol.src], resources.mtls[symbol.src] )
-				obj.expand = {y: 0, s:1}; obj.origin = {y: -1, s: 0.25}
 			}
 			else if(symbol.type === 'spr'){
 				var sprmtl = new THREE.SpriteMaterial({transparent: true, map: resources.mtls[symbol.src].map})
 				obj = new THREE.Sprite( sprmtl )
 				obj.expand = {y: 1.75, s:3.5}; obj.origin = {y: -1.25, s: 0.75}
 			}
-			else obj = new THREE.Object3D()
+			else continue
 			obj.material.depthWrite = true
 			obj.scale.set(obj.origin.s,obj.origin.s,obj.origin.s)
 			obj.position.y = obj.origin.y; obj.rotation.y = rads(45)
 
-			seseme['plr'+i].symbol = obj
-			seseme['plr'+i].add(seseme['plr'+i].symbol)
 		}
 	}
 	function makeStatboxLabel(){

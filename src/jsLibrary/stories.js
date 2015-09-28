@@ -40,8 +40,8 @@ module.exports = {
         color: { ui: '#339167', monument: {hex: "#ff0000", bri: .5}, ring: {} },
         sound: ['boo','toilet'],
 
-        pNames: ['','','',''],
-        pTexts: ['','','',''],
+        pNames: ['bla','bla','bla','bla'],
+        pTexts: ['bla','bla','bla','bla'],
         pSymbols: ['','','',''],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
@@ -59,8 +59,8 @@ module.exports = {
         maintext: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
         color: { ui: '#00f000', monument: {hex: "#22ff55", bri: 1}, ring: {} },
         sound: ['water1','toilet'],
-        pNames: ['','','',''],
-        pTexts: ['','','',''],
+        pNames: ['bla','bla','bla','bla'],
+        pTexts: ['bla','bla','bla','bla'],
         pSymbols: ['','','',''],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
