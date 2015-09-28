@@ -573,23 +573,20 @@
 	function refill(){
 		console.log('refilling')
 		//CHECKING FOR RETENTION
-		{
-			var retainMainText = false, retainDetailText = [false,false,false,false],
-			retainName = [false,false,false,false]
-			// var retain = {maintext:false, detail0:false,detail1:false,detail2:false,detail3:false,
-			// name0:false,name1:false,name2:false,name3:false,titleblock:false}
-			if(data.maintext === story.parts[part].text) retainMainText = true
-			for(var i = 0; i<4; i++){
-				if(data.pTexts[i] === story.parts[part].pTexts[i]) retainDetailText[i] = true
-				if(typeof data.pNames[i] !== typeof story.parts[part].pNames[i]) return
-				if(typeof data.pNames[i] === 'string') {
-					if(data.pNames[i] === story.parts[part].pNames[i]) retainName[i] = true
-				}
-				else if(data.pNames[i] instanceof Array){
-					if(data.pNames[i].equals(story.parts[part].pNames[i])) retainName[i] = true
-				}
+		var retainMainText = false, retainDetailText = [false,false,false,false],
+		retainName = [false,false,false,false]
+		if(data.maintext === story.parts[part].text) retainMainText = true
+		for(var i = 0; i<4; i++){
+			if(data.pTexts[i] === story.parts[part].pTexts[i]) retainDetailText[i] = true
+			if(typeof data.pNames[i] !== typeof story.parts[part].pNames[i]) continue
+			if(typeof data.pNames[i] === 'string') {
+				if(data.pNames[i] === story.parts[part].pNames[i]) retainName[i] = true
+			}
+			else if(data.pNames[i] instanceof Array){
+				if(data.pNames[i].equals(story.parts[part].pNames[i])) retainName[i] = true
 			}
 		}
+
 		console.log('retention check complete')
 		//ESTABLISHING DATA, DISABLING CONTROLS, AND 'WAITING' FOR CONTENT FILLING
 		data = story.parts[part]
