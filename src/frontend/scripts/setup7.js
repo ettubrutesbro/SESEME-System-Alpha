@@ -53,11 +53,13 @@ function setup(){
 					})
 					//can also get the below through socket.emit('sim button',buttonNum)
 					socket.on('ui update part', function(d){
+						console.log('ui updating part')
 						console.log(d)
 						part = d.part; percentages = d.percentages
 						refill()
 					})
 					socket.on('ui different story', function(d){
+						console.log('ui updating story')
 						console.log(d)
 						story = d.story; part = 0; percentages = d.percentages
 						refill()

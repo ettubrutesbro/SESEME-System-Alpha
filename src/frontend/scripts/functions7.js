@@ -856,11 +856,13 @@
 			font = data.pLabels[i].font || 'Karla',
 			fontsize = data.pLabels[i].size || 13,
 			fontweight = data.pLabels[i].weight || 600,
-			txtalign = data.pLabels[i].align || 'center'
+			txtalign = data.pLabels[i].align || 'center',
+			label
 
 			if(typeof txt === 'string'){
 				var label = meshify(new Text(txt,400,fontsize*6,'white',font,fontsize,fontweight,txtalign))
 				label.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.atan(-1/Math.sqrt(2))))
+				label.material.opacity = 1
 			}
 			else if(txt instanceof Array){
 				var label = new THREE.Group()
@@ -869,9 +871,12 @@
 					var labelobj = meshify(new Text(txt[it],400,fontsize*6,'white',font,fontsize,fontweight,txtalign))
 					labelobj.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.atan(-1/Math.sqrt(2))))
 					label.add(labelobj)
+					labelobj.material.opacity = 1
+					labelobj.position.y = -it*(fontsize/10)
 				}
 			}
-			label.material.opacity = 1
+			else {console.log('FOH'); continue}
+
 			label.scale.set(0.625,0.625,0.625)
 			label.rotation.y = rads(45)
 			label.position.set(2.05,-0.5,2.05)
@@ -879,8 +884,11 @@
 			seseme['plr'+i].add(seseme['plr'+i].label)
 		}
 	}
-	function makeStatBox(){
-		// for(var i )
+	function makeStatBox(rtn){
+		for(var i = 0; i<4; i++){
+			if(rtn[i]) continue
+
+		}
 	}
 }
 //5. MATH / UTILITY FUNCTIONS
