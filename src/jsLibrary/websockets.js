@@ -161,9 +161,9 @@ function getStates() {
 	var states = [];
 	for(var i = 0; i < story[lastActiveSeedling].parts.length; i++) {
 		var state = {};
-		if(story[lastActiveSeedling].parts[i].monumentColor) {
-			state.color = story[lastActiveSeedling].parts[i].monumentColor.hex;
-			state.brightness = 1 * story[lastActiveSeedling].parts[i].monumentColor.bri;
+		if(story[lastActiveSeedling].parts[i].color.monument) {
+			state.color = story[lastActiveSeedling].parts[i].color.monument.hex;
+			state.brightness = 1 * story[lastActiveSeedling].parts[i].color.monument.bri;
 		} else if(story[lastActiveSeedling].parts[i].color) {
 			state.color = story[lastActiveSeedling].parts[i].color;
 			state.brightness = 0.5;
@@ -436,9 +436,9 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     lastActiveSeedling = seedling.number;
 
 	// Begin lifx valid button press behavior
-	if(story[lastActiveSeedling].parts[seedling.currentPart].monumentColor) {
-		var lifxHex = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.hex;
-		var lifxBri = story[lastActiveSeedling].parts[seedling.currentPart].monumentColor.bri;
+	if(story[lastActiveSeedling].parts[seedling.currentPart].color.monument) {
+		var lifxHex = story[lastActiveSeedling].parts[seedling.currentPart].color.monument.hex.hex;
+		var lifxBri = story[lastActiveSeedling].parts[seedling.currentPart].color.monument.bri;
 		lifx.validButtonPress(lifxHex, lifxBri ? lifxBri : 0.5);
 	} else if(story[lastActiveSeedling].parts[seedling.currentPart].color)
 		lifx.validButtonPress(story[lastActiveSeedling].parts[seedling.currentPart].color, 0.5);

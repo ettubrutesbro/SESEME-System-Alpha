@@ -102,7 +102,6 @@ function breathe() {
 
 	// Main breathe logic using a recursive promise chain with a timeout of 6s
 	var breatheSequence = function() {
-		console.log("--> "+depth);
 		fadeOn(1)
 			.then( setTimeout(function() { return fadeOff(1); }, 1250))
 			.then( function() {
