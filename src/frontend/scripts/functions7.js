@@ -623,7 +623,7 @@
 		}
 		function replaceTitleblock(){
 			//if titleblock isnt visible at time of replacement, no need for fade
-			if(view.zoom==='close' || view.zoom === 'far' || view.height === 'plan'){
+			if(view.zoom==='close' || view.zoom === 'far' || view.height === 'plan' || view.text){
 				makeTitleblock()
 				refillMgr.itemEnd('titleblock')
 				return
@@ -643,7 +643,7 @@
 			})
 		}
 		function recolor3d(){
-			var rgb = data.color? hexToRgb(data.color): {r:0,g:0,b:0}
+			var rgb = data.color.ui? hexToRgb(data.color.ui): {r:0,g:0,b:0}
 			for(var i = 0; i<4; i++){
 				anim3d(seseme['plr'+i].outline, 'color', rgb)
 				anim3d(seseme['plr'+i].outcap, 'color', rgb)
@@ -667,7 +667,7 @@
 			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
 			dom.overtext.textContent = story.description
 			//MAJOR CONTENT CHANGES / FADE
-			Velocity(dom.bottom, {backgroundColor: data.color})
+			Velocity(dom.bottom, {backgroundColor: data.color.ui || '#000000'})
 			//just hide what's being viewed, cb changes content and animates bottom
 			var allContent = ['maintext', 'overtext', 'detail0', 'detail1', 'detail2', 'detail3']
 			if(view.content){
@@ -696,8 +696,6 @@
 				Velocity(dom.databars[i], {height: (plrOrder.indexOf(data.values[i])+1)*25+'%' })
 			}
 			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
-			// dom.bottom.style.backgroundColor = data.color
-
 
 		}//end refillDOM
 	} //END REFILL
@@ -788,40 +786,38 @@
 		if(init) info.titleblock = new THREE.Group()
 		else if(!init) info.titleblock.children = []
 		info.titleblock.ht = 0
-		if(data.title){
-			var t = data.title
-			var titlekeys = Object.keys(data.title)
-			for(var i = 0; i<titlekeys.length; i++){
-				if(t[titlekeys[i]].margin) info.titleblock.ht+=t[titlekeys[i]].margin
-				var width = 750,
-				height = t[titlekeys[i]].size?t[titlekeys[i]].size*5:110,
-				font = t[titlekeys[i]].font?t[titlekeys[i]].font:'Karla',
-				fontsize = t[titlekeys[i]].size?t[titlekeys[i]].size:21,
-				weight = t[titlekeys[i]].weight?t[titlekeys[i]].weight:600,
-				align = t[titlekeys[i]].align?t[titlekeys[i]].align:'center'
-				//arrayed title (multi-line)
-				if(t[titlekeys[i]].c instanceof Array){
-					var txt = new THREE.Group()
-					info.titleblock.add(txt)
-					for(var it = 0; it<t[titlekeys[i]].c.length; it++){
-						var arrtxt = meshify(new Text(t[titlekeys[i]].c[it], width, height, 'white', font, fontsize, weight, align))
-						if(t[titlekeys[i]].size) info.titleblock.ht += t[titlekeys[i]].size/12.5
-						else if(i>0) info.titleblock.ht += 1.65
-						arrtxt.position.y = arrtxt.origin = -info.titleblock.ht
-						arrtxt.expand = -info.titleblock.ht
-						txt.add(arrtxt)
-					}
-				//single string
-				}else{
-					var txt = meshify(new Text(t[titlekeys[i]].c, width, height, 'white', font, fontsize, weight, align))
+		var t = data.title
+		var titlekeys = Object.keys(data.title)
+		for(var i = 0; i<titlekeys.length; i++){
+			if(t[titlekeys[i]].margin) info.titleblock.ht+=t[titlekeys[i]].margin
+			var width = 750,
+			height = t[titlekeys[i]].size?t[titlekeys[i]].size*5:110,
+			font = t[titlekeys[i]].font?t[titlekeys[i]].font:'Karla',
+			fontsize = t[titlekeys[i]].size?t[titlekeys[i]].size:21,
+			weight = t[titlekeys[i]].weight?t[titlekeys[i]].weight:600,
+			align = t[titlekeys[i]].align?t[titlekeys[i]].align:'center'
+			//arrayed title (multi-line)
+			if(t[titlekeys[i]].c instanceof Array){
+				var txt = new THREE.Group()
+				info.titleblock.add(txt)
+				for(var it = 0; it<t[titlekeys[i]].c.length; it++){
+					var arrtxt = meshify(new Text(t[titlekeys[i]].c[it], width, height, 'white', font, fontsize, weight, align))
 					if(t[titlekeys[i]].size) info.titleblock.ht += t[titlekeys[i]].size/12.5
 					else if(i>0) info.titleblock.ht += 1.65
-					txt.position.y = txt.origin = -info.titleblock.ht
-					txt.expand = -info.titleblock.ht
-					info.titleblock.add(txt)
+					arrtxt.position.y = arrtxt.origin = -info.titleblock.ht
+					arrtxt.expand = -info.titleblock.ht
+					txt.add(arrtxt)
 				}
+			//single string
+			}else{
+				var txt = meshify(new Text(t[titlekeys[i]].c, width, height, 'white', font, fontsize, weight, align))
+				if(t[titlekeys[i]].size) info.titleblock.ht += t[titlekeys[i]].size/12.5
+				else if(i>0) info.titleblock.ht += 1.65
+				txt.position.y = txt.origin = -info.titleblock.ht
+				txt.expand = -info.titleblock.ht
+				info.titleblock.add(txt)
 			}
-		}// end check for data.title
+		}
 		info.titleblock.position.y = info.titleblock.isoHt = info.titleblock.ht/4.25 - .5
 		info.titleblock.position.z = 7.5
 		info.orbiter.add(info.titleblock)
@@ -831,27 +827,31 @@
 	function makeSymbols(rtn){
 		for(var i = 0; i<4; i++){
 			if(rtn[i]) continue
-			var symbol = data.pSymbols[i] || {type: ''}
-			var obj = new THREE.Object3D()
-			seseme['plr'+i].symbol = obj
-			seseme['plr'+i].add(seseme['plr'+i].symbol)
-			obj.expand = {y: 0, s:1}; obj.origin = {y: -1, s: 0.25}
+			var symbol = data.pSymbols[i] || {type: ''}, obj
+
 			if(symbol.type === 'img'){
 				obj = new THREE.Mesh( new THREE.PlaneBufferGeometry(3.5,3.5), resources.mtls[symbol.src] )
 				obj.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,1.75,0))
+				obj.expand = {y: 0, s:1}; obj.origin = {y: -1, s: 0.25}
 			}
 			else if(symbol.type === 'geo'){
 				obj = new THREE.Mesh( resources.geos[symbol.src], resources.mtls[symbol.src] )
+				obj.expand = {y: 0, s:1}; obj.origin = {y: -1, s: 0.25}
 			}
 			else if(symbol.type === 'spr'){
 				var sprmtl = new THREE.SpriteMaterial({transparent: true, map: resources.mtls[symbol.src].map})
 				obj = new THREE.Sprite( sprmtl )
 				obj.expand = {y: 1.75, s:3.5}; obj.origin = {y: -1.25, s: 0.75}
 			}
-			else continue
+			else {
+				obj = new THREE.Mesh(new THREE.PlaneBufferGeometry(0,0), new THREE.MeshBasicMaterial())
+				obj.expand = {y: -1, s:0.1}; obj.origin = {y: -1, s: 0.1}
+			}
 			obj.material.depthWrite = true
 			obj.scale.set(obj.origin.s,obj.origin.s,obj.origin.s)
 			obj.position.y = obj.origin.y; obj.rotation.y = rads(45)
+			seseme['plr'+i].symbol = obj
+			seseme['plr'+i].add(seseme['plr'+i].symbol)
 
 		}
 	}

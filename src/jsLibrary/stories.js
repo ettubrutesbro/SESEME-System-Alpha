@@ -37,12 +37,13 @@ module.exports = {
           post: {c: '2014', size: 18, margin: .8}
         },
         maintext: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
-        color: { ui: '#339167', monument: {hex: "#ff0000", bri: .5}, ring: {} },
+        color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: {} },
         sound: ['boo','toilet'],
 
         pNames: ['bla','bla','bla','bla'],
         pTexts: ['bla','bla','bla','bla'],
-        pSymbols: ['','','',''],
+        pSymbols: [{type:'geo',src:'templategeo'},{type:'spr',src:'planetest'},
+          {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
         pExtras: ['','','',''],
@@ -61,7 +62,8 @@ module.exports = {
         sound: ['water1','toilet'],
         pNames: ['bla','bla','bla','bla'],
         pTexts: ['bla','bla','bla','bla'],
-        pSymbols: ['','','',''],
+        pSymbols: [{type:'geo',src:'templategeo'},{type:'spr',src:'planetest'},
+          {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
         pExtras: ['','','',''],
