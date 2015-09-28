@@ -219,6 +219,7 @@ function setup(){
 		makeNames([false,false,false,false]); projectionMgr.itemEnd('names')
 		makeTitleblock(); projectionMgr.itemEnd('titleblock')
 		makeSymbols([false,false,false,false])
+		makeSymbolLabel([false,false,false,false])
 		fillDOM()
 		placeMainButton()
 		populateHelp()

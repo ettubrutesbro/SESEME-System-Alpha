@@ -1,7 +1,7 @@
 module.exports = {
   testStory: {
     id: 1, seedling: 'environment',
-    description: 'The stories in this series all deal with environmental issues - from the vain ones (our sustainability rank, as determined by the Sierra Club) to the transformative and immediate (the CA drought). Find the pedestal with the leaf on it and press its button to see more stories about this topic.',
+    description: 'The stories in this series all deal with our environment - from vain ones (our sustainability ranking) to the transformative and immediate (the CA drought, marine biodiversity).',
     parts: [
       {
         values: [1,3,9,20], valueType: 'lessIsTall', customLo: 24,
@@ -19,7 +19,7 @@ module.exports = {
         pSymbols: [{type:'img',src:'planetest'},{type:'img',src:'planetest'},{type:'img',src:'planetest'}, {type:'img',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: [
-          {c:'1st', size: 48, font: 'Droid Serif' }, {c: '3rd', size: 48, font: 'Droid Serif' },
+          {c:['1st Place', 'so fuck off'], size: 48, font: 'Droid Serif' }, {c: '3rd', size: 48, font: 'Droid Serif' },
           {c:'9th', size: 48, font: 'Droid Serif' }, {c: '20th, lol', size: 48, font: 'Droid Serif' }
         ],
         pExtras: [
@@ -40,7 +40,7 @@ module.exports = {
         color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: {} },
         sound: ['boo','toilet'],
 
-        pNames: ['bla','bla','bla','bla'],
+        pNames: [['shaddup','fool'],'bla','bla','bla'],
         pTexts: ['bla','bla','bla','bla'],
         pSymbols: [{type:'geo',src:'templategeo'},{type:'spr',src:'planetest'},
           {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],

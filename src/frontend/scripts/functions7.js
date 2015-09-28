@@ -662,7 +662,6 @@
 		function refillDOM(){
 			console.log('running refillDOM')
 			//STORY CHANGES?
-			//won't actually change if story didn't change...
 			dom.navspans[1].textContent = story.seedling
 			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
 			dom.overtext.textContent = story.description
@@ -696,7 +695,6 @@
 				Velocity(dom.databars[i], {height: (plrOrder.indexOf(data.values[i])+1)*25+'%' })
 			}
 			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
-
 		}//end refillDOM
 	} //END REFILL
 	//
@@ -743,14 +741,11 @@
 					}
 					//invalid type
 					else console.log('data.pNames['+i+'] is invalid type')
-
-
 				n.txt = txt
 				n.add(n.txt)
 				n.position.set(-3.6, 17.5, 1.1)
 				n.isoHt = 17.5; n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
 			}
-
 			var pointer
 			if(init){
 				pointer = new THREE.Sprite(new THREE.SpriteMaterial({transparent:true,map:resources.mtls.chevron.map,opacity:0, color: 0x000000}))
@@ -841,7 +836,7 @@
 			else if(symbol.type === 'spr'){
 				var sprmtl = new THREE.SpriteMaterial({transparent: true, map: resources.mtls[symbol.src].map})
 				obj = new THREE.Sprite( sprmtl )
-				obj.expand = {y: 1.75, s:3.5}; obj.origin = {y: -1.25, s: 0.75}
+				obj.expand = {y: 1.75, s:3.5}; obj.origin = {y: -.5, s: 0.75}
 			}
 			else {
 				obj = new THREE.Mesh(new THREE.PlaneBufferGeometry(0,0), new THREE.MeshBasicMaterial())
@@ -852,13 +847,40 @@
 			obj.position.y = obj.origin.y; obj.rotation.y = rads(45)
 			seseme['plr'+i].symbol = obj
 			seseme['plr'+i].add(seseme['plr'+i].symbol)
-
 		}
 	}
-	function makeStatboxLabel(){
+	function makeSymbolLabel(rtn){
 		for(var i = 0; i<4; i++){
-			// var txt = pLabels[i] || pNames[i] ||
+			if(rtn[i]) continue
+			var txt = data.pLabels[i].c || data.pNames[i] || '',
+			font = data.pLabels[i].font || 'Karla',
+			fontsize = data.pLabels[i].size || 13,
+			fontweight = data.pLabels[i].weight || 600,
+			txtalign = data.pLabels[i].align || 'center'
+
+			if(typeof txt === 'string'){
+				var label = meshify(new Text(txt,400,fontsize*6,'white',font,fontsize,fontweight,txtalign))
+				label.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.atan(-1/Math.sqrt(2))))
+			}
+			else if(txt instanceof Array){
+				var label = new THREE.Group()
+				for(var it = 0; it<txt.length; it++){
+					var objtext = txt[it]
+					var labelobj = meshify(new Text(txt[it],400,fontsize*6,'white',font,fontsize,fontweight,txtalign))
+					labelobj.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.atan(-1/Math.sqrt(2))))
+					label.add(labelobj)
+				}
+			}
+			label.material.opacity = 1
+			label.scale.set(0.625,0.625,0.625)
+			label.rotation.y = rads(45)
+			label.position.set(2.05,-0.5,2.05)
+			seseme['plr'+i].label = label
+			seseme['plr'+i].add(seseme['plr'+i].label)
 		}
+	}
+	function makeStatBox(){
+		// for(var i )
 	}
 }
 //5. MATH / UTILITY FUNCTIONS
@@ -949,20 +971,13 @@
 		controls['rotate'+dir](1/travel)
 	}
 }
-//7. DETAIL OBJECTS
-{
-	function Detail(type, action, icon, pos, origin){
-
-	}
-
-}
-//8. 3D TEXT CREATION
+//7. 3D TEXT CREATION
 {
 	function Text(words,width,height,color,font,fontSize,fontWeight,align){
 		this.cvs = document.createElement('canvas'), this.ctx = this.cvs.getContext('2d')
 		this.tex = new THREE.Texture(this.cvs); this.tex.needsUpdate = true
 		this.cvs.width = width; this.cvs.height = height
-		// this.ctx.strokeStyle = '#FF0000', this.ctx.lineWidth=5, this.ctx.strokeRect(0,0,this.cvs.width,this.cvs.height)
+		this.ctx.strokeStyle = '#FF0000', this.ctx.lineWidth=5, this.ctx.strokeRect(0,0,this.cvs.width,this.cvs.height)
 		this.ctx.scale(3,3); this.ctx.fillStyle = color; this.ctx.font = 'normal '+fontWeight+' '+fontSize+'pt '+font
 		this.ctx.textAlign = align
 		if(align==='center' || !align) this.ctx.fillText(words,this.cvs.width/6,this.cvs.height/6+fontSize/2.2)
