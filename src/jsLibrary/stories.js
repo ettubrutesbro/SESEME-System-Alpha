@@ -10,14 +10,34 @@ module.exports = {
           main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
           post: {c: '2012', size: 18, margin: .8}
         },
-        text: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education. But a lot has changed since then...', //recommended 230 character maximum
-        color: '#339167', monumentColor: { hex:'#339167', bri:1 },
+        text: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.', //recommended 230 character maximum
+        // color: '#339167', monumentColor: { hex:'#339167', bri:1 },
+        //prototype color
+        color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: {} }
+
         sound: ['cheer1','cheer2'],
+
         details: [
           {name: 'UC Davis', text: '2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.', symbol: {type:'img',src:'planetest'}},
           {name: 'Stanford', text: 'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.', symbol: {type:'img',src:'planetest'}},
           {name: 'UC Irvine', text: 'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.', symbol: {type:'geo',src:'templategeo'}},
           {name: 'UC Berkeley', text: '', symbol: {type:'spr',src:'planetest'}}
+        ],
+        //prototype data structure: separated (easier to reference)
+        pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
+        pTexts: ['2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.','Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.','Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.',''],
+        pSymbols: [{type:'img',src:'planetest'},{type:'img',src:'planetest'},{type:'img',src:'planetest'}, {type:'img',src:'planetest'}],
+        pLabels: ['','','',''],
+        pStatboxes: [
+          {c:'1st', size: 48, font: 'Droid Serif' }, {c: '3rd', size: 48, font: 'Droid Serif' },
+          {c:'9th', size: 48, font: 'Droid Serif' }, {c: '20th, lol', size: 48, font: 'Droid Serif' }
+        ],
+        pExtras: [
+          [{type:'link', c: ''}, {type: 'vid', c: ''}, {type: 'link', c: ''}],
+          [{type:'link', c: ''}, {type: 'link', c: ''}],
+          [{type:'link', c: ''}, {type: 'link', c: ''}],
+          [{type:'link', c: ''}, {type: 'link', c: ''}],
+
         ]
       },
 

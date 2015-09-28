@@ -721,7 +721,6 @@
 		for(var i = 0; i<4; i++){
 			//individual sprite name
 			var n = init? new THREE.Group() : info.name[i]
-
 			if(rtn[i]){ //name is the same from last part: just make height adjustment
 				n.elevHt = seseme['plr'+i].targetY + 1.5 + (n.lines*lnheight)
 				if(view.height === 'elevation') anim3d(n, 'position', {y: n.elevHt})
@@ -865,8 +864,10 @@
 			seseme['plr'+i].add(seseme['plr'+i].symbol)
 		}
 	}
-	function makeDetails(){
+	function makeStatboxLabel(){
+		for(var i = 0; i<4; i++){
 
+		}
 	}
 }
 //5. MATH / UTILITY FUNCTIONS
