@@ -13,7 +13,7 @@ module.exports = {
         text: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.', //recommended 230 character maximum
         // color: '#339167', monumentColor: { hex:'#339167', bri:1 },
         //prototype color
-        color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: {} }
+        color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: {} },
 
         sound: ['cheer1','cheer2'],
 
@@ -51,6 +51,7 @@ module.exports = {
         },
         text: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
         color: '#ff0000',
+        color: { ui: '#339167', monument: {hex: "#ff0000", bri: .5}, ring: {} }
         sound: ['boo','toilet'],
         details: [
           {name: 'UC Davis', text: 'Since then we crashed hard. That was pretty inexcusable because nobodies such as Chico State were bodying us in the paint.' , symbol: {type:'img',src:'planetest'}},
@@ -68,7 +69,8 @@ module.exports = {
           main: {c: ['Water Wasteful','Foods, Ranked.'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'}
         },
         text: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
-        color: '#00ff00', monumentColor: { hex:'#22ff55', bri:.75 },
+        // color: '#00ff00', monumentColor: { hex:'#22ff55', bri:.75 },
+        color: { ui: '#00f000', monument: {hex: "#22ff55", bri: 1}, ring: {} },
         sound: ['water1','toilet'],
         details: [
           {name: 'Beef', text: 'K i love hamburgers too but they are BODYING our water supply, this is seriously like tho most inefficient ass use of water ever', symbol: {type:'img',src:'planetest'}},
