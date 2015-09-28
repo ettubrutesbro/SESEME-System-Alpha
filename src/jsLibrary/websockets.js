@@ -425,14 +425,20 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   }
 
   else {
-    var loginSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
-    if(!loginSounds || loginSounds.length)
-        seedling.socket.emit('seedling start button-sound', null);
-    else {
-        var loginSound = loginSounds[Math.floor((Math.random() * loginSounds.length-1) + 1)];
-        seedling.socket.emit('seedling start button-sound', loginSound);
-    }
-    seedling.socket.on('seedling finished button-sound', function() {
+    // // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // // COMMENT THIS SECTION OUT TO MAKE BUTTON PRESS WORK WITHOUT SOUND (along with the }); at the bottom)
+    // // --> Still have to test
+    // // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
+    // if(!buttonSounds || buttonSounds.length)
+    //     seedling.socket.emit('seedling start button-sound', null);
+    // else {
+    //     var buttonSounds = buttonSounds[Math.floor((Math.random() * buttonSounds.length-1) + 1)];
+    //     seedling.socket.emit('seedling start button-sound', buttonSounds);
+    // }
+    // seedling.socket.on('seedling finished button-sound', function() {
+    // // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
         // ===============================================================================
         // Increment current part of the story and reset the idle countdown
         seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
@@ -474,7 +480,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
         //   seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
           seedling.buttonPressed = false;
         }, Math.ceil(duration)*1000); // update seedling attributes after animation done
-    }); // end of socket listener
+    // }); // end of socket listener
   }
 }
 
