@@ -10,6 +10,7 @@ module.exports = {
           main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
           post: {c: '2012', size: 18, margin: .8}
         },
+
         maintext: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.', //recommended 230 character maximum
         color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: {} },
 
