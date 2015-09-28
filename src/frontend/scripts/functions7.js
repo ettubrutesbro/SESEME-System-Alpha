@@ -571,6 +571,7 @@
 //4. REFILLING AND GLOBAL CONTENT POPULATION (shared b/w setup and refill)
 {
 	function refill(){
+		console.log('refilling')
 		//CHECKING FOR RETENTION
 		{
 			var retainMainText = false, retainDetailText = [false,false,false,false],
@@ -589,6 +590,7 @@
 				}
 			}
 		}
+		console.log('retention check complete')
 		//ESTABLISHING DATA, DISABLING CONTROLS, AND 'WAITING' FOR CONTENT FILLING
 		data = story.parts[part]
 		var refillMgr = new THREE.LoadingManager()
@@ -603,9 +605,9 @@
 		}
 		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
 		//3D SHIT - color, namesprites, titleblock, main button position
-		pctsToHeights()
-		movePillars()
-		makeNames(retainName)
+		pctsToHeights(); console.log('pcts translated to new heights')
+		movePillars(); console.log('called pillar motion')
+		makeNames(retainName); console.log(' made names ')
 		refillMgr.itemEnd('names')
 		replaceTitleblock()
 		recolor3d()

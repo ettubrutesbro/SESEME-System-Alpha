@@ -29,7 +29,26 @@ module.exports = {
           [{type:'link', c: ''}, {type: 'link', c: ''}],
         ]
       }, //end part 0
+      {
+        values: [10,13,19,5], valueType: 'lessIsTall', customLo: 24,
+        title: {
+          pre: {c: 'WTF WE SUCK???', size: 18},
+          main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
+          post: {c: '2014', size: 18, margin: .8}
+        },
+        maintext: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
+        color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: {} },
+        sound: ['boo','toilet'],
 
+        pNames: [['shaddup','fool'],'bla','bla','bla'],
+        pTexts: ['bla','bla','bla','bla'],
+        pSymbols: [{type:'geo',src:'templategeo'},{type:'spr',src:'planetest'},
+          {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
+        pLabels: ['','','',''],
+        pStatboxes: ['','','',''],
+        pExtras: ['','','','']
+
+      },
 
       {
 
@@ -47,7 +66,7 @@ module.exports = {
           {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
-        pExtras: ['','','',''],
+        pExtras: ['','','','']
       }
     ]
   },
