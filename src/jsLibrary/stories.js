@@ -10,7 +10,7 @@ module.exports = {
           main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
           post: {c: '2012', size: 18, margin: .8}
         },
-        text: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.', //recommended 230 character maximum
+        maintext: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.', //recommended 230 character maximum
         color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: {} },
 
         sound: ['cheer1','cheer2'],
@@ -47,7 +47,7 @@ module.exports = {
           main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
           post: {c: '2014', size: 18, margin: .8}
         },
-        text: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
+        maintext: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
         color: { ui: '#339167', monument: {hex: "#ff0000", bri: .5}, ring: {} },
         sound: ['boo','toilet'],
         details: [
@@ -65,7 +65,7 @@ module.exports = {
           pre: {c: 'DROUGHT VS. FOOD', size: 16, align: 'start'},
           main: {c: ['Water Wasteful','Foods, Ranked.'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'}
         },
-        text: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
+        maintext: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
         color: { ui: '#00f000', monument: {hex: "#22ff55", bri: 1}, ring: {} },
         sound: ['water1','toilet'],
         details: [
