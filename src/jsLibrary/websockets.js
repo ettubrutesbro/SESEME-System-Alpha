@@ -427,7 +427,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   else {
     // // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     // // COMMENT THIS SECTION OUT TO MAKE BUTTON PRESS WORK WITHOUT SOUND (along with the }); at the bottom)
-    // // --> Still have to test
+    // // --> This block is to play a sound upon button press
     // // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     // var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
     // if(!buttonSounds || buttonSounds.length)
