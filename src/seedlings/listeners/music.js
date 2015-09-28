@@ -14,6 +14,21 @@ function listeners(socket, soundObj) {
         sound.play();
     });
 
+    // Listener to play a specific button sound given a sound name
+    socket.on('seedling play button-sound', function(soundName) {
+        if(!soundName) socket.emit('seedling finished button-sound');
+
+        console.log("Played sound '"+soundName+"'");
+        var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', soundName+'.mp3');
+        var sound = new Sound(soundPath);
+        sound.play();
+
+        sound.on('complete', function() {
+            console.log('Completed button sound!');
+            socket.emit('seedling finished button-sound');
+        });
+    });
+
     // Listener to play a random sound given a sound type
     socket.on('seedling play random-sound', function(type, previousSounds) {
         console.log("Playing random sound of type " + type);
