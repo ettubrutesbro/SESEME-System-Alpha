@@ -198,7 +198,7 @@
 		//fade in or out?
 		if((view.height==='plan')||(view.text && view.zoom === 'close')
 		|| (!view.text && view.zoom === 'close' && !dom['detail'+facing].textContent)
-		|| (view.zoom === 'normal' && !data.text) || (view.zoom===''&&!data.text) ){
+		|| (view.zoom === 'normal' && !data.maintext) || (view.zoom===''&&!data.maintext) ){
 			//text open and viewing close, or viewing from far, or viewing content-less detail
 			if(info.btn.visible){
 				info.btn.traverse(function(child){ child.fadeOut() })
@@ -585,15 +585,15 @@
 			retainName = [false,false,false,false]
 			// var retain = {maintext:false, detail0:false,detail1:false,detail2:false,detail3:false,
 			// name0:false,name1:false,name2:false,name3:false,titleblock:false}
-			if(data.text === story.parts[part].text) retainMainText = true
+			if(data.maintext === story.parts[part].text) retainMainText = true
 			for(var i = 0; i<4; i++){
-				if(data.details[i].text === story.parts[part].details[i].text) retainDetailText[i] = true
-				if(typeof data.details[i].name !== typeof story.parts[part].details[i].name) return
-				if(typeof data.details[i].name === 'string') {
-					if(data.details[i].name === story.parts[part].details[i].name) retainName[i] = true
+				if(data.pTexts[i] === story.parts[part].pTexts[i]) retainDetailText[i] = true
+				if(typeof data.pNames[i] !== typeof story.parts[part].details[i].name) return
+				if(typeof data.pNames[i] === 'string') {
+					if(data.pNames[i] === story.parts[part].details[i].name) retainName[i] = true
 				}
-				else if(data.details[i].name instanceof Array){
-					if(data.details[i].name.equals(story.parts[part].details[i].name)) retainName[i] = true
+				else if(data.pNames[i] instanceof Array){
+					if(data.pNames[i].equals(story.parts[part].details[i].name)) retainName[i] = true
 				}
 			}
 		}
@@ -695,11 +695,11 @@
 			if(data.valueType === 'lessIsTall'){plrOrder.reverse()}
 			if(view.zoom==='close' && !retainName[facing]){
 				Velocity(dom.navnames[facing], {opacity: 0, translateX: '-4rem'}, {visibility: 'hidden', complete:
-					function(){ dom.navnames[facing].textContent = data.details[facing].name;
+					function(){ dom.navnames[facing].textContent = data.pNames[facing];
 						dom.navnames[facing].style.visibility = 'visible' }})
 			}
 			for(var i = 0; i<4; i++){
-				var navname = data.details? data.details[i].name : ''
+				var navname = data.pNames[i] || ''
 				if(view.zoom==='close'){ if(i!==facing) dom.navnames[i].textContent = navname }
 				Velocity(dom.databars[i], {height: (plrOrder.indexOf(data.values[i])+1)*25+'%' })
 			}
@@ -729,19 +729,19 @@
 				var txt
 					n.lines = 1
 					//name is string
-					if(typeof data.details[i].name === 'string'){
+					if(typeof data.pNames[i] === 'string'){
 						txt = new THREE.Sprite()
-						var sprtxt = new Text(data.details[i].name,1100,125,'black','Karla',30,600,'center')
+						var sprtxt = new Text(data.pNames[i],1100,125,'black','Karla',30,600,'center')
 						var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
 						txt.material = sprmtl
 						txt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
 					}
 					//name is array
-					else if(data.details[i].name instanceof Array){
+					else if(data.pNames[i] instanceof Array){
 						txt = new THREE.Group()
-						for(var it = 0; it<data.details[i].name.length; it++){
+						for(var it = 0; it<data.pNames[i].length; it++){
 							var subtxt = new THREE.Sprite()
-							var sprtxt = new Text(data.details[i].name[it],1100,125,'black','Karla',30,600,'center')
+							var sprtxt = new Text(data.pNames[i][it],1100,125,'black','Karla',30,600,'center')
 							var sprmtl = new THREE.SpriteMaterial({transparent:true,map:sprtxt.tex,opacity:0 })
 							subtxt.material = sprmtl
 							subtxt.scale.set(sprtxt.cvs.width/100, sprtxt.cvs.height/100, 1)
@@ -752,7 +752,7 @@
 						}
 					}
 					//invalid type
-					else console.log('data.details['+i+'].name is invalid type')
+					else console.log('data.pNames['+i+'] is invalid type')
 
 
 				n.txt = txt
@@ -837,10 +837,9 @@
 		// projectionMgr.itemEnd('titleblock')
 	}//END MAKETITLEBLOCK
 	function makeSymbols(rtn){
-		if(!data.details) return
 		for(var i = 0; i<4; i++){
-			if(rtn[i] || !data.details[i]) continue
-			var symbol = data.details[i].symbol?data.details[i].symbol : {type: ''}, obj
+			if(rtn[i]) continue
+			var symbol = data.pSymbols[i] || {type: ''}, obj
 			if(symbol.type === 'img'){
 				obj = new THREE.Mesh( new THREE.PlaneBufferGeometry(3.5,3.5), resources.mtls[symbol.src] )
 				obj.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,1.75,0))
@@ -866,7 +865,7 @@
 	}
 	function makeStatboxLabel(){
 		for(var i = 0; i<4; i++){
-
+			// var txt = pLabels[i] || pNames[i] ||
 		}
 	}
 }

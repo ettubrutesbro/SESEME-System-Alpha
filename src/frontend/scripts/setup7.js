@@ -261,7 +261,7 @@ function setup(){
 			}
 		}//end loadingManagers
 		function highlightColor(){
-				var rgb = data.color? hexToRgb(data.color): {r:0,g:0,b:0}
+				var rgb = data.color.ui? hexToRgb(data.color.ui): {r:0,g:0,b:0}
 				for(var i = 0; i<4; i++){
 					seseme['plr'+i].outline.material.color = {r: rgb.r/255, g: rgb.g/255, b: rgb.b/255}
 					seseme['plr'+i].outcap.material.color = {r: rgb.r/255, g: rgb.g/255, b: rgb.b/255}
@@ -283,7 +283,8 @@ function setup(){
 			titlebtn.rotation.x = camera.rotation.x;
 			titlebtn.position.z = 12
 			info.btn = titlebtn
-			var btncolor = data.color instanceof Array? data.color[facing] : data.color? data.color : 0x000000
+			// var btncolor = data.color instanceof Array? data.color[facing] : data.color? data.color : 0x000000
+			var btncolor = data.color.ui || 0x000000
 			var colorbtn = new THREE.Mesh(new THREE.PlaneBufferGeometry(4,4), new THREE.MeshBasicMaterial({map:resources.mtls.circle.map ,transparent: true, opacity: 0,
 				color: btncolor, depthWrite: false}))
 			colorbtn.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,-1,0))
@@ -407,19 +408,14 @@ function setup(){
 			for(var i = 0; i<4; i++){
 				dom.databars[i].style.height = (plrOrder.indexOf(data.values[i])+1)*25+'%'
 				Velocity(dom.databars[i], {translateX: i!==3?100+(i*100)+'%':0})
+				dom.navnames[i].textContent = data.pNames[i] || ''
+				dom['detail'+i].textContent = data.pTexts[i] || ''
 			}
-			dom.bottom.style.backgroundColor = data.color
-			dom.maintext.textContent = data.text
+			dom.bottom.style.backgroundColor = data.color.ui || '#000000'
+			dom.maintext.textContent = data.maintext
 			dom.overtext.textContent = story.description
 			Velocity(dom.closebutton, {translateX: '0%'})
 
-			//details fills
-			if(data.details){
-				for(var i = 0; i<4; i++){
-					dom.navnames[i].textContent = data.details[i].name?data.details[i].name:''
-					dom['detail'+i].textContent = data.details[i].text?data.details[i].text:''
-				}
-			}
 			Velocity(dom.leftarrow, {translateX: '500%', scale: 0.3})
 			Velocity(dom.rightarrow, {translateX: '-500%', scale: 0.3})
 
@@ -433,12 +429,12 @@ function setup(){
 				Velocity(this, {translateX:'100%'}, {duration:250,visibility:'hidden'})
 			}
 			//content changers
-			dom.maintext.refill = function(){ this.textContent = data.text}
+			dom.maintext.refill = function(){ this.textContent = data.maintext}
 			dom.overtext.refill = function(){ this.textContent = story.description}
-			dom.detail0.refill = function(){ this.textContent = data.details[0].text }
-			dom.detail1.refill = function(){ this.textContent = data.details[1].text }
-			dom.detail2.refill = function(){ this.textContent = data.details[2].text }
-			dom.detail3.refill = function(){ this.textContent = data.details[3].text }
+			dom.detail0.refill = function(){ this.textContent = data.pTexts[0] }
+			dom.detail1.refill = function(){ this.textContent = data.pTexts[1] }
+			dom.detail2.refill = function(){ this.textContent = data.pTexts[2] }
+			dom.detail3.refill = function(){ this.textContent = data.pTexts[3] }
 
 			var hyphensettings = { onhyphenationdonecallback: function(){
 				console.log('hyphenation complete')
@@ -455,7 +451,6 @@ function setup(){
 				cb: function(){ plrMgr.itemEnd('plr'+which) }})
 		}
 		function initQuads(){
-			// var rgb = data.color ? hexToRgb(data.color) : {r:0,g:0,b:0}
 				for(var i = 0; i<4; i++){
 					var q = seseme['quad'+i]
 					q.rotation.y = rads(i*90)
