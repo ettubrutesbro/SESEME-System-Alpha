@@ -871,7 +871,8 @@
 					labelobj.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.atan(-1/Math.sqrt(2))))
 					label.add(labelobj)
 					labelobj.material.opacity = 1
-					labelobj.position.y = -it*(fontsize/10)
+					labelobj.position.y = -it*(fontsize/12)
+					labelobj.position.z =  it*(fontsize/15)
 				}
 			}
 			else {console.log('FOH'); continue}

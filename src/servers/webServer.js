@@ -12,8 +12,8 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var path = require('path');
 
-server.listen(8888);
-console.log('listening on port 8888  !!!')
+server.listen(8080);
+console.log('listening on port 8080  !!!')
 
 // app.use('/static', express.static(__dirname + '/web'));
 app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
