@@ -427,12 +427,12 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   else {
     var loginSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
     if(!loginSounds || loginSounds.length)
-        seedling.socket.emit('seedling start login-sound', null);
+        seedling.socket.emit('seedling start button-sound', null);
     else {
         var loginSound = loginSounds[Math.floor((Math.random() * loginSounds.length-1) + 1)];
-        seedling.socket.emit('seedling start login-sound', loginSound);
+        seedling.socket.emit('seedling start button-sound', loginSound);
     }
-    seedling.socket.on('seedling finished login-sound', function() {
+    seedling.socket.on('seedling finished button-sound', function() {
         // ===============================================================================
         // Increment current part of the story and reset the idle countdown
         seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
