@@ -107,23 +107,19 @@ var idleBehavior;
 function idleBehavior(lifx) {
 
 	// Start breathing (no maintenance needed to clear it)
-	console.log("Start breathing");
-	lifx.breathe();
+	console.log("Lifx: Started breathing");
+	var repeatBreathe = lifx.breathe();
 
 	// Set a timeout to start desperation after a minute of breathing
 	setTimeout(function() {
-        console.log('lifx test: '+lifx.test);
-
+        clearTimeout(repeatBreathe);
 		// Start desperation immediately after breathing ends
-		console.log("Start desperation");
+		console.log("Lifx: Started desperation");
 		var states = getStates();
 		lifx.desperation(states);
 
 		// Set the interval of cycles through the story part colors
 		desperation = setInterval(function() {
-            console.log("in desperation");
-            console.log('lifx test: '+lifx.test);
-
 			lifx.desperation(states)
 		}, states.length * 5000);
 	}, 120000);
@@ -138,9 +134,8 @@ function countdown() {
 
 		// Set a 4 minute timeout to turn off the bulb after the idle behavior
 		setTimeout(function() {
-            console.log('lifx test: '+lifx.test);
 			if(desperation) clearInterval(desperation);
-			lifx.turnOff(5);
+			lifx.fadeOff(5).then(console.log("Lifx: Fading Off"));
 		}, 240000);
 
 		// Broadcast to all clients that state is now idle

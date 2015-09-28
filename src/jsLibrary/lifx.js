@@ -66,6 +66,8 @@ function updateLight(properties) {
 	console.log("Updating light color now");
 
 	// Configurations and custom headers to send to the API
+	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+	options.method = 'PUT';
 	options.body = JSON.stringify(properties);
 
 	// PUT http request to update the hue color
@@ -79,6 +81,8 @@ function rampDown(factor, duration) {
 	console.log("Ramping down now");
 
 	// Configurations and custom headers to send to the API
+	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+	options.method = 'PUT';
 	options.body = JSON.stringify({
 		'brightness': 0.5 * factor,
 		'duration': duration
@@ -94,14 +98,18 @@ function rampDown(factor, duration) {
 // Idle State: Breathe
 function breathe() {
 	// 2 seconds to fade on and fade off, 6 seconds of offtime
-	var offtime;
+	var depth = 0;
 
 	// Main breathe logic using a recursive promise chain with a timeout of 6s
 	var breatheSequence = function() {
+		console.log("--> "+depth);
 		fadeOn(1)
 			.then( setTimeout(function() { return fadeOff(1); }, 1250))
 			.then( function() {
-				offtime = setTimeout(breatheSequence, 5000);
+				if(depth !== 20) {
+					depth++;
+					setTimeout(breatheSequence, 5000);
+				}
 			});
 	};
 
@@ -112,6 +120,8 @@ function breathe() {
 function fadeOn(duration) {
 	return new Promise(function(resolve, reject) {
 		// Configurations and custom headers to send to the API
+		options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+		options.method = 'PUT';
 		options.body = JSON.stringify({
 			'power'			: 'on',
 			'brightness'	: 0.85,
@@ -130,6 +140,8 @@ function fadeOn(duration) {
 function fadeOff(duration) {
 	return new Promise(function(resolve, reject) {
 		// Configurations and custom headers to send to the API
+		options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+		options.method = 'PUT';
 		options.body = JSON.stringify({
 			'power'		: 'off',
 			'duration'	: duration
@@ -142,21 +154,6 @@ function fadeOff(duration) {
 				resolve();
 		}); // end of request
 	}); // end of promise
-}
-
-function turnOff(duration) {
-	// Configurations and custom headers to send to the API
-	options.body = JSON.stringify({
-		'power'		: 'off',
-		'duration'	: duration
-	});
-
-	// PUT http request to turn the bulb off
-	request(options, function(error, response, body) {
-		if(error) console.log(error);
-		else if(response.statusCode == 200 || response.statusCode == 201)
-			console.log("Turning off bulb now");
-	}); // end of request
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -181,6 +178,6 @@ function desperation(states) {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 exports.breathe = breathe;
-exports.turnOff = turnOff;
+exports.fadeOff = fadeOff;
 exports.desperation = desperation;
 exports.validButtonPress = validButtonPress;
