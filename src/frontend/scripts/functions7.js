@@ -915,11 +915,11 @@
 	function makeStatBox(){
 		if(!data.pStatboxes) return
 		for(var i = 0; i<4; i++){
-			var sb = data.pStatboxes[i],
+			var sb = data.pStatboxes[i], content,
 			width, font, fontsize, fontweight, txtalign, statbox
 
 			if(typeof sb.c === 'string'){ //single line
-				width = sb.width || sb.c.length * (sb.size) || 400
+				width = sb.width || (sb.c.length * (sb.size))*1.5 || 600
 				font = sb.font || 'Droid Serif'; fontsize = sb.size || 24
 				fontweight = sb.weight || 400; txtalign = sb.align || 'center'
 				statbox = meshify(new Text(sb.c, width, fontsize * 6, 'white', font, fontsize, fontweight, txtalign))
@@ -929,7 +929,7 @@
 				statbox = new THREE.Group()
 				var longest = sb.c.sort(function (a, b) { return b.length - a.length; })[0]
 				for(var it = 0; it<sb.c.length; it++){
-					width = sb.width || longest.length * (sb.size) || 400
+					width = sb.width || (longest.length * (sb.size))*1.5 || 500
 					font = sb.font instanceof Array? sb.font[it] : sb.font || 'Droid Serif'
 					fontsize = sb.fontsize instanceof Array? sb.size[it] : sb.size || 24
 					fontweight = sb.weight instanceof Array? sb.weight[it] : sb.weight || 400
@@ -941,7 +941,7 @@
 			}
 			else statbox = new THREE.Object3D()
 
-
+			// statbox.
 			seseme['plr'+i].statbox = statbox
 			seseme['plr'+i].add(seseme['plr'+i].statbox)
 
