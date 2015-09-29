@@ -95,6 +95,7 @@
 		viewPillarOutlines()
 		viewPillarNames()
 		viewSymbols()
+		viewSymbolLabels()
 		viewNavigationHelper()
 		viewLRArrows()
 		camHeight()
@@ -324,8 +325,6 @@
 				//running animation
 				Velocity(dom[view.content], animOld, {duration: 300, visibility: 'hidden'})
 				//determining if wrapper snaps height after or before
-
-
 				heightcb = function(){ dom.bottomwrapper.style.height = newheight }
 			}//end check for old content
 			//same content sections, but new part
@@ -356,6 +355,24 @@
 
 			view.content = targettext.id
 			view.lastTextHeight = newheight
+		}
+	}
+	function viewSymbolLabels(){
+		if(view.text && view.zoom === 'close'){
+			var previous
+			if(view.cycleDirection) previous = facing===0?3:facing-1
+			else previous = facing ===3?0:facing+1
+			seseme['plr'+previous].label.traverse(function(child){
+				if(child.material) anim3d(child, 'opacity', {opacity:0})
+			})
+			seseme['plr'+facing].label.traverse(function(child){
+				if(child.material) anim3d(child, 'opacity', {opacity: 1})
+			})
+		}
+		else{
+			seseme['plr'+facing].label.traverse(function(child){
+				if(child.material) anim3d(child, 'opacity', {opacity: 0})
+			})
 		}
 	}
 	function viewNavigationHelper(){
@@ -861,7 +878,6 @@
 			if(typeof txt === 'string'){
 				var label = meshify(new Text(txt,400,fontsize*6,'white',font,fontsize,fontweight,txtalign))
 				label.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.atan(-1/Math.sqrt(2))))
-				label.material.opacity = 1
 				label.position.y = -.5
 			}
 			else if(txt instanceof Array){
@@ -872,7 +888,6 @@
 					var labelobj = meshify(new Text(txt[it],400,fontsize*6,'white',font,fontsize,fontweight,txtalign))
 					labelobj.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.atan(-1/Math.sqrt(2))))
 					label.add(labelobj)
-					labelobj.material.opacity = 1
 					labelobj.position.y = -it*(fontsize/12)
 					labelobj.position.z =  it*(fontsize/15)
 				}
