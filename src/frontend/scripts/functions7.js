@@ -862,9 +862,11 @@
 				var label = meshify(new Text(txt,400,fontsize*6,'white',font,fontsize,fontweight,txtalign))
 				label.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.atan(-1/Math.sqrt(2))))
 				label.material.opacity = 1
+				label.position.y = -.5
 			}
 			else if(txt instanceof Array){
 				var label = new THREE.Group()
+				label.position.y = -.5 + ((txt.length-1)*.25)
 				for(var it = 0; it<txt.length; it++){
 					var objtext = txt[it]
 					var labelobj = meshify(new Text(txt[it],400,fontsize*6,'white',font,fontsize,fontweight,txtalign))
@@ -876,10 +878,10 @@
 				}
 			}
 			else {console.log('FOH'); continue}
-
+			label.position.x = label.position.z = 2.05
 			label.scale.set(0.625,0.625,0.625)
 			label.rotation.y = rads(45)
-			label.position.set(2.05,-0.5,2.05)
+
 			seseme['plr'+i].label = label
 			seseme['plr'+i].add(seseme['plr'+i].label)
 		}
