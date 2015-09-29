@@ -57,7 +57,7 @@
 					if(camera.zoom>1){
 						view.zoomswitch = true
 						var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+i].targetY) * 50
-						anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3),
+						anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3.5),
 						spd: 300+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false }})
 					}
 					if(((i>facing) || (i===0 && facing===3)) && !(i===3 && facing===0)) view.cycleDirection = true
@@ -83,7 +83,7 @@
 		//zoom offseting -obj scaling and scene position
 		if(camera.zoom > 1){
 			info.btn.scale.set(1-(addzoom/3.5),1-(addzoom/3.5),1-(addzoom/3.5))
-			if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3)
+			if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5)
 		}
 		if(init) init = false
 	}//end 'check'
@@ -96,6 +96,7 @@
 		viewPillarNames()
 		viewSymbols()
 		viewZoomLabels()
+		viewStatBoxes()
 		viewNavigationHelper()
 		viewLRArrows()
 		camHeight()
@@ -380,9 +381,25 @@
 	}
 	function viewStatBoxes(){
 		if(!data.pStatboxes) return
-		for(var i = 0; i<4; i++){
-
+		if(view.zoom === 'close' && !view.text){
+			var previous
+			if(view.cycleDirection) previous = facing===0?3:facing-1
+			else previous = facing ===3?0:facing+1
+			anim3d(seseme['plr'+previous].statbox, 'position', {y:4})
+			seseme['plr'+previous].statbox.traverse(function(child){
+				if(child.material)anim3d(child, 'opacity', {opacity: 0})
+			})
+			anim3d(seseme['plr'+facing].statbox, 'position', seseme['plr'+facing].statbox.expand)
+			seseme['plr'+facing].statbox.traverse(function(child){
+				if(child.material)anim3d(child, 'opacity', {opacity: 1})
+			})
+		}else{
+			anim3d(seseme['plr'+facing].statbox, 'position', {y: 4})
+			seseme['plr'+facing].statbox.traverse(function(child){
+				if(child.material) anim3d(child, 'opacity', {opacity: 0	})
+			})
 		}
+
 	}
 	function viewNavigationHelper(){
 		if(view.zoom==='normal') showSection(2)
@@ -679,7 +696,7 @@
 			if(camera.zoom > 1){
 				var addzoom = Math.abs(1-camera.zoom)
 				var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+facing].position.y) * 100
-				anim3d(scene, 'position', {y: -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3),
+				anim3d(scene, 'position', {y: -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5),
 				spd: 200+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ refillMgr.itemEnd('sceneHt') }})
 			}
 			else refillMgr.itemEnd('sceneHt')
@@ -919,29 +936,31 @@
 			width, font, fontsize, fontweight, txtalign, statbox
 
 			if(typeof sb.c === 'string'){ //single line
-				width = sb.width || (sb.c.length * (sb.size))*1.5 || 600
+				width = sb.width || (sb.c.length * (sb.size))*2.5 || 600
 				font = sb.font || 'Droid Serif'; fontsize = sb.size || 24
 				fontweight = sb.weight || 400; txtalign = sb.align || 'center'
 				statbox = meshify(new Text(sb.c, width, fontsize * 6, 'white', font, fontsize, fontweight, txtalign))
-				statbox.material.opacity = 1
+				statbox.expand = {y: 5}
 			}
 			else if(sb.c instanceof Array){ //multiline
 				statbox = new THREE.Group()
 				var longest = sb.c.sort(function (a, b) { return b.length - a.length; })[0]
 				for(var it = 0; it<sb.c.length; it++){
-					width = sb.width || (longest.length * (sb.size))*1.5 || 500
+					width = sb.width || (longest.length * (sb.size))*2 || 500
 					font = sb.font instanceof Array? sb.font[it] : sb.font || 'Droid Serif'
 					fontsize = sb.fontsize instanceof Array? sb.size[it] : sb.size || 24
 					fontweight = sb.weight instanceof Array? sb.weight[it] : sb.weight || 400
 					txtalign = sb.align || 'center'
 					var statboxobj = meshify(new Text(sb.c[it],width,fontsize*6,'white',font,fontsize,fontweight,txtalign))
 					statbox.add(statboxobj)
-					statboxobj.material.opacity = 1
+					statboxobj.position.y = it * (fontsize/12)
+					statbox.expand = {y: 5 - (it/4)}
 				}
 			}
 			else statbox = new THREE.Object3D()
 
-			// statbox.
+			statbox.position.y = 4
+			statbox.rotation.y = rads(45);
 			seseme['plr'+i].statbox = statbox
 			seseme['plr'+i].add(seseme['plr'+i].statbox)
 
