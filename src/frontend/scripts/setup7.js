@@ -222,6 +222,7 @@ function setup(){
 		makeTitleblock(); projectionMgr.itemEnd('titleblock')
 		makeSymbols([false,false,false,false])
 		makeSymbolLabel([false,false,false,false])
+		makeStatBox()
 		fillDOM()
 		placeMainButton()
 		populateHelp()

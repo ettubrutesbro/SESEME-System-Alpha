@@ -95,7 +95,7 @@
 		viewPillarOutlines()
 		viewPillarNames()
 		viewSymbols()
-		viewSymbolLabels()
+		viewZoomLabels()
 		viewNavigationHelper()
 		viewLRArrows()
 		camHeight()
@@ -122,6 +122,7 @@
 		}
 	}
 	function viewPillarNames(){
+		if(!data.pNames) return
 		if(view.zoom === 'far' || view.zoom === 'close' || view.height==='plan'){ //all disappear
 			for(var i = 0; i<4; i++){
 				showName(i, false)
@@ -241,6 +242,7 @@
 		anim3d(info.btn, 'position', {y: destination, spd: btnspd })
 	} // end viewMainButton
 	function viewSymbols(){
+		if(!data.pSymbols) return
 		if(view.zoom === 'close'){
 			for(var i = 0; i<4; i++){
 				var s = seseme['plr'+i].symbol
@@ -357,7 +359,8 @@
 			view.lastTextHeight = newheight
 		}
 	}
-	function viewSymbolLabels(){
+	function viewZoomLabels(){
+		if(!data.pLabels) return
 		if(view.text && view.zoom === 'close'){
 			var previous
 			if(view.cycleDirection) previous = facing===0?3:facing-1
@@ -373,6 +376,12 @@
 			seseme['plr'+facing].label.traverse(function(child){
 				if(child.material) anim3d(child, 'opacity', {opacity: 0})
 			})
+		}
+	}
+	function viewStatBoxes(){
+		if(!data.pStatboxes) return
+		for(var i = 0; i<4; i++){
+
 		}
 	}
 	function viewNavigationHelper(){
@@ -836,6 +845,7 @@
 		// projectionMgr.itemEnd('titleblock')
 	}//END MAKETITLEBLOCK
 	function makeSymbols(rtn){
+		if(!data.pSymbols) return
 		for(var i = 0; i<4; i++){
 			if(rtn[i]) continue
 			var symbol = data.pSymbols[i] || {type: ''}, obj
@@ -866,6 +876,7 @@
 		}
 	}
 	function makeSymbolLabel(rtn){
+		if(!data.pLabels) return
 		for(var i = 0; i<4; i++){
 			if(rtn[i]) continue
 			var txt = data.pLabels[i].c || data.pNames[i] || '',
@@ -901,11 +912,46 @@
 			seseme['plr'+i].add(seseme['plr'+i].label)
 		}
 	}
-	function makeStatBox(rtn){
+	function makeStatBox(){
+		if(!data.pStatboxes) return
 		for(var i = 0; i<4; i++){
-			if(rtn[i]) continue
+			var sb = data.pStatboxes[i],
+			width, font, fontsize, fontweight, txtalign, statbox
+
+			if(typeof sb.c === 'string'){ //single line
+				width = sb.width || sb.c.length * (sb.size) || 400
+				font = sb.font || 'Droid Serif'; fontsize = sb.size || 24
+				fontweight = sb.weight || 400; txtalign = sb.align || 'center'
+				statbox = meshify(new Text(sb.c, width, fontsize * 6, 'white', font, fontsize, fontweight, txtalign))
+				statbox.material.opacity = 1
+			}
+			else if(sb.c instanceof Array){ //multiline
+				statbox = new THREE.Group()
+				var longest = sb.c.sort(function (a, b) { return b.length - a.length; })[0]
+				for(var it = 0; it<sb.c.length; it++){
+					width = sb.width || longest.length * (sb.size) || 400
+					font = sb.font instanceof Array? sb.font[it] : sb.font || 'Droid Serif'
+					fontsize = sb.fontsize instanceof Array? sb.size[it] : sb.size || 24
+					fontweight = sb.weight instanceof Array? sb.weight[it] : sb.weight || 400
+					txtalign = sb.align || 'center'
+					var statboxobj = meshify(new Text(sb.c[it],width,fontsize*6,'white',font,fontsize,fontweight,txtalign))
+					statbox.add(statboxobj)
+					statboxobj.material.opacity = 1
+				}
+			}
+			else statbox = new THREE.Object3D()
+
+
+			seseme['plr'+i].statbox = statbox
+			seseme['plr'+i].add(seseme['plr'+i].statbox)
+
+
+
 
 		}
+	}
+	function makeExtras(){
+
 	}
 }
 //5. MATH / UTILITY FUNCTIONS
