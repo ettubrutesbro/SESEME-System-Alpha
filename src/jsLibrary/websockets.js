@@ -407,8 +407,8 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
-  var monumentHexColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.monument.hex;
-  var uiColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.ui;
+  var monumentHexColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.monument.hex);
+  var uiColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.ui);
   console.log("monumentHexColor", monumentHexColor);
   console.log("uiColor", uiColor);
   var targetColor = monumentHexColor ? led.hexToObj(monumentHexColor) : led.hexToObj(uiColor);
