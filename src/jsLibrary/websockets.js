@@ -493,10 +493,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
 
 function bigRedButton(seedling){
+  var plrmax = 5000;
   if(beagleOnline){
     beagle.emit('getBeagleStats');
     beagle.emit('isRunning'); // check if seseme is running
-    var plrmax = 5000;
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     var maxDistance = 0;
 
@@ -529,7 +529,7 @@ function bigRedButton(seedling){
   }
   else{
     console.log("will run button helper");
-    bigRedButtonHelper(seedling, 5000, null, false);
+    bigRedButtonHelper(seedling, 5000, null, plrmax, false);
   }
 }
 
