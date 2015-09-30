@@ -407,11 +407,17 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
+  var ringColor = seedling.story.parts[seedling.currentPart].color.ring;
   var monumentHexColor = seedling.story.parts[seedling.currentPart].color.monument.hex;
   var uiColor = seedling.story.parts[seedling.currentPart].color.ui;
+  console.log("ringColor", ringColor);
   console.log("monumentHexColor", monumentHexColor);
   console.log("uiColor", uiColor);
-  var targetColor = monumentHexColor ? led.hexToObj(monumentHexColor) : led.hexToObj(uiColor);
+  var targetColor;
+  if(ringColor) targetColor = led.hexToObj(ringColor);
+  else if(monumentHexColor) targetColor = led.hexToObj(monumentHexColor);
+  else targetColor = led.hexToObj(uiColor); // if no uiColor, defaults to "#FFFFFF"
+
   var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.monument.hex);
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
   var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
