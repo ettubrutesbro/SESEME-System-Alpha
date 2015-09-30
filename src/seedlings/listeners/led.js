@@ -24,15 +24,15 @@ function listeners(socket, obj, soundObj) {
       timerLastUpdate[obj.number] = Date.now();
       lightTimer[obj.number] = new Timer.Timer(function() { // init timer with 5 seconds
         console.log('turning lights off now');
-        console.log("timerLastUpdate", timerLastUpdate[obj.number]);
-        console.log('duration of timer in sec:', (Date.now - timerLastUpdate) / 1000);
+        console.log("timerLastUpdate in callback", timerLastUpdate);
+        console.log('duration of timer in sec:', (Date.now - timerLastUpdate[obj.number]) / 1000);
         led.lightsOff(obj);
         timerLastUpdate[obj.number] = null;
       }, lightOnDuration);
     }
 
     socket.on('buttonPressed', function(seedlingNum, fadeCircleData, lightTrailData){
-      console.log("buttonPressed");
+      console.log("buttonPressed", obj.number);
 
       led.lightOff(1, obj.buttonLight, null);
 
