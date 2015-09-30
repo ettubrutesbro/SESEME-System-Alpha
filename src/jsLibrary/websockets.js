@@ -409,6 +409,8 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   var trailColor = led.hexToObj("FFFFFF");
   var monumentHexColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.monument.hex;
   var uiColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.ui;
+  console.log("monumentHexColor", monumentHexColor);
+  console.log("uiColor", uiColor);
   var targetColor = monumentHexColor ? led.hexToObj(monumentHexColor) : led.hexToObj(uiColor);
   var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
