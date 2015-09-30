@@ -21,13 +21,13 @@ function listeners(socket, obj, soundObj) {
     var breatheInterval = null;
 
     function lightsOnCallback(obj){
-      timerLastUpdate[obj.number] = Date.now();
-      lightTimer[obj.number] = new Timer.Timer(function() { // init timer with 5 seconds
+      timerLastUpdate[obj.seedlingNum] = Date.now();
+      lightTimer[obj.seedlingNum] = new Timer.Timer(function() { // init timer with 5 seconds
         console.log('turning lights off now');
         console.log("timerLastUpdate in callback", timerLastUpdate);
-        console.log('duration of timer in sec:', (Date.now - timerLastUpdate[obj.number]) / 1000);
+        console.log('duration of timer in sec:', (Date.now - timerLastUpdate[obj.seedlingNum]) / 1000);
         led.lightsOff(obj);
-        timerLastUpdate[obj.number] = null;
+        timerLastUpdate[obj.seedlingNum] = null;
       }, lightOnDuration);
     }
 
