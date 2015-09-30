@@ -32,7 +32,7 @@ function listeners(socket, obj, soundObj) {
     }
 
     socket.on('buttonPressed', function(seedlingNum, fadeCircleData, lightTrailData){
-      console.log("buttonPressed", obj.number);
+      console.log("buttonPressed", obj.seedlingNum);
 
       led.lightOff(1, obj.buttonLight, null);
 
