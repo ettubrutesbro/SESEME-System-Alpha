@@ -933,14 +933,18 @@
 		if(!data.pStatboxes) return
 		for(var i = 0; i<4; i++){
 			var sb = data.pStatboxes[i], content,
-			width, font, fontsize, fontweight, txtalign, statbox
+			width, font, fontsize, fontweight, txtalign, statbox, pointer
 
 			if(typeof sb.c === 'string'){ //single line
 				width = sb.width || (sb.c.length * (sb.size))*1.75 + 75 || 600
 				font = sb.font || 'Droid Serif'; fontsize = sb.size || 24
 				fontweight = sb.weight || 400; txtalign = sb.align || 'center'
 				statbox = meshify(new Text(sb.c, width, fontsize * 6, 'white', font, fontsize, fontweight, txtalign),true)
-				statbox.expand = {y: 5}
+				statbox.expand = {y: 6}
+				pointer = new THREE.Mesh(resources.geos.triangleA, new THREE.MeshBasicMaterial({color:0x000000,
+					 transparent: true, depthWrite: false, opacity: 0}))
+				pointer.position.y = -fontsize/24; pointer.scale.set(.75,.75,.75)
+				statbox.add(pointer)
 			}
 			else if(sb.c instanceof Array){ //multiline
 				statbox = new THREE.Group()
@@ -954,7 +958,13 @@
 					var statboxobj = meshify(new Text(sb.c[it],width,fontsize*6,'white',font,fontsize,fontweight,txtalign),true)
 					statbox.add(statboxobj)
 					statboxobj.position.y = -it * (fontsize/10)
-					statbox.expand = {y: 5+((it/2)*(fontsize/10))}
+					statbox.expand = {y: 6+((it/2)*(fontsize/10))}
+					if(it===sb.c.length-1){
+						pointer = new THREE.Mesh(resources.geos.triangleA, new THREE.MeshBasicMaterial({color:0x000000,
+							 transparent: true, depthWrite: false, opacity: 0}))
+						pointer.position.y = -fontsize/24; pointer.scale.set(.75,.75,.75)
+						statboxobj.add(pointer)
+					}
 				}
 			}
 			else statbox = new THREE.Object3D()
@@ -1067,7 +1077,7 @@
 		this.cvs = document.createElement('canvas'), this.ctx = this.cvs.getContext('2d')
 		this.tex = new THREE.Texture(this.cvs); this.tex.needsUpdate = true
 		this.cvs.width = width; this.cvs.height = height
-		this.ctx.strokeStyle = '#FF0000', this.ctx.lineWidth=5, this.ctx.strokeRect(0,0,this.cvs.width,this.cvs.height)
+		// this.ctx.strokeStyle = '#FF0000', this.ctx.lineWidth=5, this.ctx.strokeRect(0,0,this.cvs.width,this.cvs.height)
 		this.ctx.scale(3,3); this.ctx.fillStyle = color; this.ctx.font = 'normal '+fontWeight+' '+fontSize+'pt '+font
 		this.ctx.textAlign = align
 		if(align==='center' || !align) this.ctx.fillText(words,this.cvs.width/6,this.cvs.height/6+fontSize/2.2)

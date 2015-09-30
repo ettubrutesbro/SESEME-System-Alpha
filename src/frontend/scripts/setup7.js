@@ -121,6 +121,9 @@ function setup(){
 		//fixed geo resources
 		{
 			resources.geos.testbox = new THREE.BoxGeometry(2.75,2.75,2.75)
+			var triA = new THREE.Shape() //normal triangle
+			triA.moveTo(-0.75,0); triA.lineTo(0.75,0); triA.lineTo(0,-1); triA.lineTo(-0.75,0)
+			resources.geos.triangleA = new THREE.ShapeGeometry(triA)
 		}
 		var mtlMgr = new THREE.LoadingManager()
 		// mtlMgr.onProgress = function(item,loaded,total){console.log(item,loaded,total)}
