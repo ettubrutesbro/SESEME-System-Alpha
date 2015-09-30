@@ -381,6 +381,7 @@
 	}
 	function viewStatBoxes(){
 		if(!data.pStatboxes) return
+		if(!data.pStatboxes[facing]) return
 		if(view.zoom === 'close' && !view.text){
 			var previous
 			if(view.cycleDirection) previous = facing===0?3:facing-1
@@ -399,7 +400,6 @@
 				if(child.material) anim3d(child, 'opacity', {opacity: 0	})
 			})
 		}
-
 	}
 	function viewNavigationHelper(){
 		if(view.zoom==='normal') showSection(2)
@@ -553,7 +553,7 @@
 	function clickedMainButton(){ //clicked big button
 		if(!controls.enabled) return
 		view.text = true
-		if(view.zoom==='normal' && view.content==='maintext') anim3d(camera, 'zoom', {zoom: 2.1, spd: 1000, easing: ['Quadratic','InOut']})
+		if(view.zoom==='normal' && view.content==='maintext') anim3d(camera, 'zoom', {zoom: 2.35, spd: 1000, easing: ['Quadratic','InOut']})
 		else if(view.zoom==='far' && view.content === 'overtext') anim3d(camera, 'zoom', {zoom: 0.875, spd: 750, easing: ['Quadratic','InOut']})
 		setView(true)
 	}
@@ -564,7 +564,7 @@
 	}
 	function clickedNav(){
 		if(!controls.enabled) return //clicked nav zooms in by one level
-		if(view.zoom === 'normal') anim3d(camera,'zoom',{zoom:2.1, spd: 1000, easing: ['Quadratic', 'InOut']})
+		if(view.zoom === 'normal') anim3d(camera,'zoom',{zoom:2.35, spd: 1000, easing: ['Quadratic', 'InOut']})
 		else if(view.zoom === 'close') anim3d(camera,'zoom',{zoom:.5, spd: 1250, easing: ['Quadratic', 'InOut']})
 		else if(view.zoom === 'far') anim3d(camera,'zoom',{zoom:.875, spd: 750, easing: ['Quadratic', 'InOut']})
 	}
@@ -936,25 +936,25 @@
 			width, font, fontsize, fontweight, txtalign, statbox
 
 			if(typeof sb.c === 'string'){ //single line
-				width = sb.width || (sb.c.length * (sb.size))*2.5 || 600
+				width = sb.width || (sb.c.length * (sb.size))*1.75 + 75 || 600
 				font = sb.font || 'Droid Serif'; fontsize = sb.size || 24
 				fontweight = sb.weight || 400; txtalign = sb.align || 'center'
-				statbox = meshify(new Text(sb.c, width, fontsize * 6, 'white', font, fontsize, fontweight, txtalign))
+				statbox = meshify(new Text(sb.c, width, fontsize * 6, 'white', font, fontsize, fontweight, txtalign),true)
 				statbox.expand = {y: 5}
 			}
 			else if(sb.c instanceof Array){ //multiline
 				statbox = new THREE.Group()
-				var longest = sb.c.sort(function (a, b) { return b.length - a.length; })[0]
+				var longest = sb.c.concat().sort(function (a, b) { return b.length - a.length; })[0]
 				for(var it = 0; it<sb.c.length; it++){
-					width = sb.width || (longest.length * (sb.size))*2 || 500
+					width = sb.width || sb.size instanceof Array? 1.75*(sb.size[0])*longest.length+75: sb.size*longest.length || 500
 					font = sb.font instanceof Array? sb.font[it] : sb.font || 'Droid Serif'
-					fontsize = sb.fontsize instanceof Array? sb.size[it] : sb.size || 24
+					fontsize = sb.size instanceof Array? sb.size[it] : sb.size || 24
 					fontweight = sb.weight instanceof Array? sb.weight[it] : sb.weight || 400
 					txtalign = sb.align || 'center'
-					var statboxobj = meshify(new Text(sb.c[it],width,fontsize*6,'white',font,fontsize,fontweight,txtalign))
+					var statboxobj = meshify(new Text(sb.c[it],width,fontsize*6,'white',font,fontsize,fontweight,txtalign),true)
 					statbox.add(statboxobj)
-					statboxobj.position.y = it * (fontsize/12)
-					statbox.expand = {y: 5 - (it/4)}
+					statboxobj.position.y = -it * (fontsize/10)
+					statbox.expand = {y: 5+((it/2)*(fontsize/10))}
 				}
 			}
 			else statbox = new THREE.Object3D()
@@ -1075,9 +1075,16 @@
 		else this.ctx.fillText(words,this.cvs.width/3-10,this.cvs.height/6+fontSize/2.2)
 	}
 	//turns Text objects into mesh/mat, storing them as attributes in the original obj
-	function meshify(target){
+	function meshify(target, backing){
 		var mtl = new THREE.MeshBasicMaterial({transparent: true, opacity: 0, depthWrite:false, map: target.tex})
 		var obj = new THREE.Mesh(new THREE.PlaneBufferGeometry(target.cvs.width/60,target.cvs.height/60), mtl)
+		if(backing) {
+			var backing = new THREE.Mesh(new THREE.PlaneBufferGeometry(target.cvs.width/60,
+			  target.cvs.height/60), new THREE.MeshBasicMaterial({color:0x000000, transparent: true, opacity: 0,
+			  depthWrite: false}))
+			obj.add(backing)
+			backing.position.z = -0.1
+		 }
 		obj.canvas = target
 		return obj
 	}
@@ -1094,13 +1101,13 @@
 		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: 'barren'
 		// alert('performance is now ' + performance)
 		if(performance === 'hi'){
-			// 128^2 texture maps, realtime shadows (someday), and phong material
+			// realtime shadows (someday), and phong material
 			for(var i = 0; i<4; i++){
 				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
 			}
 		}
 		else if(performance === 'med'){
-			//64^2 texture maps, lambert material
+			//lambert material
 			lights.children[0].intensity = lights.children[0].default
 			lights.children[2].intensity = lights.children[2].default
 		}
