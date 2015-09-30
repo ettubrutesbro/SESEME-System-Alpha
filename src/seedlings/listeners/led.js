@@ -25,7 +25,8 @@ function listeners(socket, obj, soundObj) {
       lightTimer[obj.seedlingNum] = new Timer.Timer(function() { // init timer with 5 seconds
         console.log('turning lights off now');
         console.log("timerLastUpdate in callback", timerLastUpdate);
-        console.log('duration of timer in sec:', (Date.now - timerLastUpdate[obj.seedlingNum]) / 1000);
+        console.log("date.now", Date.now());
+        console.log('duration of timer in sec:', (Date.now() - timerLastUpdate[obj.seedlingNum]) / 1000);
         led.lightsOff(obj);
         timerLastUpdate[obj.seedlingNum] = null;
       }, lightOnDuration);
