@@ -407,7 +407,9 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
-  var targetColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
+  var monumentHexColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.monument.hex;
+  var uiColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.ui;
+  var targetColor = monumentHexColor ? led.hexToObj(monumentHexColor) : led.hexToObj(uiColor);
   var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
   var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
@@ -417,7 +419,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     duration += 3;
   } // will run fill circle so add 3 sec to duration of lightTrail and timeout
 
-  var lightTrailData = new lightTrailObj(trailColor, 6, duration / seedling.totalStoryParts, seedling.totalStoryParts);
+  //var lightTrailData = new lightTrailObj(trailColor, 6, duration / seedling.totalStoryParts, seedling.totalStoryParts);
+  var timePerRev = 2;
+  var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
+
 
   if(error) {
     if(seedling.socket)

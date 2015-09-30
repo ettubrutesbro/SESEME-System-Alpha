@@ -131,7 +131,7 @@ var self = module.exports = {
         this.updateLED(obj);
     },
 
-    lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){
+    lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){ // time = time for each rev
         console.log("in lightTrail function");
         var that = this;
         var strip = obj.strip;
