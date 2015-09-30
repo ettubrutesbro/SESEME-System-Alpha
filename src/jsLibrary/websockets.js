@@ -414,7 +414,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   console.log("monumentHexColor", monumentHexColor);
   console.log("uiColor", uiColor);
   var targetColor;
-  if(ringColor) {
+  if(ringColor && !ringColor.isEmpty()) {
     console.log("in ringColor")
     targetColor = led.hexToObj(ringColor);
   }
