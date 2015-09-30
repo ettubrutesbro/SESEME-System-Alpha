@@ -37,14 +37,15 @@ function listeners(socket, obj, soundObj) {
       led.lightOff(1, obj.buttonLight, null);
 
       if(seedlingNum == obj.seedlingNum){
+        timerLastUpdate[seedlingNum] = Date.now();
         if(timerLastUpdate[seedlingNum]){
           lightTimer[seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[seedlingNum])); //
           timerLastUpdate[seedlingNum] = Date.now();
-          console.log("timerLastUpdate", timerLastUpdate[seedlingNum]);
         } // lights of seedling currently on so add to timer
         else{
           led.lightsOn(obj, lightsOnCallback);
         } // turn on lights of seedlingNum
+        console.log("buttonPressed timerLastUpdate", timerLastUpdate[seedlingNum]);
 
         led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
           console.log("in callback for fadeCircle");
