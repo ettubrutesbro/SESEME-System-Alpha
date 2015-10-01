@@ -23,10 +23,10 @@ module.exports = {
           {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
         ],
         pLinks: [
-          [{type:'link_data', c: ''}, {type: 'vid_yt', c: ''}, {type: 'link_list', c: ''}],
-          [{type:'link', c: ''}, {type: 'link', c: ''}],
-          [{type:'link', c: ''}, {type: 'link', c: ''}],
-          [{type:'link', c: ''}, {type: 'link', c: ''}],
+          [{type:'yt', c: ''}, {type: 'article', c: 'bomb.com'}, {type: 'list', c: ''}],
+          [{type:'article', c: ''}, {type: 'list', c: ''}],
+          [{type:'article', c: ''}, {type: 'list', c: ''}],
+          [{type: 'list', c: ''}],
         ]
       }, //end part 0
       {

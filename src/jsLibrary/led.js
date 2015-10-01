@@ -500,8 +500,9 @@ var self = module.exports = {
     */
 
     lightsOn: function(obj, callback){
-        if(obj.number === 0){
+        if(obj.seedlingNum === 0){
             // turn on hue
+            console.log("turn lights on for seedling1");
             var data = {'hue' : 0,
                         'sat' : 0,
                         'bri' : 100
@@ -509,29 +510,34 @@ var self = module.exports = {
             hue.setHSL(data); // turn on hue to white
             this.lightOn(1, obj.urlLight, "FFFFFF")
         } // seedling 1
-        else if(obj.number === 1){
+        else if(obj.seedlingNum === 1){
+            console.log("turn lights on for seedling2");
             this.lightOn(1, obj.iconLight, null);
             //this.lightOn(1, obj.urlLight, null);
             //this.lightOn(1, obj.lmLight, null);
         } // seedling 2
-        else if(obj.number === 2){
-
+        else if(obj.seedlingNum === 2){
+            console.log("turn lights on for seedling3");
+            this.lightOn(1, obj.iconLight, null);
         } // seedling 3 has no lights currently
         callback(obj);
     }, // turn lights on excluding button light
 
     lightsOff: function(obj){
-        if(obj.number === 0){
+        if(obj.seedlingNum === 0){
+            console.log("turn lights off for seedling1");
             hue.turnOff();
             this.lightOff(1, obj.urlLight, "FFFFFF")
         }
-        else if(obj.number === 1){
+        else if(obj.seedlingNum === 1){
+            console.log("turn lights off for seedling2");
             this.lightOff(1, obj.iconLight, null);
             //this.lightOff(1, obj.urlLight, null);
             //this.lightOff(1, obj.lmLight, null);
         }
-        else if(obj.number === 2){
-
+        else if(obj.seedlingNum === 2){
+            console.log("turn lights off for seedling3");
+            this.lightOff(1, obj.iconLight, null);
         }
 
     }, // turn lights off excluding button light
@@ -545,20 +551,22 @@ var self = module.exports = {
             console.log("lights are on");
         } // halogen or led light bulb
         else{
-            //var this.lightPercentage = 0;
-            var intervalTime = time * 1000 / (100-this.lightPercentage);
+            light.color(color);
             light.on();
+            //var this.lightPercentage = 0;
+            /*
+            var intervalTime = time * 1000 / (100-this.lightPercentage);
             light.intensity(this.lightPercentage);
             light.color(color);
+            light.on();
             timer = setInterval(function(){
-                console.log(timer);
                 this.lightPercentage += 1;
                 light.intensity(this.lightPercentage);
                 if(this.lightPercentage == 100){
                     clearInterval(timer);
-                    console.log("finaltimer: " + timer);
                 }
             }, intervalTime);
+            */
         } // rgb led strip
     },
 
@@ -571,19 +579,21 @@ var self = module.exports = {
         } // halogen or led light bulb
         else{
             //var this.lightPercentage = 100;
+            light.color("000000");
+            light.off();
+            /*
             var intervalTime = time * 1000 / (this.lightPercentage);
             light.intensity(this.lightPercentage);
             timer = setInterval(function(){
-                console.log(timer);
                 this.lightPercentage -= 1;
                 light.intensity(this.lightPercentage);
                 if(this.lightPercentage == 0){
                     light.off();
                     light.color("000000");
                     clearInterval(timer);
-                    console.log("finaltimer: " + timer);
                 }
             }, intervalTime);
+            */
         } // rgb led strip
     },
 
