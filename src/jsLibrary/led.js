@@ -502,6 +502,7 @@ var self = module.exports = {
     lightsOn: function(obj, callback){
         if(obj.number === 0){
             // turn on hue
+            console.log("turn lights on for seedling1");
             var data = {'hue' : 0,
                         'sat' : 0,
                         'bri' : 100
@@ -510,12 +511,14 @@ var self = module.exports = {
             this.lightOn(1, obj.urlLight, "FFFFFF")
         } // seedling 1
         else if(obj.number === 1){
+            console.log("turn lights on for seedling2");
             this.lightOn(1, obj.iconLight, null);
             //this.lightOn(1, obj.urlLight, null);
             //this.lightOn(1, obj.lmLight, null);
         } // seedling 2
         else if(obj.number === 2){
-
+            console.log("turn lights on for seedling3");
+            this.lightOn(1, obj.iconLight, null);
         } // seedling 3 has no lights currently
         callback(obj);
     }, // turn lights on excluding button light
