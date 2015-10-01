@@ -97,6 +97,7 @@ function rampDown(factor, duration) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Idle State: Breathe
 function breathe() {
+	console.log("--> in breathe()");
 //	// 2 seconds to fade on and fade off, 6 seconds of offtime
 //	var depth = 0;
 //
@@ -126,6 +127,7 @@ function breathe() {
 	// PUT http request to fade on
 	request(options, function(error, response, body) {
 		if(error) console.log('Error: '+error); 
+		console.log(JSON.stringify(response,null,2));
 	}); // end of request
 }
 
