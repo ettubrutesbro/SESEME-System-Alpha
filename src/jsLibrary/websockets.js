@@ -407,7 +407,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     }
     else{
       console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
-      randomSoundWeight(soundObj, 'no', seedlings[seedlingToPlay].socket);
+      randomSoundWeight(soundObj, 'no', seedSocket);
     } // currently in animation
   });
 
