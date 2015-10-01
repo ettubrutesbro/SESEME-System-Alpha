@@ -66,8 +66,6 @@ var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
 var socket = require('socket.io');
 
-lifx.test = 'test';
-
 ////////////////////////////////////////////////
 //  SEEDLING Vars
 ////////////////////////////////////////////////
@@ -99,16 +97,16 @@ for(var i = 0; i < 3; i++){
 ////////////////////////////////////////////////
 var seconds = 120; // Global seconds variable
 var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
+var interruptBreathe = false;
 var idleCountdown;
 var desperation;
-var idleBehavior;
 
 // Function to start the lifx idle behavior
 function idleBehavior(lifx) {
 
 	// Start breathing (no maintenance needed to clear it)
 	console.log("Lifx: Started breathing");
-	var repeatBreathe = lifx.breathe();
+	lifx.breathe();
 
 	// Set a timeout to start desperation after a minute of breathing
 	setTimeout(function() {
@@ -125,10 +123,11 @@ function idleBehavior(lifx) {
 	}, 120000);
 }
 
-var interruptBreathe = false;
 function countdown() {
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
+
+		interruptBreathe = false;
 
 		// Begin the lifx idle state behavior
 		idleBehavior(lifx);
@@ -401,6 +400,11 @@ function seedlingConnected(seedSocket, seedlingNum){
 
   seedling.socket.on('bigRedButton', function(){
     if(!seedling.buttonPressed){
+	  // If system is in idle mode, clear the lifx breathe/desperation intervals
+	  if(idleCountdown < 1) {
+		if(desperation) clearInterval(desperation);
+		interruptBreathe = true;
+	  }
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
       seedling.socket.emit('seedling play sound', seedling.story.sound);
@@ -409,7 +413,6 @@ function seedlingConnected(seedSocket, seedlingNum){
     else{
       console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
       randomSoundWeight(soundObj, 'no', seedSocket);
-      seedling.socket.emit('seedling add lights duration', seedlingNum);
     } // currently in animation
   });
 
