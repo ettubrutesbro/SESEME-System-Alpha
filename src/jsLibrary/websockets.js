@@ -184,13 +184,39 @@ var webbyOnline = 0;
 var webby = null;
 var uiSocket = null;
 var lastSeedlingPlayed = 0;
-var previousSounds = [];
+var previousSounds = {};
 initPreviousSounds();
 
 function initPreviousSounds() {
+	previousSounds.topical = [];
+	previousSounds.dumb = [];
+	previousSounds.no = [];
+	previousSounds.ready = [];
+	previousSounds.celebratory = [];
+
 	for(var i = 0; i < 4; i++) {
-		previousSounds.push({
-			'soundName': null,
+		previousSounds.topical[i].push({
+			'soundname': null,
+			'index': null,
+			'type': null,
+		});
+		previousSounds.dumb[i].push({
+			'soundname': null,
+			'index': null,
+			'type': null,
+		});
+		previousSounds.no[i].push({
+			'soundname': null,
+			'index': null,
+			'type': null,
+		});
+		previousSounds.ready[i].push({
+			'soundname': null,
+			'index': null,
+			'type': null,
+		});
+		previousSounds.celebratory[i].push({
+			'soundname': null,
 			'index': null,
 			'type': null,
 		});
@@ -201,15 +227,15 @@ function randomSoundWeight(obj, type, socket){
   var randValue;
   for(;;) { // Keep replacing the random value until it is a desired value
     randValue = Math.floor((Math.random() * obj[type].length-1) + 1);
-    if((randValue === previousSounds[0].index) ||
-       (randValue === previousSounds[1].index) ||
-       (randValue === previousSounds[2].index) ||
-       (randValue === previousSounds[3].index)) continue;
+    if((randValue === prevoiusSounds[type][0].index) ||
+       (randValue === prevoiusSounds[type][1].index) ||
+       (randValue === prevoiusSounds[type][2].index) ||
+       (randValue === prevoiusSounds[type][3].index)) continue;
     else break;
   }
   // ['1', '2', '3', '4']  <-- '4' would be the sound index to avoid most
-  if(previousSounds.length === 4) previousSounds.shift();
-  previousSounds.push({
+  if(prevoiusSounds[type].length === 4) prevoiusSounds[type].shift();
+  prevoiusSounds[type].push({
     'soundName':obj[type][randValue],
     'index':randValue,
     'type':type
@@ -298,8 +324,6 @@ io.on('connection', function (socket) {
       beagle.emit('webMoveMotor', data);
     }
   })
-
-
 });
 
 
@@ -382,8 +406,8 @@ function seedlingConnected(seedSocket, seedlingNum){
       bigRedButton(seedling);
     }
     else{
-      seedling.socket.emit('seedling play sound', 'no1');
       console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
+      randomSoundWeight(soundObj, 'no', seedlings[seedlingToPlay].socket);
     } // currently in animation
   });
 
