@@ -100,7 +100,7 @@ function setup(){
 	function assets(){
 		var allModels = ['quaped','pillar','outline3','outcap','templategeo'] //symbolgeos?
 		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
-			,'link','vid','pix'] //names of external imgs (PNG)
+			,'link','link_list','link_data','link_www','vid','vid_yt','pix'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
