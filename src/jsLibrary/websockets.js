@@ -402,10 +402,8 @@ function seedlingConnected(seedSocket, seedlingNum){
   seedling.socket.on('bigRedButton', function(){
     if(!seedling.buttonPressed){
 	  // If system is in idle mode, clear the lifx breathe/desperation intervals
-	  if(idleCountdown < 1) {
-		if(breathing) clearInterval(breathing);
-		if(desperate) clearInterval(desperate);
-	  }
+	  if(breathing) clearInterval(breathing);
+	  if(desperate) clearInterval(desperate);
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
       seedling.socket.emit('seedling play sound', seedling.story.sound);
