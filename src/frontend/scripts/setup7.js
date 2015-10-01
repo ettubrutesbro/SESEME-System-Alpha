@@ -36,7 +36,6 @@ function setup(){
 	ready.onLoad = function(){ fill(); behaviors(); display() }
 	netOps() //data from server
 	initDOM() //dom
-	assets() //animate & 3d
 
 	function netOps(){
 			if(online){ //server is hooked up
@@ -100,7 +99,8 @@ function setup(){
 	} //end initDOM
 	function assets(){
 		var allModels = ['quaped','pillar','outline3','outcap','templategeo'] //symbolgeos?
-		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest'] //names of external imgs (PNG)
+		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
+			,'link','vid','pix'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
@@ -109,13 +109,13 @@ function setup(){
 			build(); ready.itemEnd('3d')
 		}
 		var mdlMgr = new THREE.LoadingManager()
-		// mdlMgr.onProgress = function(item,loaded, total){console.log(item,loaded, total)}
+		mdlMgr.onProgress = function(item,loaded, total){console.log(item,loaded, total)}
 		mdlMgr.onLoad = function(){console.log('models done'); resourceMgr.itemEnd('mdlMgr')}
 		for(var i = 0; i<allModels.length;i++){ mdlMgr.itemStart('assets/'+allModels[i]+'.js') }
 		var mdlLoader = new THREE.JSONLoader()
 		allModels.forEach(function(ele){
-			mdlLoader.load('assets/'+ele+'.js',function(geo){
-				resources.geos[ele] = geo; mdlMgr.itemEnd('assets/'+ele+'.js')
+			mdlLoader.load('assets/'+ ele +'.js',function(geo){
+				resources.geos[ele] = geo; mdlMgr.itemEnd('assets/'+ ele +'.js')
 			})
 		})
 		//fixed geo resources
@@ -226,6 +226,7 @@ function setup(){
 		makeSymbols([false,false,false,false])
 		makeSymbolLabel([false,false,false,false])
 		makeStatBox()
+		makeExtras()
 		fillDOM()
 		placeMainButton()
 		populateHelp()
@@ -482,10 +483,12 @@ function setup(){
 		})
 		dom.closebutton.addEventListener('click',clickedToClose)
 		dom.containerSESEME.addEventListener('click', function(event){
+			console.log('clicked container seseme')
 			event.preventDefault()
 			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
 			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
 			raycast.setFromCamera(mouse, camera)
+			console.log(raycast.intersectObjects(info.btn.children))
 			if(view.height === 'plan' && view.zoom === 'far'){
 				var intersects = raycast.intersectObjects(info.help.children, true)
 				if(intersects.length > 0){
@@ -499,6 +502,8 @@ function setup(){
 			}
 			else if(raycast.intersectObjects(info.btn.children).length>0) clickedMainButton()
 			else if(view.text) clickedToClose()
+
+
 
 		}) // end click event listener
 		//HASHING

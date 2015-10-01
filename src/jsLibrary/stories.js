@@ -19,11 +19,11 @@ module.exports = {
         pSymbols: [{type:'img',src:'planetest'},{type:'img',src:'planetest'},{type:'img',src:'planetest'}, {type:'img',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: [
-          {c:['1st Place', 'so fuck off'], size: [18,24] }, {c: '3rd', size: 18 },
+          {c:['1st Place', 'so fuck off'], size: [18,12] }, {c: '3rd', size: 18 },
           {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
         ],
         pExtras: [
-          [{type:'link', c: ''}, {type: 'vid', c: ''}, {type: 'link', c: ''}],
+          [{type:'link_data', c: ''}, {type: 'vid_yt', c: ''}, {type: 'link_list', c: ''}],
           [{type:'link', c: ''}, {type: 'link', c: ''}],
           [{type:'link', c: ''}, {type: 'link', c: ''}],
           [{type:'link', c: ''}, {type: 'link', c: ''}],
