@@ -195,27 +195,27 @@ function initPreviousSounds() {
 	previousSounds.celebratory = [];
 
 	for(var i = 0; i < 4; i++) {
-		previousSounds.topical[i].push({
+		previousSounds.topical.push({
 			'soundname': null,
 			'index': null,
 			'type': null,
 		});
-		previousSounds.dumb[i].push({
+		previousSounds.dumb.push({
 			'soundname': null,
 			'index': null,
 			'type': null,
 		});
-		previousSounds.no[i].push({
+		previousSounds.no.push({
 			'soundname': null,
 			'index': null,
 			'type': null,
 		});
-		previousSounds.ready[i].push({
+		previousSounds.ready.push({
 			'soundname': null,
 			'index': null,
 			'type': null,
 		});
-		previousSounds.celebratory[i].push({
+		previousSounds.celebratory.push({
 			'soundname': null,
 			'index': null,
 			'type': null,
