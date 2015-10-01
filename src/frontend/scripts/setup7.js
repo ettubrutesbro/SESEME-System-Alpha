@@ -100,7 +100,9 @@ function setup(){
 	function assets(){
 		var allModels = ['quaped','pillar','outline3','outcap','templategeo'] //symbolgeos?
 		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
-			,'link','link_list','link_data','link_www','vid','vid_yt','pix'] //names of external imgs (PNG)
+			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
+			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
+			'link_ig2','link_fb','link_podcast'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
@@ -226,7 +228,7 @@ function setup(){
 		makeSymbols([false,false,false,false])
 		makeSymbolLabel([false,false,false,false])
 		makeStatBox()
-		makeExtras()
+		makeLinks()
 		fillDOM()
 		placeMainButton()
 		populateHelp()

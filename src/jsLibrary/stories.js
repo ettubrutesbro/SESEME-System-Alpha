@@ -22,7 +22,7 @@ module.exports = {
           {c:['1st Place', 'so fuck off'], size: [18,12] }, {c: '3rd', size: 18 },
           {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
         ],
-        pExtras: [
+        pLinks: [
           [{type:'link_data', c: ''}, {type: 'vid_yt', c: ''}, {type: 'link_list', c: ''}],
           [{type:'link', c: ''}, {type: 'link', c: ''}],
           [{type:'link', c: ''}, {type: 'link', c: ''}],
@@ -46,7 +46,7 @@ module.exports = {
           {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
-        pExtras: ['','','','']
+        pLinks: ['','','','']
 
       },
 
@@ -66,7 +66,7 @@ module.exports = {
           {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
-        pExtras: ['','','','']
+        pLinks: ['','','','']
       }
     ]
   },
