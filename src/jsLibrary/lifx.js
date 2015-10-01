@@ -98,36 +98,17 @@ function rampDown(factor, duration) {
 // Idle State: Breathe
 function breathe() {
 	console.log("--> in breathe()");
-//	// 2 seconds to fade on and fade off, 6 seconds of offtime
-//	var depth = 0;
-//
-//	// Main breathe logic using a recursive promise chain with a timeout of 6s
-//	var breatheSequence = function() {
-//		fadeOn(1)
-//			.then( setTimeout(function() { return fadeOff(1); }, 1250))
-//			.then( function() {
-//				if(depth !== 20) {
-//					depth++;
-//					console.log('depth: '+depth);
-//					setTimeout(breatheSequence, 5000);
-//				}
-//			});
-//	};
-//
-//	// Driver to start the breathing breatheSequence
-//	breatheSequence();
 
 	// Configurations and custom headers to send to the API
 	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/toggle';
 	options.method = 'POST';
 	options.body = JSON.stringify({
-		'duration'		: 1.5 
+		'duration'		: 1 
 	});
 
 	// PUT http request to fade on
 	request(options, function(error, response, body) {
 		if(error) console.log('Error: '+error); 
-		console.log(JSON.stringify(response,null,2));
 	}); // end of request
 }
 

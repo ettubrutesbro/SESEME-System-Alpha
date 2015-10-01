@@ -108,7 +108,7 @@ function idleBehavior(lifx) {
 	console.log("Lifx: Started breathing");
 	breathing = setInterval(function() {
 		lifx.breathe();
-	}, 1500);
+	}, 2000);
 
 	// Set a timeout to start desperation after a minute of breathing
 	setTimeout(function() {
