@@ -97,16 +97,16 @@ for(var i = 0; i < 3; i++){
 ////////////////////////////////////////////////
 var seconds = 120; // Global seconds variable
 var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
-var interruptBreathe = false;
 var idleCountdown;
-var desperation;
+var breathe;
+var desperate;
 
 // Function to start the lifx idle behavior
 function idleBehavior(lifx) {
 
 	// Start breathing (no maintenance needed to clear it)
 	console.log("Lifx: Started breathing");
-	lifx.breathe();
+	breathe = setInterval(lifx.breathe, 1500);
 
 	// Set a timeout to start desperation after a minute of breathing
 	setTimeout(function() {
@@ -116,7 +116,7 @@ function idleBehavior(lifx) {
 		lifx.desperation(states);
 
 		// Set the interval of cycles through the story part colors
-		desperation = setInterval(function() {
+		desperate = setInterval(function() {
 			lifx.desperation(states)
 		}, states.length * 5000);
 	}, 120000);
@@ -126,14 +126,13 @@ function countdown() {
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
 
-		interruptBreathe = false;
-
 		// Begin the lifx idle state behavior
 		idleBehavior(lifx);
 
 		// Set a 4 minute timeout to turn off the bulb after the idle behavior
 		setTimeout(function() {
-			if(desperation) clearInterval(desperation);
+			if(breathing) clearInterval(breathing);
+			if(desperate) clearInterval(desperate);
 			lifx.fadeOff(5).then(console.log("Lifx: Fading Off"));
 		}, 240000);
 
@@ -297,8 +296,8 @@ io.on('connection', function (socket) {
 		var states = getStates();
 		lifx.desperation(states);
 
-		if(desperation) clearInterval(desperation);
-		desperation = setInterval(function() {
+		if(desperate) clearInterval(desperate);
+		desperate = setInterval(function() {
 			lifx.desperation(states)
 		}, states.length * 5000);
   });
@@ -323,12 +322,6 @@ io.on('connection', function (socket) {
       beagle.emit('webMoveMotor', data);
     }
   })
-
-  socket.on('setHSL', function(data){
-    console.log(data)
-    hue.setHSL(data)
-  })
-
 });
 
 
@@ -407,8 +400,8 @@ function seedlingConnected(seedSocket, seedlingNum){
     if(!seedling.buttonPressed){
 	  // If system is in idle mode, clear the lifx breathe/desperation intervals
 	  if(idleCountdown < 1) {
-		if(desperation) clearInterval(desperation);
-		interruptBreathe = true;
+		if(breathing) clearInterval(breathing);
+		if(desperate) clearInterval(desperate);
 	  }
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
