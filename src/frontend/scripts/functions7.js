@@ -1005,17 +1005,16 @@
 		if(!data.pLinks) return
 		for(var i = 0; i<4; i++){
 			if(!data.pLinks[i] || data.pLinks[i].length < 1) continue
-			var extras = new THREE.Group()
-			extras.rotation.y = rads(45); extras.position.y = 4
-			seseme['plr'+i].extras = extras ; seseme['plr'+i].add(seseme['plr'+i].extras)
+			var links = new THREE.Group()
+			links.rotation.y = rads(45); links.position.y = 4
+			seseme['plr'+i].links = links ; seseme['plr'+i].add(seseme['plr'+i].links)
 
 			for(var it = 0; it<data.pLinks[i].length; it++){
-				var iconmap = data.pLinks[i][it].type
-				console.log(iconmap)
-				var e = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), new THREE.MeshBasicMaterial({
-					map: resources.mtls[iconmap].map, transparent: true, depthWrite: false, opacity: 0
+				var linkinfo = data.pLinks[i][it]
+				var l = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), new THREE.MeshBasicMaterial({
+					map: resources.mtls['link_'+linkinfo.type].map, transparent: true, depthWrite: false, opacity: 0
 				}))
-				extras.add(e)
+				links.add(l)
 			}
 			if(data.pLinks[i].length === 3){
 				extras.children[0].expand = {x:0,y:2.75,z:0,spd:300}
