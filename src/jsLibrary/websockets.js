@@ -125,6 +125,7 @@ function idleBehavior(lifx) {
 	}, 120000);
 }
 
+var interruptBreathe = false;
 function countdown() {
 	if (seconds < 1) {
         console.log("[SESEME NOW IN IDLE MODE]!");
