@@ -39,10 +39,12 @@ function listeners(socket, obj, soundObj) {
 
       if(seedlingNum == obj.seedlingNum){
         if(timerLastUpdate[seedlingNum]){
+          console.log("add to lightTimer value");
           lightTimer[seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[seedlingNum])); //
           timerLastUpdate[seedlingNum] = Date.now();
         } // lights of seedling currently on so add to timer
         else{
+          console.log("turn lights on for buttonPressed");
           timerLastUpdate[seedlingNum] = Date.now();
           led.lightsOn(obj, lightsOnCallback);
         } // turn on lights of seedlingNum
