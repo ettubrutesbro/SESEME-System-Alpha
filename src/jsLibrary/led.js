@@ -35,6 +35,8 @@ var self = module.exports = {
 
     hexToObj: function(color){
         if(!color) color = "FFFFFF";
+        console.log(color);
+        console.log(typeof color);
         var split = color.split("");
         var i = split[0] == "#" ? 1 : 0 // shift to right if first char is "#"
         var rStr = split[0+i] + split[1+i];
