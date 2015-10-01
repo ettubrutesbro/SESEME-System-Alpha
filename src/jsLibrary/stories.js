@@ -5,7 +5,7 @@ module.exports = {
     parts: [
       {
         values: [1,3,9,20], valueType: 'lessIsTall', customLo: 24,
-        color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: {} },
+        color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
         sound: ['cheer1','cheer2'],
         title: {
           pre: {c: 'SUSTAINABILITY', size: 18},
@@ -37,7 +37,7 @@ module.exports = {
           post: {c: '2014', size: 18, margin: .8}
         },
         maintext: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
-        color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: {} },
+        color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: '991100' },
         sound: ['boo','toilet'],
 
         pNames: [['shaddup','fool'],'bla','bla','bla'],
@@ -58,7 +58,7 @@ module.exports = {
           main: {c: ['Water Wasteful','Foods, Ranked.'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'}
         },
         maintext: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
-        color: { ui: '#00f000', monument: {hex: "#22ff55", bri: 1}, ring: {} },
+        color: { ui: '#00f000', monument: {hex: "#22ff55", bri: 1}, ring: '00f000' },
         sound: ['water1','toilet'],
         pNames: ['bla','bla','bla','bla'],
         pTexts: ['bla','bla','bla','bla'],
