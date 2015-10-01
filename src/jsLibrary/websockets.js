@@ -408,6 +408,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     else{
       console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
       randomSoundWeight(soundObj, 'no', seedSocket);
+      seedling.socket.emit('seedling add lights duration', seedlingNum);
     } // currently in animation
   });
 

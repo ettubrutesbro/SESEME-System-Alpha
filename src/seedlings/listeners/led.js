@@ -30,12 +30,33 @@ function listeners(socket, obj, soundObj) {
       }, lightOnDuration);
     }
 
+    function addLightsDuration(obj){
+      if(timerLastUpdate[obj.seedlingNum]){
+        console.log("add to lightTimer value");
+        lightTimer[obj.seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum])); //
+        timerLastUpdate[obj.seedlingNum] = Date.now();
+      } // lights of seedling currently on so add to timer
+      else{
+        console.log("turn lights on for buttonPressed");
+        timerLastUpdate[obj.seedlingNum] = Date.now();
+        led.lightsOn(obj, lightsOnCallback);
+      } // turn on lights of seedlingNum
+    }
+
+    socket.on('seedling add lights duration', function(seedlingNum){
+      if(seedlingNum === obj.seedlingNum){
+        addLightsDuration(obj);
+      }
+    }
+
     socket.on('buttonPressed', function(seedlingNum, fadeCircleData, lightTrailData){
       console.log("buttonPressed", seedlingNum);
 
       led.lightOff(1, obj.buttonLight, null);
 
-      if(seedlingNum == obj.seedlingNum){
+      if(seedlingNum === obj.seedlingNum){
+        addLightsDuration(obj);
+        /*
         if(timerLastUpdate[seedlingNum]){
           console.log("add to lightTimer value");
           lightTimer[seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[seedlingNum])); //
@@ -46,6 +67,7 @@ function listeners(socket, obj, soundObj) {
           timerLastUpdate[seedlingNum] = Date.now();
           led.lightsOn(obj, lightsOnCallback);
         } // turn on lights of seedlingNum
+        */
 
         led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
           console.log("in callback for fadeCircle");
