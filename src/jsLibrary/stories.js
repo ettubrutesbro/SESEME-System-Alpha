@@ -24,9 +24,9 @@ module.exports = {
         ],
         pLinks: [
           [{type:'yt', c: ''}, {type: 'article', c: 'bomb.com'}, {type: 'list', c: ''}],
-          [{type:'link', c: ''}, {type: 'link', c: ''}],
-          [{type:'link', c: ''}, {type: 'link', c: ''}],
-          [{type:'link', c: ''}, {type: 'link', c: ''}],
+          [{type:'article', c: ''}, {type: 'list', c: ''}],
+          [{type:'article', c: ''}, {type: 'list', c: ''}],
+          [{type: 'list', c: ''}],
         ]
       }, //end part 0
       {

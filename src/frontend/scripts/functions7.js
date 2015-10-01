@@ -1011,28 +1011,30 @@
 
 			for(var it = 0; it<data.pLinks[i].length; it++){
 				var linkinfo = data.pLinks[i][it]
+				console.log('link_'+linkinfo.type)
 				var l = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), new THREE.MeshBasicMaterial({
 					map: resources.mtls['link_'+linkinfo.type].map, transparent: true, depthWrite: false, opacity: 0
 				}))
+				l.clicked = function(){ window.location = linkinfo.c }
 				links.add(l)
 			}
 			if(data.pLinks[i].length === 3){
-				extras.children[0].expand = {x:0,y:2.75,z:0,spd:300}
-				extras.children[0].origin = {x:0,y:4,z:0,delay:50,spd:300}
-				extras.children[1].expand = {x:-2,y:1,z:0,delay:50,spd:300}
-				extras.children[1].origin = {x:-3,y:3,z:0,spd:300}
-				extras.children[2].expand = {x:2,y:1,z:0,delay:50,spd:300}
-				extras.children[2].origin = {x:3,y:3,z:0,spd:300}
+				links.children[0].expand = {x:0,y:2.75,z:0,spd:300}
+				links.children[0].origin = {x:0,y:4,z:0,delay:50,spd:300}
+				links.children[1].expand = {x:-2,y:1,z:0,delay:50,spd:300}
+				links.children[1].origin = {x:-3,y:3,z:0,spd:300}
+				links.children[2].expand = {x:2,y:1,z:0,delay:50,spd:300}
+				links.children[2].origin = {x:3,y:3,z:0,spd:300}
 			}
 			else if(data.pLinks[i].length === 2){
-				extras.children[0].expand = {x:-1.5,y:1.5,z:0,delay:50,spd:350}
-				extras.children[0].origin = {x:-2,y:3,z:0,spd:300}
-				extras.children[1].expand = {x:1.5,y:1.5,z:0,delay:50,spd:350}
-				extras.children[1].origin = {x:2,y:3,z:0,spd:300}
+				links.children[0].expand = {x:-1.5,y:1.5,z:0,delay:50,spd:350}
+				links.children[0].origin = {x:-2,y:3,z:0,spd:300}
+				links.children[1].expand = {x:1.5,y:1.5,z:0,delay:50,spd:350}
+				links.children[1].origin = {x:2,y:3,z:0,spd:300}
 			}
 			else if(data.pLinks[i].length === 1){
-				extras.children[0].expand = {x:0,y:2,z:0}
-				extras.children[0].origin = {x:0,y:3.5,z:0}
+				links.children[0].expand = {x:0,y:2,z:0}
+				links.children[0].origin = {x:0,y:3.5,z:0}
 			}
 		}
 	}//end makeLinks
