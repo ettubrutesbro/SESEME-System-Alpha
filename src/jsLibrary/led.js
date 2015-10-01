@@ -579,6 +579,9 @@ var self = module.exports = {
         } // halogen or led light bulb
         else{
             //var this.lightPercentage = 100;
+            light.color("000000");
+            light.off();
+            /*
             var intervalTime = time * 1000 / (this.lightPercentage);
             light.intensity(this.lightPercentage);
             timer = setInterval(function(){
@@ -590,6 +593,7 @@ var self = module.exports = {
                     clearInterval(timer);
                 }
             }, intervalTime);
+            */
         } // rgb led strip
     },
 
