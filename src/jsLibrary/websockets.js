@@ -98,7 +98,7 @@ for(var i = 0; i < 3; i++){
 var seconds = 120; // Global seconds variable
 var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
 var idleCountdown;
-var breathe;
+var breathing;
 var desperate;
 
 // Function to start the lifx idle behavior
@@ -106,10 +106,11 @@ function idleBehavior(lifx) {
 
 	// Start breathing (no maintenance needed to clear it)
 	console.log("Lifx: Started breathing");
-	breathe = setInterval(lifx.breathe, 1500);
+	breathing = setInterval(lifx.breathe, 1500);
 
 	// Set a timeout to start desperation after a minute of breathing
 	setTimeout(function() {
+		if(breathing) clearInterval(breathing);
 		// Start desperation immediately after breathing ends
 		console.log("Lifx: Started desperation");
 		var states = getStates();
