@@ -105,6 +105,7 @@ function breathe() {
 		fadeOn(1)
 			.then( setTimeout(function() { return fadeOff(1); }, 1250))
 			.then( function() {
+				console.log(interruptBreathe);
 				if(depth !== 20) {
 					depth++;
 					setTimeout(breatheSequence, 5000);
