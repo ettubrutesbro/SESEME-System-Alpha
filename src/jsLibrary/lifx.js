@@ -108,6 +108,7 @@ function breathe() {
 				console.log("interruptBreathe: "+interruptBreathe);
 				if(depth !== 20) {
 					depth++;
+					console.log('depth: '+depth);
 					setTimeout(breatheSequence, 5000);
 				}
 			});
