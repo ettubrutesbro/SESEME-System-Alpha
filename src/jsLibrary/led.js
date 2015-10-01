@@ -548,7 +548,10 @@ var self = module.exports = {
             console.log("lights are on");
         } // halogen or led light bulb
         else{
+            light.color(color);
+            light.on();
             //var this.lightPercentage = 0;
+            /*
             var intervalTime = time * 1000 / (100-this.lightPercentage);
             light.intensity(this.lightPercentage);
             light.color(color);
@@ -560,6 +563,7 @@ var self = module.exports = {
                     clearInterval(timer);
                 }
             }, intervalTime);
+            */
         } // rgb led strip
     },
 
