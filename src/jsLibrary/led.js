@@ -525,16 +525,19 @@ var self = module.exports = {
 
     lightsOff: function(obj){
         if(obj.seedlingNum === 0){
+            console.log("turn lights off for seedling1");
             hue.turnOff();
             this.lightOff(1, obj.urlLight, "FFFFFF")
         }
         else if(obj.seedlingNum === 1){
+            console.log("turn lights off for seedling2");
             this.lightOff(1, obj.iconLight, null);
             //this.lightOff(1, obj.urlLight, null);
             //this.lightOff(1, obj.lmLight, null);
         }
         else if(obj.seedlingNum === 2){
-
+            console.log("turn lights off for seedling3");
+            this.lightOff(1, obj.iconLight, null);
         }
 
     }, // turn lights off excluding button light

@@ -10,7 +10,7 @@ function listeners(socket, obj, soundObj) {
     var Timer = require(path.join(__dirname, '..', '..', 'jsLibrary', 'timer.js'));
     var music = null;
 
-    var lightOnDuration = 10000;
+    var lightOnDuration = 12000;
     var fadeTime = 3; // default fade time
     var trailLength = 6; // default light trail length
     var trailTime = 1.5; // default light trail revolution time
@@ -24,8 +24,6 @@ function listeners(socket, obj, soundObj) {
       timerLastUpdate[obj.seedlingNum] = Date.now();
       lightTimer[obj.seedlingNum] = new Timer.Timer(function() { // init timer with 5 seconds
         console.log('turning lights off now');
-        console.log("timerLastUpdate in callback", timerLastUpdate);
-        console.log("date.now", Date.now());
         console.log('duration of timer in sec:', (Date.now() - timerLastUpdate[obj.seedlingNum]) / 1000);
         led.lightsOff(obj);
         timerLastUpdate[obj.seedlingNum] = null;
@@ -48,7 +46,6 @@ function listeners(socket, obj, soundObj) {
           timerLastUpdate[seedlingNum] = Date.now();
           led.lightsOn(obj, lightsOnCallback);
         } // turn on lights of seedlingNum
-        console.log("buttonPressed timerLastUpdate", timerLastUpdate);
 
         led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
           console.log("in callback for fadeCircle");
