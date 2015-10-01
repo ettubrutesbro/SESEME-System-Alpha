@@ -550,9 +550,9 @@ var self = module.exports = {
         else{
             //var this.lightPercentage = 0;
             var intervalTime = time * 1000 / (100-this.lightPercentage);
-            light.on();
             light.intensity(this.lightPercentage);
             light.color(color);
+            light.on();
             timer = setInterval(function(){
                 this.lightPercentage += 1;
                 light.intensity(this.lightPercentage);
