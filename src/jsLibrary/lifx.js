@@ -119,7 +119,7 @@ function breathe() {
 
 	// Configurations and custom headers to send to the API
 	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/toggle';
-	options.method = 'PUT';
+	options.method = 'POST';
 	options.body = JSON.stringify({
 		'duration'		: 1.5 
 	});
