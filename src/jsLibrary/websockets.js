@@ -408,8 +408,21 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
-  var targetColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
-  var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].ledColor);
+  var ringColor = seedling.story.parts[seedling.currentPart].color.ring;
+  var monumentHexColor = seedling.story.parts[seedling.currentPart].color.monument.hex;
+  var uiColor = seedling.story.parts[seedling.currentPart].color.ui;
+  console.log("ringColor", ringColor);
+  console.log("monumentHexColor", monumentHexColor);
+  console.log("uiColor", uiColor);
+  var targetColor;
+  if(ringColor){ // FIXME: better way to check for empty obj
+    console.log("in ringColor")
+    targetColor = led.hexToObj(ringColor);
+  }
+  else if(monumentHexColor) targetColor = led.hexToObj(monumentHexColor);
+  else targetColor = led.hexToObj(uiColor); // if no uiColor, defaults to "#FFFFFF"
+
+  var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.monument.hex);
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
   var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
   var fadeCircleData = new fadeCircleObj(targetColor, duration, diodePct);
@@ -418,7 +431,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     duration += 3;
   } // will run fill circle so add 3 sec to duration of lightTrail and timeout
 
-  var lightTrailData = new lightTrailObj(trailColor, 6, duration / seedling.totalStoryParts, seedling.totalStoryParts);
+  //var lightTrailData = new lightTrailObj(trailColor, 6, duration / seedling.totalStoryParts, seedling.totalStoryParts);
+  var timePerRev = 2;
+  var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
+
 
   if(error) {
     if(seedling.socket)
@@ -487,10 +503,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
 
 function bigRedButton(seedling){
+  var plrmax = 5000;
   if(beagleOnline){
     beagle.emit('getBeagleStats');
     beagle.emit('isRunning'); // check if seseme is running
-    var plrmax = 5000;
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     var maxDistance = 0;
 
@@ -523,7 +539,7 @@ function bigRedButton(seedling){
   }
   else{
     console.log("will run button helper");
-    bigRedButtonHelper(seedling, 5000, null, false);
+    bigRedButtonHelper(seedling, 5000, null, plrmax, false);
   }
 }
 

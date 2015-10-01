@@ -55,10 +55,10 @@
 			if(Math.abs(degs(camera.rotation.y)-ele)<45){
 				if(facing!==i){
 					if(camera.zoom>1){
-						view.zoomswitch = true
+						view.zoomswitch = true; controls.noZoom = true
 						var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+i].targetY) * 50
 						anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3.5),
-						spd: 300+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false }})
+						spd: 300+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false; controls.noZoom = false }})
 					}
 					if(((i>facing) || (i===0 && facing===3)) && !(i===3 && facing===0)) view.cycleDirection = true
 					else view.cycleDirection = false
@@ -97,6 +97,7 @@
 		viewSymbols()
 		viewZoomLabels()
 		viewStatBoxes()
+		viewExtras()
 		viewNavigationHelper()
 		viewLRArrows()
 		camHeight()
@@ -387,17 +388,42 @@
 			if(view.cycleDirection) previous = facing===0?3:facing-1
 			else previous = facing ===3?0:facing+1
 			anim3d(seseme['plr'+previous].statbox, 'position', {y:4})
+			anim3d(seseme['plr'+previous].statbox, 'scale', {x:.5,y:.5,z:.5})
 			seseme['plr'+previous].statbox.traverse(function(child){
 				if(child.material)anim3d(child, 'opacity', {opacity: 0})
 			})
 			anim3d(seseme['plr'+facing].statbox, 'position', seseme['plr'+facing].statbox.expand)
+			anim3d(seseme['plr'+facing].statbox, 'scale', {x:1,y:1,z:1})
 			seseme['plr'+facing].statbox.traverse(function(child){
 				if(child.material)anim3d(child, 'opacity', {opacity: 1})
 			})
 		}else{
 			anim3d(seseme['plr'+facing].statbox, 'position', {y: 4})
+			anim3d(seseme['plr'+facing].statbox, 'scale', {x:.5,y:.5,z:.5})
 			seseme['plr'+facing].statbox.traverse(function(child){
 				if(child.material) anim3d(child, 'opacity', {opacity: 0	})
+			})
+		}
+	}
+	function viewExtras(){
+		if(!data.pExtras) return
+		if(view.text && view.zoom === 'close'){
+			var previous
+			if(view.cycleDirection) previous = facing===0?3:facing-1
+			else previous = facing ===3?0:facing+1
+			seseme['plr'+previous].extras.traverse(function(child){
+				if(child.origin) anim3d(child, 'position', child.origin)
+				if(child.material) anim3d(child, 'opacity', {opacity:0})
+			})
+			seseme['plr'+facing].extras.traverse(function(child){
+				if(child.expand) anim3d(child, 'position', child.expand)
+				if(child.material) anim3d(child, 'opacity', {opacity: 1})
+			})
+		}
+		else{
+			seseme['plr'+facing].extras.traverse(function(child){
+				if(child.origin) anim3d(child, 'position', child.origin)
+				if(child.material) anim3d(child, 'opacity', {opacity: 0})
 			})
 		}
 	}
@@ -970,18 +996,47 @@
 			else statbox = new THREE.Object3D()
 
 			statbox.position.y = 4
-			statbox.rotation.y = rads(45);
+			statbox.rotation.y = rads(45)
 			seseme['plr'+i].statbox = statbox
 			seseme['plr'+i].add(seseme['plr'+i].statbox)
-
-
-
-
 		}
-	}
+	} // end makeStatBox
 	function makeExtras(){
+		if(!data.pExtras) return
+		for(var i = 0; i<4; i++){
+			if(!data.pExtras[i] || data.pExtras[i].length < 1) continue
+			var extras = new THREE.Group()
+			extras.rotation.y = rads(45); extras.position.y = 4
+			seseme['plr'+i].extras = extras ; seseme['plr'+i].add(seseme['plr'+i].extras)
 
-	}
+			for(var it = 0; it<data.pExtras[i].length; it++){
+				var iconmap = data.pExtras[i][it].type
+				console.log(iconmap)
+				var e = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), new THREE.MeshBasicMaterial({
+					map: resources.mtls[iconmap].map, transparent: true, depthWrite: false, opacity: 0
+				}))
+				extras.add(e)
+			}
+			if(data.pExtras[i].length === 3){
+				extras.children[0].expand = {x:0,y:2.75,z:0,spd:300}
+				extras.children[0].origin = {x:0,y:4,z:0,delay:50,spd:300}
+				extras.children[1].expand = {x:-2,y:1,z:0,delay:50,spd:300}
+				extras.children[1].origin = {x:-3,y:3,z:0,spd:300}
+				extras.children[2].expand = {x:2,y:1,z:0,delay:50,spd:300}
+				extras.children[2].origin = {x:3,y:3,z:0,spd:300}
+			}
+			else if(data.pExtras[i].length === 2){
+				extras.children[0].expand = {x:-1.5,y:1.5,z:0,delay:50,spd:350}
+				extras.children[0].origin = {x:-2,y:3,z:0,spd:300}
+				extras.children[1].expand = {x:1.5,y:1.5,z:0,delay:50,spd:350}
+				extras.children[1].origin = {x:2,y:3,z:0,spd:300}
+			}
+			else if(data.pExtras[i].length === 1){
+				extras.children[0].expand = {x:0,y:2,z:0}
+				extras.children[0].origin = {x:0,y:3.5,z:0}
+			}
+		}
+	}//end makeExtras
 }
 //5. MATH / UTILITY FUNCTIONS
 {
@@ -1097,12 +1152,6 @@
 		 }
 		obj.canvas = target
 		return obj
-	}
-	function backer(target, hex, margins){
-		var mtl = new THREE.MeshBasicMaterial({transparent: true, opacity: 0, color: hex})
-		target.backing = new THREE.Mesh(new THREE.PlaneBufferGeometry(target.canvas.cvs.width/60 + margins[0],
-		target.canvas.cvs.height/60 + margins[1]), mtl); target.backing.position.z -= 0.1
-		target.add(target.backing)
 	}
 }
 //9. ETC / other
