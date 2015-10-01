@@ -23,8 +23,7 @@ function listeners(socket, obj, soundObj) {
     function lightsOnCallback(obj){
       timerLastUpdate[obj.seedlingNum] = Date.now();
       lightTimer[obj.seedlingNum] = new Timer.Timer(function() { // init timer with 5 seconds
-        console.log('turning lights off now');
-        console.log('duration of timer in sec:', (Date.now() - timerLastUpdate[obj.seedlingNum]) / 1000);
+        console.log('turning lights off, duration of timer in sec:', (Date.now() - timerLastUpdate[obj.seedlingNum]) / 1000);
         led.lightsOff(obj);
         timerLastUpdate[obj.seedlingNum] = null;
       }, lightOnDuration);
@@ -32,7 +31,7 @@ function listeners(socket, obj, soundObj) {
 
     function addLightsDuration(obj){
       if(timerLastUpdate[obj.seedlingNum]){
-        console.log("add to lightTimer value");
+        console.log("add to lightTimer value", lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum]));
         lightTimer[obj.seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum])); //
         timerLastUpdate[obj.seedlingNum] = Date.now();
       } // lights of seedling currently on so add to timer
@@ -56,18 +55,6 @@ function listeners(socket, obj, soundObj) {
 
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
-        /*
-        if(timerLastUpdate[seedlingNum]){
-          console.log("add to lightTimer value");
-          lightTimer[seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[seedlingNum])); //
-          timerLastUpdate[seedlingNum] = Date.now();
-        } // lights of seedling currently on so add to timer
-        else{
-          console.log("turn lights on for buttonPressed");
-          timerLastUpdate[seedlingNum] = Date.now();
-          led.lightsOn(obj, lightsOnCallback);
-        } // turn on lights of seedlingNum
-        */
 
         led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
           console.log("in callback for fadeCircle");
