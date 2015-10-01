@@ -554,12 +554,10 @@ var self = module.exports = {
             light.intensity(this.lightPercentage);
             light.color(color);
             timer = setInterval(function(){
-                console.log(timer);
                 this.lightPercentage += 1;
                 light.intensity(this.lightPercentage);
                 if(this.lightPercentage == 100){
                     clearInterval(timer);
-                    console.log("finaltimer: " + timer);
                 }
             }, intervalTime);
         } // rgb led strip
@@ -577,14 +575,12 @@ var self = module.exports = {
             var intervalTime = time * 1000 / (this.lightPercentage);
             light.intensity(this.lightPercentage);
             timer = setInterval(function(){
-                console.log(timer);
                 this.lightPercentage -= 1;
                 light.intensity(this.lightPercentage);
                 if(this.lightPercentage == 0){
                     light.off();
                     light.color("000000");
                     clearInterval(timer);
-                    console.log("finaltimer: " + timer);
                 }
             }, intervalTime);
         } // rgb led strip
