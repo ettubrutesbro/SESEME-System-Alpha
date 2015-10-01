@@ -323,6 +323,12 @@ io.on('connection', function (socket) {
       beagle.emit('webMoveMotor', data);
     }
   })
+
+  socket.on('setHSL', function(data){
+    console.log(data)
+    hue.setHSL(data)
+  })
+
 });
 
 
