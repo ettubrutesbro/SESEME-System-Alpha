@@ -513,13 +513,13 @@ var self = module.exports = {
         else if(obj.seedlingNum === 1){
             console.log("turn lights on for seedling2");
             this.lightOn(1, obj.iconLight, null);
-            //this.lightOn(1, obj.urlLight, null);
-            //this.lightOn(1, obj.lmLight, null);
+            this.lightOn(1, obj.urlLight, null);
+            this.lightOn(1, obj.lmLight, null);
         } // seedling 2
         else if(obj.seedlingNum === 2){
             console.log("turn lights on for seedling3");
             this.lightOn(1, obj.iconLight, null);
-        } // seedling 3 has no lights currently
+        } 
         callback(obj);
     }, // turn lights on excluding button light
 
@@ -532,8 +532,8 @@ var self = module.exports = {
         else if(obj.seedlingNum === 1){
             console.log("turn lights off for seedling2");
             this.lightOff(1, obj.iconLight, null);
-            //this.lightOff(1, obj.urlLight, null);
-            //this.lightOff(1, obj.lmLight, null);
+            this.lightOff(1, obj.urlLight, null);
+            this.lightOff(1, obj.lmLight, null);
         }
         else if(obj.seedlingNum === 2){
             console.log("turn lights off for seedling3");
