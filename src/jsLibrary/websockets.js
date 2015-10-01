@@ -77,8 +77,8 @@ var seedlingIO = new Array(3);
 var story = new Array(3);
 
 story[0] = stories["testStory"];
-story[1] = stories["finalStory"];
-story[2] = stories["finalStory"];
+story[1] = stories["testStory"];
+story[2] = stories["testStory"];
 
 for(var i = 0; i < 3; i++){
   seedlingIO[i] = new socket.listen(6000+i);
