@@ -47,7 +47,7 @@ function listeners(socket, obj, soundObj) {
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
       }
-    }
+    })
 
     socket.on('buttonPressed', function(seedlingNum, fadeCircleData, lightTrailData){
       console.log("buttonPressed", seedlingNum);
