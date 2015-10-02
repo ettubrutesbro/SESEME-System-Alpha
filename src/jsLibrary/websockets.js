@@ -423,7 +423,6 @@ function seedlingConnected(seedSocket, seedlingNum){
 	  if(desperate) clearInterval(desperate);
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
-      seedling.socket.emit('seedling play sound', seedling.story.sound);
       bigRedButton(seedling);
     }
     else{
@@ -540,6 +539,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
 function bigRedButton(seedling){
   var plrmax = 5000;
+  console.log("--> in bigRedButton()");
   if(beagleOnline){
     beagle.emit('getBeagleStats');
     beagle.emit('isRunning'); // check if seseme is running
