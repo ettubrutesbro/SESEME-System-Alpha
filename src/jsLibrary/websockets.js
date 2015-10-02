@@ -457,9 +457,6 @@ function seedlingConnected(seedSocket, seedlingNum){
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
     seedling.online = true;
     seedling.currentPart = 0;
-    console.log("seedling on xps socket listener", seedlingNum);
-    var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
-    seedling.socket.emit('seedling initialize story', seedling.number, targetColor); // initialize first seedling and turn on buttons on first connect
     console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
   });
 
@@ -467,6 +464,10 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedlings[num].ready = true;
     if(systemOnline())
       seedlingIO[0].emit('seedling start sync-sequence-1');
+
+    console.log("seedling finished inits listener", seedlingNum);
+    var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
+    seedling.socket.emit('seedling initialize story', seedling.number, targetColor); // initialize first seedling and turn on buttons on first connect
       //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
