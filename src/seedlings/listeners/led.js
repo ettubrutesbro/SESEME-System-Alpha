@@ -66,8 +66,8 @@ function listeners(socket, obj, soundObj) {
 
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
-
-        if(obj.diodePct !== 0){
+        console.log("circleData.diodePct", circleData.diodePct);
+        if(circleData.diodePct !== 0){
           console.log("seedling buttonPressed socket; should be fadeCircle");
           led.fadeCircle(circleData.targetColor, circleData.duration, circleData.diodePct, obj, function(){
             console.log("in callback for fadeCircle");
