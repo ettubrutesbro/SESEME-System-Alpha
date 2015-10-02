@@ -276,6 +276,7 @@ io.on('connection', function (socket) {
   uiSocket = socket;
 
   socket.on('ui request story', function() {
+        console.log("Frontend requested story: sending current story data now")
 		// Have the frontend acquire the story data
 		io.sockets.emit('ui acquire story', {
 			story: story[lastActiveSeedling],
