@@ -276,6 +276,7 @@ io.on('connection', function (socket) {
   uiSocket = socket;
 
   socket.on('ui request story', function() {
+        console.log("Frontend requested story: sending current story data now")
 		// Have the frontend acquire the story data
 		io.sockets.emit('ui acquire story', {
 			story: story[lastActiveSeedling],
@@ -311,6 +312,14 @@ io.on('connection', function (socket) {
           console.log("Sim button pressed")
           seedlings[seedlingNum].buttonPressed = true;
           bigRedButton(seedlings[seedlingNum]);
+      } else { console.log('Wrong'); }
+  });
+
+  socket.on('sim button2', function(seedlingNum) {
+      if(!seedlings[seedlingNum].buttonPressed){
+          console.log("Sim button2 pressed");
+          var result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
+          uiSocket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
       } else { console.log('Wrong'); }
   });
 
@@ -493,7 +502,6 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   var timePerRev = 2;
   var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
 
-
   if(error) {
     if(seedling.socket)
         seedling.socket.emit("error buttonPressed", seedling.number, circleData, lightTrailData, seedling.buttonPressed);
@@ -505,16 +513,17 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
      // --> This block is to play a sound upon button press
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+     var actionDelay = 0;
      var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
      if(!buttonSounds.length)
          seedling.socket.emit('seedling play button-sound', null);
      else {
+         actionDelay = 3000;
 		 var buttonSound = buttonSounds[Math.floor(Math.random() * buttonSounds.length)]
          seedling.socket.emit('seedling play button-sound', buttonSound);
      }
-     seedling.socket.on('seedling finished button-sound', function() {
+     setTimeout(function() {
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
         // ===============================================================================
         // Increment current part of the story and reset the idle countdown
         seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
@@ -538,9 +547,13 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
         var result;
         if(uiSocket && lastActiveSeedling === seedling.number) {
             result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+
+            console.log("Emitting 'ui update part' to the front-end");
             io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
         } else if(uiSocket && lastActiveSeedling !== seedling.number) {
             result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+
+            console.log("Emitting 'ui different story' to the front-end");
             io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
         } else console.log("Connection with server not made...")
 
@@ -557,7 +570,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
           seedling.buttonPressed = false;
         }, Math.ceil(duration)*1000); // update seedling attributes after animation done
         */
-    }); // end of socket listener
+    }, actionDelay); // end of socket listener
   }
 }
 

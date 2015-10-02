@@ -16,18 +16,14 @@ function listeners(socket, soundObj) {
 
     // Listener to play a specific button sound given a sound name
     socket.on('seedling play button-sound', function(soundName) {
-        if(!soundName) socket.emit('seedling finished button-sound');
-
+        if(!soundName) {
+            console.log('No button-sound!');
+            return;
+        }
         console.log("Played sound '"+soundName+"'");
         var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', soundName+'.mp3');
         var sound = new Sound(soundPath);
         sound.play();
-
-        // sound.on('complete', function() {
-		setTimeout(function() {
-            console.log('Completed delay after button sound !');
-            socket.emit('seedling finished button-sound');
-        }, 3000);
     });
 
     // Listener to play a random sound given a sound type
