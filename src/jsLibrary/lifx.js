@@ -42,7 +42,7 @@ var options = {
 function validButtonPress(color, factor) {
 	// Check for the sake of the precious lifx
 	if(factor > 1) {
-		console.log("Error: Brightness factor greater than 1");
+		console.log("Lifx Error: Brightness factor greater than 1");
 		return;
 	}
 
@@ -63,7 +63,7 @@ function validButtonPress(color, factor) {
 // Function to update the light with custom properties that could take:
 // [ power / color / brightness / duration ]
 function updateLight(properties) {
-	console.log("Updating light color now");
+	console.log("Lifx: Updating light color now");
 
 	// Configurations and custom headers to send to the API
 	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
@@ -72,13 +72,13 @@ function updateLight(properties) {
 
 	// PUT http request to update the hue color
 	request(options, function(error, response, body) {
-		if(error) console.log("Error: " + error);
+		if(error) console.log("Lifx Error: " + error);
 	}); // end of request
 }
 
 // Function to ramp down the brightness with a duration
 function rampDown(factor, duration) {
-	console.log("Ramping down now");
+	console.log("Lifx: Ramping down now");
 
 	// Configurations and custom headers to send to the API
 	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
@@ -90,7 +90,7 @@ function rampDown(factor, duration) {
 
 	// PUT http request to ramp down
 	request(options, function(error, response, body) {
-		if(error) console.log("Error: " + error);
+		if(error) console.log("Lifx Error: " + error);
 	}); // end of request
 }
 
@@ -106,7 +106,7 @@ function breathe() {
 
 	// PUT http request to fade on
 	request(options, function(error, response, body) {
-		if(error) console.log('Error: '+error); 
+		if(error) console.log('Lifx Error: '+error); 
 	}); // end of request
 }
 
@@ -164,7 +164,7 @@ function desperation(states) {
 
 	// PUT http request to set a cycle of states representing each part in the story
 	request(options, function(error, response, body) {
-		if(error) console.log(error)
+		if(error) console.log('Lifx Error: '+error)
 	}); // end of request
 
 }
