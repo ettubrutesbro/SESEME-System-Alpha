@@ -319,7 +319,7 @@ io.on('connection', function (socket) {
       if(!seedlings[seedlingNum].buttonPressed){
           console.log("Sim button2 pressed");
           var result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
-          io.sockets.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
+          socket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
       } else { console.log('Wrong'); }
   });
 
