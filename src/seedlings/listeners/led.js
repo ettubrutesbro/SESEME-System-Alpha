@@ -95,6 +95,7 @@ function listeners(socket, obj, soundObj) {
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
           console.log("in callback for lightTrail");
           led.lightOn(1, obj.buttonLight, null);
+          socket.emit('seedling actionCircle done', seedlingNum);
         });
       } // other seedlings animate light trail
     })
