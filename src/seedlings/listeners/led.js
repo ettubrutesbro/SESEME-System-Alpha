@@ -54,7 +54,7 @@ function listeners(socket, obj, soundObj) {
     })
 
     socket.on('seedling initialize story', function(seedlingNum, targetColor){
-      console.log("in seedling initialize story socket", obj.seedling.num);
+      console.log("in seedling initialize story socket", obj.seedlingNum);
       if(obj.seedlingNum === seedlingNum){
         console.log("turn on ring", obj.seedlingNum)
         led.turnRingOn(targetColor, obj);
