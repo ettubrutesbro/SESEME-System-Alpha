@@ -3,16 +3,9 @@
  */
 
 // Private
-var hue = require("node-hue-api").hue;
+var hue = require("node-hue-api");
 
-var displayBridges = function(bridge) {
-    console.log("Hue Bridges Found: " + JSON.stringify(bridge));
-};
-
-var displayResult = function(result) {
-    console.log(JSON.stringify(result, null, 2));
-};
-
+var HueApi = hue.HueApi;
 var lightState = hue.lightState;
 var state = lightState.create();
 var partyCounter = 0;
@@ -111,7 +104,6 @@ var self = module.exports = {
   },
 
   setHSL: function(data){
-    //lightState.create().on();
     console.log('set hue:  ' + data.hue)
     console.log('set sat:  ' + data.sat)
     console.log('set bri:  ' + data.bri)
