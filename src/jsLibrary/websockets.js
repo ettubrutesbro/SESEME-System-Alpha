@@ -423,7 +423,6 @@ function seedlingConnected(seedSocket, seedlingNum){
 	  if(desperate) clearInterval(desperate);
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
-      seedling.socket.emit('seedling play sound', seedling.story.sound);
       bigRedButton(seedling);
     }
     else{
