@@ -411,17 +411,17 @@
 			var previous
 			if(view.cycleDirection) previous = facing===0?3:facing-1
 			else previous = facing ===3?0:facing+1
-			seseme['plr'+previous].extras.traverse(function(child){
+			seseme['plr'+previous].links.traverse(function(child){
 				if(child.origin) anim3d(child, 'position', child.origin)
 				if(child.material) anim3d(child, 'opacity', {opacity:0})
 			})
-			seseme['plr'+facing].extras.traverse(function(child){
+			seseme['plr'+facing].links.traverse(function(child){
 				if(child.expand) anim3d(child, 'position', child.expand)
 				if(child.material) anim3d(child, 'opacity', {opacity: 1})
 			})
 		}
 		else{
-			seseme['plr'+facing].extras.traverse(function(child){
+			seseme['plr'+facing].links.traverse(function(child){
 				if(child.origin) anim3d(child, 'position', child.origin)
 				if(child.material) anim3d(child, 'opacity', {opacity: 0})
 			})
@@ -541,7 +541,6 @@
 			}
 			anim3d(info.help[view.helpContent].btn, 'scale', {x: 1.25, y:1.25, z: 1.25})
 			contentTraversal(info.help[view.helpContent], true)
-			view.helpSelection = view.helpContent
 		}
 		else if(view.height!=='plan' || view.zoom !== 'far'){
 			dom.help.className = 'close'
@@ -619,6 +618,11 @@
 		}
 		function clickedHelpContent(helpcategory, index){
 			console.log(helpcategory, index)
+			if(helpcategory !== view.helpContent) {
+				view.helpContent = 'back'
+				setView(true)
+				return
+			}
 			var target = info.help[helpcategory].content.children[index]
 			if(target.onClick) target.onClick()
 			else console.log('target content has no function')

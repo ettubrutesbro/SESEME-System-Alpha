@@ -18,16 +18,20 @@ var displayBridges = function(bridge) {
     console.log("Hue Bridges Found: " + JSON.stringify(bridge));
 };
 
+var displayResult = function(result) {
+    console.log(JSON.stringify(result, null, 2));
+};
+
 hue.locateBridges().then(displayBridges).done();
 
 var hostname = "10.0.1.205",
     newUserName = "newdeveloper",
     userDescription = "device description goes here";
 
-hue.registerUser(hostname, newUserName, userDescription)
-    .then(displayResultFunction)
-    .fail(displayErrorFunction)
-    .done();
+var api = new hue.HueApi(hostname, newUserName);
+    api.lights()
+        .then(displayResult)
+        .done();
 
 server.listen(8080);
 console.log('listening on port 8080  !!!')
