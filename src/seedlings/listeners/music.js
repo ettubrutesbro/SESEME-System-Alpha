@@ -23,10 +23,11 @@ function listeners(socket, soundObj) {
         var sound = new Sound(soundPath);
         sound.play();
 
-        sound.on('complete', function() {
-            console.log('Completed button sound!');
+        // sound.on('complete', function() {
+		setTimeout(function() {
+            console.log('Completed delay after button sound !');
             socket.emit('seedling finished button-sound');
-        });
+        }, 3000);
     });
 
     // Listener to play a random sound given a sound type
