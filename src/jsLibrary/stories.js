@@ -23,9 +23,9 @@ module.exports = {
           {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
         ],
         pLinks: [
-          [{type:'yt', c: ''}, {type: 'article', c: 'bomb.com'}, {type: 'list', c: ''}],
-          [{type:'article', c: ''}, {type: 'list', c: ''}],
-          [{type:'article', c: ''}, {type: 'list', c: ''}],
+          [{type:'yt', c: 'youtube.com'}, {type: 'article', c: 'bomb.com'}, {type: 'list', c: 'sierraclublist.com'}],
+          [{type:'article', c: 'fuckyou.com'}, {type: 'list', c: ''}],
+          [{type:'article', c: ''}, {type: 'list', c: 'gohome.org'}],
           [{type: 'list', c: ''}],
         ]
       }, //end part 0

@@ -640,6 +640,9 @@
 		else target = facing===3?0: facing+1
 		rotateTo(target)
 	}
+	function clickedDetailLink(){
+
+	}
 }
 //4. REFILLING AND GLOBAL CONTENT POPULATION (shared b/w setup and refill)
 {
@@ -1019,7 +1022,7 @@
 				var l = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), new THREE.MeshBasicMaterial({
 					map: resources.mtls['link_'+linkinfo.type].map, transparent: true, depthWrite: false, opacity: 0
 				}))
-				l.clicked = function(){ window.location = linkinfo.c }
+				l.clicked = function(){ console.log(linkinfo.c) }
 				links.add(l)
 			}
 			if(data.pLinks[i].length === 3){

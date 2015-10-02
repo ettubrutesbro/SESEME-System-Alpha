@@ -493,8 +493,13 @@ function setup(){
 			var intersects
 			if(view.zoom === 'close' && view.text){ //links
 				intersects = raycast.intersectObject(seseme['plr'+facing].links, true)
-				if(intersects.length > 0) console.log('you clicked an extra of plr '+ facing)
-				clickedDetailLink()
+				if(intersects.length > 0){
+					var target = intersects[0].object
+					// clickedDetailLink()
+					target.clicked()
+					// console.log(target.clicked)
+				}
+
 			}
 			else if(view.height === 'plan' && view.zoom === 'far'){ //help
 				intersects = raycast.intersectObject(info.help, true)
