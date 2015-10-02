@@ -244,11 +244,12 @@
 		anim3d(info.btn, 'position', {y: destination, spd: btnspd })
 	} // end viewMainButton
 	function viewInfoText(){
+		console.log('viewinfotext')
 		if(view.text){
 			Velocity([dom.bottom, dom.closebutton], 'stop') //necessary for zoom trolling
 			if(view.height === 'plan') view.text = false
 			else if(view.zoom==='normal'){
-				if(view.content==='maintext') {console.log('FOH') ;return} //already
+				if(view.content==='maintext' && dom.maintext.style.visibility === 'visible') {console.log('FOH') ;return} //already
 				callText(dom.maintext)
 			 }
 			else if(view.zoom === 'close'){
@@ -334,6 +335,7 @@
 			// console.log(newheight)
 			console.log(newheight, view.lastTextHeight, wrapperwait)
 			// console.log('wrapperwait is ' + wrapperwait)
+			Velocity(targettext, 'stop')
 			Velocity(targettext, {opacity: 1, translateX: [0, feedX], translateY: [0, feedY]},
 				{duration: 500, delay: 100, visibility: 'visible'})
 			Velocity(dom.bottom, {translateX: [0,0], translateY: -newheight, backgroundColorAlpha: 0.91}, {duration: 275+ newheight ,
@@ -760,8 +762,9 @@
 		// refillMgr.itemStart('allPillarComponents')
 		refillMgr.onLoad = function(){
 			console.log('done replacing, reenabling controls')
-			controls.enabled = true; view.filling = false
+			view.filling = false
 			setView(true)
+			controls.enabled = true
 		}
 		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
 		//3D SHIT - color, namesprites, titleblock, main button position
@@ -853,14 +856,16 @@
 			//NAV AND ACCESSORIES
 			var plrOrder = data.values.concat().sort(function(a,b){return a-b})
 			if(data.valueType === 'lessIsTall'){plrOrder.reverse()}
-			if(view.zoom==='close' && !retainName[facing]){
+			if(view.zoom==='close'){
+				Velocity(dom.navnames[facing], 'stop')
 				Velocity(dom.navnames[facing], {opacity: 0, translateX: '-4rem'}, {visibility: 'hidden', complete:
 					function(){ dom.navnames[facing].textContent = data.pNames[facing];
 						dom.navnames[facing].style.visibility = 'visible' }})
 			}
+			else dom.navnames[facing].textContent = data.pNames[facing] || ''
 			for(var i = 0; i<4; i++){
 				var navname = data.pNames[i] || ''
-				if(view.zoom==='close'){ if(i!==facing) dom.navnames[i].textContent = navname }
+				if(i!==facing) dom.navnames[i].textContent = navname
 				Velocity(dom.databars[i], {height: (plrOrder.indexOf(data.values[i])+1)*25+'%' })
 			}
 			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
@@ -1117,9 +1122,7 @@
 		console.log('running makelinks')
 		if(!data.pLinks) {console.log('no links in dataset') ; return}
 		for(var i = 0; i<4; i++){
-			if(!init){
-				seseme['plr'+i].links.children = []
-			}
+			if(!init)	seseme['plr'+i].links.children = []
 			var links = init? new THREE.Group() : seseme['plr'+i].links
 			if(init){
 				links.rotation.y = rads(45); links.position.y = 4
