@@ -488,6 +488,7 @@ function seedlingConnected(seedSocket, seedlingNum){
   seedling.socket.on('seedling actionCircle done', function(seedlingNum){
     if(seedling.number === seedlingNum){
       console.log("set buttonPressed false", seedling.number);
+      randomSoundWeight(soundObj, 'ready', seedling.socket);
       seedling.buttonPressed = false;
     }
   })
