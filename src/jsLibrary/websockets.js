@@ -531,9 +531,13 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
         var result;
         if(uiSocket && lastActiveSeedling === seedling.number) {
             result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+
+            console.log("Emitting 'ui update part' to the front-end");
             io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
         } else if(uiSocket && lastActiveSeedling !== seedling.number) {
             result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+
+            console.log("Emitting 'ui different story' to the front-end");
             io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
         } else console.log("Connection with server not made...")
 
