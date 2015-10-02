@@ -575,7 +575,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
         }, Math.ceil(duration)*1000); // update seedling attributes after animation done
         */
     // }, actionDelay); // end of socket listener
-  }
+  // }
 }
 
 
