@@ -52,18 +52,23 @@ function setup(){
 					})
 					//can also get the below through socket.emit('sim button',buttonNum)
 					socket.on('ui update part', function(d){
+						// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
 						console.log('ui updating part')
 						console.log(d)
 						part = d.part; percentages = d.percentages
 						refill()
 					})
 					socket.on('ui different story', function(d){
+						// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
 						console.log('ui updating story')
 						console.log(d)
 						story = d.story; part = 0; percentages = d.percentages
 						refill()
 					})
+					socket.on('status report', function(d){console.log(d)})
 			 	})
+
+				socket.on('disconnect',function(){ console.log('dced')})
 			}
 			//development w/o server: mock
 			else if(!online){
@@ -184,7 +189,7 @@ function setup(){
 				seseme['plr'+i].position.set(-3.6, pillarStartY, 1.1)
 				seseme['plr'+i].rotation.y = rads(-90)
 				//outline addition
-				outline = new THREE.Mesh(resources.geos.outline3, new THREE.MeshBasicMaterial({transparent: true, side: THREE.BackSide, depthWrite: false, opacity: 0, color: 0xff0000, needsUpdate: true}))
+				outline = new THREE.Mesh(resources.geos.outline3, new THREE.MeshBasicMaterial({transparent: true, side: THREE.BackSide, depthWrite: true, opacity: 0, color: 0xff0000, needsUpdate: true}))
 
 				outline.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,-2.25,0))
 				seseme['plr'+i].outline = outline; seseme['plr'+i].add(outline)
@@ -226,8 +231,8 @@ function setup(){
 		makeNames([false,false,false,false]); projectionMgr.itemEnd('names')
 		makeTitleblock(); projectionMgr.itemEnd('titleblock')
 		makeSymbols([false,false,false,false])
-		makeSymbolLabel([false,false,false,false])
-		makeStatBox()
+		makeZoomLabels([false,false,false,false])
+		makeStatboxes()
 		makeLinks()
 		fillDOM()
 		placeMainButton()
@@ -495,11 +500,8 @@ function setup(){
 				intersects = raycast.intersectObject(seseme['plr'+facing].links, true)
 				if(intersects.length > 0){
 					var target = intersects[0].object
-					// clickedDetailLink()
-					target.clicked()
-					// console.log(target.clicked)
+					window.location.href = target.goTo
 				}
-
 			}
 			else if(view.height === 'plan' && view.zoom === 'far'){ //help
 				intersects = raycast.intersectObject(info.help, true)
@@ -512,11 +514,8 @@ function setup(){
 				}
 				else clickedHelpOutside()
 			}
-			else if(raycast.intersectObject(info.btn,true).length>0) clickedMainButton()
+			if(raycast.intersectObject(info.btn,true).length>0) clickedMainButton()
 			else if(view.text) clickedToClose()
-
-
-
 		}) // end click event listener
 		//HASHING
 		window.addEventListener('hashchange', function(){
