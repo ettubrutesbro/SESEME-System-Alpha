@@ -111,6 +111,7 @@ var self = module.exports = {
   },
 
   setHSL: function(data){
+    lightState.create().on();
     console.log('set hue:  ' + data.hue)
     console.log('set sat:  ' + data.sat)
     console.log('set bri:  ' + data.bri)
