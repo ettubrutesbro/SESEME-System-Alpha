@@ -13,7 +13,6 @@ var displayResult = function(result) {
     console.log(JSON.stringify(result, null, 2));
 };
 
-var HueApi = hue.HueApi;
 var lightState = hue.lightState;
 var state = lightState.create();
 var partyCounter = 0;
