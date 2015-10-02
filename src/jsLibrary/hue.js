@@ -4,6 +4,22 @@
 
 // Private
 var hue = require("node-hue-api");
+
+var displayBridges = function(bridge) {
+    console.log("Hue Bridges Found: " + JSON.stringify(bridge));
+};
+
+// --------------------------
+// Using a promise
+hue.nupnpSearch().then(displayBridges).done();
+
+// --------------------------
+// Using a callback
+hue.nupnpSearch(function(err, result) {
+    if (err) throw err;
+    displayBridges(result);
+});
+
 var HueApi = hue.HueApi;
 var lightState = hue.lightState;
 var state = lightState.create();
@@ -13,7 +29,7 @@ var username ="newdeveloper";
 var api = new HueApi(host, username);
 var lightSwitch = false;
 
-function displayStatusf(status){
+function displayStatus(status){
     console.log(JSON.stringify(status.state.hue, null, 2));
 };
 

@@ -133,6 +133,17 @@ var self = module.exports = {
         this.updateLED(obj);
     },
 
+    turnRingOn: function(color, obj){
+        var strip = obj.strip;
+        var pixelNum = obj.pixelNum;
+        var firstDiode = obj.firstDiode;
+        var litPixelNum = pixelNum - firstDiode;
+        var string = "rgb(" + color.red + ", " + color.green + ", " + color.blue + ")";
+        for(var i = 0; i < litPixelNum; i++){
+            strip.pixel(i+firstDiode).color(string);
+        }
+    },
+
     lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){ // time = time for each rev
         console.log("in lightTrail function");
         var that = this;
@@ -148,7 +159,6 @@ var self = module.exports = {
 
         var ratio = Math.pow(baseBrightness, (1/(nodes))); // ratio for exponential decrement function
 
-        var litPixelNum = pixelNum - firstDiode;
         var brightnessAr = new Array(nodes);
         var count = firstDiode;
         var intervalTime = time * 1000 / litPixelNum;
@@ -519,7 +529,7 @@ var self = module.exports = {
         else if(obj.seedlingNum === 2){
             console.log("turn lights on for seedling3");
             this.lightOn(1, obj.iconLight, null);
-        } 
+        }
         callback(obj);
     }, // turn lights on excluding button light
 

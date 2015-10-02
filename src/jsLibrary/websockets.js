@@ -395,6 +395,17 @@ function fadeCircleObj(targetColor, duration, diodePct){
     this.diodePct = diodePct;
 }
 
+function getRingColor(seedling){
+  var ringColor = seedling.story.parts[seedling.currentPart].color.ring;
+  var monumentHexColor = seedling.story.parts[seedling.currentPart].color.monument.hex;
+  var uiColor = seedling.story.parts[seedling.currentPart].color.ui;
+  var targetColor;
+  if(ringColor) targetColor = led.hexToObj(ringColor);
+  else if(monumentHexColor) targetColor = led.hexToObj(monumentHexColor);
+  else targetColor = led.hexToObj(uiColor); // if no uiColor, defaults to "#FFFFFF"
+  return targetColor;
+}
+
 function seedlingConnected(seedSocket, seedlingNum){
   var seedling = seedlings[seedlingNum];
   console.log('[SEEDLING ' + (seedlingNum+1) + ': CONNECTED]')
@@ -424,6 +435,8 @@ function seedlingConnected(seedSocket, seedlingNum){
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
     seedling.online = true;
     seedling.currentPart = 0;
+    var targetColor = getRingColor(seedling);
+    seedling.socket.emit('seedling initialize story', seedling.number, targetColor);
     console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
   });
 
@@ -442,19 +455,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
-  var ringColor = seedling.story.parts[seedling.currentPart].color.ring;
-  var monumentHexColor = seedling.story.parts[seedling.currentPart].color.monument.hex;
-  var uiColor = seedling.story.parts[seedling.currentPart].color.ui;
-  console.log("ringColor", ringColor);
-  console.log("monumentHexColor", monumentHexColor);
-  console.log("uiColor", uiColor);
-  var targetColor;
-  if(ringColor){ // FIXME: better way to check for empty obj
-    console.log("in ringColor")
-    targetColor = led.hexToObj(ringColor);
-  }
-  else if(monumentHexColor) targetColor = led.hexToObj(monumentHexColor);
-  else targetColor = led.hexToObj(uiColor); // if no uiColor, defaults to "#FFFFFF"
+  var targetColor = getRingColor(seedling);
 
   var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.monument.hex);
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
