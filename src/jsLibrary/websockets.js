@@ -178,7 +178,7 @@ function getStates() {
 }
 
 ////////////////////////////////////////////////
-//  web
+//  weo
 ////////////////////////////////////////////////
 var io = new socket.listen(5000);
 var webbyOnline = 0;
@@ -474,11 +474,12 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
      // COMMENT THIS SECTION OUT TO MAKE BUTTON PRESS WORK WITHOUT SOUND (along with the }); at the bottom)
      // --> This block is to play a sound upon button press
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
      var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
-     if(!buttonSounds || buttonSounds.length)
+     if(!buttonSounds.length)
          seedling.socket.emit('seedling play button-sound', null);
      else {
-         var buttonSounds = buttonSounds[Math.floor((Math.random() * buttonSounds.length-1) + 1)];
+		 var buttonSound = buttonSounds[Math.floor(Math.random() * buttonSounds.length)]
          seedling.socket.emit('seedling play button-sound', buttonSounds);
      }
      seedling.socket.on('seedling finished button-sound', function() {
