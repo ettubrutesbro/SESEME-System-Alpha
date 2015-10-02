@@ -446,6 +446,12 @@ function seedlingConnected(seedSocket, seedlingNum){
   	  if(desperate) clearInterval(desperate);
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
+      for(var i = 0; i < seedlings.length; i++){
+        if(i !== seedling.number){
+          console.log("reset current part of other seedings", i);
+          seedlings[i].currentPart = 0;
+        }
+      }
       bigRedButton(seedling);
     }
     else{
@@ -457,10 +463,6 @@ function seedlingConnected(seedSocket, seedlingNum){
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
     seedling.online = true;
     seedling.currentPart = 0;
-    if(seedlingNum === lastActiveSeedling){
-      var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
-      seedling.socket.emit('seedling initialize story', seedling.number, targetColor);
-    }
     console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
   });
 
@@ -468,6 +470,10 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedlings[num].ready = true;
     if(systemOnline())
       seedlingIO[0].emit('seedling start sync-sequence-1');
+
+    console.log("seedling finished inits listener", seedlingNum);
+    var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
+    seedling.socket.emit('seedling initialize story', seedling.number, targetColor); // initialize first seedling and turn on buttons on first connect
       //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
@@ -516,7 +522,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   else {
     // ===============================================================================
     // Increment current part of the story and reset the idle countdown
-    seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+
+    if(diodePct !== 0)
+      seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+
     if(idleCountdown) clearTimeout(idleCountdown);
     seconds = 120;
     countdown();
