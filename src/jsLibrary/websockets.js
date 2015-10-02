@@ -435,16 +435,24 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.online = true;
     seedling.currentPart = 0;
     var targetColor = getRingColor(seedling);
-    seedling.socket.emit('seedling initialize story', seedling.number, targetColor);
+    if(seedlingNum === lastActiveSeedling)
+      seedling.socket.emit('seedling initialize story', seedling.number, targetColor);
     console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
   });
 
   seedling.socket.on('seedling finished inits', function(num) {
-      seedlings[num].ready = true;
-      if(systemOnline())
-        seedlingIO[0].emit('seedling start sync-sequence-1');
-        //   seedlings[0].socket.emit('seedling start sync-sequence-1');
+    seedlings[num].ready = true;
+    if(systemOnline())
+      seedlingIO[0].emit('seedling start sync-sequence-1');
+      //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
+
+  seedling.socket.on('seedling fadeCircle done', function(seedlingNum){
+    if(seedling.number === seedlingNum){
+      console.log("set buttonPressed false", seedling.number);
+      seedling.buttonPressed = false;
+    }
+  })
 
   seedling.socket.on('disconnect', function(){
     seedling.online = false;
@@ -526,12 +534,13 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
           }
         }
         if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
-
+        /*
         setTimeout(function(){
           console.log("--> updated seedling attributes");
         //   seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
           seedling.buttonPressed = false;
         }, Math.ceil(duration)*1000); // update seedling attributes after animation done
+        */
     }); // end of socket listener
   }
 }
@@ -633,6 +642,9 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('beagle 1 On', function(){
     beagleOnline = true;
     console.log('[BEAGLE: ONLINE]')
+    var seedling = seedling[lastActiveSeedling];
+    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart].currentPart]);
+    beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
   });
 
   beagleSocket.on('disconnect', function(){

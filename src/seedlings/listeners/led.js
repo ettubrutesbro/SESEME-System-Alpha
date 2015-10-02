@@ -70,6 +70,7 @@ function listeners(socket, obj, soundObj) {
           console.log("in callback for fadeCircle");
           led.lightOn(1, obj.buttonLight, null);
           sounds.playRandomSound(soundObj, 'ready');
+          socket.emit('seedling fadeCircle done', seedlingNum);
         });
       } // this seedling matches button press seedling
 

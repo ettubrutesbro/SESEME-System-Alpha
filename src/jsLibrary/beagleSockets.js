@@ -73,7 +73,7 @@ socket.on('disconnect', function() {
   console.log('beagle 1 Off', socket.disconnected);
 });
 
-socket.on('buttonPressed', function(targetPercentagesArray, plrmax, targetColor) {
+socket.on('buttonPressed', function(targetPercentagesArray, plrmax) {
   console.log('buttonPressed, move seseme');
 
   /* move seseme motors*/
@@ -86,11 +86,6 @@ socket.on('buttonPressed', function(targetPercentagesArray, plrmax, targetColor)
     console.log("steps: " + steps);
     //seseme.moveMotor("m"+i, Math.abs(steps), dir);
   }
-
-  /* set hue bulb color */
-  var data = hue.RGBtoHSL(targetColor);
-  console.log("hue values: " + JSON.stringify(data));
-  hue.setHSL(data)
 });
 
 
