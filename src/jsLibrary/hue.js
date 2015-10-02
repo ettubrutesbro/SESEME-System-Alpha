@@ -17,6 +17,7 @@ var state = lightState.create();
 var partyCounter = 0;
 var host =  "10.0.1.205";
 var username ="newdeveloper";
+//var username ="001788fffe0ad83c";
 var api = new HueApi(host, username);
 var lightSwitch = false;
 
@@ -110,6 +111,7 @@ var self = module.exports = {
   },
 
   setHSL: function(data){
+    lightState.create().on();
     console.log('set hue:  ' + data.hue)
     console.log('set sat:  ' + data.sat)
     console.log('set bri:  ' + data.bri)
