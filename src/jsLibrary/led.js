@@ -141,10 +141,10 @@ var self = module.exports = {
         var firstDiode = obj.firstDiode;
         var litPixelNum = pixelNum - firstDiode;
         var string = "rgb(" + color.red + ", " + color.green + ", " + color.blue + ")";
-        console.log(string + "\n" + color);
         for(var i = 0; i < litPixelNum; i++){
             strip.pixel(i+firstDiode).color(string);
         }
+        strip.show();
     },
 
     lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){ // time = time for each rev
