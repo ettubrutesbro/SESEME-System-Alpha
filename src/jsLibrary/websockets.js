@@ -459,7 +459,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.currentPart = 0;
     if(seedlingNum === lastActiveSeedling){
       var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
-      seedling.socket.emit('seedling initialize story', seedling.number, targetColor);
+      seedling.socket.emit('seedling initialize story', seedling.number, targetColor); // initialize first seedling and turn on buttons on first connect
     }
     console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
   });
