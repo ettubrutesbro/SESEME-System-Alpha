@@ -563,7 +563,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
         for(var i = 0; i < 3; i++){
           if(seedlings[i].online) {
-            seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData);
+            seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData, lastActiveSeedling);
           }
         }
         if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
