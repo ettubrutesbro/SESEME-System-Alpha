@@ -308,6 +308,7 @@ io.on('connection', function (socket) {
   // Front-end simulation of a button press
   socket.on('sim button', function(seedlingNum) {
       if(!seedlings[seedlingNum].buttonPressed){
+          console.log("Sim button pressed")
           seedlings[seedlingNum].buttonPressed = true;
           bigRedButton(seedlings[seedlingNum]);
       } else { console.log('Wrong'); }
