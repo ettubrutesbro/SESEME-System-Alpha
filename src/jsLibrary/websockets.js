@@ -526,7 +526,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   //  var buttonSound = buttonSounds[Math.floor(Math.random() * buttonSounds.length)]
   //        seedling.socket.emit('seedling play button-sound', buttonSound);
   //    }
-  //    setTimeout(function() {
+    //  setTimeout(function() {
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         // ===============================================================================
         // Increment current part of the story and reset the idle countdown
