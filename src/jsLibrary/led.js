@@ -404,6 +404,7 @@ var self = module.exports = {
 
             if(index < 0){
                 console.log("clear interval");
+                that.curFadePercent = 0; // reset current fade percent on fillCircle
                 that.color = currentColor;
                 that.percentAr = percentAr;
                 clearInterval(animationTimer);
