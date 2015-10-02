@@ -48,6 +48,7 @@ function listeners(socket, obj, soundObj) {
     }
 
     socket.on('seedling add lights duration', function(seedlingNum){
+      console.log("seedling add lights duration socket", seedlingNum);
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
       }
