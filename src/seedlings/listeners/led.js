@@ -58,7 +58,7 @@ function listeners(socket, obj, soundObj) {
       }
     }) // start at initial color
 
-    socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData){
+    socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData, lastActiveSeedling){
       console.log("buttonPressed", seedlingNum);
 
       led.lightOff(1, obj.buttonLight, null);
