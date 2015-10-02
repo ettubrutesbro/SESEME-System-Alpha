@@ -32,6 +32,7 @@ function listeners(socket, obj, soundObj) {
     }
 
     function addLightsDuration(obj){
+      console.log("in function addLightsDuration, seedling number", obj.seedlingNum);
       if(timerLastUpdate[obj.seedlingNum]){
         console.log("add to lightTimer value", lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum]));
         lightTimer[obj.seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum])); //
@@ -58,7 +59,7 @@ function listeners(socket, obj, soundObj) {
       }
     }) // start at initial color
 
-    socket.on('buttonPressed', function(seedlingNum, fadeCircleData, lightTrailData){
+    socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData, lastActiveSeedling){
       console.log("buttonPressed", seedlingNum);
 
       led.lightOff(1, obj.buttonLight, null);
@@ -66,11 +67,22 @@ function listeners(socket, obj, soundObj) {
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
 
-        led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
-          console.log("in callback for fadeCircle");
-          led.lightOn(1, obj.buttonLight, null);
-          sounds.playRandomSound(soundObj, 'ready');
-        });
+        if(obj.seedlingNum === lastActiveSeedling){
+          led.fadeCircle(circleData.targetColor, circleData.duration, circleData.diodePct, obj, function(){
+            console.log("in callback for fadeCircle");
+            led.lightOn(1, obj.buttonLight, null);
+            sounds.playRandomSound(soundObj, 'ready');
+            socket.emit('seedling actionCircle done', seedlingNum);
+          });
+        } // fades in progression if last active seedling
+        else{
+          led.fillCircle(circleData.targetColor, circleData.duration, obj, function(){
+            console.log("in callback for fillCircle");
+            led.lightOn(1, obj.buttonLight, null);
+            sounds.playRandomSound(soundObj, 'ready');
+            socket.emit('seedling actionCircle done', seedlingNum);
+          })
+        }
       } // this seedling matches button press seedling
 
       else{

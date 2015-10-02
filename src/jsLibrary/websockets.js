@@ -275,7 +275,12 @@ io.on('connection', function (socket) {
   // Front-end communication
   uiSocket = socket;
 
+  setInterval(function() {
+      socket.emit('interval', 'connection test');
+  }, 5000);
+
   socket.on('ui request story', function() {
+        console.log("Frontend requested story: sending current story data now")
 		// Have the frontend acquire the story data
 		io.sockets.emit('ui acquire story', {
 			story: story[lastActiveSeedling],
@@ -308,9 +313,25 @@ io.on('connection', function (socket) {
   // Front-end simulation of a button press
   socket.on('sim button', function(seedlingNum) {
       if(!seedlings[seedlingNum].buttonPressed){
+          console.log("Sim button pressed")
           seedlings[seedlingNum].buttonPressed = true;
           bigRedButton(seedlings[seedlingNum]);
       } else { console.log('Wrong'); }
+  });
+
+  socket.on('sim button2', function(seedlingNum) {
+      if(!seedlings[seedlingNum].buttonPressed){
+          console.log("Sim button2 pressed");
+          var result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
+          socket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
+      } else { console.log('Wrong'); }
+  });
+
+  socket.on('request status', function(seedlingNum) {
+      socket.emit('status report', {
+          'lastActiveSeedling: ':lastActiveSeedling,
+          'currentPart: ':seedlings[lastActiveSeedling].currentPart
+      });
   });
 
   // Update the seconds in the web page
@@ -389,16 +410,16 @@ function heightCalc(data){
 }
 */
 
-function fadeCircleObj(targetColor, duration, diodePct){
+function circleObj(targetColor, duration, diodePct){
     this.targetColor = targetColor;
     this.duration = duration;
     this.diodePct = diodePct;
 }
 
-function getRingColor(seedling){
-  var ringColor = seedling.story.parts[seedling.currentPart].color.ring;
-  var monumentHexColor = seedling.story.parts[seedling.currentPart].color.monument.hex;
-  var uiColor = seedling.story.parts[seedling.currentPart].color.ui;
+function getRingColor(seedling, currentPart){
+  var ringColor = seedling.story.parts[currentPart].color.ring;
+  var monumentHexColor = seedling.story.parts[currentPart].color.monument.hex;
+  var uiColor = seedling.story.parts[currentPart].color.ui;
   var targetColor;
   if(ringColor) targetColor = led.hexToObj(ringColor);
   else if(monumentHexColor) targetColor = led.hexToObj(monumentHexColor);
@@ -418,9 +439,9 @@ function seedlingConnected(seedSocket, seedlingNum){
 
   seedling.socket.on('bigRedButton', function(){
     if(!seedling.buttonPressed){
-	  // If system is in idle mode, clear the lifx breathe/desperation intervals
-	  if(breathing) clearInterval(breathing);
-	  if(desperate) clearInterval(desperate);
+  	  // If system is in idle mode, clear the lifx breathe/desperation intervals
+  	  if(breathing) clearInterval(breathing);
+  	  if(desperate) clearInterval(desperate);
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
       bigRedButton(seedling);
@@ -434,17 +455,26 @@ function seedlingConnected(seedSocket, seedlingNum){
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
     seedling.online = true;
     seedling.currentPart = 0;
-    var targetColor = getRingColor(seedling);
-    seedling.socket.emit('seedling initialize story', seedling.number, targetColor);
+    if(seedlingNum === lastActiveSeedling){
+      var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
+      seedling.socket.emit('seedling initialize story', seedling.number, targetColor);
+    }
     console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
   });
 
   seedling.socket.on('seedling finished inits', function(num) {
-      seedlings[num].ready = true;
-      if(systemOnline())
-        seedlingIO[0].emit('seedling start sync-sequence-1');
-        //   seedlings[0].socket.emit('seedling start sync-sequence-1');
+    seedlings[num].ready = true;
+    if(systemOnline())
+      seedlingIO[0].emit('seedling start sync-sequence-1');
+      //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
+
+  seedling.socket.on('seedling actionCircle done', function(seedlingNum){
+    if(seedling.number === seedlingNum){
+      console.log("set buttonPressed false", seedling.number);
+      seedling.buttonPressed = false;
+    }
+  })
 
   seedling.socket.on('disconnect', function(){
     seedling.online = false;
@@ -454,12 +484,19 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
-  var targetColor = getRingColor(seedling);
-
-  var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.monument.hex);
+  //var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
+  var targetColor;
+  if(seedling.number === lastActiveSeedling){
+    console.log("should keep same story", seedling.number, seedling.currentPart);
+    targetColor = getRingColor(seedling, (seedling.currentPart + 1) % seedling.totalStoryParts);
+  }
+  else{
+    console.log("should change to different story: current part should be 0:", seedling.currentPart)
+    targetColor = getRingColor(seedling, seedling.currentPart);
+  }
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
   var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
-  var fadeCircleData = new fadeCircleObj(targetColor, duration, diodePct);
+  var circleData = new circleObj(targetColor, duration, diodePct);
 
   if(seedling.currentPart + 1 == seedling.totalStoryParts){
     duration += 3;
@@ -469,28 +506,28 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   var timePerRev = 2;
   var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
 
-
   if(error) {
     if(seedling.socket)
-        seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
+        seedling.socket.emit("error buttonPressed", seedling.number, circleData, lightTrailData, seedling.buttonPressed);
   }
 
-  else {
+  // else {
+  //    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  //    // COMMENT THIS SECTION OUT TO MAKE BUTTON PRESS WORK WITHOUT SOUND (along with the }); at the bottom)
+  //    // --> This block is to play a sound upon button press
+  //    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  //
+  //    var actionDelay = 0;
+  //    var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
+  //    if(!buttonSounds.length)
+  //        seedling.socket.emit('seedling play button-sound', null);
+  //    else {
+  //        actionDelay = 3000;
+  //  var buttonSound = buttonSounds[Math.floor(Math.random() * buttonSounds.length)]
+  //        seedling.socket.emit('seedling play button-sound', buttonSound);
+  //    }
+    //  setTimeout(function() {
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-     // COMMENT THIS SECTION OUT TO MAKE BUTTON PRESS WORK WITHOUT SOUND (along with the }); at the bottom)
-     // --> This block is to play a sound upon button press
-     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-     var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
-     if(!buttonSounds.length)
-         seedling.socket.emit('seedling play button-sound', null);
-     else {
-		 var buttonSound = buttonSounds[Math.floor(Math.random() * buttonSounds.length)]
-         seedling.socket.emit('seedling play button-sound', buttonSound);
-     }
-     seedling.socket.on('seedling finished button-sound', function() {
-     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
         // ===============================================================================
         // Increment current part of the story and reset the idle countdown
         seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
@@ -514,26 +551,31 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
         var result;
         if(uiSocket && lastActiveSeedling === seedling.number) {
             result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+
+            console.log("Emitting 'ui update part' to the front-end");
             io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
         } else if(uiSocket && lastActiveSeedling !== seedling.number) {
             result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+
+            console.log("Emitting 'ui different story' to the front-end");
             io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
         } else console.log("Connection with server not made...")
 
         for(var i = 0; i < 3; i++){
           if(seedlings[i].online) {
-            seedlings[i].socket.emit("buttonPressed", seedling.number, fadeCircleData, lightTrailData);
+            seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData, lastActiveSeedling);
           }
         }
         if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
-
+        /*
         setTimeout(function(){
           console.log("--> updated seedling attributes");
         //   seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
           seedling.buttonPressed = false;
         }, Math.ceil(duration)*1000); // update seedling attributes after animation done
-    }); // end of socket listener
-  }
+        */
+    // }, actionDelay); // end of socket listener
+  // }
 }
 
 
@@ -633,6 +675,9 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('beagle 1 On', function(){
     beagleOnline = true;
     console.log('[BEAGLE: ONLINE]')
+    var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
+    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
   });
 
   beagleSocket.on('disconnect', function(){
