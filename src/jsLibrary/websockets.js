@@ -308,9 +308,17 @@ io.on('connection', function (socket) {
   // Front-end simulation of a button press
   socket.on('sim button', function(seedlingNum) {
       if(!seedlings[seedlingNum].buttonPressed){
+          console.log("Sim button pressed")
           seedlings[seedlingNum].buttonPressed = true;
           bigRedButton(seedlings[seedlingNum]);
       } else { console.log('Wrong'); }
+  });
+
+  socket.on('request status', function(seedlingNum) {
+      socket.emit('status report', {
+          'lastActiveSeedling: ':lastActiveSeedling,
+          'currentPart: ':seedlings[lastActiveSeedling].currentPart
+      });
   });
 
   // Update the seconds in the web page

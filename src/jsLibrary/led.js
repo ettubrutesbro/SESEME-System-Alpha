@@ -1,5 +1,6 @@
 var animationTimer;
 var hue = require('./hue.js');
+var seedlingHue = require('./lifx.js');
 
 var self = module.exports = {
     r: 0,
@@ -513,11 +514,7 @@ var self = module.exports = {
         if(obj.seedlingNum === 0){
             // turn on hue
             console.log("turn lights on for seedling1");
-            var data = {'hue' : 0,
-                        'sat' : 0,
-                        'bri' : 100
-            } // set hue color to white;
-            hue.setHSL(data); // turn on hue to white
+            seedlingHue.turnOn(1, 'white');
             this.lightOn(1, obj.urlLight, "FFFFFF")
         } // seedling 1
         else if(obj.seedlingNum === 1){
@@ -536,7 +533,7 @@ var self = module.exports = {
     lightsOff: function(obj){
         if(obj.seedlingNum === 0){
             console.log("turn lights off for seedling1");
-            hue.turnOff();
+            seedlingHue.turnOn(1, 'white');
             this.lightOff(1, obj.urlLight, "FFFFFF")
         }
         else if(obj.seedlingNum === 1){
