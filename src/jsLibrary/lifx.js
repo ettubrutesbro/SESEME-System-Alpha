@@ -97,8 +97,6 @@ function rampDown(factor, duration) {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // Idle State: Breathe
 function breathe() {
-	console.log("--> in breathe()");
-
 	// Configurations and custom headers to send to the API
 	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/toggle';
 	options.method = 'POST';
