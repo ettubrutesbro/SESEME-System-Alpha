@@ -57,6 +57,7 @@ function listeners(socket, obj, soundObj) {
       if(obj.seedlingNum === seedlingNum){
         led.turnRingOn(targetColor, obj);
       } // seedlings[0] has ring lit as default
+      console.log("turn on buttonLight");
       led.lightOn(1, obj.buttonLight, null); // button of all seedlings lit
     }) // start at initial color
 
