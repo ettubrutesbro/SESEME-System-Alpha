@@ -485,17 +485,18 @@ function seedlingConnected(seedSocket, seedlingNum){
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
   //var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
-  var targetColor;
+  var targetColor, diodePct;
   if(seedling.number === lastActiveSeedling){
     console.log("should keep same story", seedling.number, seedling.currentPart);
     targetColor = getRingColor(seedling, (seedling.currentPart + 1) % seedling.totalStoryParts);
+    diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
   }
   else{
     console.log("should change to different story: current part should be 0:", seedling.currentPart)
     targetColor = getRingColor(seedling, seedling.currentPart);
+    diodePct = 0;
   }
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
-  var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
   var circleData = new circleObj(targetColor, duration, diodePct);
 
   if(seedling.currentPart + 1 == seedling.totalStoryParts){
@@ -563,17 +564,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
         for(var i = 0; i < 3; i++){
           if(seedlings[i].online) {
-            seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData, lastActiveSeedling);
+            seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData);
           }
         }
         if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
-        /*
-        setTimeout(function(){
-          console.log("--> updated seedling attributes");
-        //   seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
-          seedling.buttonPressed = false;
-        }, Math.ceil(duration)*1000); // update seedling attributes after animation done
-        */
     // }, actionDelay); // end of socket listener
   // }
 }

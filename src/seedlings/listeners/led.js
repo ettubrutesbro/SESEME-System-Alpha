@@ -59,7 +59,7 @@ function listeners(socket, obj, soundObj) {
       }
     }) // start at initial color
 
-    socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData, lastActiveSeedling){
+    socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData){
       console.log("buttonPressed", seedlingNum);
 
       led.lightOff(1, obj.buttonLight, null);
@@ -67,7 +67,7 @@ function listeners(socket, obj, soundObj) {
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
 
-        if(obj.seedlingNum === lastActiveSeedling){
+        if(obj.diodePct !== 0){
           led.fadeCircle(circleData.targetColor, circleData.duration, circleData.diodePct, obj, function(){
             console.log("in callback for fadeCircle");
             led.lightOn(1, obj.buttonLight, null);
@@ -83,7 +83,7 @@ function listeners(socket, obj, soundObj) {
             socket.emit('seedling actionCircle done', seedlingNum);
           })
         }
-      } // this seedling matches button press seedling
+      } // this seedling fills from empty since not last activeSeedling
 
       else{
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
