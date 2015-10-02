@@ -90,14 +90,14 @@
 	//package function uses states to set displayed objects
 	function setView(button,height,zoom){
 		console.log('set view')
-		viewTitleblock()
-		viewMainButton()
-		viewPillarOutlines()
-		viewPillarNames()
-		viewSymbols()
-		viewZoomLabels()
-		viewStatBoxes()
-		viewLinks()
+		viewTitleblock(); console.log('titleblock')
+		viewMainButton(); console.log('mainbtn')
+		viewPillarOutlines(); console.log('plroutline')
+		viewPillarNames(); console.log('plrname')
+		viewSymbols(); console.log('symbols')
+		viewZoomLabels(); console.log('zoomlabels')
+		viewStatBoxes(); console.log('statboxes')
+		viewLinks(); console.log('links')
 		viewNavigationHelper()
 		viewLRArrows()
 		camHeight()
@@ -243,29 +243,12 @@
 		var btnspd = 350+(Math.abs(info.btn.position.y - destination) * 35)
 		anim3d(info.btn, 'position', {y: destination, spd: btnspd })
 	} // end viewMainButton
-	function viewSymbols(){
-		if(!data.pSymbols) return
-		if(view.zoom === 'close'){
-			for(var i = 0; i<4; i++){
-				var s = seseme['plr'+i].symbol
-				var d = Math.abs(facing - i) * 75
-				anim3d(s, 'scale', {x:s.expand.s,y:s.expand.s,z:s.expand.s,delay:d})
-				anim3d(s, 'position', {y:s.expand.y, delay: d})
-			}
-		}else{
-			for(var i = 0; i<4; i++){
-				var s = seseme['plr'+i].symbol
-				anim3d(s, 'scale', {x:s.origin.s, y:s.origin.s, z:s.origin.s, spd: 350} )
-				anim3d(s, 'position', {y: s.origin.y, spd: 350} )
-			}
-		}
-	}
 	function viewInfoText(){
 		if(view.text){
 			Velocity([dom.bottom, dom.closebutton], 'stop') //necessary for zoom trolling
 			if(view.height === 'plan') view.text = false
 			else if(view.zoom==='normal'){
-				if(view.content==='maintext' && !view.filling) {console.log('FOH') ;return} //already
+				if(view.content==='maintext') {console.log('FOH') ;return} //already
 				callText(dom.maintext)
 			 }
 			else if(view.zoom === 'close'){
@@ -361,69 +344,139 @@
 			view.lastTextHeight = newheight
 		}
 	}
-	function viewZoomLabels(){
-		if(!data.pLabels) return
-		if(view.text && view.zoom === 'close'){
+	function viewSymbols(rtn){
+		var loadcb = false
+		if(view.filling && !view.controls){ //replacement mode
+			loadcb = true
+			var allgone = new THREE.LoadingManager()
+			allgone.onLoad = function(){ makeSymbols(rtn); return }
+			for(var i = 0; i<4; i++){ allgone.itemStart('symbol') }
+			if(view.zoom !== 'close' || !data.pSymbols){ makeSymbols(rtn); return }
+		}
+		if(view.zoom === 'close' && !view.filling ){
+			for(var i = 0; i<4; i++){
+				if(!data.pSymbols[i]) continue
+				var s = seseme['plr'+i].symbol
+				var d = Math.abs(facing - i) * 75
+				anim3d(s, 'scale', {x:s.expand.s,y:s.expand.s,z:s.expand.s,delay:d})
+				anim3d(s, 'position', {y:s.expand.y, delay: d})
+			}
+		}else{
+			for(var i = 0; i<4; i++){
+				if(!seseme['plr'+i].symbol){ if(loadcb){allgone.itemEnd('symbol'); continue} else continue }
+				if(rtn){if(rtn[i]){ if(loadcb){allgone.itemEnd('symbol')}; continue }}
+				var s = seseme['plr'+i].symbol
+				anim3d(s, 'scale', {x:s.origin.s, y:s.origin.s, z:s.origin.s, spd: 350} )
+				anim3d(s, 'position', {y: s.origin.y, spd: 350,
+					cb: loadcb? function(){allgone.itemEnd('symbol')}: ''} )
+			}
+		}
+	}
+	function viewZoomLabels(rtn){
+		var loadcb = false
+		if(view.filling && !controls.enabled){
+			loadcb = true
+			var allgone = new THREE.LoadingManager()
+			allgone.onLoad = function(){ makeZoomLabels(rtn); return }
+			if(view.zoom !== 'close' || !view.text || !data.pLabels){ makeZoomLabels(rtn); return }
+		}
+		if(view.text && view.zoom === 'close' && !view.filling){
 			var previous
 			if(view.cycleDirection) previous = facing===0?3:facing-1
 			else previous = facing ===3?0:facing+1
-			seseme['plr'+previous].label.traverse(function(child){
-				if(child.material) anim3d(child, 'opacity', {opacity:0})
-			})
-			seseme['plr'+facing].label.traverse(function(child){
-				if(child.material) anim3d(child, 'opacity', {opacity: 1})
-			})
+			if(data.pLabels[previous] || data.pNames[previous]){
+				seseme['plr'+previous].label.traverse(function(child){
+					if(child.material) anim3d(child, 'opacity', {opacity:0})
+				})
+			}
+			if(data.pLabels[facing] || data.pNames[facing]){
+				seseme['plr'+facing].label.traverse(function(child){
+					if(child.material) anim3d(child, 'opacity', {opacity: 1})
+				})
+			}
 		}
 		else{
+			if(!seseme['plr'+facing].label){ if(loadcb){ makeZoomLabels([false,false,false,false]); return } else return }
+			if(loadcb) seseme['plr'+facing].label.traverse(function(){ allgone.itemStart('labelsub') })
 			seseme['plr'+facing].label.traverse(function(child){
-				if(child.material) anim3d(child, 'opacity', {opacity: 0})
+				if(child.material) anim3d(child, 'opacity', {opacity: 0,
+					cb: loadcb?function(){ allgone.itemEnd('labelsub')}: '' })
 			})
 		}
 	}
 	function viewStatBoxes(){
+		var loadcb = false
+		if(view.filling && !controls.enabled){
+			loadcb = true
+			var allgone = new THREE.LoadingManager()
+			allgone.onLoad = function(){ makeStatboxes(); return }
+			if(view.zoom!=='close' || view.text || !data.pStatboxes){ makeStatboxes(); return }
+		}
 		if(!data.pStatboxes) return
-		if(!data.pStatboxes[facing]) return
-		if(view.zoom === 'close' && !view.text){
+		if(view.zoom === 'close' && !view.text && !view.filling){
 			var previous
 			if(view.cycleDirection) previous = facing===0?3:facing-1
 			else previous = facing ===3?0:facing+1
-			anim3d(seseme['plr'+previous].statbox, 'position', {y:4})
-			anim3d(seseme['plr'+previous].statbox, 'scale', {x:.5,y:.5,z:.5})
-			seseme['plr'+previous].statbox.traverse(function(child){
-				if(child.material)anim3d(child, 'opacity', {opacity: 0})
-			})
-			anim3d(seseme['plr'+facing].statbox, 'position', seseme['plr'+facing].statbox.expand)
-			anim3d(seseme['plr'+facing].statbox, 'scale', {x:1,y:1,z:1})
-			seseme['plr'+facing].statbox.traverse(function(child){
-				if(child.material)anim3d(child, 'opacity', {opacity: 1})
-			})
+			if(data.pStatboxes[previous]){
+				anim3d(seseme['plr'+previous].statbox, 'position', {y:4})
+				anim3d(seseme['plr'+previous].statbox, 'scale', {x:.5,y:.5,z:.5})
+				seseme['plr'+previous].statbox.traverse(function(child){
+					if(child.material)anim3d(child, 'opacity', {opacity: 0})
+				})
+			}
+			if(data.pStatboxes[facing]){
+				anim3d(seseme['plr'+facing].statbox, 'position', seseme['plr'+facing].statbox.expand)
+				anim3d(seseme['plr'+facing].statbox, 'scale', {x:1,y:1,z:1})
+				seseme['plr'+facing].statbox.traverse(function(child){
+					if(child.material)anim3d(child, 'opacity', {opacity: 1})
+				})
+			}
 		}else{
+			if(!seseme['plr'+facing].statbox){ if(loadcb){ makeStatboxes(); return } else return  }
+			if(loadcb) seseme['plr'+facing].statbox.traverse(function(){ allgone.itemStart('statboxsub') })
 			anim3d(seseme['plr'+facing].statbox, 'position', {y: 4})
 			anim3d(seseme['plr'+facing].statbox, 'scale', {x:.5,y:.5,z:.5})
 			seseme['plr'+facing].statbox.traverse(function(child){
-				if(child.material) anim3d(child, 'opacity', {opacity: 0	})
+				if(child.material) anim3d(child, 'opacity', {opacity: 0,
+					cb: loadcb?function(){ allgone.itemEnd('statboxsub') }:'' })
 			})
 		}
 	}
 	function viewLinks(){
-		if(!data.pLinks) return
-		if(view.text && view.zoom === 'close'){
+		var loadcb = false
+		if(view.filling && !controls.enabled){
+			console.log('remake links')
+			if(!view.text || view.zoom !== 'close' || !data.pLinks) { makeLinks(); return }
+			loadcb = true
+			var allgone = new THREE.LoadingManager()
+			allgone.onLoad = function(){ makeLinks(); return }
+		}
+		if(view.text && view.zoom === 'close' && !view.filling && !loadcb){
+			console.log('show links')
 			var previous
 			if(view.cycleDirection) previous = facing===0?3:facing-1
 			else previous = facing ===3?0:facing+1
-			seseme['plr'+previous].links.traverse(function(child){
-				if(child.origin) anim3d(child, 'position', child.origin)
-				if(child.material) anim3d(child, 'opacity', {opacity:0})
-			})
-			seseme['plr'+facing].links.traverse(function(child){
-				if(child.expand) anim3d(child, 'position', child.expand)
-				if(child.material) anim3d(child, 'opacity', {opacity: 1})
-			})
+			if(data.pLinks[previous]){
+				seseme['plr'+previous].links.traverse(function(child){
+					if(child.origin) anim3d(child, 'position', child.origin)
+					if(child.material) anim3d(child, 'opacity', {opacity:0})
+				})
+			}
+			if(data.pLinks[facing]){
+				seseme['plr'+facing].links.traverse(function(child){
+					if(child.expand) anim3d(child, 'position', child.expand)
+					if(child.material) anim3d(child, 'opacity', {opacity: 1})
+				})
+			}
 		}
 		else{
+			console.log('hide links')
+			if(seseme['plr'+facing].links.children.length<1){ if(loadcb){ makeLinks(); return } else return }
+			if(loadcb) seseme['plr'+facing].links.traverse(function(){ allgone.itemStart('linksub') })
 			seseme['plr'+facing].links.traverse(function(child){
 				if(child.origin) anim3d(child, 'position', child.origin)
-				if(child.material) anim3d(child, 'opacity', {opacity: 0})
+				if(child.material) anim3d(child, 'opacity', {opacity: 0,
+					cb: loadcb?function(){ allgone.itemEnd('linksub') }:'' })
 			})
 		}
 	}
@@ -438,8 +491,16 @@
 			if(view.cycleDirection) {animOut.translateX = '-2.5rem'; animIn.translateX = [0, '3.5rem']}
 			else {animOut.translateX = '2.5rem'; animIn.translateX = [0, '-3.5rem']}
 			for(var i = 0; i<4; i++){
-				if(i!==facing) { if(dom.navnames[i].style.opacity!=='0') Velocity(dom.navnames[i], animOut)}
-				else if(dom.navnames[i].style.opacity!=='1') Velocity(dom.navnames[i], animIn)
+				if(i!==facing) {
+					if(dom.navnames[i].style.opacity!=='0'){
+						Velocity(dom.navnames[i], 'stop')
+						Velocity(dom.navnames[i], animOut)
+					}
+				}
+				else if(dom.navnames[i].style.opacity!=='1'){
+					Velocity(dom.navnames[i], 'stop')
+					Velocity(dom.navnames[i], animIn)
+				}
 			}
 		}
 		function showSection(which, temp){
@@ -650,19 +711,41 @@
 		console.log('refilling')
 		//CHECKING FOR RETENTION
 		var retainMainText = false, retainDetailText = [false,false,false,false],
-		retainName = [false,false,false,false]
-		if(data.maintext === story.parts[part].text) retainMainText = true
-		for(var i = 0; i<4; i++){
-			if(data.pTexts[i] === story.parts[part].pTexts[i]) retainDetailText[i] = true
-			if(typeof data.pNames[i] !== typeof story.parts[part].pNames[i]) continue
-			if(typeof data.pNames[i] === 'string') {
-				if(data.pNames[i] === story.parts[part].pNames[i]) retainName[i] = true
-			}
-			else if(data.pNames[i] instanceof Array){
-				if(data.pNames[i].equals(story.parts[part].pNames[i])) retainName[i] = true
-			}
-		}
+		retainName = [false,false,false,false], retainSymbol = [false,false,false,false],
+		retainLabel = [false,false,false,false]
+		if(data.maintext === story.parts[part].maintext) retainMainText = true
+		for(var i = 0; i<4; i++){ //per-pillar data
+			if(data.pTexts && story.parts[part].pTexts){//detail text in the DOM
+				if(!data.pTexts[i] || !story.parts[part].pTexts[i]) retainDetailText[i] = false
+				else if(data.pTexts[i] === story.parts[part].pTexts[i]) retainDetailText[i] = true
+			}else retainDetailText[i] = false
 
+			if(data.pNames && story.parts[part].pNames){//pillar names in 3d and DOM
+				if(!data.pNames[i] || !story.parts[part].pNames[i]) retainName[i] = false
+				else if(typeof data.pNames[i] !== typeof story.parts[part].pNames[i]) retainName[i] = false
+				else if(typeof data.pNames[i] === 'string') {
+					if(data.pNames[i] === story.parts[part].pNames[i]) retainName[i] = true
+				}
+				else if(data.pNames[i] instanceof Array){
+					if(data.pNames[i].equals(story.parts[part].pNames[i])) retainName[i] = true
+				}
+			}else retainName[i] = false
+
+			if(data.pSymbols && story.parts[part].pSymbols){//pillar symbols in 3d
+				if(!data.pSymbols[i] || !story.parts[part].pSymbols[i]) retainSymbol[i] = false
+				else if(data.pSymbols[i].src === story.parts[part].pSymbols[i].src) retainSymbol[i] = true
+			}
+			if(data.pLabels && story.parts[part].pLabels){
+				if(!data.pLabels[i] || !story.parts[part].pLabels[i]) retainLabel[i] = false
+				else if(typeof data.pLabels[i] !== typeof story.parts[part].pLabels[i]) retainLabel[i] = false
+				else if(typeof data.pLabels[i] === 'string'){
+					if(data.pLabels[i] === story.parts[part].pLabels[i]) retainLabel[i] = true
+				}
+				else if(data.pLabels[i] instanceof Array){
+					if(data.pLabels[i] === story.parts[part].pNames[i]) retainLabel[i] = true
+				}
+			}else retainLabel[i] = false
+		}
 		console.log('retention check complete')
 		//ESTABLISHING DATA, DISABLING CONTROLS, AND 'WAITING' FOR CONTENT FILLING
 		data = story.parts[part]
@@ -671,18 +754,28 @@
 
 		refillMgr.itemStart('DOM'); refillMgr.itemStart('names'); refillMgr.itemStart('titleblock')
 		refillMgr.itemStart('sceneHt')
+		// refillMgr.itemStart('labels')
+		// refillMgr.itemStart('statboxes')
+		// refillMgr.itemStart('links')
+		// refillMgr.itemStart('allPillarComponents')
 		refillMgr.onLoad = function(){
 			console.log('done replacing, reenabling controls')
-			setView(true)
 			controls.enabled = true; view.filling = false
+			setView(true)
 		}
 		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
 		//3D SHIT - color, namesprites, titleblock, main button position
-		pctsToHeights(); console.log('pcts translated to new heights')
-		movePillars(); console.log('called pillar motion')
-		makeNames(retainName); console.log(' made names ')
+		pctsToHeights();
+		movePillars();
+		makeNames(retainName);
 		refillMgr.itemEnd('names')
 		replaceTitleblock()
+		//plr components
+		viewSymbols(retainSymbol)
+		viewZoomLabels(retainLabel)
+		viewStatBoxes()
+		viewLinks()
+		//other
 		recolor3d()
 		sceneHeightTransition()
 		//DOM shit
@@ -717,6 +810,7 @@
 				ite++
 			})
 		}
+
 		function recolor3d(){
 			var rgb = data.color.ui? hexToRgb(data.color.ui): {r:0,g:0,b:0}
 			for(var i = 0; i<4; i++){
@@ -895,9 +989,15 @@
 		// projectionMgr.itemEnd('titleblock')
 	}//END MAKETITLEBLOCK
 	function makeSymbols(rtn){
+		console.log('making symbols')
 		if(!data.pSymbols) return
+		console.log(rtn)
 		for(var i = 0; i<4; i++){
-			if(rtn[i]) continue
+			if(rtn[i] || !data.pSymbols[i]) continue
+			if(!init) {
+				if(seseme['plr'+i].symbol) seseme['plr'+i].remove(seseme['plr'+i].symbol)
+				delete seseme['plr'+i].symbol
+			}
 			var symbol = data.pSymbols[i] || {type: ''}, obj
 
 			if(symbol.type === 'img'){
@@ -914,10 +1014,7 @@
 				obj = new THREE.Sprite( sprmtl )
 				obj.expand = {y: 1.75, s:3.5}; obj.origin = {y: -.5, s: 0.75}
 			}
-			else {
-				obj = new THREE.Mesh(new THREE.PlaneBufferGeometry(0,0), new THREE.MeshBasicMaterial())
-				obj.expand = {y: -1, s:0.1}; obj.origin = {y: -1, s: 0.1}
-			}
+
 			obj.material.depthWrite = true
 			obj.scale.set(obj.origin.s,obj.origin.s,obj.origin.s)
 			obj.position.y = obj.origin.y; obj.rotation.y = rads(45)
@@ -925,10 +1022,14 @@
 			seseme['plr'+i].add(seseme['plr'+i].symbol)
 		}
 	}
-	function makeSymbolLabel(rtn){
-		if(!data.pLabels) return
+	function makeZoomLabels(rtn){
+		if(!data.pLabels) {console.log('no labels in dataset');return}
 		for(var i = 0; i<4; i++){
-			if(rtn[i]) continue
+			if((rtn[i]) || (!data.pLabels[i] && !data.pNames[i])) {console.log('no label at slot '+i) ;continue}
+			if(!init) {
+				if(seseme['plr'+i].label) seseme['plr'+i].remove(seseme['plr'+i].label)
+				delete seseme['plr'+i].label
+			}
 			var txt = data.pLabels[i].c || data.pNames[i] || '',
 			font = data.pLabels[i].font || 'Karla',
 			fontsize = data.pLabels[i].size || 13,
@@ -953,7 +1054,7 @@
 					labelobj.position.z =  it*(fontsize/15)
 				}
 			}
-			else {console.log('FOH'); continue}
+
 			label.position.x = label.position.z = 2.05
 			label.scale.set(0.625,0.625,0.625)
 			label.rotation.y = rads(45)
@@ -962,9 +1063,14 @@
 			seseme['plr'+i].add(seseme['plr'+i].label)
 		}
 	}
-	function makeStatBox(){
+	function makeStatboxes(){
 		if(!data.pStatboxes) return
 		for(var i = 0; i<4; i++){
+			if(!init){
+				if(seseme['plr'+i].statbox) seseme['plr'+i].remove(seseme['plr'+i].statbox);
+				delete seseme['plr'+i].statbox
+			}
+			if(!data.pStatboxes[i]) continue
 			var sb = data.pStatboxes[i], content,
 			width, font, fontsize, fontweight, txtalign, statbox, pointer
 
@@ -1000,29 +1106,34 @@
 					}
 				}
 			}
-			else statbox = new THREE.Object3D()
 
 			statbox.position.y = 4
 			statbox.rotation.y = rads(45)
 			seseme['plr'+i].statbox = statbox
 			seseme['plr'+i].add(seseme['plr'+i].statbox)
 		}
-	} // end makeStatBox
+	} // end makeStatboxes
 	function makeLinks(){
-		if(!data.pLinks) return
+		console.log('running makelinks')
+		if(!data.pLinks) {console.log('no links in dataset') ; return}
 		for(var i = 0; i<4; i++){
-			if(!data.pLinks[i] || data.pLinks[i].length < 1) continue
-			var links = new THREE.Group()
-			links.rotation.y = rads(45); links.position.y = 4
-			seseme['plr'+i].links = links ; seseme['plr'+i].add(seseme['plr'+i].links)
+			if(!init){
+				seseme['plr'+i].links.children = []
+			}
+			var links = init? new THREE.Group() : seseme['plr'+i].links
+			if(init){
+				links.rotation.y = rads(45); links.position.y = 4
+				seseme['plr'+i].links = links ; seseme['plr'+i].add(seseme['plr'+i].links)
+			}
+			if(!data.pLinks[i] || data.pLinks[i].length < 1) {console.log('no links at '+i) ; continue}
 
 			for(var it = 0; it<data.pLinks[i].length; it++){
+				console.log('adding link to plr'+i)
 				var linkinfo = data.pLinks[i][it]
-				console.log('link_'+linkinfo.type)
 				var l = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), new THREE.MeshBasicMaterial({
 					map: resources.mtls['link_'+linkinfo.type].map, transparent: true, depthWrite: false, opacity: 0
 				}))
-				l.clicked = function(){ console.log(linkinfo.c) }
+				l.goTo = linkinfo.c
 				links.add(l)
 			}
 			if(data.pLinks[i].length === 3){
@@ -1089,10 +1200,11 @@
 		}
 		else if(property === 'zoom'){ //manipulating the camera
 			if(obj[property]===options[property]) return
-			controls.enabled = false
+			// controls.enabled = false
+			controls.noRotate = controls.noZoom = true
 			start[property] = obj[property]; destination[property] = options[property]
 			update = function(){ obj[property] = start[property]; camera.updateProjectionMatrix(); check() }
-			options.cb = function(){ controls.enabled = true }
+			options.cb = function(){ controls.noRotate = controls.noZoom = false }
 		}
 		else if(property === 'sprite'){ //{dest: , frames: } required
 			start.f = obj.material.map.offset.x * options.frames
