@@ -539,7 +539,8 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         // ===============================================================================
         // Increment current part of the story and reset the idle countdown
-        seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+        if(diodePct !== 0)
+          seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
         if(idleCountdown) clearTimeout(idleCountdown);
         seconds = 120;
         countdown();
