@@ -395,10 +395,10 @@ function fadeCircleObj(targetColor, duration, diodePct){
     this.diodePct = diodePct;
 }
 
-function getRingColor(seedling){
-  var ringColor = seedling.story.parts[seedling.currentPart].color.ring;
-  var monumentHexColor = seedling.story.parts[seedling.currentPart].color.monument.hex;
-  var uiColor = seedling.story.parts[seedling.currentPart].color.ui;
+function getRingColor(seedling, currentPart){
+  var ringColor = seedling.story.parts[currentPart].color.ring;
+  var monumentHexColor = seedling.story.parts[currentPart].color.monument.hex;
+  var uiColor = seedling.story.parts[currentPart].color.ui;
   var targetColor;
   if(ringColor) targetColor = led.hexToObj(ringColor);
   else if(monumentHexColor) targetColor = led.hexToObj(monumentHexColor);
@@ -434,9 +434,10 @@ function seedlingConnected(seedSocket, seedlingNum){
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
     seedling.online = true;
     seedling.currentPart = 0;
-    var targetColor = getRingColor(seedling);
-    if(seedlingNum === lastActiveSeedling)
+    if(seedlingNum === lastActiveSeedling){
+      var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
       seedling.socket.emit('seedling initialize story', seedling.number, targetColor);
+    }
     console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
   });
 
@@ -462,9 +463,9 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
-  var targetColor = getRingColor(seedling);
+  var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
 
-  var hueColor = led.hexToObj(seedling.story.parts[seedling.currentPart].color.monument.hex);
+  var targetColor = getRingColor(seedling, currentPartTemp);
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
   var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
   var fadeCircleData = new fadeCircleObj(targetColor, duration, diodePct);
@@ -642,7 +643,7 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('beagle 1 On', function(){
     beagleOnline = true;
     console.log('[BEAGLE: ONLINE]')
-    var seedling = seedling[lastActiveSeedling];
+    var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
   });
