@@ -440,7 +440,14 @@ function seedlingConnected(seedSocket, seedlingNum){
   });
 
   seedling.socket.on('bigRedButton', function(){
-    if(!seedling.buttonPressed){
+    var error = false;
+    for(var i = 0; i < seedlings.length; i++){
+      if(seedlings[i].buttonPressed === true){
+        error = true;
+        break;
+      } // invalid button press
+    }
+    if(!error){
   	  // If system is in idle mode, clear the lifx breathe/desperation intervals
   	  if(breathing) clearInterval(breathing);
   	  if(desperate) clearInterval(desperate);
