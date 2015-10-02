@@ -16,7 +16,10 @@ function listeners(socket, soundObj) {
 
     // Listener to play a specific button sound given a sound name
     socket.on('seedling play button-sound', function(soundName) {
-        if(!soundName) socket.emit('seedling finished button-sound');
+        if(!soundName) {
+            socket.emit('seedling finished button-sound');
+            return;
+        }
 
         console.log("Played sound '"+soundName+"'");
         var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', soundName+'.mp3');
