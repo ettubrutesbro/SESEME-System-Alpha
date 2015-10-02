@@ -443,6 +443,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     var error = false;
     for(var i = 0; i < seedlings.length; i++){
       if(seedlings[i].buttonPressed === true){
+        console.log("error is true", i)
         error = true;
         break;
       } // invalid button press
@@ -540,7 +541,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     // Set the variable to keep track of the last seedling that had its button pressed
     lastActiveSeedling = seedling.number;
 
-	// Play the new story's sound  
+	// Play the new story's sound
     var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
     if(!buttonSounds.length)
         seedling.socket.emit('seedling play button-sound', null);
