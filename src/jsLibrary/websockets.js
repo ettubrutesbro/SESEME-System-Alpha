@@ -318,7 +318,6 @@ io.on('connection', function (socket) {
           bigRedButton(seedlings[seedlingNum]);
       } else {
           console.log('Wrong');
-          seedling.buttonPressed = false;
       }
   });
 
