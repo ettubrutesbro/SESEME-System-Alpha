@@ -135,6 +135,7 @@ var self = module.exports = {
     },
 
     turnRingOn: function(color, obj){
+        console.log("in turnRingOn function");
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
         var firstDiode = obj.firstDiode;
