@@ -32,6 +32,7 @@ function listeners(socket, obj, soundObj) {
     }
 
     function addLightsDuration(obj){
+      console.log("in function addLightsDuration, seedling number", obj.seedlingNum);
       if(timerLastUpdate[obj.seedlingNum]){
         console.log("add to lightTimer value", lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum]));
         lightTimer[obj.seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum])); //
