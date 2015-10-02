@@ -3,7 +3,7 @@
  */
 
 // Private
-var hue = require("node-hue-api");
+var hue = require("node-hue-api").hue;
 
 var displayBridges = function(bridge) {
     console.log("Hue Bridges Found: " + JSON.stringify(bridge));
