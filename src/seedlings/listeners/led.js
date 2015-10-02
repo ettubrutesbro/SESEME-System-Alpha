@@ -17,33 +17,33 @@ function listeners(socket, obj, soundObj) {
     var trailRevs = 5; // default light trail revolution numbers
     var lightTimer = []; // global light timer for lights
     var timerLastUpdate = []; // ar to hold time when timer was last updated for each seedling
-    var timerOccurrences = [];
-
+    var totalTimeOn = 0;
     var breatheInterval = null;
 
     function lightsOnCallback(obj){
       timerLastUpdate[obj.seedlingNum] = Date.now();
       lightTimer[obj.seedlingNum] = new Timer.Timer(function() { // init timer with 5 seconds
-        console.log('turning lights off, duration of timer in sec:', (Date.now() - timerLastUpdate[obj.seedlingNum]) / 1000);
+        console.log('turning lights off, totalTimeOn in sec:', totalTimeOn / 1000);
         led.lightsOff(obj);
         timerLastUpdate[obj.seedlingNum] = null;
-        console.log("timerOccurrences", timerOccurrences);
+        totalTimeOn = 0;
       }, lightOnDuration);
     }
 
     function addLightsDuration(obj){
       console.log("in function addLightsDuration, seedling number", obj.seedlingNum);
       if(timerLastUpdate[obj.seedlingNum]){
-        console.log("add to lightTimer value", lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum]));
+        var addValue = lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum]);
+        console.log("add to lightTimer value", addValue / 1000);
+        totalTimeOn += addValue;
         lightTimer[obj.seedlingNum].add(lightOnDuration - (Date.now() - timerLastUpdate[obj.seedlingNum])); //
         timerLastUpdate[obj.seedlingNum] = Date.now();
-        timerOccurrences.push(Date.now());
       } // lights of seedling currently on so add to timer
       else{
         console.log("turn lights on for buttonPressed");
         timerLastUpdate[obj.seedlingNum] = Date.now();
         led.lightsOn(obj, lightsOnCallback);
-        timerOccurrences.push(Date.now());
+        totalTimeOn = lightOnDuration;
       } // turn on lights of seedlingNum
     }
 
