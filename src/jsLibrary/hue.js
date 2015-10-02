@@ -13,23 +13,13 @@ var displayResult = function(result) {
     console.log(JSON.stringify(result, null, 2));
 };
 
-var hostname = "10.0.1.205",
-    username = "083b2f780c78555d532b78544f135798",
-    api;
-
-api = new hue.HueApi(hostname, username);
-api.connect().then(displayResult).done();
-
-//hue.locateBridges().then(displayBridges).done();
-
 var HueApi = hue.HueApi;
 var lightState = hue.lightState;
 var state = lightState.create();
 var partyCounter = 0;
 var host =  "10.0.1.205";
-//var username ="newdeveloper";
-//var username ="001788fffe0ad83c";
-//var api = new HueApi(host, username);
+var username ="newdeveloper";
+var api = new HueApi(host, username);
 var lightSwitch = false;
 
 function displayStatus(status){
