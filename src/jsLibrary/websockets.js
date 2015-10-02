@@ -480,7 +480,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
          seedling.socket.emit('seedling play button-sound', null);
      else {
 		 var buttonSound = buttonSounds[Math.floor(Math.random() * buttonSounds.length)]
-         seedling.socket.emit('seedling play button-sound', buttonSounds);
+         seedling.socket.emit('seedling play button-sound', buttonSound);
      }
      seedling.socket.on('seedling finished button-sound', function() {
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
