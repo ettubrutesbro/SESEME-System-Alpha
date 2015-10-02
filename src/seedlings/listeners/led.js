@@ -68,6 +68,7 @@ function listeners(socket, obj, soundObj) {
         addLightsDuration(obj);
 
         if(obj.diodePct !== 0){
+          console.log("seedling buttonPressed socket; should be fadeCircle");
           led.fadeCircle(circleData.targetColor, circleData.duration, circleData.diodePct, obj, function(){
             console.log("in callback for fadeCircle");
             led.lightOn(1, obj.buttonLight, null);
@@ -76,6 +77,7 @@ function listeners(socket, obj, soundObj) {
           });
         } // fades in progression if last active seedling
         else{
+          console.log("seedling buttonPressed socket; should be fadeCircle");
           led.fillCircle(circleData.targetColor, circleData.duration, obj, function(){
             console.log("in callback for fillCircle");
             led.lightOn(1, obj.buttonLight, null);
