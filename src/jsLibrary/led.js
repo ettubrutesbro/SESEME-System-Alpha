@@ -555,7 +555,6 @@ var self = module.exports = {
         var timer = null;
         if(color == null){
             light.fadeIn(time*1000); // not as good as fadeOut
-            console.log("lights are on");
         } // halogen or led light bulb
         else{
             light.color(color);
@@ -582,7 +581,6 @@ var self = module.exports = {
         var timer = null;
         if(color == null){
             light.fadeOut(time*1000);
-            console.log("lights are off");
         } // halogen or led light bulb
         else{
             //var this.lightPercentage = 100;

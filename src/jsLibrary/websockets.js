@@ -312,11 +312,13 @@ io.on('connection', function (socket) {
 
   // Front-end simulation of a button press
   socket.on('sim button', function(seedlingNum) {
-      if(!seedlings[seedlingNum].buttonPressed){
+      if(!seedlings[seedlingNum].buttonPressed && seedlings[seedlingNum].online){
           console.log("Sim button pressed")
           seedlings[seedlingNum].buttonPressed = true;
           bigRedButton(seedlings[seedlingNum]);
-      } else { console.log('Wrong'); }
+      } else {
+          console.log('Wrong');
+      }
   });
 
   socket.on('sim button2', function(seedlingNum) {
@@ -444,6 +446,12 @@ function seedlingConnected(seedSocket, seedlingNum){
   	  if(desperate) clearInterval(desperate);
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
+      for(var i = 0; i < seedlings.length; i++){
+        if(i !== seedling.number){
+          console.log("reset current part of other seedings", i);
+          seedlings[i].currentPart = 0;
+        }
+      }
       bigRedButton(seedling);
     }
     else{
@@ -455,10 +463,6 @@ function seedlingConnected(seedSocket, seedlingNum){
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
     seedling.online = true;
     seedling.currentPart = 0;
-    if(seedlingNum === lastActiveSeedling){
-      var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
-      seedling.socket.emit('seedling initialize story', seedling.number, targetColor);
-    }
     console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
   });
 
@@ -466,6 +470,10 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedlings[num].ready = true;
     if(systemOnline())
       seedlingIO[0].emit('seedling start sync-sequence-1');
+
+    console.log("seedling finished inits listener", seedlingNum);
+    var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
+    seedling.socket.emit('seedling initialize story', seedling.number, targetColor); // initialize first seedling and turn on buttons on first connect
       //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
@@ -485,17 +493,18 @@ function seedlingConnected(seedSocket, seedlingNum){
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
   //var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
-  var targetColor;
+  var targetColor, diodePct;
   if(seedling.number === lastActiveSeedling){
     console.log("should keep same story", seedling.number, seedling.currentPart);
     targetColor = getRingColor(seedling, (seedling.currentPart + 1) % seedling.totalStoryParts);
+    diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
   }
   else{
     console.log("should change to different story: current part should be 0:", seedling.currentPart)
     targetColor = getRingColor(seedling, seedling.currentPart);
+    diodePct = 0;
   }
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
-  var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
   var circleData = new circleObj(targetColor, duration, diodePct);
 
   if(seedling.currentPart + 1 == seedling.totalStoryParts){
@@ -530,7 +539,8 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         // ===============================================================================
         // Increment current part of the story and reset the idle countdown
-        seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+        if(diodePct !== 0)
+          seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
         if(idleCountdown) clearTimeout(idleCountdown);
         seconds = 120;
         countdown();
@@ -563,17 +573,10 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
         for(var i = 0; i < 3; i++){
           if(seedlings[i].online) {
-            seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData, lastActiveSeedling);
+            seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData);
           }
         }
         if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
-        /*
-        setTimeout(function(){
-          console.log("--> updated seedling attributes");
-        //   seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
-          seedling.buttonPressed = false;
-        }, Math.ceil(duration)*1000); // update seedling attributes after animation done
-        */
     // }, actionDelay); // end of socket listener
   // }
 }

@@ -54,20 +54,25 @@ function listeners(socket, obj, soundObj) {
     })
 
     socket.on('seedling initialize story', function(seedlingNum, targetColor){
+      console.log("in seedling initialize story socket", obj.seedlingNum);
       if(obj.seedlingNum === seedlingNum){
+        console.log("turn on ring", obj.seedlingNum)
         led.turnRingOn(targetColor, obj);
-      }
+      } // seedlings[0] has ring lit as default
+      console.log("turn on buttonLight");
+      led.lightOn(1, obj.buttonLight, null); // button of all seedlings lit
     }) // start at initial color
 
-    socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData, lastActiveSeedling){
+    socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData){
       console.log("buttonPressed", seedlingNum);
 
       led.lightOff(1, obj.buttonLight, null);
 
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
-
-        if(obj.seedlingNum === lastActiveSeedling){
+        console.log("circleData.diodePct", circleData.diodePct);
+        if(circleData.diodePct !== 0){
+          console.log("seedling buttonPressed socket; should be fadeCircle");
           led.fadeCircle(circleData.targetColor, circleData.duration, circleData.diodePct, obj, function(){
             console.log("in callback for fadeCircle");
             led.lightOn(1, obj.buttonLight, null);
@@ -76,6 +81,7 @@ function listeners(socket, obj, soundObj) {
           });
         } // fades in progression if last active seedling
         else{
+          console.log("seedling buttonPressed socket; should be fillCircle");
           led.fillCircle(circleData.targetColor, circleData.duration, obj, function(){
             console.log("in callback for fillCircle");
             led.lightOn(1, obj.buttonLight, null);
@@ -83,12 +89,13 @@ function listeners(socket, obj, soundObj) {
             socket.emit('seedling actionCircle done', seedlingNum);
           })
         }
-      } // this seedling matches button press seedling
+      } // this seedling fills from empty since not last activeSeedling
 
       else{
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
           console.log("in callback for lightTrail");
           led.lightOn(1, obj.buttonLight, null);
+          socket.emit('seedling actionCircle done', seedlingNum);
         });
       } // other seedlings animate light trail
     })
