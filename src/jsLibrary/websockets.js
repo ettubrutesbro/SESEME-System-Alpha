@@ -314,6 +314,13 @@ io.on('connection', function (socket) {
       } else { console.log('Wrong'); }
   });
 
+  socket.on('request status', function(seedlingNum) {
+      socket.emit('status report', {
+          'lastActiveSeedling: ':lastActiveSeedling,
+          'currentPart: ':seedlings[lastActiveSeedling].currentPart
+      });
+  });
+
   // Update the seconds in the web page
   setInterval(function(){
     socket.emit('updateTime', seconds);
