@@ -455,7 +455,7 @@ function seedlingConnected(seedSocket, seedlingNum){
   	  // If system is in idle mode, clear the lifx breathe/desperation intervals
   	  if(breathing) clearInterval(breathing);
   	  if(desperate) clearInterval(desperate);
-	  if(startDesperation) clearInterval(startDesperation);
+	  if(startDesperation) clearTimeout(startDesperation);
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
       for(var i = 0; i < seedlings.length; i++){
