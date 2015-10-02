@@ -358,7 +358,7 @@ var self = module.exports = {
         var pixel = new Array(litPixelNum);
         var index = 13; // index of leading diode to brighten
         var factor = 2; // hard coded value for progression
-        var intervalTime = 70; // original 55
+        var intervalTime = 100; // original 55
         var smallSteps = Math.floor(duration * 1000 / (intervalTime * bigSteps)); // number of smallSteps to fade one diode
         var incrementAmount = 100 / smallSteps;
 
