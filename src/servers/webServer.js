@@ -12,6 +12,14 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var path = require('path');
 
+var hue = require("node-hue-api");
+
+var displayBridges = function(bridge) {
+    console.log("Hue Bridges Found: " + JSON.stringify(bridge));
+};
+
+hue.locateBridges().then(displayBridges).done();
+
 server.listen(8080);
 console.log('listening on port 8080  !!!')
 

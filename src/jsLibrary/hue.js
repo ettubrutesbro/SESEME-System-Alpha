@@ -9,9 +9,7 @@ var displayBridges = function(bridge) {
     console.log("Hue Bridges Found: " + JSON.stringify(bridge));
 };
 
-var displayResultVar = function(result) {
-    console.log(JSON.stringify(result, null, 2));
-};
+hue.locateBridges().then(displayBridges).done();
 
 var HueApi = hue.HueApi;
 var lightState = hue.lightState;
