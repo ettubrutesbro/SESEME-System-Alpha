@@ -446,6 +446,12 @@ function seedlingConnected(seedSocket, seedlingNum){
   	  if(desperate) clearInterval(desperate);
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
+      for(var i = 0; i < seedlings.length; i++){
+        if(i !== seedling.number){
+          console.log("reset current part of other seedings", i);
+          seedlings[i].currentPart = 0;
+        }
+      }
       bigRedButton(seedling);
     }
     else{
