@@ -63,7 +63,7 @@ function listeners(socket, obj, soundObj) {
 
       led.lightOff(1, obj.buttonLight, null);
 
-      if(seedlingNum === obj.seedlingNum && ){
+      if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
 
         if(obj.seedlingNum === lastActiveSeedling){
