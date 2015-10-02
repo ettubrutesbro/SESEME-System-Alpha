@@ -486,13 +486,16 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   var timePerRev = 2;
   var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
 
+  console.log("in bigRedButtonHelper");
 
   if(error) {
+      console.log("in bigRedButtonHelper if(error) (so button is invalid)");
     if(seedling.socket)
         seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
   }
 
   else {
+      console.log("in bigRedButtonHelper else (so button is valid)")
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
      // COMMENT THIS SECTION OUT TO MAKE BUTTON PRESS WORK WITHOUT SOUND (along with the }); at the bottom)
      // --> This block is to play a sound upon button press
