@@ -507,7 +507,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
      }
      seedling.socket.on('seedling finished button-sound', function() {
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
+        console.log("inside 'seedling finished button-sound' socket listener")
         // ===============================================================================
         // Increment current part of the story and reset the idle countdown
         seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
