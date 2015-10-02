@@ -406,7 +406,7 @@ function heightCalc(data){
 }
 */
 
-function fadeCircleObj(targetColor, duration, diodePct){
+function circleObj(targetColor, duration, diodePct){
     this.targetColor = targetColor;
     this.duration = duration;
     this.diodePct = diodePct;
@@ -435,9 +435,9 @@ function seedlingConnected(seedSocket, seedlingNum){
 
   seedling.socket.on('bigRedButton', function(){
     if(!seedling.buttonPressed){
-	  // If system is in idle mode, clear the lifx breathe/desperation intervals
-	  if(breathing) clearInterval(breathing);
-	  if(desperate) clearInterval(desperate);
+  	  // If system is in idle mode, clear the lifx breathe/desperation intervals
+  	  if(breathing) clearInterval(breathing);
+  	  if(desperate) clearInterval(desperate);
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
       bigRedButton(seedling);
@@ -465,7 +465,7 @@ function seedlingConnected(seedSocket, seedlingNum){
       //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
-  seedling.socket.on('seedling fadeCircle done', function(seedlingNum){
+  seedling.socket.on('seedling actionCircle done', function(seedlingNum){
     if(seedling.number === seedlingNum){
       console.log("set buttonPressed false", seedling.number);
       seedling.buttonPressed = false;
@@ -480,12 +480,19 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
   var trailColor = led.hexToObj("FFFFFF");
-  var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
-
-  var targetColor = getRingColor(seedling, currentPartTemp);
+  //var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
+  var targetColor;
+  if(seedling.number === lastActiveSeedling){
+    console.log("should keep same story", seedling.number, seedling.currentPart);
+    targetColor = getRingColor(seedling, (seedling.currentPart + 1) % seedling.totalStoryParts);
+  }
+  else{
+    console.log("should change to different story: current part should be 0:", seedling.currentPart)
+    targetColor = getRingColor(seedling, seedling.currentPart);
+  }
   var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
   var diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
-  var fadeCircleData = new fadeCircleObj(targetColor, duration, diodePct);
+  var circleData = new circleObj(targetColor, duration, diodePct);
 
   if(seedling.currentPart + 1 == seedling.totalStoryParts){
     duration += 3;
@@ -497,7 +504,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
   if(error) {
     if(seedling.socket)
-        seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
+        seedling.socket.emit("error buttonPressed", seedling.number, circleData, lightTrailData, seedling.buttonPressed);
   }
 
   else {
@@ -552,7 +559,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
         for(var i = 0; i < 3; i++){
           if(seedlings[i].online) {
-            seedlings[i].socket.emit("buttonPressed", seedling.number, fadeCircleData, lightTrailData);
+            seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData);
           }
         }
         if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
