@@ -24,7 +24,7 @@ var hostname = "10.0.1.205",
     newUserName = "newdeveloper",
     userDescription = "device description goes here";
 
-var api = new hue.HueApi(host, username);
+var api = new hue.HueApi(hostname, newUserName);
     api.lights()
         .then(displayResult)
         .done();
