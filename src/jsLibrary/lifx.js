@@ -101,12 +101,12 @@ function breathe() {
 	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/toggle';
 	options.method = 'POST';
 	options.body = JSON.stringify({
-		'duration'		: 1 
+		'duration'		: 1
 	});
 
 	// PUT http request to fade on
 	request(options, function(error, response, body) {
-		if(error) console.log('Lifx Error: '+error); 
+		if(error) console.log('Lifx Error: '+error);
 	}); // end of request
 }
 
@@ -170,7 +170,44 @@ function desperation(states) {
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+function turnOn(duration, color) {
+	// Configurations and custom headers to send to the API
+	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+	options.method = 'PUT';
+	options.body = JSON.stringify({
+		'power'			: 'on',
+		'brightness'	: 0.55,
+		'color'		: color,
+		'duration'		: duration,
+	});
+
+	// PUT http request to fade on
+	request(options, function(error, response, body) {
+		if(error) console.log('Lifx Error: '+error);
+	}); // end of request
+}
+
+function turnOff(duration, color) {
+	// Configurations and custom headers to send to the API
+	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
+	options.method = 'PUT';
+	options.body = JSON.stringify({
+		'power'		: 'off',
+		'color'		: color,
+		'duration'	: duration
+	});
+
+	// PUT http request to fade off
+	request(options, function(error, response, body) {
+		if(error) console.log('Lifx Error: '+error);
+	}); // end of request
+}
+
+
 exports.breathe = breathe;
 exports.fadeOff = fadeOff;
+exports.turnOn = turnOn;
+exports.turnOff = turnOff;
 exports.desperation = desperation;
 exports.validButtonPress = validButtonPress;
