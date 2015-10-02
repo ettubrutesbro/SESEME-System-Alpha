@@ -490,9 +490,14 @@ function setup(){
 			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
 			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
 			raycast.setFromCamera(mouse, camera)
-			console.log(raycast.intersectObjects(info.btn.children))
-			if(view.height === 'plan' && view.zoom === 'far'){
-				var intersects = raycast.intersectObjects(info.help.children, true)
+			var intersects
+			if(view.zoom === 'close' && view.text){ //links
+				intersects = raycast.intersectObject(seseme['plr'+facing].links, true)
+				if(intersects.length > 0) console.log('you clicked an extra of plr '+ facing)
+				clickedDetailLink()
+			}
+			else if(view.height === 'plan' && view.zoom === 'far'){ //help
+				intersects = raycast.intersectObject(info.help, true)
 				if(intersects.length > 0){
 					var target = intersects[0].object
 					console.log(target.name, target.class, target.index)
@@ -502,7 +507,7 @@ function setup(){
 				}
 				else clickedHelpOutside()
 			}
-			else if(raycast.intersectObjects(info.btn.children).length>0) clickedMainButton()
+			else if(raycast.intersectObject(info.btn,true).length>0) clickedMainButton()
 			else if(view.text) clickedToClose()
 
 
