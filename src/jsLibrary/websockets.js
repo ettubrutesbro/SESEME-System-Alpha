@@ -643,7 +643,7 @@ beagleIO.on('connection', function(beagleSocket){
     beagleOnline = true;
     console.log('[BEAGLE: ONLINE]')
     var seedling = seedling[lastActiveSeedling];
-    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart].values]);
+    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
   });
 
