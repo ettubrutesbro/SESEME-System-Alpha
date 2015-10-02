@@ -486,31 +486,28 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   var timePerRev = 2;
   var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
 
-  console.log("in bigRedButtonHelper");
-
   if(error) {
-      console.log("in bigRedButtonHelper if(error) (so button is invalid)");
     if(seedling.socket)
         seedling.socket.emit("error buttonPressed", seedling.number, fadeCircleData, lightTrailData, seedling.buttonPressed);
   }
 
   else {
-      console.log("in bigRedButtonHelper else (so button is valid)")
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
      // COMMENT THIS SECTION OUT TO MAKE BUTTON PRESS WORK WITHOUT SOUND (along with the }); at the bottom)
      // --> This block is to play a sound upon button press
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+     var actionDelay = 0;
      var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
      if(!buttonSounds.length)
          seedling.socket.emit('seedling play button-sound', null);
      else {
+         actionDelay = 3000;
 		 var buttonSound = buttonSounds[Math.floor(Math.random() * buttonSounds.length)]
          seedling.socket.emit('seedling play button-sound', buttonSound);
      }
-     seedling.socket.on('seedling finished button-sound', function() {
+     setTimeout(function() {
      // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-        console.log("inside 'seedling finished button-sound' socket listener")
         // ===============================================================================
         // Increment current part of the story and reset the idle countdown
         seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
@@ -553,7 +550,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
           seedling.buttonPressed = false;
         }, Math.ceil(duration)*1000); // update seedling attributes after animation done
         */
-    }); // end of socket listener
+    }, actionDelay); // end of socket listener
   }
 }
 
