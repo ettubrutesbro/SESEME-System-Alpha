@@ -77,7 +77,7 @@ function listeners(socket, obj, soundObj) {
           });
         } // fades in progression if last active seedling
         else{
-          console.log("seedling buttonPressed socket; should be fadeCircle");
+          console.log("seedling buttonPressed socket; should be fillCircle");
           led.fillCircle(circleData.targetColor, circleData.duration, obj, function(){
             console.log("in callback for fillCircle");
             led.lightOn(1, obj.buttonLight, null);
