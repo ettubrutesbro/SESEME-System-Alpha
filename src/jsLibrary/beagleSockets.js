@@ -41,7 +41,7 @@ getIP();
 
 socket.emit('checkin', ' * DATA')
 
-var seseme = require(path.join(__dirname, 'seseme.js')
+var seseme = require(path.join(__dirname, 'seseme.js');
 seseme.setup(socket, function(obj){
   stepper = obj;
 });
