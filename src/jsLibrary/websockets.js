@@ -694,7 +694,7 @@ beagleIO.on('connection', function(beagleSocket){
     console.log(data)
   })
 
-  beagleSocket.on('seseme finished setup', function(\){
+  beagleSocket.on('seseme finished setup', function(){
     console.log("seseme finished setup socket");
     //stepperPositionAr = obj; // save stepperPositionAr after setup
     //console.log(stepperPositionAr);
