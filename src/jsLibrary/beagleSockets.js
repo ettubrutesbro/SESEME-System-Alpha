@@ -36,12 +36,12 @@ console.log('----CONNECTING ON PORT 4000----   IP:169.237.123.19:4000')
 var IP = 'http://169.237.123.19:4000';
 var socket = require('socket.io-client')(IP);
 
-var initBoard = require(path.join(__dirname, 'seseme.js'));
-initBoard.setup(socket);
-
 getIP();
 
 socket.emit('checkin', ' * DATA')
+
+var initBoard = require(path.join(__dirname, 'seseme.js'));
+initBoard.setup(socket);
 
 socket.on('connect', function() {
   console.log('beagle 1 On', socket.connected);

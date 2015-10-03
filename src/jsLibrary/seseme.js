@@ -195,7 +195,7 @@ var self = module.exports = {
           pinData.m1.enable = 13
           pinData.m1.halSensor = 28
 
-          board.on("ready", function(socket, callback) {
+          board.on("ready", function() {
 
 
           // Stepper motor creation
