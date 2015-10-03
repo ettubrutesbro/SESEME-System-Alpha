@@ -604,12 +604,12 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
     // Send the new height calculations to the frontend
     var result;
-    if(lastActiveSeedling === seedling.number) {
+    if(uiSocket && lastActiveSeedling === seedling.number) {
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
 
         console.log("Emitting 'ui update part' to the front-end");
         io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
-    } else if(lastActiveSeedling !== seedling.number) {
+    } else if(uiSocket && lastActiveSeedling !== seedling.number) {
         result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
 
         console.log("Emitting 'ui different story' to the front-end");
