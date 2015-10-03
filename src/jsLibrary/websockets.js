@@ -102,13 +102,13 @@ for(var i = 0; i < 3; i++){
   totalStoryParts[i] = story[i].parts.length; // number of parts in a story
 }
 
-var currentPart = 0; // set story Part currently on
+//var currentPart = 0; // set story Part currently on
 var seedlingOnline = false;
 var seedlingSocket = null;
 var buttonPressed = false;
 var readyState = false;
 for(var i = 0; i < 3; i++){
-  seedlings[i] = new seedlingObj(story[i], currentPart, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, readyState);
+  seedlings[i] = new seedlingObj(story[i], 0, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, readyState);
 }
 
 ////////////////////////////////////////////////
@@ -338,7 +338,7 @@ io.on('connection', function (socket) {
 		io.sockets.emit('ui acquire story', {
 			story: story[lastActiveSeedling],
 			part: seedlings[lastActiveSeedling].currentPart,
-			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart])
+			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart])
 		});
   });
 
