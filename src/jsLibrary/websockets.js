@@ -261,6 +261,10 @@ io.on('connection', function (socket) {
   webby = socket;
   console.log(socket.request.connection.remoteAddress + ' connected to web socket.io');
 
+  // Check for a desync between the frontend and the server in case the server
+  //	is starting back up from a crash
+  socket.emit('ui check desync');
+
   // ===========================================================================================
   // Seedling communication related to sounds
   var seedlingToPlay = Math.floor(Math.random() * 3);
@@ -289,6 +293,12 @@ io.on('connection', function (socket) {
   setInterval(function() {
       socket.emit('interval', 'connection test');
   }, 5000);
+
+  socket.on('ui report status', function(data) {
+		// if(data.story === lastActiveSeedling) 
+		// @@@@@@@@@@@@ FINISH THIS PART ))::
+		
+  });
 
   socket.on('ui request story', function() {
         console.log("Frontend requested story: sending current story data now")
