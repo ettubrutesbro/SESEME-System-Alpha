@@ -90,14 +90,14 @@
 	//package function uses states to set displayed objects
 	function setView(button,height,zoom){
 		console.log('set view')
-		viewTitleblock(); console.log('titleblock')
-		viewMainButton(); console.log('mainbtn')
-		viewPillarOutlines(); console.log('plroutline')
-		viewPillarNames(); console.log('plrname')
-		viewSymbols(); console.log('symbols')
-		viewZoomLabels(); console.log('zoomlabels')
-		viewStatBoxes(); console.log('statboxes')
-		viewLinks(); console.log('links')
+		viewTitleblock()
+		viewMainButton()
+		viewPillarOutlines()
+		viewPillarNames()
+		viewSymbols()
+		viewZoomLabels()
+		viewStatBoxes()
+		viewLinks()
 		viewNavigationHelper()
 		viewLRArrows()
 		camHeight()
@@ -856,13 +856,9 @@
 			//NAV AND ACCESSORIES
 			var plrOrder = data.values.concat().sort(function(a,b){return a-b})
 			if(data.valueType === 'lessIsTall'){plrOrder.reverse()}
-			if(view.zoom==='close'){
-				Velocity(dom.navnames[facing], 'stop')
-				Velocity(dom.navnames[facing], {opacity: 0, translateX: '-4rem'}, {visibility: 'hidden', complete:
-					function(){ dom.navnames[facing].textContent = data.pNames[facing];
-						dom.navnames[facing].style.visibility = 'visible' }})
-			}
-			else dom.navnames[facing].textContent = data.pNames[facing] || ''
+			Velocity(dom.navnames[facing], 'stop')
+			Velocity(dom.navnames[facing], {opacity: 0, translateX: '-4rem'}, {visibility: 'hidden', complete:
+				function(){ dom.navnames[facing].textContent = data.pNames[facing]; dom.navnames[facing].style.visibility = 'visible' }})
 			for(var i = 0; i<4; i++){
 				var navname = data.pNames[i] || ''
 				if(i!==facing) dom.navnames[i].textContent = navname

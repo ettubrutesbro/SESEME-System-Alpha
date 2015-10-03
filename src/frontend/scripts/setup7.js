@@ -43,30 +43,33 @@ function setup(){
 				socket.once('connect', function(){
 					console.log('successfully connected')
 					socket.emit('ui request story')
-					socket.on('ui acquire story', function(d){
-						console.log('ui acquired story')
-						console.log(d)
-							story = d.story; part = d.part; percentages = d.percentages
-							data = story.parts[part]
-						ready.itemEnd('firstdata')
-					})
-					//can also get the below through socket.emit('sim button',buttonNum)
-					socket.on('ui update part', function(d){
-						// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
-						console.log('ui updating part')
-						console.log(d)
-						part = d.part; percentages = d.percentages
-						refill()
-					})
-					socket.on('ui different story', function(d){
-						// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
-						console.log('ui updating story')
-						console.log(d)
-						story = d.story; part = 0; percentages = d.percentages
-						refill()
-					})
-					socket.on('status report', function(d){console.log(d)})
+					// socket.on('debug status report', function(d){console.log(d)})
 			 	})
+				socket.on('ui acquire story', function(d){
+					console.log('ui acquired story')
+					console.log(d)
+						story = d.story; part = d.part; percentages = d.percentages
+						data = story.parts[part]
+					ready.itemEnd('firstdata')
+				})
+				//can also get the below through socket.emit('sim button',buttonNum)
+				socket.on('ui update part', function(d){
+					if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
+					console.log('ui updating part')
+					console.log(d)
+					part = d.part; percentages = d.percentages
+					refill()
+				})
+				socket.on('ui different story', function(d){
+					if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
+					console.log('ui updating story')
+					console.log(d)
+					story = d.story; part = 0; percentages = d.percentages
+					refill()
+				})
+				socket.on('ui check desync', function(){
+					socket.emit('ui report status', {story: story.id, part: part})
+				})
 
 				socket.on('disconnect',function(){ console.log('dced')})
 			}
