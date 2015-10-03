@@ -308,17 +308,9 @@ var self = module.exports = {
               } // motorDirection is down
             });
 
-
             console.log('**--------BOARD IS READY!!!')
-
             console.log(JSON.stringify(stepper["m1"].isRunning));
-            //socket.emit('beagle initialized board', stepper);
-            //socket.emit('seseme finished setup', "*seseme finished setup");
-
-
-
             callback(stepper);
-
           });
 
       },

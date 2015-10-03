@@ -6,7 +6,7 @@
 var path = require('path');
 var hue = require('./hue.js');
 var moment = require('moment');
-//var stepper;
+var stepper;
 
 
 function getIP(){
@@ -43,7 +43,8 @@ var seseme = require(path.join(__dirname, 'seseme.js'));
 
 seseme.setup(function(obj){
   stepper = obj;
-  socket.emit('seseme finished setup', stepper); // pass stepper obj to live in xps
+  var stepperPositionAr = [stepper.m1.position, stepper.m2.position, stepper.m3.position, stepper.m4.position];
+  socket.emit('seseme finished setup', stepperPositionAr); // pass stepper obj to live in xps
 });
 
 
@@ -75,7 +76,7 @@ socket.on('buttonPressed', function(targetPercentagesArray, plrmax, stepper) {
 });
 
 
-socket.on('moveMotor', function(targetStats, stepper){
+socket.on('moveMotor', function(targetStats){
   console.log(JSON.stringify(targetStats));
   var beagleStats = seseme.getStats(stepper);
   console.log(JSON.stringify(beagleStats));
@@ -87,7 +88,7 @@ socket.on('moveMotor', function(targetStats, stepper){
   }
 })
 
-socket.on('webMoveMotor', function(data, stepper){
+socket.on('webMoveMotor', function(data){
   console.log('motor:' + data.motor + '  steps:' + data.steps + '  direction:' + data.dir)
   seseme.moveMotorCallback(stepper, data.motor, data.steps, data.dir, moveCallback);
 })
@@ -102,18 +103,18 @@ socket.on('updateRPM', function(data){
   seseme.rpm = data;
 })
 
-socket.on('resetPosition', function(motorName, stepper){
+socket.on('resetPosition', function(motorName){
   console.log('reset position for: ' + motorName);
   seseme.reset(stepper, motorName);
 })
 
-socket.on('getBeagleStats', function(stepper){
+socket.on('getBeagleStats', function(){
   console.log('-------------')
   console.log('BEAGLE STATS');
   socket.emit('returnBeagleStats', seseme.getStats(stepper));
 })
 
-function loopPillars(stepper){
+function loopPillars(){
   console.log('loopPillars ')
   seseme.moveMotor(stepper, 'm1', seseme.maxPosition, 0)
   seseme.moveMotor(stepper, 'm2', seseme.maxPosition, 0)
@@ -121,7 +122,7 @@ function loopPillars(stepper){
   seseme.moveMotor(stepper, 'm4', seseme.maxPosition, 0)
 }
 
-socket.on('loopPillars', function(stepper){
+socket.on('loopPillars', function(){
   console.log('LOOPING seseme');
   seseme.moveMotorOldCallback(stepper, 'm1',seseme.maxPosition, 1, loopPillars);
   seseme.moveMotorOldCallback(stepper, 'm2',seseme.maxPosition, 1, loopPillars);
@@ -129,7 +130,7 @@ socket.on('loopPillars', function(stepper){
   seseme.moveMotorOldCallback(stepper, 'm4',seseme.maxPosition, 1, loopPillars);
 })
 
-socket.on('moveMotorJack', function(data, stepper){
+socket.on('moveMotorJack', function(data){
   console.log('************************************************')
   var motorName = data.name
   var newPosition = parseInt(data.position)
@@ -141,7 +142,7 @@ socket.on('moveMotorJack', function(data, stepper){
 //
 //Move pillars all at the same time
 //
-socket.on('moveInUnison', function(data, stepper){
+socket.on('moveInUnison', function(data){
 
   seseme.moveToPosition(stepper, 'm1', data.m1)
   seseme.moveToPosition(stepper, 'm2', data.m2)
@@ -153,7 +154,7 @@ socket.on('moveInUnison', function(data, stepper){
 //
 //Move pillars one after another in a certain order
 //
-socket.on('moveInSimpleSequence', function(data, stepper){
+socket.on('moveInSimpleSequence', function(data){
 
   console.log('STARTING MOVE ' + data.order[0]);
   seseme.moveToPositionCallback(stepper, data.order[0], data[data.order[0]], data, function(data){
@@ -168,7 +169,7 @@ socket.on('moveInSimpleSequence', function(data, stepper){
   })
 })
 
-socket.on('isRunning', function(stepper){
+socket.on('isRunning', function(){
   console.log("check if running")
   var flag = seseme.isRunning(stepper);
   socket.emit('checkSesemeRunning', flag);
