@@ -264,6 +264,11 @@ io.on('connection', function (socket) {
   webby = socket;
   console.log(socket.request.connection.remoteAddress + ' connected to web socket.io');
 
+	socket.on('error', function (err) {
+		console.log("Socket error! "+err);
+		error(err);
+	});
+
   // Check for a desync between the frontend and the server in case the server
   //	is starting back up from a crash
   socket.emit('ui check desync');
