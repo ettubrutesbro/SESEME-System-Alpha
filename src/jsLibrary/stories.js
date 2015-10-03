@@ -105,7 +105,8 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  
   anomalous: {
     id: 2, seedling: 'anomalous',
     description: '',
