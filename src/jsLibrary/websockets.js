@@ -323,6 +323,7 @@ io.on('connection', function (socket) {
 	  // If the story is different or if the story is up-to-date but the parts are different, update
 	  if(data.story !== lastActiveSeedling || data.part !== seedlings[lastActiveSeedling].currentPart) {
 	    console.log('There is a desync between the front-end and the server! Updating server story values now');
+    console.log("after conditional")
 		seedlings[lastActiveSeedling].currentPart = data.part;
 		lastActiveSeedling = data.story;
 	  }
