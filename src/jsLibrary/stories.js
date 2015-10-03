@@ -91,7 +91,7 @@ module.exports = {
         pStatboxes: [{c: ['100%','these fools', 'have it all'], size:[32,14,14]},
         {c: ['87%','such complain'],size:[32,14]},
         {c:['77%','some bullshit'], size:[32,14]},
-        {c:'68%','wtf is america', size:[32,12]}],
+        {c:['68%','wtf is america'], size:[32,12]}],
         pLinks: [[
             {type: 'site', c: '' }
           ],
