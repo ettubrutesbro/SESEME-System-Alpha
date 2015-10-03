@@ -1,6 +1,6 @@
 var five = require('johnny-five');
 //var board = new five.Board();
-var stepper = {};
+//var stepper = {};
 /*
 var MAXHEIGHT = 5000; // macro for max height of pillar
 var OPEN = 1; // macro for relay
@@ -164,7 +164,7 @@ var self = module.exports = {
       setup: function(socket, callback){
 
           var board = new five.Board();
-          //var stepper = {};
+          var stepper = {};
 
           var MAXHEIGHT = 5000; // macro for max height of pillar
           var OPEN = 1; // macro for relay
@@ -319,7 +319,7 @@ var self = module.exports = {
 
       },
 
-      isRunning: function(){
+      isRunning: function(stepper){
           if(!stepper.m1.isRunning && !stepper.m2.isRunning && !stepper.m3.isRunning && !stepper.m4.isRunning){
               return false;
           }
@@ -327,7 +327,7 @@ var self = module.exports = {
               return true;
       },
 
-      getStats: function(){
+      getStats: function(stepper){
         console.log("getStats function");
         return {m1: stepper.m1.position,
           m2: stepper.m2.position,
@@ -335,53 +335,53 @@ var self = module.exports = {
           m4: stepper.m4.position}
       },
 
-      reset: function(motorName){
+      reset: function(stepper, motorName){
         stepper[motorName].position=0;
       },
 
-      testCycle: function(state){
+      testCycle: function(stepper, state){
         var that = this;
         var adjust = 1;
         if(!state) adjust = -1;
-        this.moveMotorCallback('m1', (1000*adjust), 1, function(){
+        this.moveMotorCallback(stepper, 'm1', (1000*adjust), 1, function(){
           console.log('at the top!');
           if(!state) that.testCycle(0);
         })
       },
 
-      positionToPercent: function(motorName){
+      positionToPercent: function(stepper, motorName){
         return stepper[motorName].position/this.maxPosition;
       },
 
-      percentToPosition: function(percent){
+      percentToPosition: function(stepper, percent){
         return (percent*this.maxPosition)
       },
 
-      moveToPercent: function(motorName, newPercent){
+      moveToPercent: function(stepper, motorName, newPercent){
         var newPosition = percentToPosition(newPercent);
         console.log('percent = ' + newPercent)
         console.log('position = ' + newPosition)
-        this.moveToPosition(newPosition);
+        this.moveToPosition(stepper, newPosition);
         },
 
-      moveToPosition: function(motorName, newPosition){
+      moveToPosition: function(stepper, motorName, newPosition){
         newPosition = (newPosition/100)*this.maxPosition;
 
         // move up
         if(newPosition > stepper[motorName].position){
           newPosition = (Math.abs(newPosition - stepper[motorName].position));
           console.log('$$$motor:' +motorName + '  $$$$steps:' + newPosition + '   $$$DIR:1')
-          this.moveMotor(motorName, newPosition, 1)
+          this.moveMotor(stepper, motorName, newPosition, 1)
         }
         // else move down
         else{
           newPosition = (Math.abs(newPosition - stepper[motorName].position));
           console.log('$$$motor:' +motorName + '  $$$$steps:' + newPosition +  '   $$$DIR:0')
-          this.moveMotor(motorName, Math.abs(newPosition), 0)
+          this.moveMotor(stepper, motorName, Math.abs(newPosition), 0)
         }
       },
 
-      moveToPositionCallback: function(motorName, newPosition, callback){
+      moveToPositionCallback: function(stepper, motorName, newPosition, callback){
         newPosition = (newPosition/100)*this.maxPosition;
 
         // move up
@@ -389,14 +389,14 @@ var self = module.exports = {
           // console.log(' -- UP');
           newPosition = (Math.abs(newPosition - stepper[motorName].position));
           console.log('$$$motor:' +motorName + '  $$$$steps:' + newPosition + '   $$$DIR:1')
-          this.moveMotor(motorName, newPosition, 1)
+          this.moveMotor(stepper, motorName, newPosition, 1)
         }
         // else move down
         else{
           console.log(' -- DOWN');
           newPosition = (Math.abs(newPosition - stepper[motorName].position));
           console.log('$$$motor:' +motorName + '  $$$$steps:' + newPosition +  '   $$$DIR:0')
-          this.moveMotor(motorName, Math.abs(newPosition), 0)
+          this.moveMotor(stepper, motorName, Math.abs(newPosition), 0)
         }
           callback();
         },
@@ -404,7 +404,7 @@ var self = module.exports = {
       //  --------------------------------
       //  Move the pillar move very slowly
       //
-      moveMotorCreep: function(motorName, steps, dir){
+      moveMotorCreep: function(stepper, motorName, steps, dir){
 
         var that = this;
 
@@ -414,17 +414,17 @@ var self = module.exports = {
         if(this.creepCounter < steps/this.creepRate){
           this.creepCounter += 1;
           console.log('yoyo')
-          this.moveMotorCallback(motorName, this.creepRate, dir, function(){
+          this.moveMotorCallback(stepper, motorName, this.creepRate, dir, function(){
             console.log('yoyo **********************')
-            that.moveMotorCreep(motorName, steps, dir)
+            that.moveMotorCreep(stepper, motorName, steps, dir)
           });
         }
         else{
-          this.moveMotor(motorName, (steps-(this.creepCounter*this.creepRate)))
+          this.moveMotor(stepper, motorName, (steps-(this.creepCounter*this.creepRate)))
         }
       },
 
-      moveMotor: function(motorName, steps, dir){
+      moveMotor: function(stepper, motorName, steps, dir){
         console.log('motorName -- ' + motorName )
         console.log(JSON.stringify(stepper[motorName]));
         if(!stepper[motorName].isRunning){
@@ -480,7 +480,7 @@ var self = module.exports = {
         else console.log('already running')
       },
 
-      moveMotorCallback: function(motorName, steps, dir, data, callback){
+      moveMotorCallback: function(stepper, motorName, steps, dir, data, callback){
 
         if(!stepper[motorName].isRunning){
           var that = this;
