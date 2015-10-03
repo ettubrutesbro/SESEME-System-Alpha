@@ -309,7 +309,7 @@ io.on('connection', function (socket) {
 
   socket.on('emit to all', function(data) {
 	 io.sockets.emit('receive something', data);
-  }
+  });
 
   socket.on('ui request story', function() {
         console.log("Frontend requested story: sending current story data now")
