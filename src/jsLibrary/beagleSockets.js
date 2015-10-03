@@ -40,8 +40,8 @@ getIP();
 
 socket.emit('checkin', ' * DATA')
 
-var initBoard = require(path.join(__dirname, 'seseme.js'));
-initBoard.setup(socket);
+var seseme = require(path.join(__dirname, 'seseme.js'));
+seseme.setup(socket);
 
 socket.on('connect', function() {
   console.log('beagle 1 On', socket.connected);
