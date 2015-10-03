@@ -98,8 +98,20 @@ for(var i = 0; i < 3; i++){
 var seconds = 120; // Global seconds variable
 var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
 var idleCountdown;
+
+// Globals related to representing the idle state
+var startDesperation;
 var breathing;
 var desperate;
+var idleDone;
+
+// Function to ensure that the idle state
+function stopIdleState() {
+	if(breathing)			clearInterval(breathing);
+	if(desperate)			clearInterval(desperate);
+	if(startDesperation)	clearTimeout(startDesperation);
+	if(idleDone)			clearTimeout(idleDone);
+}	
 
 // Function to start the lifx idle behavior
 function idleBehavior(lifx) {
@@ -111,7 +123,7 @@ function idleBehavior(lifx) {
 	}, 2000);
 
 	// Set a timeout to start desperation after a minute of breathing
-	setTimeout(function() {
+	startDesperation = setTimeout(function() {
 		if(breathing) clearInterval(breathing);
 		// Start desperation immediately after breathing ends
 		console.log("Lifx: Started desperation");
@@ -133,9 +145,8 @@ function countdown() {
 		idleBehavior(lifx);
 
 		// Set a 4 minute timeout to turn off the bulb after the idle behavior
-		setTimeout(function() {
-			if(breathing) clearInterval(breathing);
-			if(desperate) clearInterval(desperate);
+		idleDone = setTimeout(function() {
+			stopIdleState();
 			lifx.fadeOff(5).then(console.log("Lifx: Fading Off"));
 		}, 240000);
 
@@ -450,8 +461,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     }
     if(!error){
   	  // If system is in idle mode, clear the lifx breathe/desperation intervals
-  	  if(breathing) clearInterval(breathing);
-  	  if(desperate) clearInterval(desperate);
+	  stopIdleState();
       console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
       seedling.buttonPressed = true;
       for(var i = 0; i < seedlings.length; i++){
