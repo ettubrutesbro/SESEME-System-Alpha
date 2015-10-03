@@ -317,6 +317,7 @@ io.on('connection', function (socket) {
   }, 5000);
 
   // The front-end reported the status of the current part of the active story
+  /*
   socket.once('ui report status', function(data) {
 	  console.log('--> got ui report status');
 
@@ -328,6 +329,7 @@ io.on('connection', function (socket) {
 		lastActiveSeedling = data.story;
 	  }
   });
+  */
 
   socket.on('emit to all', function(data) {
 	io.sockets.emit('receive something', data);
