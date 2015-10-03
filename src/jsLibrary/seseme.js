@@ -311,7 +311,7 @@ var self = module.exports = {
             console.log('**--------BOARD IS READY!!!')
 
             socket.emit('beagle initialized board');
-            console.log(JSON.stringify(stepper));
+            console.log(JSON.stringify(stepper.m1));
             callback(stepper);
 
           });

@@ -66,7 +66,7 @@ socket.on('buttonPressed', function(targetPercentagesArray, plrmax) {
     var steps = Math.round( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] );
     var dir = steps > 0 ? 1 : 0; // dir=1 move up; dir=0 move down
     console.log("steps: " + steps);
-    seseme.moveMotor("m"+i, Math.abs(steps), dir);
+    seseme.moveMotor("m"+(i+1), Math.abs(steps), dir);
   }
 });
 
