@@ -76,15 +76,10 @@ var seedlings = new Array(3); // 3 seedling objects
 var totalStoryParts = new Array(3);
 var seedlingIO = new Array(3);
 var story = new Array(3);
-/*
+
 story[0] = stories["environment"];
 story[1] = stories["society"];
 story[2] = stories["anomalous"];
-*/
-
-story[0] = stories["testStory"];
-story[1] = stories["testStory"];
-story[2] = stories["testStory"];
 
 for(var i = 0; i < 3; i++){
   seedlingIO[i] = new socket.listen(6000+i);
