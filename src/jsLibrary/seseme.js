@@ -426,7 +426,7 @@ var self = module.exports = {
 
       moveMotor: function(stepper, motorName, steps, dir){
         console.log('motorName -- ' + motorName )
-        console.log(JSON.stringify(stepper[motorName]));
+        console.log(JSON.stringify(stepper[motorName].isRunning));
         if(!stepper[motorName].isRunning){
           console.log("in if because motor is not running");
           var that = this;
