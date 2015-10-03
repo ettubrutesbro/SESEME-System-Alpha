@@ -60,7 +60,7 @@ socket.on('buttonPressed', function(targetPercentagesArray, plrmax) {
 
   /* move seseme motors*/
   console.log(targetPercentagesArray);
-  var beagleStats = seseme.getStats();
+  var beagleStats = seseme.getStats(stepper);
   console.log(JSON.stringify(beagleStats));
   for(var i = 0; i < 4; i++){
     var steps = Math.round( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] );
