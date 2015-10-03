@@ -102,6 +102,14 @@ var breathing;
 var desperate;
 var startDesperation;
 
+// First set the LIFX bulb to the default color
+lifx.updateLight({
+	'brightness': 0.8,
+	'color'		: story[0].parts[0].color.monument.hex,
+	'power'		: 'on',
+	'duration'	: 1.5
+});
+
 // Function to start the lifx idle behavior
 function idleBehavior(lifx) {
 
