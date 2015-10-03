@@ -66,6 +66,9 @@ var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
 var socket = require('socket.io');
 
+// Upon server startup, ensure the seedling hue is off
+lifx.turnOff(1);
+
 ////////////////////////////////////////////////
 //  SEEDLING Vars
 ////////////////////////////////////////////////
@@ -273,7 +276,6 @@ io.on('connection', function (socket) {
   // Check if the seedlings are connected first to emit to them
   if(seedlings[seedlingToPlay].socket) {
       console.log("Playing random sound from seedling "+seedlingToPlay);
-    //   seedlings[seedlingToPlay].socket.emit('seedling play random-sound', 'dumb', previousSounds);
       randomSoundWeight(soundObj, 'dumb', seedlings[seedlingToPlay].socket);
 
       lastSeedlingPlayed = seedlingToPlay;
