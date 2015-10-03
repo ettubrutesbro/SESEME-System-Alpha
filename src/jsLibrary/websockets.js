@@ -302,9 +302,9 @@ io.on('connection', function (socket) {
   }, 5000);
 
   socket.on('ui report status', function(data) {
+	  console.log('--> got ui report status');
 		// if(data.story === lastActiveSeedling) 
 		// @@@@@@@@@@@@ FINISH THIS PART ))::
-		
   });
 
   socket.on('emit to all', function(data) {
