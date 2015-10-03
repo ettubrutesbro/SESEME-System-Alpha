@@ -4,8 +4,9 @@
 //var seseme = require('./seseme.js');
 
 var path = require('path');
-var hue = require('./hue.js')
-var moment = require('moment')
+var hue = require('./hue.js');
+var moment = require('moment');
+var stepper;
 
 
 function getIP(){
@@ -40,8 +41,10 @@ getIP();
 
 socket.emit('checkin', ' * DATA')
 
-var seseme = require(path.join(__dirname, 'seseme.js'));
-seseme.setup(socket);
+var seseme = require(path.join(__dirname, 'seseme.js')
+seseme.setup(socket, function(obj){
+  stepper = obj;
+});
 
 socket.on('connect', function() {
   console.log('beagle 1 On', socket.connected);

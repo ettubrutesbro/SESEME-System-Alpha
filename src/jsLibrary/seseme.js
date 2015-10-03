@@ -1,5 +1,5 @@
 var five = require('johnny-five');
-var board = new five.Board();
+//var board = new five.Board();
 var stepper = {};
 /*
 var MAXHEIGHT = 5000; // macro for max height of pillar
@@ -161,7 +161,10 @@ var self = module.exports = {
       creepCounter: 0,
       creepRate: 200,
 
-      setup: function(socket){
+      setup: function(socket, callback){
+
+          var board = new five.Board();
+          //var stepper = {};
 
           var MAXHEIGHT = 5000; // macro for max height of pillar
           var OPEN = 1; // macro for relay
@@ -308,6 +311,8 @@ var self = module.exports = {
             console.log('**--------BOARD IS READY!!!')
 
             socket.emit('beagle initialized board');
+            console.log(JSON.stringify(stepper));
+            callback(stepper);
 
           });
 
