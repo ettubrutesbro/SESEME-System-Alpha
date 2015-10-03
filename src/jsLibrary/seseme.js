@@ -421,8 +421,9 @@ var self = module.exports = {
       moveMotor: function(motorName, steps, dir){
         console.log('motorName -- ' + motorName )
         if(!stepper[motorName].isRunning){
-          var that = this;
           console.log("in if because motor is not running");
+          var that = this;
+          console.log("set that = this");
           stepper[motorName].enableMotor.on(); // enable motor to move
           console.log("after enableMotor on");
           if(dir == 0){
