@@ -54,24 +54,26 @@ function setup(){
 				})
 				//can also get the below through socket.emit('sim button',buttonNum)
 				socket.on('ui update part', function(d){
-					if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
+					// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
 					console.log('ui updating part')
 					console.log(d)
 					part = d.part; percentages = d.percentages
 					refill()
 				})
 				socket.on('ui different story', function(d){
-					if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
 					console.log('ui updating story')
 					console.log(d)
 					story = d.story; part = 0; percentages = d.percentages
 					refill()
 				})
 				socket.on('ui check desync', function(){
+					console.log('XPS is checking desyncS')
 					socket.emit('ui report status', {story: story.id, part: part})
 				})
-
-				socket.on('disconnect',function(){ console.log('dced')})
+				socket.on('disconnect',function(){ console.log('disconnected')})
+				socket.on('reconnect', function(){ console.log('reconnected') })
+				socket.on('receive something', function(d){ console.log(d) })
+				socket.on('status report', function(d){ console.log(d) })
 			}
 			//development w/o server: mock
 			else if(!online){
