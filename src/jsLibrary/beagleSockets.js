@@ -4,8 +4,9 @@
 //var seseme = require('./seseme.js');
 
 var path = require('path');
-var hue = require('./hue.js')
-var moment = require('moment')
+var hue = require('./hue.js');
+var moment = require('moment');
+var stepper;
 
 
 function getIP(){
@@ -36,12 +37,14 @@ console.log('----CONNECTING ON PORT 4000----   IP:169.237.123.19:4000')
 var IP = 'http://169.237.123.19:4000';
 var socket = require('socket.io-client')(IP);
 
-var initBoard = require(path.join(__dirname, 'seseme.js'));
-initBoard.setup(socket);
-
 getIP();
 
 socket.emit('checkin', ' * DATA')
+
+var seseme = require(path.join(__dirname, 'seseme.js'));
+seseme.setup(socket, function(obj){
+  stepper = obj;
+});
 
 socket.on('connect', function() {
   console.log('beagle 1 On', socket.connected);
@@ -57,32 +60,32 @@ socket.on('buttonPressed', function(targetPercentagesArray, plrmax) {
 
   /* move seseme motors*/
   console.log(targetPercentagesArray);
-  var beagleStats = seseme.getStats();
+  var beagleStats = seseme.getStats(stepper);
   console.log(JSON.stringify(beagleStats));
   for(var i = 0; i < 4; i++){
     var steps = Math.round( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] );
     var dir = steps > 0 ? 1 : 0; // dir=1 move up; dir=0 move down
     console.log("steps: " + steps);
-    seseme.moveMotor("m"+i, Math.abs(steps), dir);
+    seseme.moveMotor(stepper, "m"+(i+1), Math.abs(steps), dir);
   }
 });
 
 
 socket.on('moveMotor', function(targetStats){
   console.log(JSON.stringify(targetStats));
-  var beagleStats = seseme.getStats();
+  var beagleStats = seseme.getStats(stepper);
   console.log(JSON.stringify(beagleStats));
   for(var i = 1; i <= 4; i++){
     var steps = targetStats["m"+i] - beagleStats["m"+i]
     var dir = steps > 0 ? 1 : 0; // dir=1 move up; dir=0 move down
     console.log("steps: " + steps);
-    //seseme.moveMotor("m"+i, Math.abs(steps), dir);
+    //seseme.moveMotor(stepper, "m"+i, Math.abs(steps), dir);
   }
 })
 
 socket.on('webMoveMotor', function(data){
   console.log('motor:' + data.motor + '  steps:' + data.steps + '  direction:' + data.dir)
-  seseme.moveMotor(data.motor, data.steps, data.dir)
+  seseme.moveMotor(stepper, data.motor, data.steps, data.dir)
 })
 
 socket.on('updateFrequency', function(data){
@@ -97,29 +100,29 @@ socket.on('updateRPM', function(data){
 
 socket.on('resetPosition', function(motorName){
   console.log('reset position for: ' + motorName);
-  seseme.reset(motorName);
+  seseme.reset(stepper, motorName);
 })
 
 socket.on('getBeagleStats', function(){
   console.log('-------------')
   console.log('BEAGLE STATS');
-  socket.emit('returnBeagleStats', seseme.getStats());
+  socket.emit('returnBeagleStats', seseme.getStats(stepper));
 })
 
 function loopPillars(){
   console.log('loopPillars ')
-  seseme.moveMotor('m1', seseme.maxPosition, 0)
-  seseme.moveMotor('m2', seseme.maxPosition, 0)
-  seseme.moveMotor('m3', seseme.maxPosition, 0)
-  seseme.moveMotor('m4', seseme.maxPosition, 0)
+  seseme.moveMotor(stepper, 'm1', seseme.maxPosition, 0)
+  seseme.moveMotor(stepper, 'm2', seseme.maxPosition, 0)
+  seseme.moveMotor(stepper, 'm3', seseme.maxPosition, 0)
+  seseme.moveMotor(stepper, 'm4', seseme.maxPosition, 0)
 }
 
 socket.on('loopPillars', function(){
   console.log('LOOPING seseme');
-  seseme.moveMotorCallback('m1',seseme.maxPosition, 1, loopPillars);
-  seseme.moveMotorCallback('m2',seseme.maxPosition, 1, loopPillars);
-  seseme.moveMotorCallback('m3',seseme.maxPosition, 1, loopPillars);
-  seseme.moveMotorCallback('m4',seseme.maxPosition, 1, loopPillars);
+  seseme.moveMotorCallback(stepper, 'm1',seseme.maxPosition, 1, loopPillars);
+  seseme.moveMotorCallback(stepper, 'm2',seseme.maxPosition, 1, loopPillars);
+  seseme.moveMotorCallback(stepper, 'm3',seseme.maxPosition, 1, loopPillars);
+  seseme.moveMotorCallback(stepper, 'm4',seseme.maxPosition, 1, loopPillars);
 })
 
 socket.on('setHue', function(targetColor){
@@ -156,8 +159,8 @@ socket.on('moveMotorJack', function(data){
   var motorName = data.name
   var newPosition = parseInt(data.position)
   console.log(motorName + '  position:' + newPosition)
-  seseme.moveToPosition(motorName, newPosition)
-  //seseme.moveToPercent(motorName, newPosition)
+  seseme.moveToPosition(stepper, motorName, newPosition)
+  //seseme.moveToPercent(stepper, motorName, newPosition)
 })
 
 //
@@ -165,10 +168,10 @@ socket.on('moveMotorJack', function(data){
 //
 socket.on('moveInUnison', function(data){
 
-  seseme.moveToPosition('m1', data.m1)
-  seseme.moveToPosition('m2', data.m2)
-  seseme.moveToPosition('m3', data.m3)
-  seseme.moveToPosition('m4', data.m4)
+  seseme.moveToPosition(stepper, 'm1', data.m1)
+  seseme.moveToPosition(stepper, 'm2', data.m2)
+  seseme.moveToPosition(stepper, 'm3', data.m3)
+  seseme.moveToPosition(stepper, 'm4', data.m4)
 
 })
 
@@ -178,13 +181,13 @@ socket.on('moveInUnison', function(data){
 socket.on('moveInSimpleSequence', function(data){
 
   console.log('STARTING MOVE ' + data.order[0]);
-  seseme.moveToPositionCallback(data.order[0], data[data.order[0]], data, function(data){
+  seseme.moveToPositionCallback(stepper, data.order[0], data[data.order[0]], data, function(data){
     console.log('STARTING MOVE ' + data.order[1]);
-    seseme.moveToPositionCallback(data.order[1], data[data.order[1]], data, function(data){
+    seseme.moveToPositionCallback(stepper, data.order[1], data[data.order[1]], data, function(data){
       console.log('STARTING MOVE ' + data.order[2]);
-      seseme.moveToPositionCallback(data.order[2], data[data.order[2]], data, function(data){
+      seseme.moveToPositionCallback(stepper, data.order[2], data[data.order[2]], data, function(data){
         console.log('STARTING MOVE ' + data.order[3]);
-        seseme.moveToPosition(data.order[3], data[data.order[3]])
+        seseme.moveToPosition(stepper, data.order[3], data[data.order[3]])
       })
     })
   })
@@ -192,6 +195,6 @@ socket.on('moveInSimpleSequence', function(data){
 
 socket.on('isRunning', function(){
   console.log("check if running")
-  var flag = seseme.isRunning();
+  var flag = seseme.isRunning(stepper);
   socket.emit('checkSesemeRunning', flag);
 })
