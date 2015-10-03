@@ -697,6 +697,7 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('seseme finished setup', function(obj){
     console.log("seseme finished setup socket");
     stepperPositionAr = obj; // save stepperPositionAr after setup
+    console.log(stepperPositionAr);
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     beagle.emit("buttonPressed", targetPercentagesArray, plrmax);

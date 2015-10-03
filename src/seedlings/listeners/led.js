@@ -67,6 +67,7 @@ function listeners(socket, obj, soundObj) {
     socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData){
       console.log("buttonPressed", seedlingNum);
       if(circleData.duration === 0){
+        console.log("duration is 0 so no action");
         socket.emit('seedling actionCircle done', seedlingNum);
         return;
       } // shouldn't do anything, just emit back to xps
