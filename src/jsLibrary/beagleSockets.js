@@ -27,7 +27,7 @@ function getIP(){
 }
 
 function moveCallback(stepper){
-  socket.emit('seseme finished moving'), stepper);
+  socket.emit('seseme finished moving', stepper);
 })
 
 console.log('----CONNECTING ON PORT 4000----   IP:169.237.123.19:4000')
