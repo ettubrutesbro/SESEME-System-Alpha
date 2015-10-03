@@ -537,7 +537,9 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     targetColor = getRingColor(seedling, seedling.currentPart);
     diodePct = 0;
   }
+  console.log("MAXDISTANCE =", maxDistance);
   var duration = maxDistance === 0 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
+  console.log("DURATION =", duration);
   var circleData = new circleObj(targetColor, duration, diodePct);
 
   if(seedling.currentPart + 1 == seedling.totalStoryParts){
