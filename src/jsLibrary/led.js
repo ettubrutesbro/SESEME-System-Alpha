@@ -536,7 +536,7 @@ var self = module.exports = {
     lightsOff: function(obj){
         if(obj.seedlingNum === 0){
             console.log("turn lights off for seedling1");
-            seedlingHue.turnOn(1, 'white');
+            seedlingHue.turnOff(1, 'white');
             this.lightOff(1, obj.urlLight, "FFFFFF")
         }
         else if(obj.seedlingNum === 1){
