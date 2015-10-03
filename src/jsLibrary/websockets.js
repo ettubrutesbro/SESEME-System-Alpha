@@ -269,8 +269,7 @@ io.on('connection', function (socket) {
 		error(err);
 	});
 
-  // Check for a desync between the frontend and the server in case the server
-  //	is starting back up from a crash
+  // Check for a desync between the frontend and the server in case the server is starting back up from a crash
   socket.emit('ui check desync');
 
   // ===========================================================================================
@@ -301,10 +300,16 @@ io.on('connection', function (socket) {
       socket.emit('interval', 'connection test');
   }, 5000);
 
+  // The front-end reported the status of the current part of the active story
   socket.on('ui report status', function(data) {
 	  console.log('--> got ui report status');
-		// if(data.story === lastActiveSeedling)
-		// @@@@@@@@@@@@ FINISH THIS PART ))::
+
+	  // If the story is different or if the story is up-to-date but the parts are different, update
+	  if(data.story !== lastActiveSeedling || data.part !== seedlings[lastActiveSeedling].currentPart) {
+	    console.log('There is a desync between the front-end and the server! Updating server story values now');
+		seedlings[lastActiveSeedling].currentPart = data.part;
+		lastActiveSeedling = data.story;
+	  }
   });
 
   socket.on('emit to all', function(data) {
