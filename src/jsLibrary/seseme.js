@@ -322,6 +322,7 @@ var self = module.exports = {
       },
 
       getStats: function(){
+        console.log("getStats function");
         return {m1: stepper.m1.position,
           m2: stepper.m2.position,
           m3: stepper.m3.position,
