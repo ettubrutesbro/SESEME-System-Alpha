@@ -587,9 +587,8 @@
 			for(var i = 0; i<4; i++){
 				var section = info.help.children[i]
 				anim3d(section.btn, 'position', section.btn.expand)
-				section.btn.visible = section.btn.icon.visible = true
+				section.btn.visible = true
 				anim3d(section.btn, 'opacity', {opacity: 1, delay: i*20})
-				anim3d(section.btn.icon, 'opacity', {opacity: 1, delay: i*20})
 				anim3d(section.btn, 'scale', {x:1,y:1})
 			}
 		}
@@ -616,7 +615,6 @@
 				var section = info.help.children[i]
 				anim3d(section.btn, 'position', {x: 0, z:0})
 				section.btn.fadeOut() // anim3d(section.btn, 'opacity', {opacity: 0})
-				section.btn.icon.fadeOut() // anim3d(section.btn.icon, 'opacity', {opacity: 0})
 				anim3d(section.btn, 'scale', {x: 0.75, y: 0.75})
 			}
 		}
