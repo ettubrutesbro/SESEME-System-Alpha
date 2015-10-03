@@ -209,5 +209,6 @@ exports.breathe = breathe;
 exports.fadeOff = fadeOff;
 exports.turnOn = turnOn;
 exports.turnOff = turnOff;
+exports.updateLight = updateLight;
 exports.desperation = desperation;
 exports.validButtonPress = validButtonPress;
