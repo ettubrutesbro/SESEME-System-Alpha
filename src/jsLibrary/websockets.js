@@ -662,8 +662,15 @@ beagleIO.on('connection', function(beagleSocket){
   beagle = beagleSocket;
   console.log('[BEAGLE: CONNECTED]')
   beagleSocket.on('checkin', function(data){
-      console.log('[BEAGLE: CHECKED IN]')
+    console.log('[BEAGLE: CHECKED IN]')
     console.log(data)
+  })
+
+  beagleSocket.on('beagle initialized board', function(){
+    console.log("beagle initialized board socket");
+    var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
+    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
   })
 
   beagleSocket.on('checkSesemeRunning', function(data){
@@ -681,9 +688,6 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('beagle 1 On', function(){
     beagleOnline = true;
     console.log('[BEAGLE: ONLINE]')
-    var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
-    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-    beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
   });
 
   beagleSocket.on('disconnect', function(){

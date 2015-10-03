@@ -1,7 +1,9 @@
 //------------------------------
 //   SOCKET HANDLER  -- Webpage
 //------------------------------
-var seseme = require('./seseme.js');
+//var seseme = require('./seseme.js');
+
+var path = require('path');
 var hue = require('./hue.js')
 var moment = require('moment')
 
@@ -29,36 +31,13 @@ function getHSL(hue, saturation, brightness){
   this.bri = brightness;
 }
 
-/*
-function RGBtoHSL(targetColor){
-  var hue, saturation, brightness;
-  var rPrime = targetColor.red / 255;
-  var gPrime = targetColor.green / 255;
-  var bPrime = targetColor.blue / 255;
-  var cMax = Math.max(rPrime, gPrime, bPrime);
-  var cMin = Math.min(rPrime, gPrime, bPrime);
-  var delta = cMax - cMin;
-
-  if(delta == 0) hue = 0;
-  else if(cMax == rPrime) hue = 60 * ( ( (gPrime - bPrime) / delta ) % 6 );
-  else if(cMax == gPrime) hue = 60 * ( ( (bPrime - rPrime) / delta ) + 2 );
-  else hue = 60 * ( ( (rPrime - gPrime) / delta ) + 4 ); // cMax = bPrime
-
-  brightness = (cMax + cMin) / 2;
-
-  saturation = delta == 0 ? 0 : delta / ( 1 - Math.abs( 2*brightness - 1 ) )
-
-  var data = new getHSL(hue, saturation*100, brightness*100);
-
-  return data;
-}
-*/
-
-
 console.log('----CONNECTING ON PORT 4000----   IP:169.237.123.19:4000')
 
 var IP = 'http://169.237.123.19:4000';
 var socket = require('socket.io-client')(IP);
+
+var initBoard = require(path.join(__dirname, 'seseme.js'));
+initBoard.setup(socket);
 
 getIP();
 
