@@ -40,14 +40,14 @@ var socket = require('socket.io-client')(IP);
 socket.emit('checkin', ' * DATA')
 
 var seseme = require(path.join(__dirname, 'seseme.js'));
-/*
-seseme.setup(socket, function(stepper){
-  //stepper = obj;
+
+seseme.setup(function(obj){
+  stepper = obj;
   socket.emit('seseme finished setup', stepper); // pass stepper obj to live in xps
 });
-*/
 
-seseme.setup(socket);
+
+//seseme.setup(socket);
 
 socket.on('connect', function() {
   console.log('beagle 1 On', socket.connected);

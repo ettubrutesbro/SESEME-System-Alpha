@@ -162,7 +162,7 @@ var self = module.exports = {
       creepRate: 200,
 
       //setup: function(socket, callback){
-      setup: function(socket){
+      setup: function(callback){
 
           var board = new five.Board();
           var stepper = {};
@@ -313,11 +313,11 @@ var self = module.exports = {
 
             console.log(JSON.stringify(stepper["m1"].isRunning));
             //socket.emit('beagle initialized board', stepper);
-            socket.emit('seseme finished setup', "*seseme finished setup");
+            //socket.emit('seseme finished setup', "*seseme finished setup");
 
 
 
-            //callback(stepper);
+            callback(stepper);
 
           });
 

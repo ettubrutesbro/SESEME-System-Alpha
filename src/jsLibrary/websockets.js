@@ -70,6 +70,22 @@ var socket = require('socket.io');
 lifx.turnOff(1);
 
 ////////////////////////////////////////////////
+//  BEAGLE Vars
+////////////////////////////////////////////////
+var beagleIO = new socket.listen(4000);
+var beagle = null;
+var stepperPositionAr;
+var beagleOnline = false;
+var sesemeRunning = false;
+var updateFlag = false;
+var beagleStatsFlag = false;
+var maxDistanceFlag = false;
+var beagleStats = null;
+var beagleTime = -1;
+var plrmax = 5000; // lazy without sockets
+// this plrmax refers to steps (motors)
+
+////////////////////////////////////////////////
 //  SEEDLING Vars
 ////////////////////////////////////////////////
 var seedlings = new Array(3); // 3 seedling objects
@@ -382,7 +398,7 @@ io.on('connection', function (socket) {
     console.log('motor:' + data.motor + '  steps:' + data.steps + '  direction:' + data.dir)
     if(beagleOnline){
       console.log('beagle ONLINE')
-      beagle.emit('webMoveMotor', data, stepper);
+      beagle.emit('webMoveMotor', data, stepperPositionAr);
     }
   })
 
@@ -397,21 +413,6 @@ io.on('disconnect', function() {
 	console.log("CLIENT DISCONNECTED ##################################")
 ;});
 
-////////////////////////////////////////////////
-//  BEAGLE Vars
-////////////////////////////////////////////////
-var beagleIO = new socket.listen(4000);
-var beagle = null;
-var stepper;
-var beagleOnline = false;
-var sesemeRunning = false;
-var updateFlag = false;
-var beagleStatsFlag = false;
-var maxDistanceFlag = false;
-var beagleStats = null;
-var beagleTime = -1;
-var plrmax = 5000; // lazy without sockets
-// this plrmax refers to steps (motors)
 
 function heightCalcGeneric(data){
   //pass in story[i].parts[part].values, get percentages
@@ -603,7 +604,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
       }
     }
 
-    if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, stepper);
+    if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, stepperPositionAr);
   }
 
 }
@@ -613,8 +614,8 @@ function bigRedButton(seedling){
   var plrmax = 5000;
   console.log("--> in bigRedButton()");
   if(beagleOnline){
-    beagle.emit('getBeagleStats', stepper);
-    beagle.emit('isRunning', stepper); // check if seseme is running
+    beagle.emit('getBeagleStats', stepperPositionAr);
+    beagle.emit('isRunning', stepperPositionAr); // check if seseme is running
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     var maxDistance = 0;
 
@@ -706,15 +707,15 @@ beagleIO.on('connection', function(beagleSocket){
 /*
   beagleSocket.on('seseme finished setup', function(obj){
     console.log("seseme finished setup socket");
-    stepper = obj; // save stepper obj after setup
+    stepperPositionAr = obj; // save stepperPositionAr obj after setup
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-    beagle.emit("buttonPressed", targetPercentagesArray, plrmax, stepper);
+    beagle.emit("buttonPressed", targetPercentagesArray, plrmax, stepperPositionAr);
   })
 */
   beagleSocket.on('seseme finished moving', function(obj){
     console.log("seseme finished moving socket");
-    stepper = obj; // update stepper obj after moving
+    stepperPositionAr = obj; // update stepperPositionAr obj after moving
   })
 
   beagleSocket.on('checkSesemeRunning', function(data){
