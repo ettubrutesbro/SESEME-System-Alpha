@@ -312,7 +312,9 @@ var self = module.exports = {
             console.log('**--------BOARD IS READY!!!')
 
             console.log(JSON.stringify(stepper["m1"].isRunning));
-            socket.emit('beagle initialized board', stepper);
+            //socket.emit('beagle initialized board', stepper);
+            socket.emit('seseme finished setup', stepper);
+
 
 
             //callback(stepper);
