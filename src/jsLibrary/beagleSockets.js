@@ -35,7 +35,7 @@ console.log('----CONNECTING ON PORT 4000----   IP:169.237.123.19:4000')
 var IP = 'http://169.237.123.19:4000';
 var socket = require('socket.io-client')(IP);
 
-getIP();
+//getIP();
 
 socket.emit('checkin', ' * DATA')
 
