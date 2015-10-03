@@ -6,7 +6,7 @@
 var path = require('path');
 var hue = require('./hue.js');
 var moment = require('moment');
-var stepper;
+//var stepper;
 
 
 function getIP(){
@@ -26,11 +26,9 @@ function getIP(){
   }
 }
 
-function getHSL(hue, saturation, brightness){
-  this.hue = hue;
-  this.sat = saturation;
-  this.bri = brightness;
-}
+function moveCallback(stepper){
+  socket.emit('seseme finished moving'), stepper);
+})
 
 console.log('----CONNECTING ON PORT 4000----   IP:169.237.123.19:4000')
 
@@ -42,8 +40,9 @@ getIP();
 socket.emit('checkin', ' * DATA')
 
 var seseme = require(path.join(__dirname, 'seseme.js'));
-seseme.setup(socket, function(obj){
-  stepper = obj;
+seseme.setup(socket, function(stepper){
+  //stepper = obj;
+  socket.emit('seseme finished setup', stepper); // pass stepper obj to live in xps
 });
 
 socket.on('connect', function() {
@@ -55,7 +54,7 @@ socket.on('disconnect', function() {
   console.log('beagle 1 Off', socket.disconnected);
 });
 
-socket.on('buttonPressed', function(targetPercentagesArray, plrmax) {
+socket.on('buttonPressed', function(targetPercentagesArray, plrmax, stepper) {
   console.log('buttonPressed, move seseme');
 
   /* move seseme motors*/
@@ -66,12 +65,13 @@ socket.on('buttonPressed', function(targetPercentagesArray, plrmax) {
     var steps = Math.round( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] );
     var dir = steps > 0 ? 1 : 0; // dir=1 move up; dir=0 move down
     console.log("steps: " + steps);
-    seseme.moveMotor(stepper, "m"+(i+1), Math.abs(steps), dir);
+    //seseme.moveMotor(stepper, "m"+(i+1), Math.abs(steps), dir);
+    seseme.moveMotorCallback(stepper, "m"+(i+1), Math.abs(steps), dir, moveCallback);
   }
 });
 
 
-socket.on('moveMotor', function(targetStats){
+socket.on('moveMotor', function(targetStats, stepper){
   console.log(JSON.stringify(targetStats));
   var beagleStats = seseme.getStats(stepper);
   console.log(JSON.stringify(beagleStats));
@@ -83,9 +83,9 @@ socket.on('moveMotor', function(targetStats){
   }
 })
 
-socket.on('webMoveMotor', function(data){
+socket.on('webMoveMotor', function(data, stepper){
   console.log('motor:' + data.motor + '  steps:' + data.steps + '  direction:' + data.dir)
-  seseme.moveMotor(stepper, data.motor, data.steps, data.dir)
+  seseme.moveMotorCallback(stepper, data.motor, data.steps, data.dir, moveCallback);
 })
 
 socket.on('updateFrequency', function(data){
@@ -98,18 +98,18 @@ socket.on('updateRPM', function(data){
   seseme.rpm = data;
 })
 
-socket.on('resetPosition', function(motorName){
+socket.on('resetPosition', function(motorName, stepper){
   console.log('reset position for: ' + motorName);
   seseme.reset(stepper, motorName);
 })
 
-socket.on('getBeagleStats', function(){
+socket.on('getBeagleStats', function(stepper){
   console.log('-------------')
   console.log('BEAGLE STATS');
   socket.emit('returnBeagleStats', seseme.getStats(stepper));
 })
 
-function loopPillars(){
+function loopPillars(stepper){
   console.log('loopPillars ')
   seseme.moveMotor(stepper, 'm1', seseme.maxPosition, 0)
   seseme.moveMotor(stepper, 'm2', seseme.maxPosition, 0)
@@ -117,44 +117,15 @@ function loopPillars(){
   seseme.moveMotor(stepper, 'm4', seseme.maxPosition, 0)
 }
 
-socket.on('loopPillars', function(){
+socket.on('loopPillars', function(stepper){
   console.log('LOOPING seseme');
-  seseme.moveMotorCallback(stepper, 'm1',seseme.maxPosition, 1, loopPillars);
-  seseme.moveMotorCallback(stepper, 'm2',seseme.maxPosition, 1, loopPillars);
-  seseme.moveMotorCallback(stepper, 'm3',seseme.maxPosition, 1, loopPillars);
-  seseme.moveMotorCallback(stepper, 'm4',seseme.maxPosition, 1, loopPillars);
+  seseme.moveMotorOldCallback(stepper, 'm1',seseme.maxPosition, 1, loopPillars);
+  seseme.moveMotorOldCallback(stepper, 'm2',seseme.maxPosition, 1, loopPillars);
+  seseme.moveMotorOldCallback(stepper, 'm3',seseme.maxPosition, 1, loopPillars);
+  seseme.moveMotorOldCallback(stepper, 'm4',seseme.maxPosition, 1, loopPillars);
 })
 
-socket.on('setHue', function(targetColor){
-  var data = hue.RGBtoHSL(targetColor);
-  console.log("hue values: " + JSON.stringify(data));
-  hue.setHSL(data)
-})
-
-socket.on('setHSL', function(data){
-  console.log(data)
-  hue.setHSL(data)
-})
-
-socket.on('lightsOn', function(){
-  console.log("hue on")
-  hue.turnOn()
-})
-
-socket.on('lightsOff', function(){
-  console.log("hue off")
-  hue.turnOff()
-})
-
-socket.on('partyOn', function(){
-  hue.partyOn()
-})
-
-socket.on('partyOff', function(){
-  hue.partyOff()
-})
-
-socket.on('moveMotorJack', function(data){
+socket.on('moveMotorJack', function(data, stepper){
   console.log('************************************************')
   var motorName = data.name
   var newPosition = parseInt(data.position)
@@ -166,7 +137,7 @@ socket.on('moveMotorJack', function(data){
 //
 //Move pillars all at the same time
 //
-socket.on('moveInUnison', function(data){
+socket.on('moveInUnison', function(data, stepper){
 
   seseme.moveToPosition(stepper, 'm1', data.m1)
   seseme.moveToPosition(stepper, 'm2', data.m2)
@@ -178,7 +149,7 @@ socket.on('moveInUnison', function(data){
 //
 //Move pillars one after another in a certain order
 //
-socket.on('moveInSimpleSequence', function(data){
+socket.on('moveInSimpleSequence', function(data, stepper){
 
   console.log('STARTING MOVE ' + data.order[0]);
   seseme.moveToPositionCallback(stepper, data.order[0], data[data.order[0]], data, function(data){
@@ -193,7 +164,7 @@ socket.on('moveInSimpleSequence', function(data){
   })
 })
 
-socket.on('isRunning', function(){
+socket.on('isRunning', function(stepper){
   console.log("check if running")
   var flag = seseme.isRunning(stepper);
   socket.emit('checkSesemeRunning', flag);

@@ -66,6 +66,10 @@ function listeners(socket, obj, soundObj) {
 
     socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData){
       console.log("buttonPressed", seedlingNum);
+      if(circleData.duration === 0){
+        socket.emit('seedling actionCircle done', seedlingNum);
+        return;
+      } // shouldn't do anything, just emit back to xps
 
       led.lightOff(1, obj.buttonLight, null);
 

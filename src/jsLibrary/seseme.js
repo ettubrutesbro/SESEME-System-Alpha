@@ -310,7 +310,7 @@ var self = module.exports = {
 
             console.log('**--------BOARD IS READY!!!')
 
-            socket.emit('beagle initialized board');
+            //socket.emit('beagle initialized board');
             console.log(JSON.stringify(stepper["m1"].isRunning));
 
             callback(stepper);
@@ -426,13 +426,9 @@ var self = module.exports = {
 
       moveMotor: function(stepper, motorName, steps, dir){
         console.log('motorName -- ' + motorName )
-        console.log(JSON.stringify(stepper[motorName].isRunning));
         if(!stepper[motorName].isRunning){
-          console.log("in if because motor is not running");
           var that = this;
-          console.log("set that = this");
           stepper[motorName].enableMotor.on(); // enable motor to move
-          console.log("after enableMotor on");
           if(dir == 0){
             // motor down
             if(stepper[motorName].position - steps < this.buffer){
@@ -480,7 +476,62 @@ var self = module.exports = {
         else console.log('already running')
       },
 
-      moveMotorCallback: function(stepper, motorName, steps, dir, data, callback){
+      moveMotorCallback: function(stepper, motorName, steps, dir, callback){
+        console.log('motorName -- ' + motorName )
+        if(!stepper[motorName].isRunning){
+          var that = this;
+          stepper[motorName].enableMotor.on(); // enable motor to move
+          if(dir == 0){
+            // motor down
+            if(stepper[motorName].position - steps < this.buffer){
+              steps = stepper[motorName].position - this.buffer
+              console.log('adjusted steps')
+            }
+            if(stepper[motorName].position > this.buffer){     // as long as the pillar is not above the limit than move
+              // MOVE
+              stepper[motorName].isRunning = true;
+              console.log('       --- MOVING ** ' + motorName)
+              var beforeTime = Date.now();
+              stepper[motorName].motor.rpm(this.rpm).ccw().accel(this.accel).decel(this.accel).step(steps, function(){
+                console.log("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
+                console.log(' -- done moving ---  Motor: '+ motorName +'  steps:' + steps + '  dir: ' + dir )
+                stepper[motorName].isRunning = false;
+                stepper[motorName].position -= steps
+                console.log('  position: ' + stepper[motorName].position)
+              });
+            }
+          }
+
+          else if(dir == 1){
+            // motor up
+            if(stepper[motorName].position+steps > this.maxPosition - this.buffer){
+              steps = (this.maxPosition - this.buffer) - stepper[motorName].position
+              console.log('adjusted steps')
+            }
+
+            if(stepper[motorName].position < this.maxPosition){
+              // MOVE
+              stepper[motorName].isRunning = true;
+              console.log('MOVING ** ' + motorName)
+              var beforeTime = Date.now();
+              stepper[motorName].motor.rpm(this.rpm).cw().accel(this.accel).decel(this.accel).step(steps, function(){
+                console.log("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
+                console.log('DONE Moving!!!!!-  Motor: '+ motorName +'  steps:' + steps + '  dir: ' + dir )
+                stepper[motorName].isRunning = false;
+                stepper[motorName].position += steps;
+                stepper[motorName].enableMotor.off(); // power down motor to stop
+                console.log('position: ' + stepper[motorName].position)
+              });
+            }
+          }
+        }
+        else console.log('already running')
+        callback(stepper);
+      },
+
+
+
+      moveMotorOldCallback: function(stepper, motorName, steps, dir, data, callback){
 
         if(!stepper[motorName].isRunning){
           var that = this;

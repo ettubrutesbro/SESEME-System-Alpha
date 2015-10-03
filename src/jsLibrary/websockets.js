@@ -77,9 +77,9 @@ var totalStoryParts = new Array(3);
 var seedlingIO = new Array(3);
 var story = new Array(3);
 
-story[0] = stories["testStory"];
-story[1] = stories["testStory"];
-story[2] = stories["testStory"];
+story[0] = stories["environment"];
+story[1] = stories["society"];
+story[2] = stories["anomalous"];
 
 for(var i = 0; i < 3; i++){
   seedlingIO[i] = new socket.listen(6000+i);
@@ -114,7 +114,7 @@ function stopIdleState() {
 	if(desperate)			clearInterval(desperate);
 	if(startDesperation)	clearTimeout(startDesperation);
 	if(idleDone)			clearTimeout(idleDone);
-}	
+}
 
 // Function to start the lifx idle behavior
 function idleBehavior(lifx) {
@@ -303,7 +303,7 @@ io.on('connection', function (socket) {
 
   socket.on('ui report status', function(data) {
 	  console.log('--> got ui report status');
-		// if(data.story === lastActiveSeedling) 
+		// if(data.story === lastActiveSeedling)
 		// @@@@@@@@@@@@ FINISH THIS PART ))::
   });
 
@@ -377,7 +377,7 @@ io.on('connection', function (socket) {
     console.log('motor:' + data.motor + '  steps:' + data.steps + '  direction:' + data.dir)
     if(beagleOnline){
       console.log('beagle ONLINE')
-      beagle.emit('webMoveMotor', data);
+      beagle.emit('webMoveMotor', data, stepper);
     }
   })
 
@@ -397,6 +397,7 @@ io.on('disconnect', function() {
 ////////////////////////////////////////////////
 var beagleIO = new socket.listen(4000);
 var beagle = null;
+var stepper;
 var beagleOnline = false;
 var sesemeRunning = false;
 var updateFlag = false;
@@ -425,27 +426,6 @@ function heightCalcGeneric(data){
   }
   return percentagesArray
 }
-
-/*
-// delete if heightcalc generic work
-function heightCalc(data){
-  var top = 100, bottom = 0
-  var destSteps = {m1: null, m2: null, m3: null, m4: null};
-  if(!data.valueType || data.valueType === "moreIsTall"){
-    top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
-    bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
-  }
-  else if(data.valueType === 'lessIsTall'){
-    top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
-    bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
-  }
-  var range = Math.abs(bottom-top)
-  for(var i = 0; i < 4; i++){
-    destSteps["m"+(i+1)] = Math.round( Math.abs(bottom-data.values[i])/range * plrmax )
-  }
-  return destSteps;
-}
-*/
 
 function circleObj(targetColor, duration, diodePct){
     this.targetColor = targetColor;
@@ -618,7 +598,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
       }
     }
 
-    if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
+    if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, stepper);
   }
 
 }
@@ -628,8 +608,8 @@ function bigRedButton(seedling){
   var plrmax = 5000;
   console.log("--> in bigRedButton()");
   if(beagleOnline){
-    beagle.emit('getBeagleStats');
-    beagle.emit('isRunning'); // check if seseme is running
+    beagle.emit('getBeagleStats', stepper);
+    beagle.emit('isRunning', stepper); // check if seseme is running
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     var maxDistance = 0;
 
@@ -655,7 +635,6 @@ function bigRedButton(seedling){
         }
         else
           console.log("seseme currently running")
-
           bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, true);
           //seedling.socket.emit("playType", "idler");
       }
@@ -706,11 +685,26 @@ beagleIO.on('connection', function(beagleSocket){
     console.log(data)
   })
 
+  /*
   beagleSocket.on('beagle initialized board', function(){
     console.log("beagle initialized board socket");
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
+  })
+  */
+
+  beagleSocket.on('seseme finished setup', function(obj){
+    console.log("seseme finished setup socket");
+    stepper = obj; // save stepper obj after setup
+    var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
+    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    beagle.emit("buttonPressed", targetPercentagesArray, plrmax, stepper);
+  })
+
+  beagleSocket.on('seseme finished moving', function(obj){
+    console.log("seseme finished moving socket");
+    stepper = obj; // update stepper obj after moving
   })
 
   beagleSocket.on('checkSesemeRunning', function(data){
