@@ -535,6 +535,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 }
 
 function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
+  io.sockets.emit('receive something', '#### First line of bigRedButtonHelper (:538) ####');
   var trailColor = led.hexToObj("FFFFFF");
   //var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
   var targetColor, diodePct;
@@ -560,10 +561,12 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
 
   if(error) {
+    io.sockets.emit('receive something', 'in bigRedButtonHelper --> Inside if(error) (:564)');
     if(seedling.socket)
         seedling.socket.emit("error buttonPressed", seedling.number, circleData, lightTrailData, seedling.buttonPressed);
   }
   else {
+    io.sockets.emit('receive something', 'in bigRedButtonHelper --> Inside of else (VALID BUTTON PRESS) (:569)');
     // ===============================================================================
     // Increment current part of the story and reset the idle countdown
 
@@ -586,6 +589,8 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
         seedling.socket.emit('seedling play button-sound', buttonSound);
     }
 
+    io.sockets.emit('receive something', 'in bigRedButtonHelper --> After playing new story sound (:592)');
+
 	// Begin lifx valid button press behavior
 	if(story[lastActiveSeedling].parts[seedling.currentPart].color.monument) {
 		var lifxHex = story[lastActiveSeedling].parts[seedling.currentPart].color.monument.hex;
@@ -594,6 +599,8 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 	} else if(story[lastActiveSeedling].parts[seedling.currentPart].color)
 		lifx.validButtonPress(story[lastActiveSeedling].parts[seedling.currentPart].color, 0.5);
 	else lifx.validButtonPress('red', 0);
+
+    io.sockets.emit('receive something', 'in bigRedButtonHelper --> After beginning lifx valid button press behavior (:603)');
 
     // Send the new height calculations to the frontend
     var result;
@@ -609,20 +616,28 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
         io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
     } else console.log("Connection with server not made...")
 
+    io.sockets.emit('receive something', 'in bigRedButtonHelper --> After sending the new height calculations to the frontend (:619)');
+
     for(var i = 0; i < 3; i++){
       if(seedlings[i].online) {
         seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData);
       }
     }
+
+    io.sockets.emit('receive something', 'in bigRedButtonHelper --> After for loop to emit all seedlings "buttonPressed" (:627)');
     if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax, targetColor);
   }
+
+    io.sockets.emit('receive something', '#### last line of bigRedButtonHelper (:631) ####');
 }
 
 
 function bigRedButton(seedling){
+  io.sockets.emit('receive something', '#### First line of bigRedButton (:636) ####');
   var plrmax = 5000;
   console.log("--> in bigRedButton()");
   if(beagleOnline){
+	io.sockets.emit('receive something', 'in bigRedButton --> Inside if(beagleOnline) (:640)');
     beagle.emit('getBeagleStats');
     beagle.emit('isRunning'); // check if seseme is running
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
@@ -646,16 +661,20 @@ function bigRedButton(seedling){
         clearInterval(timer2);
         maxDistanceFlag = false;
         if(!sesemeRunning){
+		  io.sockets.emit('receive something', 'in bigRedButton --> Within setInterval timer if(!sesemeRunning) (:664)');
           bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, false);
         }
         else
           console.log("seseme currently running")
+
+		  io.sockets.emit('receive something', 'in bigRedButton --> Within setInterval timer else (sesemeRunning) (:670)');
           bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, true);
           //seedling.socket.emit("playType", "idler");
       }
     }, 20);
   }
   else{
+	io.sockets.emit('receive something', 'in bigRedButton --> Inside else (!beagleOnline) (:677)');
     console.log("will run button helper");
     bigRedButtonHelper(seedling, 5000, null, plrmax, false);
   }
