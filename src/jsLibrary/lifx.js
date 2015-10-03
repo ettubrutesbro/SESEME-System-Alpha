@@ -191,13 +191,12 @@ function turnOn(duration, color) {
 	}); // end of request
 }
 
-function turnOff(duration, color) {
+function turnOff(duration) {
 	// Configurations and custom headers to send to the API
 	options.uri = 'https://api.lifx.com/v1beta1/lights/' + id2 + '/state';
 	options.method = 'PUT';
 	options.body = JSON.stringify({
 		'power'		: 'off',
-		'color'		: color,
 		'duration'	: duration
 	});
 
