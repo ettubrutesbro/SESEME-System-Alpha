@@ -317,7 +317,7 @@ io.on('connection', function (socket) {
   }, 5000);
 
   // The front-end reported the status of the current part of the active story
-  socket.on('ui report status', function(data) {
+  socket.once('ui report status', function(data) {
 	  console.log('--> got ui report status');
 
 	  // If the story is different or if the story is up-to-date but the parts are different, update
