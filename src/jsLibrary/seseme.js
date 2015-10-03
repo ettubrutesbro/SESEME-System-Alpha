@@ -161,7 +161,8 @@ var self = module.exports = {
       creepCounter: 0,
       creepRate: 200,
 
-      setup: function(socket, callback){
+      //setup: function(socket, callback){
+      setup: function(socket){
 
           var board = new five.Board();
           var stepper = {};
@@ -310,10 +311,11 @@ var self = module.exports = {
 
             console.log('**--------BOARD IS READY!!!')
 
-            //socket.emit('beagle initialized board');
             console.log(JSON.stringify(stepper["m1"].isRunning));
+            socket.emit('beagle initialized board', stepper);
 
-            callback(stepper);
+
+            //callback(stepper);
 
           });
 
