@@ -255,7 +255,7 @@ var self = module.exports = {
             stepper.m3.halSensor = new five.Switch(pinData.m3.halSensor);
             stepper.m4.halSensor = new five.Switch(pinData.m4.halSensor);
 
-
+            /*
             stepper.m1.halSensor.on("close", function() {
               stepper.m1.enable.close();
               if(stepper.m1.motor.direction == five.Stepper.DIRECTION.CW){
@@ -307,6 +307,7 @@ var self = module.exports = {
                 stepper.m4.position = 0;
               } // motorDirection is down
             });
+            */
 
 
             console.log('**--------BOARD IS READY!!!')
