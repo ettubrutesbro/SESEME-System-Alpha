@@ -1,6 +1,6 @@
 module.exports = {
-  testStory: {
-    id: 1, seedling: 'environment',
+  environment: {
+    id: 0, seedling: 'environment',
     description: 'The stories in this series all deal with our environment - from vain ones (our sustainability ranking) to the transformative and immediate (the CA drought, marine biodiversity).',
     parts: [
       {
@@ -70,27 +70,73 @@ module.exports = {
       }
     ]
   },
-
-  finalStory: {
-    id: 1, seedling: 'environment',
-    description: 'Some people try to rank how sustainable America\'s colleges are each year. How have we been doing?',
+  society: {
+    id: 1, seedling: 'society',
+    description: '',
     parts: [
       {
-        values: [1,3,9,20], valueType: 'lessIsTall', customLo: 24,
+        values: [100,87,77,68], customLo: 50,
         title: {
-          pre: {c: 'SUSTAINABILITY', size: 18},
-          main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
-          post: {c: '2012', size: 18}
+          main: {c: 'Race & Gender Wage Gap', size: 21},
         },
-        text: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education. But a lot has changed since then...', //recommended 230 character maximum
-        color: '#339167',
-        details: [
-          {name: 'UC Davis', text: '2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.'},
-          {name: 'Stanford', text: 'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.'},
-          {name: 'UC Irvine', text: 'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.'},
-          {name: 'UC Berkeley', text: '',}
+        maintext: 'Society is garbage and women can\'t get paid. Guess what though, it\'s even worse if you\'re a person of color, worse still for women of color. What\'s wrong with you shits?', //recommended 230 character maximum
+        color: { ui: '#ff5555', monument: {hex: "#ff5555", bri: 1}, ring: '882222' },
+        sound: ['schmoney1','schmoney2'],
+
+        pNames: [['White Men','(sux)'],'White Women','Black Mans','WoC'],
+        pTexts: ['bla','bla','bla','bla'],
+        pSymbols: [{type:'geo',src:'templategeo'},{type:'spr',src:'planetest'},
+          {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
+        pLabels: ['','','',''],
+        pStatboxes: [{c: ['100%','these fools', 'have it all'], size:[32,14,14]},
+        {c: ['87%','such complain'],size:[32,14]},
+        {c:['77%','some bullshit'], size:[32,14]},
+        {c:'68%','wtf is america', size:[32,12]}],
+        pLinks: [[
+            {type: 'site', c: '' }
+          ],
+          [
+            {type: 'yt', c: ''}
+          ],[
+            {type: 'tw2', c: ''}, {type: 'tw', c: ''}
+          ],[
+            {type: 'data', c: ''}, {type: 'article', c: ''}
+          ]
         ]
-      },
+      }
     ]
-  },
+  }
+  anomalous: {
+    id: 2, seedling: 'anomalous',
+    description: '',
+    parts: [
+      {
+        values: [4600,8000,1500,500], valueType: 'lessIsTall', customLo: 24,
+        title: {
+          pre: {c: 'Schmoney', size: 18},
+          main: {c: ['You Are Getting','Jizzacked.com'], size: 28, font: 'Droid Serif', weight: 400, margin: -.2}
+        },
+        maintext: 'Mark Yudof and Linda Katehi are having a schmoney party and u are not invited, pleb', //recommended 230 character maximum
+        color: { ui: '#00ff00', monument: {hex: "#00ff00", bri: 1}, ring: '009900' },
+        sound: ['horhorhor'],
+        pNames: ['Mark Money','Linda Money','Yacht Money','Trust Money'],
+        pTexts: ['haha go fuck yourself man!!!!!','VIP room @ the gold club','bla money all day','bla fuck you'],
+        pSymbols: [{type:'spr',src:'templategeo'},{type:'spr',src:'planetest'},
+          {type:'spr',src:'templategeo'},{type:'spr',src:'planetest'}],
+        pLabels: ['','','',''],
+        pStatboxes: [{c: 'uc davis'},{c: 'yale'},{c:'your mom'},{d:'heald college'}],
+        pLinks: [[
+            {type: 'article', c: ''}
+          ],[
+            {type: 'article', c: ''}
+          ],[
+            {type: 'article', c: ''}
+          ],[
+            {type: 'article', c: ''}
+          ]
+        ]
+      }
+
+    ]
+  }
 }
