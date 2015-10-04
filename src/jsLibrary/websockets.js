@@ -30,7 +30,7 @@ function reportSystemStatus() {
     // Check if the beagle is connected
 	var systemStatus = {};
     var isOnline = true;
-	
+
 	// Check the status of the beagle
     if(beagleOnline)
 		systemStatus.beagle = '[online]';
@@ -38,9 +38,9 @@ function reportSystemStatus() {
 
     // Check if all seedlings are connected
     for(var i = 0; i < 3; i++) {
-        if(seedlings[i].online) 
-            systemStatus['pi'+(i+1)] = '[online]');
-        else systemStatus['pi'+(i+1)] = '[offline]');
+        if(seedlings[i].online)
+            systemStatus['pi'+(i+1)] = '[online]';
+        else systemStatus['pi'+(i+1)] = '[offline]';
     }
 }
 
