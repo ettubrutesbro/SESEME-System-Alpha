@@ -460,7 +460,8 @@ function heightCalcGeneric(data){
   return percentagesArray
 }
 
-function circleObj(targetColor, duration, diodePct){
+function circleObj(previousColor, targetColor, duration, diodePct){
+    this.previousColor = previousColor;
     this.targetColor = targetColor;
     this.duration = duration;
     this.diodePct = diodePct;
@@ -620,11 +621,13 @@ function seedlingConnected(seedSocket, seedlingNum){
     if(systemOnline()) {
       console.log("Starting sync sequence");
       seedling.socket.emit('seedling start sync-sequence-1');
+      var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
+      console.log("Initialize seedling story");
+      seedling.socket.emit('seedling initialize story', lastActiveSeedling, targetColor); // initialize first seedling and turn on buttons on first connect
     }
-
-    console.log("seedling finished inits listener", seedlingNum);
-    var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
-    seedling.socket.emit('seedling initialize story', lastActiveSeedling, targetColor); // initialize first seedling and turn on buttons on first connect
+    //console.log("seedling finished inits listener", seedlingNum);
+    //var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
+    //seedling.socket.emit('seedling initialize story', lastActiveSeedling, targetColor); // initialize first seedling and turn on buttons on first connect
       //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
@@ -657,6 +660,10 @@ function bigRedButtonHelper(seedling){
   if(seedling.number === lastActiveSeedling){
     console.log("Incrementing the part of the same story");
 
+    // Get previous part color for fadeCircle function
+    previousColor = getRingColor(seedling, seedling.currentPart);
+
+
     // Increment current part of the same story
     seedling.currentPart = (seedling.currentPart + 1) % seedling.totalStoryParts;
 
@@ -670,6 +677,9 @@ function bigRedButtonHelper(seedling){
   }
   // Update the story to the new one
   else{
+    // Set previous color as #000000 since fading from nothing
+    previousColor = led.hexToObj("000000");
+
     seedling.currentPart = 0;
     console.log("should change to different story: current part should be 0:", seedling.currentPart)
     diodePct = 0;
@@ -694,7 +704,7 @@ function bigRedButtonHelper(seedling){
     if(temp > maxDistance) maxDistance = temp;
   }
   var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
-  var circleData = new circleObj(targetColor, duration, diodePct);
+  var circleData = new circleObj(previousColor, targetColor, duration, diodePct);
 
   if(seedling.currentPart === 0){
     duration += 3;
@@ -747,51 +757,6 @@ function bigRedButtonHelper(seedling){
   if(beagleOnline) beagle.emit("seseme move motors", targetPercentages, plrmax);
 
 }
-
-/*
-function bigRedButton(seedling){
-  var plrmax = 5000;
-  console.log("--> in bigRedButton()");
-  if(beagleOnline){
-    beagle.emit('getBeagleStats');
-    beagle.emit('isRunning'); // check if seseme is running
-    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-    var maxDistance = 0;
-
-    var timer1 = setInterval(function(){
-      if(beagleStatsFlag){
-        clearInterval(timer1);
-        for(var i = 0; i < 4; i++){
-          var temp = Math.round( Math.abs( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] ) );
-          if(temp > maxDistance) maxDistance = temp;
-        }
-        console.log("maxDistance: " + maxDistance);
-        beagleStatsFlag = false;
-        maxDistanceFlag = true; // done with setting maxDistance
-      } //
-    }, 20);
-
-    var timer2 = setInterval(function(){
-      if(updateFlag && maxDistanceFlag){
-        clearInterval(timer2);
-        maxDistanceFlag = false;
-        if(!sesemeRunning){
-          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, false);
-        }
-        else
-          console.log("seseme currently running")
-          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, true);
-          //seedling.socket.emit("playType", "idler");
-      }
-    }, 20);
-  }
-  else{
-    console.log("will run button helper");
-    bigRedButtonHelper(seedling, 5000, null, plrmax, false);
-  }
-}
-*/
-
 
 ////////////////////////////////////////////////
 //  SEEDLING

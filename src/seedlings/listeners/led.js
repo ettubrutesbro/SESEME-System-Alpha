@@ -80,7 +80,7 @@ function listeners(socket, obj, soundObj) {
         console.log("circleData.diodePct", circleData.diodePct);
         if(circleData.diodePct !== 0){
           console.log("seedling buttonPressed socket; should be fadeCircle");
-          led.fadeCircle(circleData.targetColor, circleData.duration, circleData.diodePct, obj, function(){
+          led.fadeCircle(circleData.previousColor, circleData.targetColor, circleData.duration, circleData.diodePct, obj, function(){
             console.log("in callback for fadeCircle");
             led.lightOn(1, obj.buttonLight, null);
             sounds.playRandomSound(soundObj, 'ready');
@@ -89,7 +89,7 @@ function listeners(socket, obj, soundObj) {
         } // fades in progression if last active seedling
         else{
           console.log("seedling buttonPressed socket; should be fillCircle");
-          led.fillCircle(circleData.targetColor, circleData.duration, obj, function(){
+          led.fillCircle(circleData.previousColor, circleData.targetColor, circleData.duration, obj, function(){
             console.log("in callback for fillCircle");
             led.lightOn(1, obj.buttonLight, null);
             sounds.playRandomSound(soundObj, 'ready');
@@ -133,63 +133,6 @@ function listeners(socket, obj, soundObj) {
     // });
     // // ************************************************************************
     // // ************************************************************************
-
-    socket.on('error buttonPressed', function(seedlingNum, fadeCircleData, lightTrailData, active){
-      console.log("error on button press, seseme still running")
-
-      /* modify duration to reflect how long it has been running*/
-      function activeCallback(){
-        led.fadeCircle(fadeCircleData.targetColor, fadeCircleData.duration, fadeCircleData.diodePct, obj, function(){
-          console.log("in callback for fadeCircle");
-          led.lightOn(1, obj.buttonLight, null);
-          sounds.playRandomSound(soundObj, 'ready');
-        });
-      }
-
-      function inactiveCallback(){
-        led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
-          console.log("in callback for lightTrail");
-          led.lightOn(1, obj.buttonLight, null);
-        });
-      }
-
-      function lightOnCallback(light, color){
-        setTimeout(function(light){
-          led.lightOff(1, light, color);
-        }, 10000)
-      }
-
-      var blinkColor = led.hexToObj("FFFFFF");
-      /*
-      if(active){
-        if(seedlingNum == 0){
-          var color = led.hexToObj("FFFFFF");
-          led.lightOn(1, obj.urlLight, color);
-
-          // maybe turn on hue iconLight?
-        }
-        else if(seedlingNum == 1){
-          led.lightOn(1, obj.urlLight, null);
-          led.lightOn(1, obj.lmLight. null);
-          led.lightOn(1, obj.iconLight, null);
-        }
-        else if(seedlingNum == 2){
-          led.lightOn(1, obj.iconLight, null);
-        }
-
-        led.blinking(blinkColor, 0.3, 0, obj, activeCallback);
-      } // url, icon 12s
-      else
-        led.blinking(blinkColor, 0.3, 0, obj, inactiveCallback);
-
-      sounds.playRandomSound(soundObj, 'no');
-      // ring blinks, play sound "no"
-      */
-
-    })
-
-
-
 
 
     socket.on('ledColor', function(data){

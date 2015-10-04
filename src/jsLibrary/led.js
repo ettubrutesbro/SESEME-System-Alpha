@@ -145,7 +145,7 @@ var self = module.exports = {
             strip.pixel(i+firstDiode).color(string);
         }
         strip.show();
-        this.color = color;
+        //this.color = color;
     },
 
     lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){ // time = time for each rev
@@ -217,7 +217,7 @@ var self = module.exports = {
         }, intervalTime);
     },
 
-    fadeCircle: function(targetColor, totalDuration, diodePct, obj, callback){
+    fadeCircle: function(previousColor, targetColor, totalDuration, diodePct, obj, callback){
         console.log("in fadeCircle function");
         var that = this; // for callback
         var strip = obj.strip;
@@ -231,7 +231,9 @@ var self = module.exports = {
             return -1;
         }
 
-        var currentColor = startPercent == 0 && this.color == null ? new this.colorObj(0, 0, 0) : new this.colorObj(this.color.red, this.color.green, this.color.blue);
+        //var currentColor = startPercent == 0 && this.color == null ? new this.colorObj(0, 0, 0) : new this.colorObj(this.color.red, this.color.green, this.color.blue);
+        var currentColor = previousColor;
+        console.log("fadeCircle currentColor:", JSON.stringify(currentColor));
 
         var litPixelNum = pixelNum - firstDiode;
         var bigSteps = Math.ceil(litPixelNum/2);
@@ -308,7 +310,7 @@ var self = module.exports = {
 
             this.curFadePercent = startPercent + (count / finalSteps) * 100; // save current percent in case of interrupt
             this.percentAr = percentAr;
-            this.color = currentColor;
+            //this.color = currentColor;
 
 
             if(percentAr[index] <= 0){
@@ -342,7 +344,7 @@ var self = module.exports = {
 
     },
 
-    fillCircle: function(targetColor, duration, obj, callback){
+    fillCircle: function(previousColor, targetColor, duration, obj, callback){
         console.log("in fillCircle function");
         var that = this;
         var strip = obj.strip;
@@ -351,7 +353,9 @@ var self = module.exports = {
         var litPixelNum = pixelNum - firstDiode;
         var bigSteps = Math.ceil(litPixelNum/2);
 
-        var currentColor = this.color == null ? new this.colorObj(0, 0, 0) : this.color;
+        //var currentColor = this.color == null ? new this.colorObj(0, 0, 0) : this.color;
+        var currentColor = previousColor;
+        console.log("fillCircle currentColor:", JSON.stringify(currentColor));
 
         strip.color("#000"); // initialize led strip
         strip.show();
