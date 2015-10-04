@@ -575,7 +575,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     if(seedling.socket)
         seedling.socket.emit("error buttonPressed", seedling.number, circleData, lightTrailData, seedling.buttonPressed);
         seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
-        randomSoundWeight(soundObj, 'no', seeding.socket);
+        randomSoundWeight(soundObj, 'no', seedling.socket);
         seedling.buttonPressed = false;
   }
   else {
