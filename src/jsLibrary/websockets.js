@@ -549,7 +549,7 @@ function seedlingConnected(seedSocket, seedlingNum){
               seedlings[i].currentPart = 0;
             }
           }
-          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, false);
+          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax);
       }
       else{
         console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
@@ -610,7 +610,7 @@ function seedlingConnected(seedSocket, seedlingNum){
   })
 }
 
-function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, error){
+function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax){
   var trailColor = led.hexToObj("FFFFFF");
   //var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
   var targetColor, diodePct;
@@ -637,14 +637,6 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   var timePerRev = 2;
   var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
 
-  if(error) {
-    if(seedling.socket)
-        seedling.socket.emit("error buttonPressed", seedling.number, circleData, lightTrailData, seedling.buttonPressed);
-        seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
-        randomSoundWeight(soundObj, 'no', seedling.socket);
-        seedling.buttonPressed = false;
-  }
-  else {
     // ===============================================================================
     // Increment current part of the story and reset the idle countdown
 
@@ -655,15 +647,15 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 	console.log(" Previous Story's Part: "+seedlings[lastActiveSeedling].currentPart);
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    if(diodePct !== 0)
-      seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
+  if(diodePct !== 0)
+    seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
 
-    if(idleCountdown) clearTimeout(idleCountdown);
-    seconds = 120;
-    countdown();
+  if(idleCountdown) clearTimeout(idleCountdown);
+  seconds = 120;
+  countdown();
 
-    // Set the variable to keep track of the last seedling that had its button pressed
-    lastActiveSeedling = seedling.number;
+  // Set the variable to keep track of the last seedling that had its button pressed
+  lastActiveSeedling = seedling.number;
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// UNCOMMENT THIS LATER??
@@ -674,13 +666,13 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	// Play the new story's sound
-    var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
-    if(!buttonSounds.length)
-        seedling.socket.emit('seedling play button-sound', null);
-    else {
-    	var buttonSound = buttonSounds[Math.floor(Math.random() * buttonSounds.length)]
-        seedling.socket.emit('seedling play button-sound', buttonSound);
-    }
+  var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
+  if(!buttonSounds.length)
+      seedling.socket.emit('seedling play button-sound', null);
+  else {
+  	var buttonSound = buttonSounds[Math.floor(Math.random() * buttonSounds.length)]
+      seedling.socket.emit('seedling play button-sound', buttonSound);
+  }
 
 
 	// Begin lifx valid button press behavior
@@ -693,29 +685,28 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 	else lifx.validButtonPress('red', 0);
 
 
-    // Send the new height calculations to the frontend
-    var result;
-    if(uiSocket && lastActiveSeedling === seedling.number) {
-        result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+  // Send the new height calculations to the frontend
+  var result;
+  if(uiSocket && lastActiveSeedling === seedling.number) {
+      result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
 
-        console.log("Emitting 'ui update part' to the front-end");
-        io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
-    } else if(uiSocket && lastActiveSeedling !== seedling.number) {
-        result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+      console.log("Emitting 'ui update part' to the front-end");
+      io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
+  } else if(uiSocket && lastActiveSeedling !== seedling.number) {
+      result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
 
-        console.log("Emitting 'ui different story' to the front-end");
-        io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
-    } else console.log("Connection with server not made...")
+      console.log("Emitting 'ui different story' to the front-end");
+      io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
+  } else console.log("Connection with server not made...")
 
 
-    for(var i = 0; i < 3; i++){
-      if(seedlings[i].online) {
-        seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData);
-      }
+  for(var i = 0; i < 3; i++){
+    if(seedlings[i].online) {
+      seedlings[i].socket.emit("buttonPressed", seedling.number, circleData, lightTrailData);
     }
-
-    if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
   }
+
+  if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
 
 }
 
