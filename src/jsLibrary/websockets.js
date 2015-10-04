@@ -346,21 +346,6 @@ io.on('connection', function (socket) {
       socket.emit('interval', 'connection test');
   }, 5000);
 
-  // The front-end reported the status of the current part of the active story
-  /*
-  socket.once('ui report status', function(data) {
-	  console.log('--> got ui report status');
-
-	  // If the story is different or if the story is up-to-date but the parts are different, update
-	  if(data.story !== lastActiveSeedling || data.part !== seedlings[lastActiveSeedling].currentPart) {
-	    console.log('There is a desync between the front-end and the server! Updating server story values now');
-    console.log("after conditional")
-		seedlings[lastActiveSeedling].currentPart = data.part;
-		lastActiveSeedling = data.story;
-	  }
-  });
-  */
-
   socket.on('emit to all', function(data) {
 	io.sockets.emit('receive something', data);
   });
@@ -513,52 +498,6 @@ function checkSesemeRunning(seedling, callback){
   }
 }
 
-/*
-function checkSesemeRunning(seedling, callback){
-  var plrmax = 5000;
-  var maxDistance = 5000;
-  var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-
-  console.log("checkSesemeRunning()");
-  if(beagleOnline){
-    beagle.emit('getBeagleStats');
-    beagle.emit('isRunning'); // check if seseme is running
-
-    var timer1 = setInterval(function(){
-      if(beagleStatsFlag){
-        clearInterval(timer1);
-        for(var i = 0; i < 4; i++){
-          var temp = Math.round( Math.abs( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] ) );
-          if(temp > maxDistance) maxDistance = temp;
-        }
-        console.log("maxDistance: " + maxDistance);
-        beagleStatsFlag = false;
-        maxDistanceFlag = true; // done with setting maxDistance
-      } //
-    }, 20);
-
-    var timer2 = setInterval(function(){
-      if(updateFlag && maxDistanceFlag){
-        clearInterval(timer2);
-        maxDistanceFlag = false;
-        if(!sesemeRunning){
-          console.log("SESEME not running");
-          callback(false, maxDistance, targetPercentagesArray, plrmax);
-        }
-        else
-          console.log("SESEME currently running");
-          callback(true, maxDistance, targetPercentagesArray, plrmax);
-          //seedling.socket.emit("playType", "idler");
-      }
-    }, 20);
-  }
-  else{
-    console.log("SESEME not running");
-    callback(false, maxDistance, targetPercentagesArray, plrmax);
-  }
-}
-*/
-
 function seedlingConnected(seedSocket, seedlingNum){
   var seedling = seedlings[seedlingNum];
   console.log('[SEEDLING ' + (seedlingNum+1) + ': CONNECTED]')
@@ -594,26 +533,6 @@ function seedlingConnected(seedSocket, seedlingNum){
         seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
       } // currently in animation
     })
-    /*
-    if(!error){
-  	  // If system is in idle mode, clear the lifx breathe/desperation intervals
-	  stopIdleState();
-      console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
-      seedling.buttonPressed = true;
-      for(var i = 0; i < seedlings.length; i++){
-        if(i !== seedling.number){
-          console.log("reset current part of other seedings", i);
-          seedlings[i].currentPart = 0;
-        }
-      }
-      bigRedButton(seedling);
-    }
-    else{
-      console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
-      randomSoundWeight(soundObj, 'no', seedling.socket);
-      seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
-    } // currently in animation
-    */
   });
 
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
@@ -648,10 +567,6 @@ function seedlingConnected(seedSocket, seedlingNum){
       console.log("Starting sync sequence");
       seedling.socket.emit('seedling start sync-sequence-1');
     }
-    //console.log("seedling finished inits listener", seedlingNum);
-    //var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
-    //seedling.socket.emit('seedling initialize story', lastActiveSeedling, targetColor); // initialize first seedling and turn on buttons on first connect
-      //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
   seedling.socket.on('seedling actionCircle done', function(seedlingNum){
