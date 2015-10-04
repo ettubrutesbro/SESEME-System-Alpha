@@ -806,13 +806,13 @@ seedlingIO[1].on('connection', function(seedSocket){
 seedlingIO[2].on('connection', function(seedSocket){
   seedlingConnected(seedSocket, 2);
 });
-seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
+seedlingIO[1].on('seedling finish sync-sequence-2', function() {
     console.log("Finished sync-sequence-2")
-    seedlings[2].socket.emit('seedling start sync-sequence-3');
+    seedlingIO[2].emit('seedling start sync-sequence-3');
 });
-seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
+seedlingIO[0].on('seedling finish sync-sequence-1', function() {
     console.log("Finished sync-sequence-1")
-    seedlings[1].socket.emit('seedling start sync-sequence-2');
+    seedlingIO[1].emit('seedling start sync-sequence-2');
 });
 
 ////////////////////////////////////////////////
@@ -822,7 +822,7 @@ seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
 beagleIO.on('connection', function(beagleSocket){
   if(systemOnline()) {
         console.log("Starting sync sequence");
-        seedlings[0].socket.emit('seedling start sync-sequence-1');
+        seedlingIO[0].emit('seedling start sync-sequence-1');
         // Listen for when to pass the next sync sequence to the next seedling
   }
   beagle = beagleSocket;
