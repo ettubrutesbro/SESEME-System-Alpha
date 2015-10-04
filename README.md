@@ -5,15 +5,28 @@ The entire SESEME ecosystem.
 
 #Terminology
 
-BRAINS: Individual computers that store information and communicate to their respective components. (beagle, seedling1-3[pi], XPS). All have the property "online". 
+BRAINS: Individual computers that store information and communicate to their respective components. (beagle, seedling1-3[pi], XPS). All have the property "online".
 
 COMPONENTS: Electronics, usually with visual output: LED strip, Button, Icon, URL, Hue, Motors, Speakers
 
-INPUTS: External user actions - mostly seedling button presses that lead to XPS socket messages. (reject if not ready, fadeCircle/playSound/lightTrail/moveMotors if ready) 
+INPUTS: External user actions - mostly seedling button presses that lead to XPS socket messages. (reject if not ready, fadeCircle/playSound/lightTrail/moveMotors if ready)
 
 FEEDBACKS: Packaged functions that engage a series of components in response to socket messages from XPS. (url, icon, playSound, fadeCircle,  etc.)
 
+#Set Up Information
 
+1. Connect to ssid:OfficeWifi.
+2. SSH into the five brains of the SESEME ecosystem:
+    - XPS: mint@10.0.1.241
+    - Beagle: root@10.0.1.210
+    - Seedling1: pi@10.0.1.32
+    - Seedling2: pi@10.0.1.33
+    - Seedling3: pi@10.0.1.34
+    - Password: Finest gourmet dining in SF
+3. Use `cdss` command to get into SESEME-System-Alpha folder in each brain.
+   - Directory: ~/git/SESEME-System-Alpha
+4. Use `start` command to run the node process in each brain.
+   - NOTE: Make sure Pillars are fully down and motors are powered before `start` in Beagle.
 
 
 # SOCKETS
@@ -165,6 +178,3 @@ if you go to a screen with the server running, then move to step 7. else move to
 - Blue Slider: set blue parameter for color of led ring (0-255)
 - Brightness Slider: set percent of led ring brightness (0-100)
 - Percentage Slider: set percent of led ring illuminated (0-100)
-
-
-
