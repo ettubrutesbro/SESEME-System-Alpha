@@ -578,7 +578,7 @@ function bigRedButtonHelper(seedling){
   var trailColor = led.hexToObj("FFFFFF");
   var targetColor, diodePct;
   var targetPercentages = [];
-  var maxDistance = plrmax;
+  var maxDistance = 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
