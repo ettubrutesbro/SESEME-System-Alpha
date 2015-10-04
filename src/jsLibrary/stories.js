@@ -116,7 +116,7 @@ module.exports = {
         sound: ['police','horhorhor'],
         pNames: ['someshit1','someshit2','someshit3','someshit4'],
         pTexts: ['','','',''],
-        pLabels: ['','','','']
+        pLabels: ['','','',''],
         pStatboxes: [{c: ['PCT','suck it fool'], size:[32,14]},
           {c: ['Lee','go set a watchman'],size:[32,14]},
           {c:['GTFO','fuck outta here'], size:[32,14]},
