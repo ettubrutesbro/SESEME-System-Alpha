@@ -8,9 +8,9 @@ module.exports = {
         color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
         sound: ['cheer1','cheer2'],
         title: {
-          pre: {c: 'SUSTAINABILITY', size: 18},
-          main: {c: ['Cool School','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
-          // post: {c: }
+          pre: {c: 'GREEN CAMPUSES', size: 18},
+          main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
+          post: {c: '2012', size: 18, margin: .5}
         },
         maintext: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.',
         pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
@@ -34,8 +34,9 @@ module.exports = {
       {
         values: [10,13,19,5], valueType: 'lessIsTall', customLo: 24,
         title: {
-          pre: {c: 'STORY 0(env)', size: 18},
-          main: {c: 'Part 1(2)', size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
+          pre: {c: 'GREEN CAMPUSES', size: 18},
+          main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
+          post: {c: '2014', size: 18, margin: .5}
         },
         maintext: 'By 2014, our rank had plummeted to a lowly 55th. Nearly the worst UC in that year\'s report, we were behind all manner of schools - old, new, far, near, expensive, and cheap.',
         color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: '991100' },
@@ -50,28 +51,30 @@ module.exports = {
         pLabels: ['','','',''],
         pStatboxes: [{c: '55th :(', size: 18},{c:'6th',size:18},{c:'1st',size:18},{c:'33rd',size:18}],
         pLinks: [
-          [{type: ''}],
-          [],
-          [],
-          []
+          [{type: 'list',c:'2014list'}],
+          [{type: 'article',c:'sierraclubslideshow'}],
+          [{type: 'article',c:'sierraclubslideshow'},{type:'article',c:'ucipressrelease'},{type:'yt',c:'video?'}],
+          [{type: 'list', c: '2014list'}]
         ]
-
       },
 
       {
-
         values: [80,29,40,15], customLo: 0,
         title: {
-          pre: {c: 'STORY 0(env)', size: 16, align: 'start'},
-          main: {c: 'Part 2(3)', size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'}
+          main: {c: 'Annual Energy Costs', size: 25, font: 'Droid Serif', weight: 400},
+          pre: {c: '@ UC DAVIS', size: 21}
         },
-        maintext: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
+        maintext: 'The energy expenditures data shown here was sourced from the Energy Feedback Team (eco.ucdavis.edu)\'s awesome tool, CEED (ceed.ucdavis.edu).',
         color: { ui: '#00f000', monument: {hex: "#22ff55", bri: 1}, ring: '00f000' },
-        sound: ['water1','toilet'],
-        pNames: ['bla','bla','bla','bla'],
-        pTexts: ['bla','bla','bla','bla'],
-        pSymbols: [{type:'geo',src:'templategeo'},{type:'img',src:'planetest'},
-          {type:'img',src:'planetest'},{type:'img',src:'planetest'}],
+        sound: ['schmoney1','schmoney2'],
+        pNames: ['The ARC','Meyer Hall','Giedt Hall',['Student Community','Center']],
+        pTexts: [
+          'Long ',
+          'Constructed in 1987, this hall houses a great many departments, but its energy footprint is scarcely excusable; even accounting for size, its energy use intensity is nearly double the average lab.',
+          'Comfy but a little energy-expensive, Giedt\'s energy use intensity of 75 is notably above the classroom average - perhaps surprising considering it was built in 2007.',
+          ''
+        ],
+        pSymbols: ['','','',''],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
         pLinks: ['','','','']
