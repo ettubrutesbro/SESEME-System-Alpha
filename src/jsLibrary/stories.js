@@ -8,16 +8,16 @@ module.exports = {
         color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
         sound: ['cheer1','cheer2'],
         title: {
-          pre: {c: 'STORY 0 (env)', size: 18},
-          main: {c: 'Part 0(1)', size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
+          pre: {c: 'SUSTAINABILITY', size: 18},
+          main: {c: ['Cool School','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
+          // post: {c: }
         },
-        maintext: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.', //recommended 230 character maximum
-
+        maintext: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.',
         pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
         pTexts: ['2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.',
-        'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.',
-        'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.',
-        ''],
+        'Barely behind us in 3rd place, Stanford earned honors for its commitment to 	sustainable agriculture in class and cafeteria.',
+        'Then the closest-ranked UC behind Davis, Irvine was noted for its many 	extracurricular environmental groups and recycling efforts.',
+        'The Sierra Club doesn\'t write anything about schools outside the top 10, but Davis thoroughly trounced Berkeley (20th) in the sustainability department in 2012.'],
         pSymbols: ['','','',''],
         pLabels: ['','','',''],
         pStatboxes: [
@@ -25,10 +25,10 @@ module.exports = {
           {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
         ],
         pLinks: [
-          [{type:'yt', c: 'youtube.com'}, {type: 'article', c: 'bomb.com'}, {type: 'list', c: 'sierraclublist.com'}],
-          [{type:'article', c: 'fuckyou.com'}, {type: 'list', c: ''}],
-          [{type:'article', c: ''}, {type: 'list', c: 'gohome.org'}],
-          [{type: 'list', c: ''}],
+          [{type:'yt', c: 'sierraclubvideo'}, {type: 'article', c: 'sierraclubslideshow'}, {type: 'article', c: 'ucdpress'}],
+          [{type:'article', c: 'sierraclubslideshow'}, {type: 'list', c: 'sierraclublist'}],
+          [{type:'article', c: 'sierraclubslideshow'}, {type: 'list', c: 'sierraclublist'}],
+          [{type: 'list', c: 'sierraclublist'}],
         ]
       }, //end part 0
       {
@@ -37,17 +37,24 @@ module.exports = {
           pre: {c: 'STORY 0(env)', size: 18},
           main: {c: 'Part 1(2)', size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
         },
-        maintext: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
+        maintext: 'By 2014, our rank had plummeted to a lowly 55th. Nearly the worst UC in that year\'s report, we were behind all manner of schools - old, new, far, near, expensive, and cheap.',
         color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: '991100' },
         sound: ['boo','toilet'],
 
-        pNames: [['shaddup','fool'],'bla','bla','bla'],
-        pTexts: ['bla','bla','bla','bla'],
-        pSymbols: [{type:'geo',src:'templategeo'},{type:'img',src:'planetest'},
-          {type:'img',src:'planetest'},{type:'img',src:'planetest'}],
+        pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
+        pTexts: ['2 years later, we were behind every UC but LA, outscored even by Chico State (not even ranked in 2012). Poor marks in energy use and new construction seem to have 	hurt particularly.',
+        'In 6th place, Stanford scored prominently in purchasing, transportation, and water 	conservation. Its financial clout let it focus on minimally packaged, recyclable, and green-certified products and divest $18bn from the coal industry.',
+        'The new 1st place school, Irvine supplanted us and wowed the Sierra Club with its extensive solar power and water-recycling programs.',
+        'Still outside of the top 10, but now a full 22 spots ahead of us, UC Berkeley scored far ahead of us on co-curricular activities, investments, and planning.'],
+        pSymbols: ['','','',''],
         pLabels: ['','','',''],
-        pStatboxes: ['','','',''],
-        pLinks: ['','','','']
+        pStatboxes: [{c: '55th :(', size: 18},{c:'6th',size:18},{c:'1st',size:18},{c:'33rd',size:18}],
+        pLinks: [
+          [{type: ''}],
+          [],
+          [],
+          []
+        ]
 
       },
 
