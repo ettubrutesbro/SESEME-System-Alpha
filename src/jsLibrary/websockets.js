@@ -131,16 +131,6 @@ for(var i = 0; i < 3; i++){
   seedlings[i] = new seedlingObj(story[i], 0, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, readyState);
 }
 
-// Sync sequence listeners
-seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
-    console.log("Finished sync-sequence-1")
-    seedlings[1].socket.emit('seedling start sync-sequence-2');
-});
-seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
-    console.log("Finished sync-sequence-2")
-    seedlings[2].socket.emit('seedling start sync-sequence-3');
-});
-
 ////////////////////////////////////////////////
 // COUNTDOWN 'TIL IDLE STATE
 ////////////////////////////////////////////////
@@ -776,6 +766,16 @@ seedlingIO[1].on('connection', function(seedSocket){
 });
 seedlingIO[2].on('connection', function(seedSocket){
   seedlingConnected(seedSocket, 2);
+
+  // Sync sequence listeners
+  seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
+      console.log("Finished sync-sequence-1")
+      seedlings[1].socket.emit('seedling start sync-sequence-2');
+  });
+  seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
+      console.log("Finished sync-sequence-2")
+      seedlings[2].socket.emit('seedling start sync-sequence-3');
+  });
 });
 
 ////////////////////////////////////////////////
