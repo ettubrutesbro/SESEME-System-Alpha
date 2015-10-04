@@ -508,7 +508,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     }
     else{
       console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
-      randomSoundWeight(soundObj, 'no', seedSocket);
+      randomSoundWeight(soundObj, 'no', seedling.socket);
       seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
     } // currently in animation
   });
@@ -574,11 +574,14 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   if(error) {
     if(seedling.socket)
         seedling.socket.emit("error buttonPressed", seedling.number, circleData, lightTrailData, seedling.buttonPressed);
+        seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
+        randomSoundWeight(soundObj, 'no', seedSocket);
+        seedling.buttonPressed = false;
   }
   else {
     // ===============================================================================
     // Increment current part of the story and reset the idle countdown
-	
+
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// UNCOMMENT THIS LATER??
 	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
