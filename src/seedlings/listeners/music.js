@@ -36,7 +36,7 @@ function listeners(socket, soundObj) {
     // Listeners to play a chime sequence upon syncing
     socket.on('seedling start sync-sequence-1', function() {
         console.log("Playing sync-sequence-1");
-        var soundPath = path.join(__dirname, '..', '..', 'sounds', 'chime5.mp3');
+        var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', 'chime5.mp3');
         var chime5 = new Sound(soundPath);
         chime5.play();
     	chime5.on('complete', function() {
@@ -47,7 +47,7 @@ function listeners(socket, soundObj) {
 
     socket.on('seedling start sync-sequence-2', function() {
         console.log("Playing sync-sequence-2");
-        var soundPath = path.join(__dirname, '..', '..', 'sounds', 'chime1.mp3');
+        var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', 'chime1.mp3');
         var chime1 = new Sound(soundPath);
         chime1.play();
     	chime1.on('complete', function() {
@@ -58,7 +58,7 @@ function listeners(socket, soundObj) {
 
     socket.on('seedling start sync-sequence-3', function() {
         console.log("Playing sync-sequence-3");
-        var soundPath = path.join(__dirname, '..', '..', 'sounds', 'chime4.mp3');
+        var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', 'chime4.mp3');
         var chime4 = new Sound(soundPath);
         chime4.play();
     });
