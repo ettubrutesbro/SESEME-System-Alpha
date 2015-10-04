@@ -109,10 +109,13 @@ module.exports = {
         values: [50,87,77,68], customLo: 50,
         title: {
           main: {c: ['what it should be'], size: 21},
+          post: {c: ['actually fuck u'], size: 21},
         },
         color: { ui: '#000000', monument: {hex: "#ffffff", bri: 1}, ring: '888888' },
         sound: ['police','horhorhor'],
         pNames: ['someshit1','someshit2','someshit3','someshit4'],
+        pTexts: ['','','',''],
+        pLabels: ['','','','']
         pStatboxes: [{c: ['PCT','suck it fool'], size:[32,14]},
           {c: ['Lee','go set a watchman'],size:[32,14]},
           {c:['GTFO','fuck outta here'], size:[32,14]},

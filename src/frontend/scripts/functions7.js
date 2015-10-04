@@ -836,7 +836,7 @@
 			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
 			dom.overtext.textContent = story.description
 			//MAJOR CONTENT CHANGES / FADE
-			Velocity(dom.bottom, {backgroundColor: data.color.ui || '#000000'})
+			Velocity(dom.bottom, {backgroundColor: data.color? data.color.ui : '#000000'})
 			//just hide what's being viewed, cb changes content and animates bottom
 			var allContent = ['maintext', 'overtext', 'detail0', 'detail1', 'detail2', 'detail3']
 			if(view.content){
