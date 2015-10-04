@@ -567,6 +567,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     }
 
     checkSesemeRunning(seedling, function(data){
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ in checkSesemeRunning @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
       if(!error && !data){
       	  // If system is in idle mode, clear the lifx breathe/desperation intervals
     	  stopIdleState();
