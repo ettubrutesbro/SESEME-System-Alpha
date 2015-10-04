@@ -486,10 +486,12 @@ function checkSesemeRunning(seedling, callback){
         if(!sesemeRunning){
           console.log("SESEME not running");
           callback(false);
+          return;
         }
         else
           console.log("SESEME currently running");
           callback(true);
+          return;
           //seedling.socket.emit("playType", "idler");
       }
     }, 20);
@@ -497,6 +499,7 @@ function checkSesemeRunning(seedling, callback){
   else{
     console.log("SESEME not running because beagle off");
     callback(false);
+    return;
   }
 }
 
@@ -567,7 +570,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     }
 
     checkSesemeRunning(seedling, function(data){
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ in checkSesemeRunning @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log("@@@@@@@@@@@@@@@@@@ in checkSesemeRunning callback @@@@@@@@@@@@@@@@@@");
       if(!error && !data){
       	  // If system is in idle mode, clear the lifx breathe/desperation intervals
     	  stopIdleState();
