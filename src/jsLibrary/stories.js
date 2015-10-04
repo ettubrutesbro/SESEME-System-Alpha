@@ -78,7 +78,7 @@ module.exports = {
           color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
           sound: ['horhorhor'],
           title: {
-            pre: {c: 'STORY 2(soc)', size: 18},
+            pre: {c: 'STORY 1(soc)', size: 18},
             main: {c: 'Part 0(1)', size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
           },
           maintext: 'This story will eventually be about the gender / race wage gap',
