@@ -549,6 +549,7 @@ function seedlingConnected(seedSocket, seedlingNum){
               seedlings[i].currentPart = 0;
             }
           }
+          console.log("checkSesemeRunning maxDistance:", maxDistance);
           bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax);
       }
       else{
@@ -706,7 +707,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     }
   }
 
-  if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
+  if(beagleOnline) beagle.emit("seseme move motors", targetPercentagesArray, plrmax);
 
 }
 
@@ -799,7 +800,7 @@ beagleIO.on('connection', function(beagleSocket){
     console.log(stepperPositionAr);
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-    beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
+    beagle.emit("seseme move motors", targetPercentagesArray, plrmax);
   })
 
   beagleSocket.on('seseme finished moving', function(obj){
@@ -826,7 +827,7 @@ beagleIO.on('connection', function(beagleSocket){
 
     if(array){
       stepperPositionAr = array;
-      //if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
+      //if(beagleOnline) beagle.emit("seseme move motors", targetPercentagesArray, plrmax);
     }
     console.log(stepperPositionAr);
   });
