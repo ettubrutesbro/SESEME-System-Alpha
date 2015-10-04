@@ -347,7 +347,8 @@ var self = module.exports = {
                 stepper[motorName].isRunning = false;
                 stepper[motorName].position -= steps;
                 stepper[motorName].enableMotor.off(); // power down motor to stop
-                console.log('  position: ' + stepper[motorName].position)
+                console.log('  position: ' + stepper[motorName].position);
+                callback(stepper);
               });
             }
           }
@@ -371,12 +372,12 @@ var self = module.exports = {
                 stepper[motorName].position += steps;
                 stepper[motorName].enableMotor.off(); // power down motor to stop
                 console.log('position: ' + stepper[motorName].position)
+                callback(stepper);
               });
             }
           }
         }
         else console.log('already running')
-        callback(stepper);
       },
 
 
