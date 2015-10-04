@@ -61,8 +61,8 @@ socket.on('disconnect', function() {
 socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
   console.log('seseme move motors');
 
-  /* move seseme motors*/
-  console.log(targetPercentagesArray);
+  console.log("target percent result:", targetPercentagesArray);
+  var count = 0; // counter for callback
   var beagleStats = seseme.getStats(stepper);
   console.log(JSON.stringify(beagleStats));
   for(var i = 0; i < 4; i++){
@@ -71,12 +71,13 @@ socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
     console.log("steps: " + steps);
     //seseme.moveMotor(stepper, "m"+(i+1), Math.abs(steps), dir);
     seseme.moveMotorCallback(stepper, "m"+(i+1), Math.abs(steps), dir, function(obj){
-      console.log("in moveMotorCallback", i);
+      count++;
+      console.log("in moveMotorCallback", count);
       stepper = obj; // update stepper obj
-      if(i === 3){
-        console.log("seseme finished moving, i", i)
+      if(count === 4){
+        console.log("seseme finished moving, i", count)
         socket.emit('seseme finished moving', stepperToPositionAr(stepper));
-      }
+      } // all four motors have finished moving
     });
   }
 });

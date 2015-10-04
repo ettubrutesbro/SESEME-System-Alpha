@@ -828,11 +828,12 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('beagle 1 On', function(array){
     beagleOnline = true;
     console.log('[BEAGLE: ONLINE]')
-
+    /*
     if(array){
       stepperPositionAr = array;
       //if(beagleOnline) beagle.emit("seseme move motors", targetPercentagesArray, plrmax);
     }
+    */
     console.log(stepperPositionAr);
   });
 
