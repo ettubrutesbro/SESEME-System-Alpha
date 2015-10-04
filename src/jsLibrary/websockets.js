@@ -550,13 +550,12 @@ function seedlingConnected(seedSocket, seedlingNum){
             }
           }
           bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, false);
-        }
-        else{
-          console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
-          randomSoundWeight(soundObj, 'no', seedling.socket);
-          seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
-        } // currently in animation
       }
+      else{
+        console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
+        randomSoundWeight(soundObj, 'no', seedling.socket);
+        seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
+      } // currently in animation
     })
     /*
     if(!error){
