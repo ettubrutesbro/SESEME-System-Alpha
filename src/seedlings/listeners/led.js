@@ -103,7 +103,7 @@ function listeners(socket, obj, soundObj) {
 
       else{
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
-          onsole.log("duration of lightTrail," (Date.now() - prevTime)/1000);
+          console.log("duration of lightTrail," (Date.now() - prevTime)/1000);
           console.log("in callback for lightTrail");
           led.lightOn(1, obj.buttonLight, null);
           socket.emit('seedling actionCircle done', seedlingNum);

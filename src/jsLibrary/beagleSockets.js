@@ -78,12 +78,13 @@ socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
     var dir = steps > 0 ? 1 : 0; // dir=1 move up; dir=0 move down
     console.log("steps: " + steps);
     //seseme.moveMotor(stepper, "m"+(i+1), Math.abs(steps), dir);
+    var prevTime = Date.now();
     seseme.moveMotorCallback(stepper, "m"+(i+1), Math.abs(steps), dir, function(obj){
       count++;
       console.log("in moveMotorCallback", count);
       stepper = obj; // update stepper obj
       if(count === 4){
-        console.log("seseme finished moving, i", count)
+        console.log("seseme finished moving duration", (Date.now()-prevTime) / 1000);
         socket.emit('seseme finished moving', stepperToPositionAr(stepper));
       } // all four motors have finished moving
     });
