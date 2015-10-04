@@ -992,7 +992,8 @@
 		if(!data.pSymbols) return
 		console.log(rtn)
 		for(var i = 0; i<4; i++){
-			if(rtn[i] || !data.pSymbols[i]) continue
+			if(!rtn) continue
+			else if(rtn[i] || !data.pSymbols[i]) continue
 			if(!init) {
 				if(seseme['plr'+i].symbol) seseme['plr'+i].remove(seseme['plr'+i].symbol)
 				delete seseme['plr'+i].symbol
