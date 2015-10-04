@@ -424,10 +424,10 @@ function setup(){
 			for(var i = 0; i<4; i++){
 				dom.databars[i].style.height = (plrOrder.indexOf(data.values[i])+1)*25+'%'
 				Velocity(dom.databars[i], {translateX: i!==3?100+(i*100)+'%':0})
-				dom.navnames[i].textContent = data.pNames[i] || ''
-				dom['detail'+i].textContent = data.pTexts[i] || ''
+				dom.navnames[i].textContent = data.pNames? data.pNames[i] : ''
+				dom['detail'+i].textContent = data.pTexts? data.pTexts[i] : ''
 			}
-			dom.bottom.style.backgroundColor = data.color.ui || '#000000'
+			dom.bottom.style.backgroundColor = data.color? data.color.ui : '#000000'
 			dom.maintext.textContent = data.maintext
 			dom.overtext.textContent = story.description
 			Velocity(dom.closebutton, {translateX: '0%'})

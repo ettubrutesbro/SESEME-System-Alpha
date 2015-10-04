@@ -42,8 +42,8 @@ module.exports = {
 
         pNames: [['shaddup','fool'],'bla','bla','bla'],
         pTexts: ['bla','bla','bla','bla'],
-        pSymbols: [{type:'geo',src:'templategeo'},{type:'spr',src:'planetest'},
-          {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
+        pSymbols: [{type:'geo',src:'templategeo'},{type:'img',src:'planetest'},
+          {type:'img',src:'planetest'},{type:'img',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
         pLinks: ['','','','']
@@ -62,8 +62,8 @@ module.exports = {
         sound: ['water1','toilet'],
         pNames: ['bla','bla','bla','bla'],
         pTexts: ['bla','bla','bla','bla'],
-        pSymbols: [{type:'geo',src:'templategeo'},{type:'spr',src:'planetest'},
-          {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
+        pSymbols: [{type:'geo',src:'templategeo'},{type:'img',src:'planetest'},
+          {type:'img',src:'planetest'},{type:'img',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: ['','','',''],
         pLinks: ['','','','']
@@ -85,8 +85,8 @@ module.exports = {
         sound: ['schmoney1','schmoney2'],
         pNames: [['White Men','(sux)'],'White Women','Black Mans','WoC'],
         pTexts: ['injustice and shit','white mans sux','lets go home','fuckin no time left'],
-        pSymbols: [{type:'geo',src:'templategeo'},{type:'spr',src:'planetest'},
-          {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
+        pSymbols: [{type:'geo',src:'templategeo'},{type:'img',src:'planetest'},
+          {type:'img',src:'planetest'},{type:'img',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: [{c: ['100%','these fools'], size:[32,14], width: 200},
         {c: ['87%','such complain'],size:[32,14]},
@@ -109,10 +109,13 @@ module.exports = {
         values: [50,87,77,68], customLo: 50,
         title: {
           main: {c: ['what it should be'], size: 21},
+          post: {c: ['actually fuck u'], size: 21},
         },
         color: { ui: '#000000', monument: {hex: "#ffffff", bri: 1}, ring: '888888' },
         sound: ['police','horhorhor'],
         pNames: ['someshit1','someshit2','someshit3','someshit4'],
+        pTexts: ['','','',''],
+        pLabels: ['','','','']
         pStatboxes: [{c: ['PCT','suck it fool'], size:[32,14]},
           {c: ['Lee','go set a watchman'],size:[32,14]},
           {c:['GTFO','fuck outta here'], size:[32,14]},
@@ -149,8 +152,8 @@ module.exports = {
         sound: ['horhorhor'],
         pNames: ['Mark Money','Linda Money','Yacht Money','Trust Money'],
         pTexts: ['haha go fuck yourself man!!!!!','VIP room @ the gold club','bla money all day','bla fuck you'],
-        pSymbols: [{type:'spr',src:'templategeo'},{type:'spr',src:'planetest'},
-          {type:'spr',src:'templategeo'},{type:'spr',src:'planetest'}],
+        pSymbols: [{type:'img',src:'templategeo'},{type:'img',src:'planetest'},
+          {type:'img',src:'templategeo'},{type:'img',src:'planetest'}],
         pLabels: ['','','',''],
         pStatboxes: [{c: 'uc davis'},{c: 'yale'},{c:'your mom'},{d:'heald college'}],
         pLinks: [[
