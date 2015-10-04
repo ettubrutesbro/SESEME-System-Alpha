@@ -27,7 +27,10 @@ function getIP(){
 }
 
 function stepperToPositionAr(obj){
-  if(obj) return [obj.m1.position, obj.m2.position, obj.m3.position, obj.m4.position];
+  if(obj) {
+    console.log("array:", obj.m1.position, obj.m2.position, obj.m3.position, obj.m4.position)
+    return [obj.m1.position, obj.m2.position, obj.m3.position, obj.m4.position];
+  }
   else return null;
 }
 
