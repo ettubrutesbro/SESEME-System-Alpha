@@ -620,9 +620,15 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.online = true;
     seedling.currentPart = 0;
     console.log('[SEEDLING ' + (seedlingNum+1) + ': ONLINE]')
+    if(seedling.ready){
+      var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
+      console.log("Initialize seedling story");
+      seedling.socket.emit('seedling initialize story', lastActiveSeedling, targetColor); // initialize first seedling and turn on buttons on first connect
+    }
   });
 
   seedling.socket.on('seedling finished inits', function(num) {
+    console.log("seedling finished inits socket");
     seedlings[num].ready = true;
     var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
     console.log("Initialize seedling story");
