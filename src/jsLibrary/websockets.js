@@ -829,7 +829,9 @@ beagleIO.on('connection', function(beagleSocket){
     console.log("array in xps", stepperPositionAr);
     console.log("array in beagle", beagleAr)
     if(beagleAr && !stepperPositionAr){
+      console.log("xps went down, get info from beagle since up")
       stepperPositionAr = beagleAr;
+      console.log("new array in xps", stepperPositionAr)
     } // xps went down but beagle has info
   });
 
