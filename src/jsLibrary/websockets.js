@@ -50,7 +50,6 @@ function systemOnline(debug) {
     var isOnline = true;
     if(beagleOnline) {
         print.push("Beagle status: [online]");
-        isOnline = true;
 	} else {
         print.push("Beagle status: [offline]");
         isOnline = false;
@@ -60,11 +59,8 @@ function systemOnline(debug) {
         if(!seedlings[i].online) {
             isOnline = false;
             print.push("Seedling "+(i+1)+": [offline]");
-        } else if(!seedlings[i].ready) {
-            isOnline = false;
-            print.push("Seedling "+(i+1)+": [online, not ready]");
         } else {
-            print.push("Seedling "+(i+1)+": [online and ready]");
+            print.push("Seedling "+(i+1)+": [online]");
         }
     }
     var status = isOnline ? "ONLINE" : "OFFLINE";
@@ -639,6 +635,17 @@ function seedlingConnected(seedSocket, seedlingNum){
     }
   })
 
+  if(seedlingNum === 2) {
+      seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
+          console.log("Finished sync-sequence-1")
+          seedlings[1].socket.emit('seedling start sync-sequence-2');
+      });
+      seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
+          console.log("Finished sync-sequence-2")
+          seedlings[2].socket.emit('seedling start sync-sequence-3');
+      });
+  }
+
   seedling.socket.on('disconnect', function(){
     seedling.online = false;
     console.log('[SEEDLING ' + (seedlingNum+1) + ': DISCONNECTED]')
@@ -770,14 +777,6 @@ seedlingIO[1].on('connection', function(seedSocket){
 });
 seedlingIO[2].on('connection', function(seedSocket){
   seedlingConnected(seedSocket, 2);
-});
-seedlingIO[1].on('seedling finish sync-sequence-2', function() {
-    console.log("Finished sync-sequence-2")
-    seedlingIO[2].emit('seedling start sync-sequence-3');
-});
-seedlingIO[0].on('seedling finish sync-sequence-1', function() {
-    console.log("Finished sync-sequence-1")
-    seedlingIO[1].emit('seedling start sync-sequence-2');
 });
 
 ////////////////////////////////////////////////
