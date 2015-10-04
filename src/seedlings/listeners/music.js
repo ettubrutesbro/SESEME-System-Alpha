@@ -36,29 +36,38 @@ function listeners(socket, soundObj) {
     // Listeners to play a chime sequence upon syncing
     socket.on('seedling start sync-sequence-1', function() {
         console.log("Playing sync-sequence-1");
-        var soundPath = path.join(__dirname, '..', '..', 'sounds', 'chime5.mp3');
+        var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', 'chime5.mp3');
         var chime5 = new Sound(soundPath);
         chime5.play();
-    	chime5.on('complete', function() {
+    	// chime5.on('complete', function() {
+        //     console.log('completed sequence-1');
+        //     socket.emit('seedling finish sync-sequence-1');
+        // });
+        setTimeout(function() {
             console.log('completed sequence-1');
             socket.emit('seedling finish sync-sequence-1');
-        });
+        }, 1000);
     });
 
     socket.on('seedling start sync-sequence-2', function() {
         console.log("Playing sync-sequence-2");
-        var soundPath = path.join(__dirname, '..', '..', 'sounds', 'chime1.mp3');
+        var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', 'chime1.mp3');
         var chime1 = new Sound(soundPath);
         chime1.play();
-    	chime1.on('complete', function() {
+    	// chime1.on('complete', function() {
+        //     console.log('completed sequence-2');
+        //     socket.emit('seedling finish sync-sequence-2');
+        // });
+        setTimeout(function() {
             console.log('completed sequence-2');
             socket.emit('seedling finish sync-sequence-2');
-        });
+        }, 1000);
+
     });
 
     socket.on('seedling start sync-sequence-3', function() {
         console.log("Playing sync-sequence-3");
-        var soundPath = path.join(__dirname, '..', '..', 'sounds', 'chime4.mp3');
+        var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', 'chime4.mp3');
         var chime4 = new Sound(soundPath);
         chime4.play();
     });
