@@ -801,16 +801,14 @@ seedlingIO[1].on('connection', function(seedSocket){
 seedlingIO[2].on('connection', function(seedSocket){
   seedlingConnected(seedSocket, 2);
 });
-
-seedlingIO[0].on('seedling finish sync-sequence-1', function() {
-    console.log("Finished sync-sequence-1")
-    seedlingIO[1].emit('seedling start sync-sequence-2');
-});
 seedlingIO[1].on('seedling finish sync-sequence-2', function() {
     console.log("Finished sync-sequence-2")
     seedlingIO[2].emit('seedling start sync-sequence-3');
 });
-
+seedlingIO[0].on('seedling finish sync-sequence-1', function() {
+    console.log("Finished sync-sequence-1")
+    seedlingIO[1].emit('seedling start sync-sequence-2');
+});
 
 ////////////////////////////////////////////////
 //  BEAGLE - Seseme Monument
