@@ -1127,6 +1127,7 @@
 			for(var it = 0; it<data.pLinks[i].length; it++){
 				console.log('adding link to plr'+i+ ' :' + linkinfo.type)
 				var linkinfo = data.pLinks[i][it]
+				if(!linkinfo.type) continue
 				var l = new THREE.Mesh(new THREE.PlaneBufferGeometry(2,2), new THREE.MeshBasicMaterial({
 					map: resources.mtls['link_'+linkinfo.type].map, transparent: true, depthWrite: false, opacity: 0
 				}))
