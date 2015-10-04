@@ -20,7 +20,8 @@ var controls, mouse = new THREE.Vector2(), raycast
 var plrmax = 12, constspd = 10000, spdcompensator = 400,
 // plrSlope = 638.5, plrConstant = 1112.2,
 thresholds = {zoom: [.675,1.15], height: [-3,-56]},
-facingRotations = [-45,45,135,-135]
+// facingRotations = [-45,45,135,-135]
+facingRotations = [-45,-135,135,45]
 //dom
 var dom = {}
 // DEBUG / user / data collecting variables
@@ -182,11 +183,13 @@ function setup(){
 			covercube = new THREE.Mesh(new THREE.BoxGeometry( 15,30,15 ),resources.mtls.ground)
 			covercube.position.y = -33; covercube.name = 'covercube'
 
-			var qPos = [{x:1.5,z:1},{x:1,z:-1.5},{x:-1.5,z:-1},{x:-1,z:1.5}]
+			// var qPos = [{x:1.5,z:1},{x:1,z:-1.5},{x:-1.5,z:-1},{x:-1,z:1.5}]
+			var qPos= [{x:1.5,z:1,r:0},{x:-1,z:1.5,r:270},{x:-1.5,z:-1,r:180},{x:1,z:-1.5,r:90}]
 		 	var pillarStartY = dice(2)===1? 0: 72
 			for(var i = 0; i<4; i++){
 				seseme['quad'+i] = new THREE.Mesh(resources.geos.quaped,resources.mtls.seseme)
 				seseme['quad'+i].position.set(qPos[i].x,0,qPos[i].z)
+				seseme['quad'+i].rotation.y = rads(qPos[i].r)
 				seseme.add(seseme['quad'+i])
 				//plr
 				seseme['plr'+i] = new THREE.Mesh(resources.geos.pillar,resources.mtls.seseme)
@@ -465,7 +468,6 @@ function setup(){
 		function initQuads(){
 				for(var i = 0; i<4; i++){
 					var q = seseme['quad'+i]
-					q.rotation.y = rads(i*90)
 					q.position.y = -31
 					if(startHash) { q.position.y = 0; quadMgr.itemEnd('quad') }
 					else anim3d(q, 'position', {y:0, delay: i*300, spd: 1000, cb:function(){ quadMgr.itemEnd('quad') } })
