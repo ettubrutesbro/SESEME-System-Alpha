@@ -24,13 +24,34 @@ function lightTrailObj(trailColor, nodes, time, revolutions){
   this.revolutions = revolutions;
 }
 
+// SLACK API THING HERE (FINISH LATER @@@@@@@@@@@@@@@@@@@@@@@)
+// System check function to send a report to the slack diagnostics channel
+function reportSystemStatus() {
+    // Check if the beagle is connected
+	var systemStatus = {};
+    var isOnline = true;
+
+	// Check the status of the beagle
+    if(beagleOnline)
+		systemStatus.beagle = '[online]';
+    else systemStatus.beagle = '[offline]';
+
+    // Check if all seedlings are connected
+    for(var i = 0; i < 3; i++) {
+        if(seedlings[i].online)
+            systemStatus['pi'+(i+1)] = '[online]';
+        else systemStatus['pi'+(i+1)] = '[offline]';
+    }
+}
+
 function systemOnline(debug) {
     // Check if the beagle is connected
     var print = [];
     var isOnline = true;
+    if(beagleOnline) {
         print.push("Beagle status: [offline]");
         isOnline = false;
-    //} else print.push("Beagle status: [online]");
+	} else print.push("Beagle status: [online]");
     for(var i = 0; i < 3; i++) {
         // Check if all seedlings are connected
         if(!seedlings[i].online) {
@@ -102,13 +123,13 @@ for(var i = 0; i < 3; i++){
   totalStoryParts[i] = story[i].parts.length; // number of parts in a story
 }
 
-var currentPart = 0; // set story Part currently on
+//var currentPart = 0; // set story Part currently on
 var seedlingOnline = false;
 var seedlingSocket = null;
 var buttonPressed = false;
 var readyState = false;
 for(var i = 0; i < 3; i++){
-  seedlings[i] = new seedlingObj(story[i], currentPart, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, readyState);
+  seedlings[i] = new seedlingObj(story[i], 0, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, readyState);
 }
 
 ////////////////////////////////////////////////
@@ -317,16 +338,19 @@ io.on('connection', function (socket) {
   }, 5000);
 
   // The front-end reported the status of the current part of the active story
-  socket.on('ui report status', function(data) {
+  /*
+  socket.once('ui report status', function(data) {
 	  console.log('--> got ui report status');
 
 	  // If the story is different or if the story is up-to-date but the parts are different, update
 	  if(data.story !== lastActiveSeedling || data.part !== seedlings[lastActiveSeedling].currentPart) {
 	    console.log('There is a desync between the front-end and the server! Updating server story values now');
+    console.log("after conditional")
 		seedlings[lastActiveSeedling].currentPart = data.part;
 		lastActiveSeedling = data.story;
 	  }
   });
+  */
 
   socket.on('emit to all', function(data) {
 	io.sockets.emit('receive something', data);
@@ -338,7 +362,7 @@ io.on('connection', function (socket) {
 		io.sockets.emit('ui acquire story', {
 			story: story[lastActiveSeedling],
 			part: seedlings[lastActiveSeedling].currentPart,
-			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[currentPart])
+			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart])
 		});
   });
 
@@ -534,7 +558,9 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     targetColor = getRingColor(seedling, seedling.currentPart);
     diodePct = 0;
   }
-  var duration = Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
+  console.log("MAXDISTANCE =", maxDistance);
+  var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
+  console.log("DURATION =", duration);
   var circleData = new circleObj(targetColor, duration, diodePct);
 
   if(seedling.currentPart + 1 == seedling.totalStoryParts){
@@ -552,6 +578,13 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   else {
     // ===============================================================================
     // Increment current part of the story and reset the idle countdown
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// UNCOMMENT THIS LATER??
+	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+	console.log(" Previous Story: "+lastActiveSeedling);
+	console.log(" Previous Story's Part: "+seedlings[lastActiveSeedling].currentPart);
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if(diodePct !== 0)
       seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
@@ -562,6 +595,14 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
     // Set the variable to keep track of the last seedling that had its button pressed
     lastActiveSeedling = seedling.number;
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// UNCOMMENT THIS LATER??
+	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+	console.log(" New Story: "+lastActiveSeedling);
+	console.log(" New Story's Part: "+seedlings[lastActiveSeedling].currentPart);
+	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	// Play the new story's sound
     var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
@@ -691,9 +732,10 @@ beagleIO.on('connection', function(beagleSocket){
     console.log(data)
   })
 
-  beagleSocket.on('seseme finished setup', function(obj){
+  beagleSocket.on('seseme finished setup', function(array){
     console.log("seseme finished setup socket");
-    stepperPositionAr = obj; // save stepperPositionAr after setup
+    stepperPositionAr = array; // save stepperPositionAr after setup
+    console.log(stepperPositionAr);
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
@@ -702,6 +744,7 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('seseme finished moving', function(obj){
     console.log("seseme finished moving socket");
     stepperPositionAr = obj; // update stepperPositionAr obj after moving
+    console.log(stepperPositionAr);
   })
 
   beagleSocket.on('checkSesemeRunning', function(data){
@@ -716,9 +759,15 @@ beagleIO.on('connection', function(beagleSocket){
     beagleStatsFlag = true; // got beagle stats
   })
 
-  beagleSocket.on('beagle 1 On', function(){
+  beagleSocket.on('beagle 1 On', function(array){
     beagleOnline = true;
     console.log('[BEAGLE: ONLINE]')
+
+    if(array){
+      stepperPositionAr = array;
+      //if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
+    }
+    console.log(stepperPositionAr);
   });
 
   beagleSocket.on('disconnect', function(){

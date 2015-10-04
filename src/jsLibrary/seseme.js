@@ -1,154 +1,4 @@
 var five = require('johnny-five');
-//var board = new five.Board();
-//var stepper = {};
-/*
-var MAXHEIGHT = 5000; // macro for max height of pillar
-var OPEN = 1; // macro for relay
-
-pinData ={
-  m1: {},
-  m2: {},
-  m3: {},
-  m4: {},
-}
-
-// Lays out all the pin numbers (clockwise)
-
-pinData.m4.dir = 2
-pinData.m4.step = 3
-pinData.m4.enable = 4
-pinData.m4.halSensor = 22
-
-pinData.m3.dir = 5
-pinData.m3.step = 6
-pinData.m3.enable = 7
-pinData.m3.halSensor = 24
-
-pinData.m2.dir = 8
-pinData.m2.step = 9
-pinData.m2.enable = 10
-pinData.m2.halSensor = 26
-
-pinData.m1.dir = 11
-pinData.m1.step = 12
-pinData.m1.enable = 13
-pinData.m1.halSensor = 28
-
-board.on("ready", function() {
-
-
-// Stepper motor creation
-  stepper.m1 = {position:0, isRunning:false};
-  stepper.m1.motor = new five.Stepper({
-    type: five.Stepper.TYPE.DRIVER,
-    stepsPerRev: 200,
-    pins: {
-      step: pinData.m1.step,
-      dir: pinData.m1.dir
-    }
-  });
-
-  stepper.m2 = {position:0, isRunning:false};
-  stepper.m2.motor = new five.Stepper({
-    type: five.Stepper.TYPE.DRIVER,
-    stepsPerRev: 200,
-    pins: {
-      step: pinData.m2.step,
-      dir: pinData.m2.dir
-    }
-  });
-
-  stepper.m3 = {position:0, isRunning:false};
-  stepper.m3.motor = new five.Stepper({
-    type: five.Stepper.TYPE.DRIVER,
-    stepsPerRev: 200,
-    pins: {
-      step: pinData.m3.step,
-      dir: pinData.m3.dir
-    }
-  });
-
-  stepper.m4 = {position:0, isRunning:false};
-  stepper.m4.motor = new five.Stepper({
-    type: five.Stepper.TYPE.DRIVER,
-    stepsPerRev: 200,
-    pins: {
-      step: pinData.m4.step,
-      dir: pinData.m4.dir
-    }
-  });
-
-  // Stepper motor creation
-  stepper.m1.enableMotor = new five.Relay(pinData.m1.enable);
-  stepper.m2.enableMotor = new five.Relay(pinData.m2.enable);
-  stepper.m3.enableMotor = new five.Relay(pinData.m3.enable);
-  stepper.m4.enableMotor = new five.Relay(pinData.m4.enable);
-
-  // Stepper motor hall sensor
-  stepper.m1.halSensor = new five.Switch(pinData.m1.halSensor);
-  stepper.m2.halSensor = new five.Switch(pinData.m2.halSensor);
-  stepper.m3.halSensor = new five.Switch(pinData.m3.halSensor);
-  stepper.m4.halSensor = new five.Switch(pinData.m4.halSensor);
-
-
-  stepper.m1.halSensor.on("close", function() {
-  	stepper.m1.enable.close();
-  	if(stepper.m1.motor.direction == five.Stepper.DIRECTION.CW){
-  		stepper.m1.position = MAXHEIGHT;
-  	} // motorDirection is up
-  	else{
-  		stepper.m1.position = 0;
-  	} // motorDirection is down
-  });
-
-  stepper.m2.halSensor.on("open", function() {
-
-
-  });
-  stepper.m2.halSensor.on("close", function() {
-  	stepper.m2.enable.close();
-  	if(stepper.m2.motor.direction == five.Stepper.DIRECTION.CW){
-  		stepper.m2.position = MAXHEIGHT;
-  	} // motorDirection is up
-  	else{
-  		stepper.m2.position = 0;
-  	} // motorDirection is down
-  });
-
-  stepper.m3.halSensor.on("open", function() {
-
-
-  });
-  stepper.m3.halSensor.on("close", function() {
-  	stepper.m3.enable.close();
-  	if(stepper.m3.motor.direction == five.Stepper.DIRECTION.CW){
-  		stepper.m3.position = MAXHEIGHT;
-  	} // motorDirection is up
-  	else{
-  		stepper.m3.position = 0;
-  	} // motorDirection is down
-  });
-
-  stepper.m4.halSensor.on("open", function() {
-
-
-  });
-  stepper.m4.halSensor.on("close", function() {
-  	stepper.m4.enable.close();
-  	if(stepper.m4.motor.direction == five.Stepper.DIRECTION.CW){
-  		stepper.m4.position = MAXHEIGHT;
-  	} // motorDirection is up
-  	else{
-  		stepper.m4.position = 0;
-  	} // motorDirection is down
-  });
-
-
-  console.log('**--------BOARD IS READY!!!')
-
-});
-*/
-
 
 //---------------------------------------//
 //    Module export
@@ -161,8 +11,7 @@ var self = module.exports = {
       creepCounter: 0,
       creepRate: 200,
 
-      //setup: function(socket, callback){
-      setup: function(callback){
+      setup: function(socket, callback){
 
           var board = new five.Board();
           var stepper = {};
@@ -308,9 +157,12 @@ var self = module.exports = {
               } // motorDirection is down
             });
 
+
             console.log('**--------BOARD IS READY!!!')
             console.log(JSON.stringify(stepper["m1"].isRunning));
+
             callback(stepper);
+
           });
 
       },
@@ -472,6 +324,7 @@ var self = module.exports = {
         else console.log('already running')
       },
 
+
       moveMotorCallback: function(stepper, motorName, steps, dir, callback){
         console.log('motorName -- ' + motorName )
         if(!stepper[motorName].isRunning){
@@ -492,8 +345,10 @@ var self = module.exports = {
                 console.log("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
                 console.log(' -- done moving ---  Motor: '+ motorName +'  steps:' + steps + '  dir: ' + dir )
                 stepper[motorName].isRunning = false;
-                stepper[motorName].position -= steps
-                console.log('  position: ' + stepper[motorName].position)
+                stepper[motorName].position -= steps;
+                stepper[motorName].enableMotor.off(); // power down motor to stop
+                console.log('  position: ' + stepper[motorName].position);
+                callback(stepper);
               });
             }
           }
@@ -517,14 +372,13 @@ var self = module.exports = {
                 stepper[motorName].position += steps;
                 stepper[motorName].enableMotor.off(); // power down motor to stop
                 console.log('position: ' + stepper[motorName].position)
+                callback(stepper);
               });
             }
           }
         }
         else console.log('already running')
-        callback(stepper);
       },
-
 
 
       moveMotorOldCallback: function(stepper, motorName, steps, dir, data, callback){
