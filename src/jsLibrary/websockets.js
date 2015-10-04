@@ -475,8 +475,6 @@ function getRingColor(seedling, currentPart){
 }
 
 function checkSesemeRunning(seedling, callback){
-  var plrmax = 5000;
-
   console.log("checkSesemeRunning()");
   if(beagleOnline){
     beagle.emit('getBeagleStats');
@@ -487,18 +485,18 @@ function checkSesemeRunning(seedling, callback){
         clearInterval(timer);
         if(!sesemeRunning){
           console.log("SESEME not running");
-          callback(false, maxDistance, targetPercentagesArray, plrmax);
+          callback(false);
         }
         else
           console.log("SESEME currently running");
-          callback(true, maxDistance, targetPercentagesArray, plrmax);
+          callback(true);
           //seedling.socket.emit("playType", "idler");
       }
     }, 20);
   }
   else{
     console.log("SESEME not running because beagle off");
-    callback(false, maxDistance, targetPercentagesArray, plrmax);
+    callback(false);
   }
 }
 
@@ -568,20 +566,13 @@ function seedlingConnected(seedSocket, seedlingNum){
       } // invalid button press
     }
 
-    checkSesemeRunning(seedling, function(data, maxDistance, targetPercentagesArray, plrmax){
+    checkSesemeRunning(seedling, function(data){
       if(!error && !data){
       	  // If system is in idle mode, clear the lifx breathe/desperation intervals
     	  stopIdleState();
           console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
           seedling.buttonPressed = true;
-          for(var i = 0; i < seedlings.length; i++){
-            if(i !== seedling.number){
-              console.log("reset current part of other seedings", i);
-              seedlings[i].currentPart = 0;
-            }
-          }
-          console.log("checkSesemeRunning maxDistance:", maxDistance);
-          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax);
+          bigRedButtonHelper(seedling);
       }
       else{
         console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
@@ -642,46 +633,69 @@ function seedlingConnected(seedSocket, seedlingNum){
   })
 }
 
-function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax){
+function bigRedButtonHelper(seedling){
   var trailColor = led.hexToObj("FFFFFF");
   //var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
   var targetColor, diodePct;
+  var targetPercentages = [];
+  var maxDistance = plrmax;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+  console.log(" Previous Story: "+lastActiveSeedling);
+  console.log(" Previous Story's Part: "+seedlings[lastActiveSeedling].currentPart);
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   if(seedling.number === lastActiveSeedling){
-    console.log("should keep same story", seedling.number, seedling.currentPart);
-    targetColor = getRingColor(seedling, (seedling.currentPart + 1) % seedling.totalStoryParts);
-    diodePct = (seedling.currentPart+1) / seedling.totalStoryParts * 100;
+    console.log("Incrementing the part of the same story");
+
+    // Increment current part of the same story
+    seedling.currentPart = (seedling.currentPart + 1) % seedling.totalStoryParts;
+
+    // Calculate the result of the
+    console.log("Emitting 'ui update part' to the front-end");
+    targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: targetPercentages} );
+
+    // Setting variables for fading the led circle
+    diodePct = seedling.currentPart === 0 ? seedling.totalStoryParts: seedling.currentPart / seedling.totalStoryParts * 100;
   }
+  // Update the story to the new one
   else{
+    seedling.currentPart = 0;
     console.log("should change to different story: current part should be 0:", seedling.currentPart)
-    targetColor = getRingColor(seedling, seedling.currentPart);
     diodePct = 0;
+
+    // Call the frontend to update to a different story
+    targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    console.log("Emitting 'ui different story' to the front-end");
+    io.sockets.emit('ui different story', {story: seedling.story, percentages: targetPercentages} );
   }
-  console.log("MAXDISTANCE =", maxDistance);
+
+  targetColor = getRingColor(seedling, seedling.currentPart);
+
+  // Reset all other seedlings' story parts to zero
+  for(var i = 0; i < 3; i++) {
+    if(seedling.number !== i)
+        seedlings[i].currentPart = 0;
+  }
+
+  // Calculate the max distance of
+  for(var i = 0; i < 4; i++){
+    var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - beagleStats["m"+(i+1)] ) );
+    if(temp > maxDistance) maxDistance = temp;
+  }
   var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
-  console.log("DURATION =", duration);
   var circleData = new circleObj(targetColor, duration, diodePct);
 
-  if(seedling.currentPart + 1 == seedling.totalStoryParts){
+  if(seedling.currentPart === 0){
     duration += 3;
   } // will run fill circle so add 3 sec to duration of lightTrail and timeout
 
-  //var lightTrailData = new lightTrailObj(trailColor, 6, duration / seedling.totalStoryParts, seedling.totalStoryParts);
   var timePerRev = 2;
   var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
 
-    // ===============================================================================
-    // Increment current part of the story and reset the idle countdown
-
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	// UNCOMMENT THIS LATER??
-	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
-	console.log(" Previous Story: "+lastActiveSeedling);
-	console.log(" Previous Story's Part: "+seedlings[lastActiveSeedling].currentPart);
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  if(diodePct !== 0)
-    seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
-
+  // Reset the countdown to idle state
   if(idleCountdown) clearTimeout(idleCountdown);
   seconds = 120;
   countdown();
@@ -689,24 +703,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   // Set the variable to keep track of the last seedling that had its button pressed
   lastActiveSeedling = seedling.number;
 
-
-  // Send the new height calculations to the frontend
-  var result;
-  if(uiSocket && lastActiveSeedling === seedling.number) {
-      result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-
-      console.log("Emitting 'ui update part' to the front-end");
-      io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
-  } else if(uiSocket && lastActiveSeedling !== seedling.number) {
-      result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-
-      console.log("Emitting 'ui different story' to the front-end");
-      io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
-  } else console.log("Connection with server not made...");
-
-
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-	// UNCOMMENT THIS LATER??
 	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
 	console.log(" New Story: "+lastActiveSeedling);
 	console.log(" New Story's Part: "+seedlings[lastActiveSeedling].currentPart);
@@ -739,7 +736,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
     }
   }
 
-  if(beagleOnline) beagle.emit("seseme move motors", targetPercentagesArray, plrmax);
+  if(beagleOnline) beagle.emit("seseme move motors", targetPercentages, plrmax);
 
 }
 
@@ -831,8 +828,8 @@ beagleIO.on('connection', function(beagleSocket){
     stepperPositionAr = array; // save stepperPositionAr after setup
     console.log(stepperPositionAr);
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
-    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-    beagle.emit("seseme move motors", targetPercentagesArray, plrmax);
+    var targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    beagle.emit("seseme move motors", targetPercentages, plrmax);
   })
 
   beagleSocket.on('seseme finished moving', function(obj){
