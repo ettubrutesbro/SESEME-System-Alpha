@@ -69,6 +69,16 @@ function systemOnline(debug) {
     return isOnline;
 }
 
+function seedlingsReady() {
+    var isReady = true;
+    for(var i = 0; i < 3; i++) {
+        // Check if all seedlings are connected
+        if(!seedlings[i].ready)
+            isReady = false;
+    }
+    return isReady;
+}
+
 // Check the system every 5 mins
 setInterval(function() { systemOnline(1); }, 300000);
 
@@ -617,7 +627,7 @@ function seedlingConnected(seedSocket, seedlingNum){
     var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
     console.log("Initialize seedling story");
     seedling.socket.emit('seedling initialize story', lastActiveSeedling, targetColor); // initialize first seedling and turn on buttons on first connect
-    if(systemOnline()) {
+    if(seedlingsReady()) {
 
       // Sync sequence listeners
       seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
