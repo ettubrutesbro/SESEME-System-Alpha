@@ -476,13 +476,14 @@ function getRingColor(seedling, currentPart){
 
 function checkSesemeRunning(seedling, callback){
   var plrmax = 5000;
+  var maxDistance = 5000;
+  var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+
   console.log("checkSesemeRunning()");
   if(beagleOnline){
     beagle.emit('getBeagleStats');
     beagle.emit('isRunning'); // check if seseme is running
-    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-    var maxDistance = 0;
-
+    
     var timer1 = setInterval(function(){
       if(beagleStatsFlag){
         clearInterval(timer1);
