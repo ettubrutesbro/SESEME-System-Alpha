@@ -618,12 +618,12 @@ function seedlingConnected(seedSocket, seedlingNum){
 
   seedling.socket.on('seedling finished inits', function(num) {
     seedlings[num].ready = true;
+    var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
+    console.log("Initialize seedling story");
+    seedling.socket.emit('seedling initialize story', lastActiveSeedling, targetColor); // initialize first seedling and turn on buttons on first connect
     if(systemOnline()) {
       console.log("Starting sync sequence");
       seedling.socket.emit('seedling start sync-sequence-1');
-      var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
-      console.log("Initialize seedling story");
-      seedling.socket.emit('seedling initialize story', lastActiveSeedling, targetColor); // initialize first seedling and turn on buttons on first connect
     }
     //console.log("seedling finished inits listener", seedlingNum);
     //var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
