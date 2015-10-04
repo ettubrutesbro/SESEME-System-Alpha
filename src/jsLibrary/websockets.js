@@ -636,11 +636,11 @@ function seedlingConnected(seedSocket, seedlingNum){
     if(seedlingsReady()) {
 
       // Sync sequence listeners
-      seedlings[0].socket.on('seedling finish sync-sequence-1', function() {
+      seedlings[0].socket.once('seedling finish sync-sequence-1', function() {
           console.log("Finished sync-sequence-1")
           seedlings[1].socket.emit('seedling start sync-sequence-2');
       });
-      seedlings[1].socket.on('seedling finish sync-sequence-2', function() {
+      seedlings[1].socket.once('seedling finish sync-sequence-2', function() {
           console.log("Finished sync-sequence-2")
           seedlings[2].socket.emit('seedling start sync-sequence-3');
       });
