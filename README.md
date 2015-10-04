@@ -24,7 +24,7 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
     - Seedling3: pi@10.0.1.34
     - Password: Finest gourmet dining in SF
 3. Use `cdss` command to get into SESEME-System-Alpha folder in each brain.
-   - Directory: ~/git/SESEME-System-Alpha
+   - Directory: `~/git/SESEME-System-Alpha`
 4. Use `start` command to run the node process in each brain.
    - NOTE: Make sure Pillars are fully down and motors are powered before `start` in Beagle.
 
