@@ -62,6 +62,7 @@ socket.on("seseme update position values", function(stepperPositionAr){
   for(var i = 0; i < 4; i++){
     stepper["m"+(i+1)].position = stepperPositionAr[i];
   }
+  stepperToPositionAr(stepper);
 });
 
 socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
