@@ -578,6 +578,13 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   else {
     // ===============================================================================
     // Increment current part of the story and reset the idle countdown
+	
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// UNCOMMENT THIS LATER??
+	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+	console.log(" Previous Story: "+lastActiveSeedling);
+	console.log(" Previous Story's Part: "+seedlings[lastActiveSeedling].currentPart);
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     if(diodePct !== 0)
       seedling.currentPart = (seedling.currentPart+1) % seedling.totalStoryParts;
@@ -588,6 +595,14 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
     // Set the variable to keep track of the last seedling that had its button pressed
     lastActiveSeedling = seedling.number;
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+	// UNCOMMENT THIS LATER??
+	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+	console.log(" New Story: "+lastActiveSeedling);
+	console.log(" New Story's Part: "+seedlings[lastActiveSeedling].currentPart);
+	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	// Play the new story's sound
     var buttonSounds = story[lastActiveSeedling].parts[seedling.currentPart].sound;
