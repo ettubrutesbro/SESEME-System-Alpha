@@ -24,13 +24,34 @@ function lightTrailObj(trailColor, nodes, time, revolutions){
   this.revolutions = revolutions;
 }
 
+// SLACK API THING HERE (FINISH LATER @@@@@@@@@@@@@@@@@@@@@@@)
+// System check function to send a report to the slack diagnostics channel
+function reportSystemStatus() {
+    // Check if the beagle is connected
+	var systemStatus = {};
+    var isOnline = true;
+	
+	// Check the status of the beagle
+    if(beagleOnline)
+		systemStatus.beagle = '[online]';
+    else systemStatus.beagle = '[offline]';
+
+    // Check if all seedlings are connected
+    for(var i = 0; i < 3; i++) {
+        if(seedlings[i].online) 
+            systemStatus['pi'+(i+1)] = '[online]');
+        else systemStatus['pi'+(i+1)] = '[offline]');
+    }
+}
+
 function systemOnline(debug) {
     // Check if the beagle is connected
     var print = [];
     var isOnline = true;
+    if(beagleOnline) {
         print.push("Beagle status: [offline]");
         isOnline = false;
-    //} else print.push("Beagle status: [online]");
+	} else print.push("Beagle status: [online]");
     for(var i = 0; i < 3; i++) {
         // Check if all seedlings are connected
         if(!seedlings[i].online) {
