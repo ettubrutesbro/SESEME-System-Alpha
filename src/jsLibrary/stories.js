@@ -14,11 +14,14 @@ module.exports = {
         maintext: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.', //recommended 230 character maximum
 
         pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
-        pTexts: ['2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.','Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.','Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.',''],
-        pSymbols: [{type:'img',src:'planetest'},{type:'img',src:'planetest'},{type:'img',src:'planetest'}, {type:'img',src:'planetest'}],
+        pTexts: ['2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.',
+        'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.',
+        'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.',
+        ''],
+        pSymbols: ['','','',''],
         pLabels: ['','','',''],
         pStatboxes: [
-          {c:['1st Place', 'so fuck off'], size: [18,12] }, {c: '3rd', size: 18 },
+          {c:'1st Place', size: 18 }, {c: '3rd', size: 18 },
           {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
         ],
         pLinks: [
