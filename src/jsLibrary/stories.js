@@ -78,7 +78,8 @@ module.exports = {
       {//part0
         values: [100,87,77,68], customLo: 50,
         title: {
-          main: {c: ['Race & Gender','Wage Gap'], size: 21},
+          pre: {c: 'society1', size: 18},
+          post: {c: 'megasux', size: 18, margin: .8}
         },
         maintext: 'Society is garbage and women can\'t get paid. Guess what though, it\'s even worse if you\'re a person of color, worse still for women of color. What\'s wrong with you shits?', //recommended 230 character maximum
         color: { ui: '#ff5555', monument: {hex: "#ff5555", bri: 1}, ring: '882222' },
@@ -108,8 +109,8 @@ module.exports = {
       {//part1
         values: [50,87,77,68], customLo: 50,
         title: {
-          main: {c: ['what it should be'], size: 21},
-          post: {c: ['actually fuck u'], size: 21},
+          pre: {c: 'shit lyfe', size: 18},
+          post: {c: '2012', size: 18, margin: .8}
         },
         color: { ui: '#000000', monument: {hex: "#ffffff", bri: 1}, ring: '888888' },
         sound: ['police','horhorhor'],
