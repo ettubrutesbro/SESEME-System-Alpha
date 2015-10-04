@@ -574,11 +574,12 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   if(error) {
     if(seedling.socket)
         seedling.socket.emit("error buttonPressed", seedling.number, circleData, lightTrailData, seedling.buttonPressed);
+        seedling.buttonPressed = false;
   }
   else {
     // ===============================================================================
     // Increment current part of the story and reset the idle countdown
-	
+
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// UNCOMMENT THIS LATER??
 	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
