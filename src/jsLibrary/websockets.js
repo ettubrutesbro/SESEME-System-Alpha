@@ -696,10 +696,10 @@ beagleIO.on('connection', function(beagleSocket){
     console.log(data)
   })
 
-  beagleSocket.on('seseme finished setup', function(){
+  beagleSocket.on('seseme finished setup', function(array){
     console.log("seseme finished setup socket");
-    //stepperPositionAr = obj; // save stepperPositionAr after setup
-    //console.log(stepperPositionAr);
+    stepperPositionAr = array; // save stepperPositionAr after setup
+    console.log(stepperPositionAr);
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
@@ -707,7 +707,8 @@ beagleIO.on('connection', function(beagleSocket){
 
   beagleSocket.on('seseme finished moving', function(obj){
     console.log("seseme finished moving socket");
-    //stepperPositionAr = obj; // update stepperPositionAr obj after moving
+    stepperPositionAr = obj; // update stepperPositionAr obj after moving
+    console.log(stepperPositionAr);
   })
 
   beagleSocket.on('checkSesemeRunning', function(data){
@@ -722,9 +723,15 @@ beagleIO.on('connection', function(beagleSocket){
     beagleStatsFlag = true; // got beagle stats
   })
 
-  beagleSocket.on('beagle 1 On', function(){
+  beagleSocket.on('beagle 1 On', function(array){
     beagleOnline = true;
     console.log('[BEAGLE: ONLINE]')
+
+    if(array){
+      stepperPositionAr = array;
+      //if(beagleOnline) beagle.emit("buttonPressed", targetPercentagesArray, plrmax);
+    }
+    console.log(stepperPositionAr);
   });
 
   beagleSocket.on('disconnect', function(){
