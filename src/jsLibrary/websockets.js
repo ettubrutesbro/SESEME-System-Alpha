@@ -658,7 +658,7 @@ function bigRedButtonHelper(seedling){
     io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: targetPercentages} );
 
     // Setting variables for fading the led circle
-    diodePct = seedling.currentPart === 0 ? seedling.totalStoryParts: seedling.currentPart / seedling.totalStoryParts * 100;
+    diodePct = seedling.currentPart === 0 ? 100: seedling.currentPart / seedling.totalStoryParts * 100;
   }
   // Update the story to the new one
   else{
