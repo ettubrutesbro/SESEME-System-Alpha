@@ -84,7 +84,7 @@ socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
       console.log("in moveMotorCallback", count);
       stepper = obj; // update stepper obj
       if(count === 4){
-        console.log("seseme finished moving duration", (Date.now()-prevTime) / 1000);
+        console.log("seseme finished moving duration " + (Date.now()-prevTime) / 1000);
         socket.emit('seseme finished moving', stepperToPositionAr(stepper));
       } // all four motors have finished moving
     });
