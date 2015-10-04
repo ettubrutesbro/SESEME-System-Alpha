@@ -171,7 +171,7 @@ module.exports = {
           main: {c: ['Spending', 'a shitload', 'of time'], size:24, font: 'Droid Serif', weight: 400},
           post: {c: 'on this project', size: 12}
         },
-        color: {ui: '#f0f0f0', monument: {hex: #881166, bri: 0.8}, ring: '881166'},
+        color: {ui: '#f0f0f0', monument: {hex: '#881166', bri: 0.8}, ring: '881166'},
         sound: ['marquardt'],
         pNames: ['Jack Leng', 'Drew Ferguson', 'Thomas Bui', 'Andrew Kwon'],
         pTexts: ['design','construction','embedded systems','network architecture'],
