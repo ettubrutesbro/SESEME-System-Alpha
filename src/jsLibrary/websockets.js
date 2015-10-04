@@ -799,8 +799,9 @@ beagleIO.on('connection', function(beagleSocket){
 
   beagleSocket.on('seseme finished setup', function(array){
     console.log("seseme finished setup socket");
-    stepperPositionAr = array; // save stepperPositionAr after setup
-    console.log(stepperPositionAr);
+    //stepperPositionAr = array; // save stepperPositionAr after setup
+    console.log("position array after setup", array);
+    console.log("stepperPositionAr after setup", stepperPositionAr);
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
     beagle.emit("seseme move motors", targetPercentages, plrmax);
@@ -808,8 +809,8 @@ beagleIO.on('connection', function(beagleSocket){
 
   beagleSocket.on('seseme finished moving', function(obj){
     console.log("seseme finished moving socket");
-    stepperPositionAr = obj; // update stepperPositionAr obj after moving
-    console.log(stepperPositionAr);
+    stepperPositionAr = obj; // update stepperPositionAr after moving
+    console.log("finished moving stepperPositionAr", stepperPositionAr);
   })
 
   beagleSocket.on('checkSesemeRunning', function(data){
