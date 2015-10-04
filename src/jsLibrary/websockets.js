@@ -476,6 +476,35 @@ function getRingColor(seedling, currentPart){
 
 function checkSesemeRunning(seedling, callback){
   var plrmax = 5000;
+
+  console.log("checkSesemeRunning()");
+  if(beagleOnline){
+    beagle.emit('getBeagleStats');
+    beagle.emit('isRunning'); // check if seseme is running
+
+    var timer = setInterval(function(){
+      if(beagleStatsFlag && updateFlag){
+        clearInterval(timer);
+        if(!sesemeRunning){
+          console.log("SESEME not running");
+          callback(false, maxDistance, targetPercentagesArray, plrmax);
+        }
+        else
+          console.log("SESEME currently running");
+          callback(true, maxDistance, targetPercentagesArray, plrmax);
+          //seedling.socket.emit("playType", "idler");
+      }
+    }, 20);
+  }
+  else{
+    console.log("SESEME not running because beagle off");
+    callback(false, maxDistance, targetPercentagesArray, plrmax);
+  }
+}
+
+/*
+function checkSesemeRunning(seedling, callback){
+  var plrmax = 5000;
   var maxDistance = 5000;
   var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
 
@@ -483,7 +512,7 @@ function checkSesemeRunning(seedling, callback){
   if(beagleOnline){
     beagle.emit('getBeagleStats');
     beagle.emit('isRunning'); // check if seseme is running
-    
+
     var timer1 = setInterval(function(){
       if(beagleStatsFlag){
         clearInterval(timer1);
@@ -517,6 +546,7 @@ function checkSesemeRunning(seedling, callback){
     callback(false, maxDistance, targetPercentagesArray, plrmax);
   }
 }
+*/
 
 function seedlingConnected(seedSocket, seedlingNum){
   var seedling = seedlings[seedlingNum];
