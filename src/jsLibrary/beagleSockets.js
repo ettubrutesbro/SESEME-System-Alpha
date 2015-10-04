@@ -58,8 +58,8 @@ socket.on('disconnect', function() {
   console.log('beagle 1 Off', socket.disconnected);
 });
 
-socket.on('buttonPressed', function(targetPercentagesArray, plrmax) {
-  console.log('buttonPressed, move seseme');
+socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
+  console.log('seseme move motors');
 
   /* move seseme motors*/
   console.log(targetPercentagesArray);
