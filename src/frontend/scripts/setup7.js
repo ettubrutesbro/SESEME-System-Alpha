@@ -112,7 +112,7 @@ function setup(){
 		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
-			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about'] //names of external imgs (PNG)
+			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
@@ -321,8 +321,7 @@ function setup(){
 			info.help = new THREE.Group()
 			var sections = [
 				{name: 'about',
-					x: 0, z: 14,
-					color: '#ff0000', icon: 'about',
+					x: 0, z: 14, icon: 'about',
 					objs: [
 						//team rows
 						{dims: {x:40,y:7}, pos: {x:0, z:-28.75}, origin: {x:0,z:-30,delay:150, }},
@@ -333,8 +332,7 @@ function setup(){
 					]
 				},
 				{name: 'howto',
-					x: 14, z: 0,
-					color: '#00ff00', icon: 'howto',
+					x: 14, z: 0, icon: 'howto',
 					objs: [
 						//app animations
 						{dims: {x:12,y:16},pos:{x:-14,z:-21,delay:100},origin:{x:10,z:-21}},
@@ -348,8 +346,7 @@ function setup(){
 					]
 				},
 				{name: 'options',
-					x: 0, z: -14,
-					color: '#0000ff', icon: 'howto',
+					x: 0, z: -14, icon: 'settings',
 					objs: [
 						//settings: performance and collect usage data
 						{dims: {x:15,y:15}, pos: {x:-9, z:18}, origin: {x:0,z:0,delay:150},
@@ -362,8 +359,7 @@ function setup(){
 					]
 				},
 				{name: 'feedback',
-					x: -14, z: 0,
-					color: '#000000', icon: 'feedback',
+					x: -14, z: 0, icon: 'feedback',
 					objs: [
 						{dims: {x:16,y:18 }, pos: {x:13,z:-20},origin:{x:0,z:0,delay:100,}},
 						{dims: {x:16,y:18 }, pos: {x:13,z:0,delay:50},origin:{x:0,z:0,delay:50},
@@ -380,7 +376,7 @@ function setup(){
 				//button placement & color
 				var helpbtn = new THREE.Mesh(new THREE.PlaneBufferGeometry(8,8),
 				new THREE.MeshBasicMaterial({map: resources.mtls['btn_'+sections[i].icon].map,
-					color: sections[i].color, transparent: true, opacity: 0, depthWrite: false}))
+					transparent: true, opacity: 0, depthWrite: false}))
 				helpbtn.position.y = -17.5
 				helpbtn.rotation.x = rads(-90)
 				helpbtn.expand = {x: sections[i].x, z: sections[i].z, delay:50+i*35 }
