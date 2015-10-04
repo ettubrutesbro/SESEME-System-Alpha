@@ -94,7 +94,7 @@ lifx.turnOff(1);
 ////////////////////////////////////////////////
 var beagleIO = new socket.listen(4000);
 var beagle = null;
-var stepperPositionAr;
+var stepperPositionAr = null;
 var beagleOnline = false;
 var sesemeRunning = false;
 var updateFlag = false;
@@ -795,10 +795,8 @@ beagleIO.on('connection', function(beagleSocket){
     console.log(data)
   })
 
-  beagleSocket.on('seseme finished setup', function(array){
+  beagleSocket.on('seseme finished setup', function(){
     console.log("seseme finished setup socket");
-    //stepperPositionAr = array; // save stepperPositionAr after setup
-    console.log("position array after setup", array);
     console.log("stepperPositionAr after setup", stepperPositionAr);
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
@@ -824,16 +822,16 @@ beagleIO.on('connection', function(beagleSocket){
     beagleStatsFlag = true; // got beagle stats
   })
 
-  beagleSocket.on('beagle 1 On', function(array){
+  beagleSocket.on('beagle 1 On', function(beagleAr){
     beagleOnline = true;
     console.log('[BEAGLE: ONLINE]')
-    /*
-    if(array){
-      stepperPositionAr = array;
-      //if(beagleOnline) beagle.emit("seseme move motors", targetPercentagesArray, plrmax);
-    }
-    */
-    console.log(stepperPositionAr);
+    console.log("array in xps", stepperPositionAr);
+    console.log("array in beagle", beagleAr)
+    if(beagleAr && !stepperPositionAr){
+      console.log("xps went down, get info from beagle since up")
+      stepperPositionAr = beagleAr;
+      console.log("new array in xps", stepperPositionAr)
+    } // xps went down but beagle has info
   });
 
   beagleSocket.on('disconnect', function(){

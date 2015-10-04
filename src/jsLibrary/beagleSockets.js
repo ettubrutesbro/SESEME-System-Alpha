@@ -46,7 +46,7 @@ socket.emit('checkin', ' * DATA')
 var seseme = require(path.join(__dirname, 'seseme.js'));
 seseme.setup(socket, function(obj){
   stepper = obj;
-  socket.emit('seseme finished setup', stepperToPositionAr(stepper));
+  socket.emit('seseme finished setup');
 });
 
 socket.on('connect', function() {
@@ -59,9 +59,11 @@ socket.on('disconnect', function() {
 });
 
 socket.on("seseme update position values", function(stepperPositionAr){
+  console.log("seseme update position values after beagle down");
   for(var i = 0; i < 4; i++){
     stepper["m"+(i+1)].position = stepperPositionAr[i];
   }
+  stepperToPositionAr(stepper);
 });
 
 socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
