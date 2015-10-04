@@ -49,9 +49,12 @@ function systemOnline(debug) {
     var print = [];
     var isOnline = true;
     if(beagleOnline) {
+        print.push("Beagle status: [online]");
+        isOnline = true;
+	} else {
         print.push("Beagle status: [offline]");
         isOnline = false;
-	} else print.push("Beagle status: [online]");
+    }
     for(var i = 0; i < 3; i++) {
         // Check if all seedlings are connected
         if(!seedlings[i].online) {
@@ -614,8 +617,10 @@ function seedlingConnected(seedSocket, seedlingNum){
 
   seedling.socket.on('seedling finished inits', function(num) {
     seedlings[num].ready = true;
-    if(systemOnline())
+    if(systemOnline()) {
+      console.log("Starting sync sequence");
       seedlingIO[0].emit('seedling start sync-sequence-1');
+    }
 
     console.log("seedling finished inits listener", seedlingNum);
     var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
@@ -816,6 +821,7 @@ seedlingIO[0].on('seedling finish sync-sequence-1', function() {
 
 beagleIO.on('connection', function(beagleSocket){
   if(systemOnline()) {
+        console.log("Starting sync sequence");
         seedlingIO[0].emit('seedling start sync-sequence-1');
         // Listen for when to pass the next sync sequence to the next seedling
   }
