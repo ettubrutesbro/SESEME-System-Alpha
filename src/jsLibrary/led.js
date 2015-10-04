@@ -326,7 +326,7 @@ var self = module.exports = {
                 that.color = currentColor;
                 that.percentAr = percentAr;
                 clearInterval(animationTimer);
-                that.fillCircle(targetColor, 3, obj, callback);
+                that.fillCircle(currentColor, targetColor, 3, obj, callback);
             } // done fading and call callback to fill
 
             else if(count == finalSteps){
