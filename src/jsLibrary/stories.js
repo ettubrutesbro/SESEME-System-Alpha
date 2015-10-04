@@ -83,13 +83,12 @@ module.exports = {
         maintext: 'Society is garbage and women can\'t get paid. Guess what though, it\'s even worse if you\'re a person of color, worse still for women of color. What\'s wrong with you shits?', //recommended 230 character maximum
         color: { ui: '#ff5555', monument: {hex: "#ff5555", bri: 1}, ring: '882222' },
         sound: ['schmoney1','schmoney2'],
-
         pNames: [['White Men','(sux)'],'White Women','Black Mans','WoC'],
-        pTexts: ['bla','bla','bla','bla'],
+        pTexts: ['injustice and shit','white mans sux','lets go home','fuckin no time left'],
         pSymbols: [{type:'geo',src:'templategeo'},{type:'spr',src:'planetest'},
           {type:'spr',src:'planetest'},{type:'spr',src:'planetest'}],
         pLabels: ['','','',''],
-        pStatboxes: [{c: ['100%','these fools', 'have it all'], size:[32,14,14]},
+        pStatboxes: [{c: ['100%','these fools'], size:[32,14], width: 200},
         {c: ['87%','such complain'],size:[32,14]},
         {c:['77%','some bullshit'], size:[32,14]},
         {c:['68%','wtf is america'], size:[32,12]}],
