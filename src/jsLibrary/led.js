@@ -145,6 +145,7 @@ var self = module.exports = {
             strip.pixel(i+firstDiode).color(string);
         }
         strip.show();
+        this.color = color;
     },
 
     lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){ // time = time for each rev

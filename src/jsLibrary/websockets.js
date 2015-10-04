@@ -639,7 +639,6 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 function bigRedButtonHelper(seedling){
   var trailColor = led.hexToObj("FFFFFF");
-  //var currentPartTemp = (seedling.currentPart + 1) % seedling.totalStoryParts;
   var targetColor, diodePct;
   var targetPercentages = [];
   var maxDistance = plrmax;
