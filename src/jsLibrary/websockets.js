@@ -24,51 +24,40 @@ function lightTrailObj(trailColor, nodes, time, revolutions){
   this.revolutions = revolutions;
 }
 
-// SLACK API THING HERE (FINISH LATER @@@@@@@@@@@@@@@@@@@@@@@)
+var claptron = require(path.join(__dirname, 'slackbot.js');
+
 // System check function to send a report to the slack diagnostics channel
-function reportSystemStatus() {
+function reportSystemStatus(title) {
     // Check if the beagle is connected
 	var systemStatus = {};
-    var isOnline = true;
+
+    // Assume system is good right now
+    var allGood = true;
 
 	// Check the status of the beagle
     if(beagleOnline)
-		systemStatus.beagle = '[online]';
-    else systemStatus.beagle = '[offline]';
+        systemStatus.monument = 'online';
+    else {
+        systemStatus.monument = 'offline';
+        allGood = false;
+    }
 
     // Check if all seedlings are connected
     for(var i = 0; i < 3; i++) {
         if(seedlings[i].online)
-            systemStatus['pi'+(i+1)] = '[online]';
-        else systemStatus['pi'+(i+1)] = '[offline]';
-    }
-}
-
-function systemOnline(debug) {
-    // Check if the beagle is connected
-    var print = [];
-    var isOnline = true;
-    if(beagleOnline) {
-        print.push("Beagle status: [online]");
-	} else {
-        print.push("Beagle status: [offline]");
-        isOnline = false;
-    }
-    for(var i = 0; i < 3; i++) {
-        // Check if all seedlings are connected
-        if(!seedlings[i].online) {
-            isOnline = false;
-            print.push("Seedling "+(i+1)+": [offline]");
-        } else {
-            print.push("Seedling "+(i+1)+": [online]");
+            systemStatus['pi'+(i+1)] = 'online';
+        else {
+            systemStatus['pi'+(i+1)] = 'offline';
+            allGood = false;
         }
     }
-    var status = isOnline ? "ONLINE" : "OFFLINE";
-    console.log("======================= [SYSTEM "+status+"] =======================");
-    if(debug) for(var logs in print) console.log(print[logs]);
-    return isOnline;
+
+    var slackColor = (allGood) ?  "#00ff00" : "#f30020";
+    title = title || ((allGood) ? "Everythin's hella WET, yo." : "This shit GARB...");
+    claptron.reportSysCheck(systemStatus, title, slackColor);
 }
 
+// Check if all the seedlings are ready
 function seedlingsReady() {
     var isReady = true;
     for(var i = 0; i < 3; i++) {
@@ -78,9 +67,6 @@ function seedlingsReady() {
     }
     return isReady;
 }
-
-// Check the system every 5 mins
-setInterval(function() { systemOnline(1); }, 300000);
 
 ////////////////////////////////////////////////
 //  Constants
@@ -581,6 +567,10 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.online = false;
     seedling.ready = false;
     console.log('[SEEDLING ' + (seedlingNum+1) + ': DISCONNECTED]')
+
+    // Report to the diagnostics channel that the seedling went down
+    var slackTitle = '~ :pancakecat: Seedling (.3'+(seedling.number+2)+') Disconnected :pancakecat: ~';
+    reportSystemStatus(slackTitle);
   })
 }
 
@@ -765,6 +755,10 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('disconnect', function(){
     beagleOnline = false;
     console.log('[BEAGLE: DISCONNECTED]')
+
+    // Report to the diagnostics channel that the seedling went down
+    var slackTitle = '~ :pancakecat: Monument (.210) Disconnected :pancakecat: ~';
+    reportSystemStatus(slackTitle);
   })
 
 });
