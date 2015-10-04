@@ -474,6 +474,49 @@ function getRingColor(seedling, currentPart){
   return targetColor;
 }
 
+function checkSesemeRunning(seedling, callback){
+  var plrmax = 5000;
+  console.log("checkSesemeRunning()");
+  if(beagleOnline){
+    beagle.emit('getBeagleStats');
+    beagle.emit('isRunning'); // check if seseme is running
+    var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    var maxDistance = 0;
+
+    var timer1 = setInterval(function(){
+      if(beagleStatsFlag){
+        clearInterval(timer1);
+        for(var i = 0; i < 4; i++){
+          var temp = Math.round( Math.abs( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] ) );
+          if(temp > maxDistance) maxDistance = temp;
+        }
+        console.log("maxDistance: " + maxDistance);
+        beagleStatsFlag = false;
+        maxDistanceFlag = true; // done with setting maxDistance
+      } //
+    }, 20);
+
+    var timer2 = setInterval(function(){
+      if(updateFlag && maxDistanceFlag){
+        clearInterval(timer2);
+        maxDistanceFlag = false;
+        if(!sesemeRunning){
+          console.log("SESEME not running");
+          callback(false, maxDistance, targetPercentagesArray, plrmax);
+        }
+        else
+          console.log("SESEME currently running");
+          callback(true, maxDistance, targetPercentagesArray, plrmax);
+          //seedling.socket.emit("playType", "idler");
+      }
+    }, 20);
+  }
+  else{
+    console.log("SESEME not running");
+    callback(false, maxDistance, targetPercentagesArray, plrmax);
+  }
+}
+
 function seedlingConnected(seedSocket, seedlingNum){
   var seedling = seedlings[seedlingNum];
   console.log('[SEEDLING ' + (seedlingNum+1) + ': CONNECTED]')
@@ -493,6 +536,29 @@ function seedlingConnected(seedSocket, seedlingNum){
         break;
       } // invalid button press
     }
+
+    checkSesemeRunning(seedling, function(data, maxDistance, targetPercentagesArray, plrmax){
+      if(!error && !data){
+      	  // If system is in idle mode, clear the lifx breathe/desperation intervals
+    	  stopIdleState();
+          console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
+          seedling.buttonPressed = true;
+          for(var i = 0; i < seedlings.length; i++){
+            if(i !== seedling.number){
+              console.log("reset current part of other seedings", i);
+              seedlings[i].currentPart = 0;
+            }
+          }
+          bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrmax, false);
+        }
+        else{
+          console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
+          randomSoundWeight(soundObj, 'no', seedling.socket);
+          seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
+        } // currently in animation
+      }
+    })
+    /*
     if(!error){
   	  // If system is in idle mode, clear the lifx breathe/desperation intervals
 	  stopIdleState();
@@ -511,6 +577,7 @@ function seedlingConnected(seedSocket, seedlingNum){
       randomSoundWeight(soundObj, 'no', seedling.socket);
       seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
     } // currently in animation
+    */
   });
 
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
@@ -653,7 +720,7 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 
 }
 
-
+/*
 function bigRedButton(seedling){
   var plrmax = 5000;
   console.log("--> in bigRedButton()");
@@ -695,6 +762,7 @@ function bigRedButton(seedling){
     bigRedButtonHelper(seedling, 5000, null, plrmax, false);
   }
 }
+*/
 
 
 ////////////////////////////////////////////////
