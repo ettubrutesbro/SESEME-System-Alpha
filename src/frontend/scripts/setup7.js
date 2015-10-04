@@ -112,7 +112,7 @@ function setup(){
 		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
-			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback'] //names of external imgs (PNG)
+			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
@@ -322,7 +322,7 @@ function setup(){
 			var sections = [
 				{name: 'about',
 					x: 0, z: 14,
-					color: '#ff0000', icon: 'howto',
+					color: '#ff0000', icon: 'about',
 					objs: [
 						//team rows
 						{dims: {x:40,y:7}, pos: {x:0, z:-28.75}, origin: {x:0,z:-30,delay:150, }},

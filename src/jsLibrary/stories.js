@@ -70,14 +70,15 @@ module.exports = {
       }
     ]
   },
+
   society: {
     id: 1, seedling: 'society',
     description: '',
     parts: [
-      {
+      {//part0
         values: [100,87,77,68], customLo: 50,
         title: {
-          main: {c: 'Race & Gender Wage Gap', size: 21},
+          main: {c: ['Race & Gender','Wage Gap'], size: 21},
         },
         maintext: 'Society is garbage and women can\'t get paid. Guess what though, it\'s even worse if you\'re a person of color, worse still for women of color. What\'s wrong with you shits?', //recommended 230 character maximum
         color: { ui: '#ff5555', monument: {hex: "#ff5555", bri: 1}, ring: '882222' },
@@ -92,7 +93,8 @@ module.exports = {
         {c: ['87%','such complain'],size:[32,14]},
         {c:['77%','some bullshit'], size:[32,14]},
         {c:['68%','wtf is america'], size:[32,12]}],
-        pLinks: [[
+        pLinks: [
+          [
             {type: 'site', c: '' }
           ],
           [
@@ -103,21 +105,47 @@ module.exports = {
             {type: 'data', c: ''}, {type: 'article', c: ''}
           ]
         ]
-      }
+      },//part0
+      {//part1
+        values: [50,87,77,68], customLo: 50,
+        title: {
+          main: {c: ['what it should be'], size: 21},
+        },
+        color: { ui: '#000000', monument: {hex: "#ffffff", bri: 1}, ring: '888888' },
+        sound: ['police','horhorhor'],
+        pNames: ['someshit1','someshit2','someshit3','someshit4'],
+        pStatboxes: [{c: ['PCT','suck it fool'], size:[32,14]},
+          {c: ['Lee','go set a watchman'],size:[32,14]},
+          {c:['GTFO','fuck outta here'], size:[32,14]},
+          {c:['68%','wtf is america'], size:[32,12]}
+        ],
+        pLinks: [
+          [
+            {type: 'article', c: '' }
+          ],
+          [
+            {type: 'article', c: ''}
+          ],
+          '',
+          [
+            {type: 'tw3', c: ''}
+          ]
+        ]
+      }//part1
     ]
   },
-  
+
   anomalous: {
     id: 2, seedling: 'anomalous',
     description: '',
     parts: [
       {
-        values: [4600,8000,1500,500], valueType: 'lessIsTall', customLo: 24,
+        values: [4600,8000,1500,500],
         title: {
           pre: {c: 'Schmoney', size: 18},
           main: {c: ['You Are Getting','Jizzacked.com'], size: 28, font: 'Droid Serif', weight: 400, margin: -.2}
         },
-        maintext: 'Mark Yudof and Linda Katehi are having a schmoney party and u are not invited, pleb', //recommended 230 character maximum
+        maintext: 'Mark Yudof and Linda Katehi are having a schmoney party and u are not invited, pleb',
         color: { ui: '#00ff00', monument: {hex: "#00ff00", bri: 1}, ring: '009900' },
         sound: ['horhorhor'],
         pNames: ['Mark Money','Linda Money','Yacht Money','Trust Money'],
@@ -136,8 +164,21 @@ module.exports = {
             {type: 'article', c: ''}
           ]
         ]
+      },
+      {
+        values: [2000,1000,3000,4000],
+        title: {
+          pre: {c: 'Going innnnn', size:14 },
+          main: {c: ['Spending', 'a shitload', 'of time'], size:24, font: 'Droid Serif', weight: 400},
+          post: {c: 'on this project', size: 12}
+        },
+        color: {ui: '#f0f0f0', monument: {hex: #881166, bri: 0.8}, ring: '881166'},
+        sound: ['marquardt'],
+        pNames: ['Jack Leng', 'Drew Ferguson', 'Thomas Bui', 'Andrew Kwon'],
+        pTexts: ['design','construction','embedded systems','network architecture'],
+        pLabels: ['designer','engineer','',''],
+        pStatboxes: [{c: ['fuck u', 'man']},{c:['dick','sux']}, {c: ['fucc','bois unite'],''}]
       }
-
     ]
   }
 }
