@@ -176,7 +176,12 @@ module.exports = {
         pNames: ['Jack Leng', 'Drew Ferguson', 'Thomas Bui', 'Andrew Kwon'],
         pTexts: ['design','construction','embedded systems','network architecture'],
         pLabels: ['designer','engineer','',''],
-        pStatboxes: [{c: ['fuck u', 'man']},{c:['dick','sux']}, {c: ['fucc','bois unite'],''}]
+        pStatboxes: [
+          {c: ['fuck u', 'man']},
+          {c:['dick','sux']},
+          {c: ['fucc','bois unite']}
+          ,''
+        ]
       }
     ]
   }
