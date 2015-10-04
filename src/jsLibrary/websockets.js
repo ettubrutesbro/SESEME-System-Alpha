@@ -804,7 +804,8 @@ beagleIO.on('connection', function(beagleSocket){
     console.log("stepperPositionAr after setup", stepperPositionAr);
     var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
     var targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-    beagle.emit("seseme move motors", targetPercentages, plrmax);
+    if(stepperPositionAr) beagle.emit("seseme update position values", stepperPositionAr) // beagle went down so update stepper obj in beagleSockets
+    else beagle.emit("seseme move motors", targetPercentages, plrmax); // initialize pillars for first time
   })
 
   beagleSocket.on('seseme finished moving', function(obj){

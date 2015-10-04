@@ -58,6 +58,12 @@ socket.on('disconnect', function() {
   console.log('beagle 1 Off', socket.disconnected);
 });
 
+socket.on("seseme update position values", function(stepperPositionAr){
+  for(var i = 0; i < 4; i++){
+    stepper["m"+(i+1)].position = stepperPositionAr[i];
+  }
+}
+
 socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
   console.log('seseme move motors');
 
