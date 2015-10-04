@@ -664,6 +664,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 
   seedling.socket.on('disconnect', function(){
     seedling.online = false;
+    seedling.ready = false;
     console.log('[SEEDLING ' + (seedlingNum+1) + ': DISCONNECTED]')
   })
 }
