@@ -72,8 +72,10 @@ socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
     //seseme.moveMotor(stepper, "m"+(i+1), Math.abs(steps), dir);
     seseme.moveMotorCallback(stepper, "m"+(i+1), Math.abs(steps), dir, function(obj){
       stepper = obj; // update stepper obj
-      if(i === 3)
+      if(i === 3){
+        console.log("seseme finished moving, i", i)
         socket.emit('seseme finished moving', stepperToPositionAr(stepper));
+      }
     });
   }
 });
