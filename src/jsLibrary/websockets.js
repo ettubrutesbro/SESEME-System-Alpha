@@ -659,6 +659,22 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
   // Set the variable to keep track of the last seedling that had its button pressed
   lastActiveSeedling = seedling.number;
 
+
+  // Send the new height calculations to the frontend
+  var result;
+  if(uiSocket && lastActiveSeedling === seedling.number) {
+      result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+
+      console.log("Emitting 'ui update part' to the front-end");
+      io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
+  } else if(uiSocket && lastActiveSeedling !== seedling.number) {
+      result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+
+      console.log("Emitting 'ui different story' to the front-end");
+      io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
+  } else console.log("Connection with server not made...");
+
+
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// UNCOMMENT THIS LATER??
 	console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
@@ -685,21 +701,6 @@ function bigRedButtonHelper(seedling, maxDistance, targetPercentagesArray, plrma
 	} else if(story[lastActiveSeedling].parts[seedling.currentPart].color)
 		lifx.validButtonPress(story[lastActiveSeedling].parts[seedling.currentPart].color, 0.5);
 	else lifx.validButtonPress('red', 0);
-
-
-  // Send the new height calculations to the frontend
-  var result;
-  if(uiSocket && lastActiveSeedling === seedling.number) {
-      result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-
-      console.log("Emitting 'ui update part' to the front-end");
-      io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: result} );
-  } else if(uiSocket && lastActiveSeedling !== seedling.number) {
-      result = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-
-      console.log("Emitting 'ui different story' to the front-end");
-      io.sockets.emit('ui different story', {story: seedling.story, percentages: result} );
-  } else console.log("Connection with server not made...")
 
 
   for(var i = 0; i < 3; i++){
