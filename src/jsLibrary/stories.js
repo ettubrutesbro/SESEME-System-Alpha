@@ -8,9 +8,8 @@ module.exports = {
         color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
         sound: ['cheer1','cheer2'],
         title: {
-          pre: {c: 'SUSTAINABILITY', size: 18},
-          main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
-          post: {c: '2012', size: 18, margin: .8}
+          pre: {c: 'STORY 0 (env)', size: 18},
+          main: {c: 'Part 0(1)', size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
         },
         maintext: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.', //recommended 230 character maximum
 
@@ -32,9 +31,8 @@ module.exports = {
       {
         values: [10,13,19,5], valueType: 'lessIsTall', customLo: 24,
         title: {
-          pre: {c: 'WTF WE SUCK???', size: 18},
-          main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
-          post: {c: '2014', size: 18, margin: .8}
+          pre: {c: 'STORY 0(env)', size: 18},
+          main: {c: 'Part 1(2)', size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
         },
         maintext: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
         color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: '991100' },
@@ -54,8 +52,8 @@ module.exports = {
 
         values: [80,29,40,15], customLo: 0,
         title: {
-          pre: {c: 'DROUGHT VS. FOOD', size: 16, align: 'start'},
-          main: {c: ['Water Wasteful','Foods, Ranked.'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'}
+          pre: {c: 'STORY 0(env)', size: 16, align: 'start'},
+          main: {c: 'Part 2(3)', size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'}
         },
         maintext: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
         color: { ui: '#00f000', monument: {hex: "#22ff55", bri: 1}, ring: '00f000' },
@@ -80,8 +78,8 @@ module.exports = {
           color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
           sound: ['horhorhor'],
           title: {
-            pre: {c: 'SHIT', size: 18},
-            main: {c: ['Yes','Also, No'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
+            pre: {c: 'STORY 2(soc)', size: 18},
+            main: {c: 'Part 0(1)', size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
           },
           maintext: 'This story will eventually be about the gender / race wage gap',
 
@@ -95,9 +93,8 @@ module.exports = {
         {
           values: [1,2,3,4],
           title: {
-            pre: {c: 'WTF WE SUCK???', size: 18},
-            main: {c: ['UC Davis','Sux'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
-            post: {c: '2018', size: 18, margin: .8}
+            pre: {c: 'STORY 1(soc)', size: 18},
+            main: {c: 'Part 1(2)', size: 30, font: 'Droid Serif', weight: 400, margin: -.2}
           },
           maintext: '', //recommended 230 character maximum
           color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: '991100' },
@@ -116,8 +113,8 @@ module.exports = {
 
           values: [80,29,40,15], customLo: 0,
           title: {
-            pre: {c: 'DROUGHT VS. FOOD', size: 16, align: 'start'},
-            main: {c: 'have a life bro', size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'}
+            pre: {c: 'STORY 1(soc)', size: 16},
+            main: {c: 'Part 2(3)', size: 25, font: 'Droid Serif', weight: 400, margin: -.2}
           },
           maintext: 'I wanna talk about something tnoehutnaoehutnaoehtneuh ', //recommended 230 character maximum
           color: { ui: '#00f000', monument: {hex: "#22ff55", bri: 1}, ring: '00f000' },
