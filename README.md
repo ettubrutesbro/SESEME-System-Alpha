@@ -33,7 +33,7 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
    Do not start up both before doing this because it will tell the motors to go beyond max since it does not remember its state.
 
 #Notes
-1. If seedling lights are on and you want them to be off while the seedling program isn't running, just start the program and CTRL-C to kill it.
+1. If seedling lights are on and you want them to be off while the seedling program isn't running, just start the program and CTRL-C after console.log("strip initialized").
 
 
 # SOCKETS
