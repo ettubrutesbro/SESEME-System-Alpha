@@ -24,51 +24,41 @@ function lightTrailObj(trailColor, nodes, time, revolutions){
   this.revolutions = revolutions;
 }
 
-// SLACK API THING HERE (FINISH LATER @@@@@@@@@@@@@@@@@@@@@@@)
+var claptron = require(path.join(__dirname, 'slackbot.js'));
+
 // System check function to send a report to the slack diagnostics channel
 function reportSystemStatus() {
     // Check if the beagle is connected
 	var systemStatus = {};
-    var isOnline = true;
+    var pretext;
+
+    // Assume system is good right now
+    var allGood = true;
 
 	// Check the status of the beagle
     if(beagleOnline)
-		systemStatus.beagle = '[online]';
-    else systemStatus.beagle = '[offline]';
+        systemStatus.monument = 'online';
+    else {
+        systemStatus.monument = 'offline';
+        allGood = false;
+    }
 
     // Check if all seedlings are connected
     for(var i = 0; i < 3; i++) {
         if(seedlings[i].online)
-            systemStatus['pi'+(i+1)] = '[online]';
-        else systemStatus['pi'+(i+1)] = '[offline]';
-    }
-}
-
-function systemOnline(debug) {
-    // Check if the beagle is connected
-    var print = [];
-    var isOnline = true;
-    if(beagleOnline) {
-        print.push("Beagle status: [online]");
-	} else {
-        print.push("Beagle status: [offline]");
-        isOnline = false;
-    }
-    for(var i = 0; i < 3; i++) {
-        // Check if all seedlings are connected
-        if(!seedlings[i].online) {
-            isOnline = false;
-            print.push("Seedling "+(i+1)+": [offline]");
-        } else {
-            print.push("Seedling "+(i+1)+": [online]");
+            systemStatus['pi'+(i+1)] = 'online';
+        else {
+            systemStatus['pi'+(i+1)] = 'offline';
+            allGood = false;
         }
     }
-    var status = isOnline ? "ONLINE" : "OFFLINE";
-    console.log("======================= [SYSTEM "+status+"] =======================");
-    if(debug) for(var logs in print) console.log(print[logs]);
-    return isOnline;
+
+    var slackColor = (allGood) ?  "#00ff00" : "#f30020";
+    pretext = pretext || ((allGood) ? "it's lit" : "fuckin' garbage");
+    claptron.reportSysCheck(systemStatus, pretext);
 }
 
+// Check if all the seedlings are ready
 function seedlingsReady() {
     var isReady = true;
     for(var i = 0; i < 3; i++) {
@@ -78,9 +68,6 @@ function seedlingsReady() {
     }
     return isReady;
 }
-
-// Check the system every 5 mins
-setInterval(function() { systemOnline(1); }, 300000);
 
 ////////////////////////////////////////////////
 //  Constants
@@ -346,21 +333,6 @@ io.on('connection', function (socket) {
       socket.emit('interval', 'connection test');
   }, 5000);
 
-  // The front-end reported the status of the current part of the active story
-  /*
-  socket.once('ui report status', function(data) {
-	  console.log('--> got ui report status');
-
-	  // If the story is different or if the story is up-to-date but the parts are different, update
-	  if(data.story !== lastActiveSeedling || data.part !== seedlings[lastActiveSeedling].currentPart) {
-	    console.log('There is a desync between the front-end and the server! Updating server story values now');
-    console.log("after conditional")
-		seedlings[lastActiveSeedling].currentPart = data.part;
-		lastActiveSeedling = data.story;
-	  }
-  });
-  */
-
   socket.on('emit to all', function(data) {
 	io.sockets.emit('receive something', data);
   });
@@ -375,9 +347,12 @@ io.on('connection', function (socket) {
 		});
   });
 
-  socket.on('sim lifx', function(data) {
+  socket.on('sim lifx', function(data, stripColor) {
 		lifx.validButtonPress(data.hex, data.bri);
 		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;
+    var color = led.hexToObj(stripColor)
+    console.log("print strip obj", JSON.stringify(color));
+    seedlings[0].socket.emit('test color', color);
   });
 
   socket.on('sim breathe', function(data) {
@@ -513,52 +488,6 @@ function checkSesemeRunning(seedling, callback){
   }
 }
 
-/*
-function checkSesemeRunning(seedling, callback){
-  var plrmax = 5000;
-  var maxDistance = 5000;
-  var targetPercentagesArray = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-
-  console.log("checkSesemeRunning()");
-  if(beagleOnline){
-    beagle.emit('getBeagleStats');
-    beagle.emit('isRunning'); // check if seseme is running
-
-    var timer1 = setInterval(function(){
-      if(beagleStatsFlag){
-        clearInterval(timer1);
-        for(var i = 0; i < 4; i++){
-          var temp = Math.round( Math.abs( targetPercentagesArray[i]*plrmax - beagleStats["m"+(i+1)] ) );
-          if(temp > maxDistance) maxDistance = temp;
-        }
-        console.log("maxDistance: " + maxDistance);
-        beagleStatsFlag = false;
-        maxDistanceFlag = true; // done with setting maxDistance
-      } //
-    }, 20);
-
-    var timer2 = setInterval(function(){
-      if(updateFlag && maxDistanceFlag){
-        clearInterval(timer2);
-        maxDistanceFlag = false;
-        if(!sesemeRunning){
-          console.log("SESEME not running");
-          callback(false, maxDistance, targetPercentagesArray, plrmax);
-        }
-        else
-          console.log("SESEME currently running");
-          callback(true, maxDistance, targetPercentagesArray, plrmax);
-          //seedling.socket.emit("playType", "idler");
-      }
-    }, 20);
-  }
-  else{
-    console.log("SESEME not running");
-    callback(false, maxDistance, targetPercentagesArray, plrmax);
-  }
-}
-*/
-
 function seedlingConnected(seedSocket, seedlingNum){
   var seedling = seedlings[seedlingNum];
   console.log('[SEEDLING ' + (seedlingNum+1) + ': CONNECTED]')
@@ -594,26 +523,6 @@ function seedlingConnected(seedSocket, seedlingNum){
         seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
       } // currently in animation
     })
-    /*
-    if(!error){
-  	  // If system is in idle mode, clear the lifx breathe/desperation intervals
-	  stopIdleState();
-      console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
-      seedling.buttonPressed = true;
-      for(var i = 0; i < seedlings.length; i++){
-        if(i !== seedling.number){
-          console.log("reset current part of other seedings", i);
-          seedlings[i].currentPart = 0;
-        }
-      }
-      bigRedButton(seedling);
-    }
-    else{
-      console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
-      randomSoundWeight(soundObj, 'no', seedling.socket);
-      seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
-    } // currently in animation
-    */
   });
 
   seedling.socket.on('seedling ' + (seedlingNum+1) + ' On', function(){
@@ -648,17 +557,13 @@ function seedlingConnected(seedSocket, seedlingNum){
       console.log("Starting sync sequence");
       seedling.socket.emit('seedling start sync-sequence-1');
     }
-    //console.log("seedling finished inits listener", seedlingNum);
-    //var targetColor = getRingColor(seedling, seedling.currentPart); // seedling.currentPart should be 0;
-    //seedling.socket.emit('seedling initialize story', lastActiveSeedling, targetColor); // initialize first seedling and turn on buttons on first connect
-      //   seedlings[0].socket.emit('seedling start sync-sequence-1');
   });
 
   seedling.socket.on('seedling actionCircle done', function(seedlingNum){
     if(seedling.number === seedlingNum){
       console.log("set buttonPressed false", seedling.number);
-      randomSoundWeight(soundObj, 'ready', seedling.socket);
       seedling.buttonPressed = false;
+      randomSoundWeight(soundObj, 'ready', seedling.socket);
     }
   })
 
@@ -666,6 +571,10 @@ function seedlingConnected(seedSocket, seedlingNum){
     seedling.online = false;
     seedling.ready = false;
     console.log('[SEEDLING ' + (seedlingNum+1) + ': DISCONNECTED]')
+
+    // Report to the diagnostics channel that the seedling went down
+    var slackTitle = 'Seedling (.3'+(seedling.number+2)+') Disconnected!';
+    claptron.reportDisconnect(slackTitle);
   })
 }
 
@@ -673,7 +582,7 @@ function bigRedButtonHelper(seedling){
   var trailColor = led.hexToObj("FFFFFF");
   var targetColor, diodePct;
   var targetPercentages = [];
-  var maxDistance = plrmax;
+  var maxDistance = 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
@@ -727,12 +636,18 @@ function bigRedButtonHelper(seedling){
     var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - beagleStats["m"+(i+1)] ) );
     if(temp > maxDistance) maxDistance = temp;
   }
+  console.log("MAXDISTANCE:", maxDistance);
   var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
-  var circleData = new circleObj(previousColor, targetColor, duration, diodePct);
-
+  //var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance / plrmax * 10 + 0.6); // simple motion get time(sec) rounded up
+  console.log("DURATION:", duration);
+  var circleData;
+  if(seedling.currentPart === 0) circleData = new circleObj(previousColor, targetColor, duration-3, diodePct); // will run fill circle so subtract 3 sec from fade to compensate for fill
+  else circleData = new circleObj(previousColor, targetColor, duration, diodePct);
+  /*
   if(seedling.currentPart === 0){
     duration += 3;
   } // will run fill circle so add 3 sec to duration of lightTrail and timeout
+  */
 
   var timePerRev = 2;
   var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
@@ -850,6 +765,10 @@ beagleIO.on('connection', function(beagleSocket){
   beagleSocket.on('disconnect', function(){
     beagleOnline = false;
     console.log('[BEAGLE: DISCONNECTED]')
+
+    // Report to the diagnostics channel that the monument went down
+    var slackTitle = 'Monument (.210) Disconnected!';
+    claptron.reportDisconnect(slackTitle);
   })
 
 });

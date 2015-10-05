@@ -47,6 +47,10 @@ function listeners(socket, obj, soundObj) {
       } // turn on lights of seedlingNum
     }
 
+    socket.on('test color', function(stripColor){
+      led.showStrip(stripColor, obj.strip);
+    })
+
     socket.on('seedling add lights duration', function(seedlingNum){
       console.log("seedling add lights duration socket", seedlingNum);
       if(seedlingNum === obj.seedlingNum){
@@ -78,9 +82,11 @@ function listeners(socket, obj, soundObj) {
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
         console.log("circleData.diodePct", circleData.diodePct);
+        var prevTime = Date.now();
         if(circleData.diodePct !== 0){
           console.log("seedling buttonPressed socket; should be fadeCircle");
           led.fadeCircle(circleData.previousColor, circleData.targetColor, circleData.duration, circleData.diodePct, obj, function(){
+            console.log("duration of fadeCircle " + (Date.now() - prevTime)/1000);
             console.log("in callback for fadeCircle");
             led.lightOn(1, obj.buttonLight, null);
             sounds.playRandomSound(soundObj, 'ready');
@@ -90,6 +96,7 @@ function listeners(socket, obj, soundObj) {
         else{
           console.log("seedling buttonPressed socket; should be fillCircle");
           led.fillCircle(circleData.previousColor, circleData.targetColor, circleData.duration, obj, function(){
+            console.log("duration of fillCircle " + (Date.now() - prevTime)/1000);
             console.log("in callback for fillCircle");
             led.lightOn(1, obj.buttonLight, null);
             sounds.playRandomSound(soundObj, 'ready');
@@ -100,6 +107,7 @@ function listeners(socket, obj, soundObj) {
 
       else{
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
+          console.log("duration of lightTrail " + (Date.now() - prevTime)/1000);
           console.log("in callback for lightTrail");
           led.lightOn(1, obj.buttonLight, null);
           socket.emit('seedling actionCircle done', seedlingNum);

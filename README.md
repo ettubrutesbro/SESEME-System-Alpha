@@ -5,7 +5,7 @@ The entire SESEME ecosystem.
 
 #Terminology
 
-BRAINS: Individual computers that store information and communicate to their respective components. (beagle, seedling1-3[pi], XPS). All have the property "online".
+BRAINS: Individual computers that store information and communicate to their respective components. (Monument, seedling1-3[pi], XPS). All have the property "online".
 
 COMPONENTS: Electronics, usually with visual output: LED strip, Button, Icon, URL, Hue, Motors, Speakers
 
@@ -18,7 +18,7 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
 1. Connect to ssid:OfficeWifi.
 2. SSH into the five brains of the SESEME ecosystem:
     - XPS: mint@10.0.1.241
-    - Beagle: root@10.0.1.210
+    - Monument: pi replacement: pi@10.0.1.6; beagle: root@10.0.1.210
     - Seedling1: pi@10.0.1.32
     - Seedling2: pi@10.0.1.33
     - Seedling3: pi@10.0.1.34
@@ -26,113 +26,16 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
 3. Use `cdss` command to get into SESEME-System-Alpha folder in each brain.
    - Directory: `~/git/SESEME-System-Alpha`
 4. Use `start` command to run the node process in each brain.
-   - NOTE: Make sure Pillars are fully down and motors are powered before `start` in Beagle.
+   - NOTE: Make sure pillars are fully down and motors are powered before `start` in Monument.
+
+#Crash Behaviors
+1. If pillars are up and BOTH XPS and Monument crash, we must unplug the motors from power and manually lower the pillars.
+   Do not start up both before doing this because it will tell the motors to go beyond max since it does not remember its state.
+
+#Notes
+1. If seedling lights are on and you want them to be off while the seedling program isn't running, just start the program and CTRL-C after console.log("strip initialized").
 
 
-# SOCKETS
-# Seedling
- - port 6000
-
-  sockets
-    - on('bigRedButton')
-
-
-# Beagle
-  - port 4000
-
- sockets
-    - on('checkin', function(data) )
-
-# Web
-  - port 5000
-
-   sockets
-    - on( 'checkin', data )
-    - on( 'webMoveMotor', data )
-    - on( 'testCycle' )
-    - on( 'updateFrequency', data )
-    - on( 'updateRPM', data )
-    - on( 'resetPosition', motorName )
-    - on( 'getBeagleStats' )
-    - on( 'loopPillars' )
-    - on( 'setHSL', data )
-    - on( 'ledColor', data )
-    - on( 'ledBrightness', data )
-    - on( 'ledPercentage', data )
-    - on( 'lightsOn', data )
-    - on( 'lightsOff', data )
-    - on( 'partyOn' )
-    - on( 'partyOff' )
-    - on( 'lightTrail', data )
-    - on( 'fadeFromTop', data )
-    - on( 'moveMotorJack', data)
-    - on( 'whereWeAt' )
-    - on( 'moveInUnison', data )
-    - on( 'moveInSimpleSequence', data)
-    - on( 'nameOn', data )
-    - on( 'nameOff', data)
-
-
-
-
-## Server Instructions
-------------------------------------
-
-## Seseme (stand-alone testing)
-1. Make sure all the Seseme components are unpowered and slowly lower all of the pillars. Moving them to fast will possibly surge the drivers.
-2. plug in the Arduino from inside Seseme into your laptop.
-3. Power up the motor power supply
-4. From your local laptop navigate the the sesemeMonument github directory and run beagleServer.js. (you might need to perform and ’npm install command’ (and there might be a few missing packages form the settings.json).
-5. Once the beagleServer.js is running, go to seseme.net:8888 to run motor controls
-
-## Seseme (setting up for web server)
-1. Make sure all the Seseme components are unpowered and slowly lower all of the pillars. Moving them to fast will possibly surge the drivers.
-2. plug in the Arduino from inside Seseme into the beaglebone and make sure the beaglebone is connected to ethernet.
-3. Power up the motor power supply
-4. ssh into beaglebone.  On OfficeWifi, ssh:
-ip: 10.0.1.210
-username: root
-password: tomato12 // maybe no password needed
-5. Test to see if there is a screen to resume:
-  type    $   `screen -r`
-if you go to a screen with the server running, then your good, else move to step 6:
-
-6. Type `screen -S server`.  This will create a new screen to run the server from.
-7. navigate to the project folder:
-$ `cd git/sesemeMonument`
-8. Then run:
-$ `node beagleServer.js`
-9. This gets the beagle server connected to the server via socket.io connections
-
-## Server
-1. ssh into the XPS machine.
-ip: 10.0.1.241
-username: mint
-password: tomato12
-2. check status of server by seeing if a ‘server’ screen exists
-$ screen -r server
-- If it does not exists, start it:
-$ screen -S server
-3. If the server.js is already running, stop it by pressing ‘control-c’.  If not, navigate to the github directory:
-‘/git/sesemeMonument/‘  and run the command:  ‘node webServer.js’
-4. watch for updates on the server
-5. connect up by going to 10.0.1.241:8000
-
-## Seedling
-1. ssh into the Raspberry Pi on OfficeWifi
-  ip: 10.0.1.36
-  username: pi
-  password: tomato12
-2. Test to see if there is a screen to resume:
-  type    $   `screen -r`
-if you go to a screen with the server running, then move to step 7. else move to step 6:
-3. Type `screen -S server`.  This will create a new screen to run the server from.
-4. navigate to the project folder:
-  $ `cd gitHub/sesemeMonument`
-5. Then run:
-  $ `node seedling.js`
-6. This gets the seedling server connected to the server via socket.io connections. Wait until it says "Strip Initialized" before using any functions.
-7. Once the seedling.js is running, go to seseme.net:8888 to run motor controls
 
 ## Seedling Controller
 - Notes:

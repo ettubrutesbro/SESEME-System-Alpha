@@ -1,4 +1,3 @@
-var animationTimer;
 var hue = require('./hue.js');
 var seedlingHue = require('./lifx.js');
 
@@ -10,8 +9,13 @@ var self = module.exports = {
     curFadePercent: 0,
     percentAr: null,
     color: null,
-    animationDuration: 0,
     lightPercentage: 0, // not sure if we can save fade state using fadeIn fadeOut
+
+    showStrip: function(stripColor, strip){
+      var string = "rgb(" + stripColor.red + ", " + stripColor.green + ", " + stripColor.blue + ")";
+      strip.color(string);
+      strip.show();
+    },
 
     reset: function(obj){
         this.r = 0;
@@ -21,7 +25,6 @@ var self = module.exports = {
         this.curFadePercent = 0;
         this.percentAr = null;
         this.color = null;
-        this.animationDuration = 0;
         this.lightPercentage = 0;
 
         obj.strip.color("#000");
@@ -179,7 +182,7 @@ var self = module.exports = {
         var delta = 1 / transitionSteps; // change in percent
 
         //var timer = setInterval(function(){
-        animationTimer = setInterval(function(){
+        var lightTrailTimer = setInterval(function(){
 
             if(counter < transitionSteps){
                 percent += delta;
@@ -204,7 +207,7 @@ var self = module.exports = {
 
             if((count + nodes) == pixelNum && (revs + 1) == revolutions){
                 console.log("done revolutions");
-                clearInterval(animationTimer);
+                clearInterval(lightTrailTimer);
                 callback();
             }
 
@@ -223,7 +226,7 @@ var self = module.exports = {
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
         var firstDiode = obj.firstDiode;
-        var duration = totalDuration - this.animationDuration
+        var duration = totalDuration;
 
         var startPercent = this.curFadePercent;
         if(startPercent >= diodePct){
@@ -290,7 +293,7 @@ var self = module.exports = {
         strip.show(); // update led strip display
 
         //var timer = setInterval(function(){
-        animationTimer = setInterval(function(){
+        var fadeCircleTimer = setInterval(function(){
 
             currentColor.red += deltaColor.red;
             currentColor.green += deltaColor.green;
@@ -325,8 +328,8 @@ var self = module.exports = {
                 that.curFadePercent = 0;
                 that.color = currentColor;
                 that.percentAr = percentAr;
-                clearInterval(animationTimer);
-                that.fillCircle(targetColor, 3, obj, callback);
+                clearInterval(fadeCircleTimer);
+                that.fillCircle(currentColor, targetColor, 3, obj, callback);
             } // done fading and call callback to fill
 
             else if(count == finalSteps){
@@ -334,12 +337,10 @@ var self = module.exports = {
                 that.curFadePercent = diodePct;
                 that.color = currentColor;
                 that.percentAr = percentAr;
-                this.animationDuration = 0;
-                clearInterval(animationTimer);
+                clearInterval(fadeCircleTimer);
                 callback();
             }
             count++;
-            this.animationDuration += intervalTime;
         }, intervalTime);
 
     },
@@ -381,7 +382,7 @@ var self = module.exports = {
         } // initialize percent array
 
         //var timer = setInterval(function(){
-        animationTimer = setInterval(function(){
+        var fillCircleTimer = setInterval(function(){
             currentColor.red += deltaColor.red;
             currentColor.green += deltaColor.green;
             currentColor.blue += deltaColor.blue;
@@ -412,7 +413,7 @@ var self = module.exports = {
                 that.curFadePercent = 0; // reset current fade percent on fillCircle
                 that.color = currentColor;
                 that.percentAr = percentAr;
-                clearInterval(animationTimer);
+                clearInterval(fillCircleTimer);
                 callback();
                 //that.blinking(blinkColor, blinkDuration, index, obj);
             }
