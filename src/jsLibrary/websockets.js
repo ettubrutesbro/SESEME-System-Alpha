@@ -347,9 +347,11 @@ io.on('connection', function (socket) {
 		});
   });
 
-  socket.on('sim lifx', function(data) {
+  socket.on('sim lifx', function(data, stripColor) {
 		lifx.validButtonPress(data.hex, data.bri);
 		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;
+    var color = led.hexToObj(stripColor)
+    seedlings[0].socket.emit('test color', stripColor);
   });
 
   socket.on('sim breathe', function(data) {

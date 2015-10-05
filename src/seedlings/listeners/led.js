@@ -47,6 +47,10 @@ function listeners(socket, obj, soundObj) {
       } // turn on lights of seedlingNum
     }
 
+    socket.on('test color', function(stripColor){
+      led.showStrip(stripColor, obj.strip);
+    })
+
     socket.on('seedling add lights duration', function(seedlingNum){
       console.log("seedling add lights duration socket", seedlingNum);
       if(seedlingNum === obj.seedlingNum){

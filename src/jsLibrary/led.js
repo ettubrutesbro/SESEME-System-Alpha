@@ -11,6 +11,12 @@ var self = module.exports = {
     color: null,
     lightPercentage: 0, // not sure if we can save fade state using fadeIn fadeOut
 
+    showStrip: function(stripColor, strip){
+      var string = "rgb(" + stripColor.red + ", " + stripColor.green + ", " + stripColor.blue + ")";
+      strip.color(string);
+      strip.show();
+    },
+
     reset: function(obj){
         this.r = 0;
         this.g = 0;
