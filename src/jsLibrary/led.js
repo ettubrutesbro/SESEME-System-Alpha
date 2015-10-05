@@ -9,7 +9,6 @@ var self = module.exports = {
     curFadePercent: 0,
     percentAr: null,
     color: null,
-    animationDuration: 0,
     lightPercentage: 0, // not sure if we can save fade state using fadeIn fadeOut
 
     reset: function(obj){
@@ -20,7 +19,6 @@ var self = module.exports = {
         this.curFadePercent = 0;
         this.percentAr = null;
         this.color = null;
-        this.animationDuration = 0;
         this.lightPercentage = 0;
 
         obj.strip.color("#000");
@@ -222,7 +220,7 @@ var self = module.exports = {
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
         var firstDiode = obj.firstDiode;
-        var duration = totalDuration - this.animationDuration
+        var duration = totalDuration;
 
         var startPercent = this.curFadePercent;
         if(startPercent >= diodePct){
@@ -333,12 +331,10 @@ var self = module.exports = {
                 that.curFadePercent = diodePct;
                 that.color = currentColor;
                 that.percentAr = percentAr;
-                this.animationDuration = 0;
                 clearInterval(fadeCircleTimer);
                 callback();
             }
             count++;
-            this.animationDuration += intervalTime;
         }, intervalTime);
 
     },

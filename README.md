@@ -18,7 +18,7 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
 1. Connect to ssid:OfficeWifi.
 2. SSH into the five brains of the SESEME ecosystem:
     - XPS: mint@10.0.1.241
-    - Beagle: root@10.0.1.210
+    - Beagle: root@10.0.1.210 (Pi replacement: pi@10.0.1.6)
     - Seedling1: pi@10.0.1.32
     - Seedling2: pi@10.0.1.33
     - Seedling3: pi@10.0.1.34
