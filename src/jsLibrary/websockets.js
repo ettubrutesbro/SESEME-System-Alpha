@@ -27,9 +27,10 @@ function lightTrailObj(trailColor, nodes, time, revolutions){
 var claptron = require(path.join(__dirname, 'slackbot.js'));
 
 // System check function to send a report to the slack diagnostics channel
-function reportSystemStatus(title) {
+function reportSystemStatus() {
     // Check if the beagle is connected
 	var systemStatus = {};
+    var pretext;
 
     // Assume system is good right now
     var allGood = true;
@@ -53,8 +54,8 @@ function reportSystemStatus(title) {
     }
 
     var slackColor = (allGood) ?  "#00ff00" : "#f30020";
-    title = title || ((allGood) ? "Everythin's hella WET, yo." : "This shit GARB...");
-    claptron.reportSysCheck(systemStatus, title, slackColor);
+    pretext = pretext || ((allGood) ? "it's lit" : "fuckin' garbage");
+    claptron.reportSysCheck(systemStatus, pretext);
 }
 
 // Check if all the seedlings are ready
@@ -569,8 +570,8 @@ function seedlingConnected(seedSocket, seedlingNum){
     console.log('[SEEDLING ' + (seedlingNum+1) + ': DISCONNECTED]')
 
     // Report to the diagnostics channel that the seedling went down
-    var slackTitle = '~ :pancakecat: Seedling (.3'+(seedling.number+2)+') Disconnected :pancakecat: ~';
-    reportSystemStatus(slackTitle);
+    var slackTitle = 'Seedling (.3'+(seedling.number+2)+') Disconnected!';
+    claptron.reportDisconnect(slackTitle);
   })
 }
 
@@ -762,9 +763,9 @@ beagleIO.on('connection', function(beagleSocket){
     beagleOnline = false;
     console.log('[BEAGLE: DISCONNECTED]')
 
-    // Report to the diagnostics channel that the seedling went down
-    var slackTitle = '~ :pancakecat: Monument (.210) Disconnected :pancakecat: ~';
-    reportSystemStatus(slackTitle);
+    // Report to the diagnostics channel that the monument went down
+    var slackTitle = 'Monument (.210) Disconnected!';
+    claptron.reportDisconnect(slackTitle);
   })
 
 });

@@ -2,8 +2,8 @@
 var request = require('request');
 var moment = require('moment');
 
-function reportSysCheck(systemStatus, title, color) {
-	var timestamp = moment().format("ddd, MMM Do YYYY, h:mm a");
+function reportDisconnect(title) {
+	var timestamp = moment().format("h:mm a* on ddd, M/D");
 	var options = {
 		// URI to send a message to the #diagnostic channel
 		uri: 'https://hooks.slack.com/services/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',
@@ -11,33 +11,101 @@ function reportSysCheck(systemStatus, title, color) {
 		body: JSON.stringify({
 			"channel"		: "#diagnostic",
 			"username"		: "claptron",
-		    "attachments": [{
-	            "title"		: title,
-	            "title_link": "seseme.net",
+		    "attachments": [
+				{
+		            "title"		: "~ :hurtrealbad: "+title+" :hurtrealbad: ~",
+		            "title_link": "http://www.seseme.net",
+					"fallback"	: "*["+timestamp+"] Claptron reporting in: _This shit GARB_!",
+		            "pretext"	: "*["+timestamp+"] Claptron reporting in: _This shit GARB_!",
+					"color"		: "#f30020",
+					"mrkdwn_in": ["text", "pretext"]
+				}
+			] // end of attachments
+		}) // end of body
+	};
 
-	            "fallback"	: "Claptron reporting in for a system check at "+timestamp+"!",
-	            "pretext"	: "Claptron reporting in for a system check at "+timestamp+"!",
+	// PUT http request to update the hue color
+	request(options, function(error, response, body) {
+		if(error) console.log("Error: " + error);
+		else console.log("Response: "+JSON.stringify(response,null,2));
+	}); // end of request
+}
 
-	            "color"		: color,
-	            "fields"	: [
-	                {
-	                    "title": "System Part",
-	                    "value":  "SESEME Monument \n"
-								+ "Seedling 1 \n"
-								+ "Seedling 2 \n"
-								+ "Seedling 3",
-	                    "short": true
-	                },
-	                {
-	                    "title": "Status",
-	                    "value":  "[" + systemStatus.monument +"]\n"
-								+ "[" + systemStatus.pi1 + "]\n"
-								+ "[" + systemStatus.pi2 + "]\n"
-								+ "[" + systemStatus.pi3 + "]",
-	                    "short": true
-	                }
-	            ] // end of fields
-			}] // end of attachments
+function reportSysCheck(systemStatus, pretext) {
+	var timestamp = moment().format("h:mm a* on ddd, M/D");
+	var monumentColor = (systemStatus.monument === 'online') ? '#00ff00' : '#f30020';
+	var pi1Color = (systemStatus.pi1 === 'online') ? '#00ff00' : '#f30020';
+	var pi2Color = (systemStatus.pi2 === 'online') ? '#00ff00' : '#f30020';
+	var pi3Color = (systemStatus.pi3 === 'online') ? '#00ff00' : '#f30020';
+	var options = {
+		// URI to send a message to the #diagnostic channel
+		uri: 'https://hooks.slack.com/services/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',
+		method: 'POST',
+		body: JSON.stringify({
+			"channel"		: "#diagnostic",
+			"username"		: "claptron",
+		    "attachments": [
+				{
+		            "title"		: "Periodic System Check",
+		            "title_link": "http://www.seseme.net",
+		            "fallback"	: "*["+timestamp+"] Claptron reporting in: _"+pretext+"_!",
+		            "pretext"	: "*["+timestamp+"] Claptron reporting in: _"+pretext+"_!",
+					"color"		: "#47515b",
+					"mrkdwn_in": ["text", "pretext"],
+				},
+				{
+					"color"		: monumentColor,
+		            "fields"	: [
+		                {
+		                    "value":  "SESEME Monument",
+		                    "short": true
+		                },
+		                {
+		                    "value":  "[" + systemStatus.monument +"]",
+		                    "short": true
+		                }
+		            ] // end of fields
+				},
+				{
+					"color"		: pi1Color,
+					"fields"	: [
+						{
+							"value": "Seedling 1",
+							"short": true
+						},
+						{
+							"value":  "[" + systemStatus.pi1 + "]",
+							"short": true
+						}
+					] // end of fields
+				},
+				{
+					"color"		: pi2Color,
+					"fields"	: [
+						{
+							"value": "Seedling 2",
+							"short": true
+						},
+						{
+							"value":  "[" + systemStatus.pi2 + "]",
+							"short": true
+						}
+					] // end of fields
+				},
+				{
+					"color"		: pi3Color,
+					"fields"	: [
+						{
+							"value": "Seedling 3",
+							"short": true
+						},
+						{
+							"value":  "[" + systemStatus.pi3 + "]",
+							"short": true
+						}
+					] // end of fields
+				}
+			] // end of attachments
 		}) // end of body
 	};
 
@@ -49,3 +117,4 @@ function reportSysCheck(systemStatus, title, color) {
 }
 
 exports.reportSysCheck = reportSysCheck;
+exports.reportDisconnect = reportDisconnect;
