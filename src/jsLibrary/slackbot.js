@@ -15,8 +15,8 @@ function reportDisconnect(title) {
 				{
 		            "title"		: "~ :hurtrealbad: "+title+" :hurtrealbad: ~",
 		            "title_link": "http://www.seseme.net",
-					"fallback"	: "*["+timestamp+"] Claptron reporting in: _This shit GARB_!",
-		            "pretext"	: "*["+timestamp+"] Claptron reporting in: _This shit GARB_!",
+					"fallback"	: "*["+timestamp+"] Claptron reporting in: _fuckin' garbage_!",
+		            "pretext"	: "*["+timestamp+"] Claptron reporting in: _fuckin' garbage_!",
 					"color"		: "#f30020",
 					"mrkdwn_in": ["text", "pretext"]
 				}
@@ -26,8 +26,7 @@ function reportDisconnect(title) {
 
 	// PUT http request to update the hue color
 	request(options, function(error, response, body) {
-		if(error) console.log("Error: " + error);
-		else console.log("Response: "+JSON.stringify(response,null,2));
+		if(error) console.log("Claptron Error: " + error);
 	}); // end of request
 }
 
@@ -111,8 +110,7 @@ function reportSysCheck(systemStatus, pretext) {
 
 	// PUT http request to update the hue color
 	request(options, function(error, response, body) {
-		if(error) console.log("Error: " + error);
-		else console.log("Response: "+JSON.stringify(response,null,2));
+		if(error) console.log("Claptron Error: " + error);
 	}); // end of request
 }
 
