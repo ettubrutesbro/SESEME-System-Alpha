@@ -5,7 +5,7 @@ The entire SESEME ecosystem.
 
 #Terminology
 
-BRAINS: Individual computers that store information and communicate to their respective components. (beagle, seedling1-3[pi], XPS). All have the property "online".
+BRAINS: Individual computers that store information and communicate to their respective components. (Monument, seedling1-3[pi], XPS). All have the property "online".
 
 COMPONENTS: Electronics, usually with visual output: LED strip, Button, Icon, URL, Hue, Motors, Speakers
 
@@ -18,7 +18,7 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
 1. Connect to ssid:OfficeWifi.
 2. SSH into the five brains of the SESEME ecosystem:
     - XPS: mint@10.0.1.241
-    - Beagle: root@10.0.1.210 (Pi replacement: pi@10.0.1.6)
+    - Monument: pi replacement: pi@10.0.1.6; beagle: root@10.0.1.210
     - Seedling1: pi@10.0.1.32
     - Seedling2: pi@10.0.1.33
     - Seedling3: pi@10.0.1.34
@@ -26,7 +26,11 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
 3. Use `cdss` command to get into SESEME-System-Alpha folder in each brain.
    - Directory: `~/git/SESEME-System-Alpha`
 4. Use `start` command to run the node process in each brain.
-   - NOTE: Make sure Pillars are fully down and motors are powered before `start` in Beagle.
+   - NOTE: Make sure pillars are fully down and motors are powered before `start` in Monument.
+
+#Crash Behaviors
+1. If pillars are up and BOTH XPS and Monument crash, we must unplug the motors from power and manually lower the pillars.
+   Do not start up both before doing this because it will tell the motors to go beyond max since it does not remember its state.
 
 
 # SOCKETS
@@ -37,7 +41,7 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
     - on('bigRedButton')
 
 
-# Beagle
+# Monument
   - port 4000
 
  sockets
@@ -82,14 +86,14 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
 1. Make sure all the Seseme components are unpowered and slowly lower all of the pillars. Moving them to fast will possibly surge the drivers.
 2. plug in the Arduino from inside Seseme into your laptop.
 3. Power up the motor power supply
-4. From your local laptop navigate the the sesemeMonument github directory and run beagleServer.js. (you might need to perform and ’npm install command’ (and there might be a few missing packages form the settings.json).
-5. Once the beagleServer.js is running, go to seseme.net:8888 to run motor controls
+4. From your local laptop navigate the the sesemeMonument github directory and run beagleserver.js. (you might need to perform and ’npm install command’ (and there might be a few missing packages form the settings.json).
+5. Once the beagleserver.js is running, go to seseme.net:8888 to run motor controls
 
 ## Seseme (setting up for web server)
 1. Make sure all the Seseme components are unpowered and slowly lower all of the pillars. Moving them to fast will possibly surge the drivers.
-2. plug in the Arduino from inside Seseme into the beaglebone and make sure the beaglebone is connected to ethernet.
+2. plug in the Arduino from inside Seseme into the Monument and make sure the Monument is connected to ethernet.
 3. Power up the motor power supply
-4. ssh into beaglebone.  On OfficeWifi, ssh:
+4. ssh into Monument.  On OfficeWifi, ssh:
 ip: 10.0.1.210
 username: root
 password: tomato12 // maybe no password needed
@@ -101,8 +105,8 @@ if you go to a screen with the server running, then your good, else move to step
 7. navigate to the project folder:
 $ `cd git/sesemeMonument`
 8. Then run:
-$ `node beagleServer.js`
-9. This gets the beagle server connected to the server via socket.io connections
+$ `node beagleserver.js`
+9. This gets the Monument server connected to the server via socket.io connections
 
 ## Server
 1. ssh into the XPS machine.
