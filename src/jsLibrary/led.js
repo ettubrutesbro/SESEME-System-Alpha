@@ -1,4 +1,3 @@
-var animationTimer;
 var hue = require('./hue.js');
 var seedlingHue = require('./lifx.js');
 
@@ -179,7 +178,7 @@ var self = module.exports = {
         var delta = 1 / transitionSteps; // change in percent
 
         //var timer = setInterval(function(){
-        animationTimer = setInterval(function(){
+        var lightTrailTimer = setInterval(function(){
 
             if(counter < transitionSteps){
                 percent += delta;
@@ -204,7 +203,7 @@ var self = module.exports = {
 
             if((count + nodes) == pixelNum && (revs + 1) == revolutions){
                 console.log("done revolutions");
-                clearInterval(animationTimer);
+                clearInterval(lightTrailTimer);
                 callback();
             }
 
@@ -290,7 +289,7 @@ var self = module.exports = {
         strip.show(); // update led strip display
 
         //var timer = setInterval(function(){
-        animationTimer = setInterval(function(){
+        var fadeCircleTimer = setInterval(function(){
 
             currentColor.red += deltaColor.red;
             currentColor.green += deltaColor.green;
@@ -325,7 +324,7 @@ var self = module.exports = {
                 that.curFadePercent = 0;
                 that.color = currentColor;
                 that.percentAr = percentAr;
-                clearInterval(animationTimer);
+                clearInterval(fadeCircleTimer);
                 that.fillCircle(currentColor, targetColor, 3, obj, callback);
             } // done fading and call callback to fill
 
@@ -335,7 +334,7 @@ var self = module.exports = {
                 that.color = currentColor;
                 that.percentAr = percentAr;
                 this.animationDuration = 0;
-                clearInterval(animationTimer);
+                clearInterval(fadeCircleTimer);
                 callback();
             }
             count++;
@@ -381,7 +380,7 @@ var self = module.exports = {
         } // initialize percent array
 
         //var timer = setInterval(function(){
-        animationTimer = setInterval(function(){
+        var fillCircleTimer = setInterval(function(){
             currentColor.red += deltaColor.red;
             currentColor.green += deltaColor.green;
             currentColor.blue += deltaColor.blue;
@@ -412,7 +411,7 @@ var self = module.exports = {
                 that.curFadePercent = 0; // reset current fade percent on fillCircle
                 that.color = currentColor;
                 that.percentAr = percentAr;
-                clearInterval(animationTimer);
+                clearInterval(fillCircleTimer);
                 callback();
                 //that.blinking(blinkColor, blinkDuration, index, obj);
             }

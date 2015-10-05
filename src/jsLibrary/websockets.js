@@ -579,7 +579,7 @@ function bigRedButtonHelper(seedling){
   var trailColor = led.hexToObj("FFFFFF");
   var targetColor, diodePct;
   var targetPercentages = [];
-  var maxDistance = plrmax;
+  var maxDistance = 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
@@ -633,7 +633,10 @@ function bigRedButtonHelper(seedling){
     var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - beagleStats["m"+(i+1)] ) );
     if(temp > maxDistance) maxDistance = temp;
   }
+  console.log("MAXDISTANCE:", maxDistance);
   var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
+  //var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance / plrmax * 10 + 0.6); // simple motion get time(sec) rounded up
+  console.log("DURATION:", duration);
   var circleData = new circleObj(previousColor, targetColor, duration, diodePct);
 
   if(seedling.currentPart === 0){
