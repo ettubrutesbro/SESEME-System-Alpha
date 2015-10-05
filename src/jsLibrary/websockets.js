@@ -351,7 +351,7 @@ io.on('connection', function (socket) {
 		lifx.validButtonPress(data.hex, data.bri);
 		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;
     var color = led.hexToObj(stripColor)
-    seedlings[0].socket.emit('test color', stripColor);
+    seedlings[0].socket.emit('test color', color);
   });
 
   socket.on('sim breathe', function(data) {
