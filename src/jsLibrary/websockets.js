@@ -633,8 +633,8 @@ function bigRedButtonHelper(seedling){
     if(temp > maxDistance) maxDistance = temp;
   }
   console.log("MAXDISTANCE:", maxDistance);
-  //var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
-  var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance / plrmax * 10 + 0.6); // simple motion get time(sec) rounded up
+  var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
+  //var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance / plrmax * 10 + 0.6); // simple motion get time(sec) rounded up
   console.log("DURATION:", duration);
   var circleData = new circleObj(previousColor, targetColor, duration, diodePct);
 
