@@ -32,7 +32,7 @@ module.exports = {
         ]
       }, //end part 0
       {
-        values: [55,6,1,33], valueType: 'lessIsTall',
+        values: [55,6,1,33], valueType: 'lessIsTall', customLo:
         title: {
           pre: {c: 'GREEN CAMPUSES', size: 18},
           main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
@@ -60,7 +60,7 @@ module.exports = {
       },
 
       {
-        values: [311,1450,167,890], customLo: 500,
+        values: [311,1450,16.7,89],
         title: {
           main: {c: 'Annual Energy Costs', size: 25, font: 'Droid Serif', weight: 400},
           pre: {c: '@ UC DAVIS', size: 21}
