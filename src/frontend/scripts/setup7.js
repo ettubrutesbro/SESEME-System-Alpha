@@ -183,7 +183,6 @@ function setup(){
 			covercube = new THREE.Mesh(new THREE.BoxGeometry( 15,30,15 ),resources.mtls.ground)
 			covercube.position.y = -33; covercube.name = 'covercube'
 
-			// var qPos = [{x:1.5,z:1},{x:1,z:-1.5},{x:-1.5,z:-1},{x:-1,z:1.5}]
 			var qPos= [{x:1.5,z:1,r:0},{x:-1,z:1.5,r:270},{x:-1.5,z:-1,r:180},{x:1,z:-1.5,r:90}]
 		 	var pillarStartY = dice(2)===1? 0: 72
 			for(var i = 0; i<4; i++){
