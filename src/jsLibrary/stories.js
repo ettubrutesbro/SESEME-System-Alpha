@@ -293,7 +293,7 @@ module.exports = {
         color: { ui: '#000000', monument: {hex: "#339167", bri: 0.25}, ring: '050510' },
         sound: ['cheer1','cheer2'],
         title: {
-          pre: {c: 'The Cost of Education', size: 12}
+          pre: {c: 'The Cost of Education', size: 12},
           main: {c: ['Salary After','Attending'], size: 24, font: 'Droid Serif'}
         },
         maintext: 'Here\'s what the average student at these universities makes after attending.',
