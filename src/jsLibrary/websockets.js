@@ -636,11 +636,14 @@ function bigRedButtonHelper(seedling){
   var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
   //var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance / plrmax * 10 + 0.6); // simple motion get time(sec) rounded up
   console.log("DURATION:", duration);
-  var circleData = new circleObj(previousColor, targetColor, duration, diodePct);
-
+  var circleData;
+  if(seedling.currentPart === 0) circleData = new circleObj(previousColor, targetColor, duration-3, diodePct); // will run fill circle so subtract 3 sec from fade to compensate for fill
+  else circleData = new circleObj(previousColor, targetColor, duration, diodePct);
+  /*
   if(seedling.currentPart === 0){
     duration += 3;
   } // will run fill circle so add 3 sec to duration of lightTrail and timeout
+  */
 
   var timePerRev = 2;
   var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
