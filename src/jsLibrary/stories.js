@@ -274,7 +274,7 @@ module.exports = {
         color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
         sound: ['cheer1','cheer2'],
         title: {
-          pre: {c: 'The Cost of Education', size: 12}
+          pre: {c: 'The Cost of Education', size: 12},
           main: {c: 'Average Annual Cost', size: 24, font: 'Droid Serif'}
         },
         maintext: 'Here are some college tuitions. Y\'all getting jacked.',
