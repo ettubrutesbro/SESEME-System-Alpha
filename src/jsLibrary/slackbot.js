@@ -26,8 +26,7 @@ function reportDisconnect(title) {
 
 	// PUT http request to update the hue color
 	request(options, function(error, response, body) {
-		if(error) console.log("Error: " + error);
-		else console.log("Response: "+JSON.stringify(response,null,2));
+		if(error) console.log("Claptron Error: " + error);
 	}); // end of request
 }
 
@@ -111,8 +110,7 @@ function reportSysCheck(systemStatus, pretext) {
 
 	// PUT http request to update the hue color
 	request(options, function(error, response, body) {
-		if(error) console.log("Error: " + error);
-		else console.log("Response: "+JSON.stringify(response,null,2));
+		if(error) console.log("Claptron Error: " + error);
 	}); // end of request
 }
 
