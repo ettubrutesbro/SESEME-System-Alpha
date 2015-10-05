@@ -240,73 +240,74 @@ module.exports = {
 
   anomalous: {
     id: 2, seedling: 'anomalous',
-    description: '',
+    description: 'These stories can be about anything.',
     parts: [
       {
-        values: [1,3,9,20], valueType: 'lessIsTall', customLo: 24,
+        values: [0,5,88,22], valueType: 'lessIsTall', customLo: 0,
         color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
         sound: ['cheer1','cheer2'],
         title: {
-          pre: {c: 'SUSTAINABILITY', size: 18},
-          main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
-          post: {c: '2012', size: 18, margin: .8}
+          pre: {c: ['SEXUAL HEALTH','REPORT CARD'], size: 24}
         },
-        maintext: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.',
+        maintext: 'Every year, Trojan and BestPlaces study and rank colleges nationwide to produce a \'Sexual Health Report Card\'. The rankings are based on campuses\' student health centers and the quality / availability of the services they provide.',
 
-        pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
-        pTexts: ['2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.','Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.','Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.',''],
-        pSymbols: [{type:'img',src:'planetest'},{type:'img',src:'planetest'},{type:'img',src:'planetest'}, {type:'img',src:'planetest'}],
+        pNames: ['UC Davis', 'Stanford', 'UCLA', 'UC Berkeley'],
+        pTexts: [
+          'Trojan and BestPlaces\' selection of 140 schools to rank is (stupidly) tied to prominent athletic conferences / college football, so UC Davis isn\'t featured.',
+          '',
+          '',
+          ''
+        ],
+        pSymbols: ['','','',''],
         pLabels: ['','','',''],
         pStatboxes: [
-          {c:['1st Place', 'so fuck off'], size: [18,12] }, {c: '3rd', size: 18 },
-          {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
+          {c:'N/A'}, {c: '5th' },
+          {c:'88th'}, {c: '22nd' }
         ],
         pLinks: [
-          [{type:'yt', c: 'youtube.com'}, {type: 'article', c: 'bomb.com'}, {type: 'list', c: 'sierraclublist.com'}],
-          [{type:'article', c: 'fuckyou.com'}, {type: 'list', c: ''}],
-          [{type:'article', c: ''}, {type: 'list', c: 'gohome.org'}],
-          [{type: 'list', c: ''}],
+          {type: 'list', c:'bestplaces'},
+          '','',''
         ]
       }, //end part 0
       {
-        values: [10,13,19,5], valueType: 'lessIsTall', customLo: 24,
+        values: [15,15.7,12,13.7], customLo: 10,
+        color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
+        sound: ['cheer1','cheer2'],
         title: {
-          pre: {c: 'WTF WE SUCK???', size: 18},
-          main: {c: ['\u201CCool School\u201D','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
-          post: {c: '2014', size: 18, margin: .8}
+          pre: {c: 'The Cost of Education', size: 12}
+          main: {c: 'Average Annual Cost', size: 24, font: 'Droid Serif'}
         },
-        maintext: 'In 2014, UC Davis sucked total butt...we were 55th, behind everybody we were beating before, and UCI took our spot on the throne. That was embarassing and it\'s now in the past. This school lightweight trash so we need to be winning at whatever we can.', //recommended 230 character maximum
-        color: { ui: '#ff0000', monument: {hex: "#ff0000", bri: .5}, ring: '991100' },
-        sound: ['boo','toilet'],
+        maintext: 'Here are some college tuitions. Y\'all getting jacked.',
 
-        pNames: [['shaddup','fool'],'bla','bla','bla'],
-        pTexts: ['bla','bla','bla','bla'],
-        pSymbols: [{type:'geo',src:'templategeo'},{type:'img',src:'planetest'},
-          {type:'img',src:'planetest'},{type:'img',src:'planetest'}],
+        pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
+        pTexts: ['','','',''],
+        pSymbols: ['','','',''],
         pLabels: ['','','',''],
-        pStatboxes: ['','','',''],
+        pStatboxes: [
+          {c:'$15k'}, {c: '$15.7k'}, {c:'$12k'}, {c: '$13.7k' }
+        ],
         pLinks: ['','','','']
-
-      },
-
+      }, //end part 0
       {
-
-        values: [80,29,40,15], customLo: 0,
+        values: [15,15.7,12,13.7], customLo: 10,
+        color: { ui: '#000000', monument: {hex: "#339167", bri: 0.25}, ring: '050510' },
+        sound: ['cheer1','cheer2'],
         title: {
-          pre: {c: 'DROUGHT VS. FOOD', size: 16, align: 'start'},
-          main: {c: ['Water Wasteful','Foods, Ranked.'], size: 25, font: 'Droid Serif', weight: 400, margin: -.2, align: 'start'}
+          pre: {c: 'The Cost of Education', size: 12}
+          main: {c: ['Salary After','Attending'], size: 24, font: 'Droid Serif'}
         },
-        maintext: 'I wanna talk about something different now. You heard about this thing called the drought? Well its real bad news folks real bad.', //recommended 230 character maximum
-        color: { ui: '#00f000', monument: {hex: "#22ff55", bri: 1}, ring: '00f000' },
-        sound: ['water1','toilet'],
-        pNames: ['bla','bla','bla','bla'],
-        pTexts: ['bla','bla','bla','bla'],
-        pSymbols: [{type:'geo',src:'templategeo'},{type:'img',src:'planetest'},
-          {type:'img',src:'planetest'},{type:'img',src:'planetest'}],
+        maintext: 'Here\'s what the average student at these universities makes after attending.',
+
+        pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
+        pTexts: ['','','',''],
+        pSymbols: ['','','',''],
         pLabels: ['','','',''],
-        pStatboxes: ['','','',''],
+        pStatboxes: [
+          {c:'$57k / year'}, {c: '$80.9k / year'}, {c:'$55.8k / year'}, {c: '$62k / year' }
+        ],
         pLinks: ['','','','']
-      }
+      }, //end part 0
+
     ]
   }
 }
