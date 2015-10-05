@@ -32,6 +32,9 @@ FEEDBACKS: Packaged functions that engage a series of components in response to 
 1. If pillars are up and BOTH XPS and Monument crash, we must unplug the motors from power and manually lower the pillars.
    Do not start up both before doing this because it will tell the motors to go beyond max since it does not remember its state.
 
+#Notes
+1. If seedling lights are on and you want them to be off while the seedling program isn't running, just start the program and CTRL-C to kill it.
+
 
 # SOCKETS
 # Seedling
