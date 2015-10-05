@@ -32,7 +32,7 @@ module.exports = {
         ]
       }, //end part 0
       {
-        values: [55,6,1,33], valueType: 'lessIsTall', customLo:
+        values: [55,6,1,33], valueType: 'lessIsTall', 
         title: {
           pre: {c: 'GREEN CAMPUSES', size: 18},
           main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
