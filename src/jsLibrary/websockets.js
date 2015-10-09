@@ -224,6 +224,32 @@ function getStates() {
 	return states;
 }
 
+///////////////////////////////////////////////////////////// 
+// Upon server startup, ensure the monumnet is set to the current story's color
+var lifxInitProps = { 'power' : 'on' };
+var activeSeedlingPart = seedlings[lastActiveSeedling].currentPart;
+if(story[lastActiveSeedling].parts[activeSeedlingPart].color.monument) {
+
+	lifxInitProps.color = story[lastActiveSeedling]
+		.parts[activeSeedlingPart].color.monument.hex;
+
+	lifxInitProps.brightness = 1 * story[lastActiveSeedling]
+		.parts[activeSeedlingPart].color.monument.bri;
+} 
+else if(story[lastActiveSeedling].parts[activeSeedlingPart].color) {
+
+	lifxInitProps.color = story[lastActiveSeedling]
+		.parts[activeSeedlingPart].color;
+
+	lifxInitProps.brightness = 0.5;
+} 
+else {
+	lifxInitProps.color = 'red',
+	lifxInitProps.brightness = 0;
+}
+console.log("STARTING LIFX LIGHT: "+JSON.stringify(lifxInitProps,null,2));
+lifx.updateLight(lifxInitProps);
+
 ////////////////////////////////////////////////
 //  web
 ////////////////////////////////////////////////
