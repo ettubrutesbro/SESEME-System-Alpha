@@ -222,7 +222,7 @@ var self = module.exports = {
 
     fadeCircle: function(previousColor, targetColor, totalDuration, diodePct, obj, callback){
         console.log("in fadeCircle function");
-        var prevtime = Date.now();
+        var prevTime = Date.now();
         var that = this; // for callback
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
