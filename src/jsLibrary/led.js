@@ -281,6 +281,10 @@ var self = module.exports = {
         } // set starting index
 
         var decrementAmount = percentAr[index]/smallSteps;
+        console.log("Small Steps", smallSteps);
+        console.log("Big Steps", bigSteps);
+        console.log("Index", index);
+        console.log("startPercent", startPercent)
         var finalSteps = diodePct == 100 ? smallSteps * (bigSteps - index) : Math.round(smallSteps * bigSteps * ( diodePct - startPercent ) / 100);
         console.log("Estimated time: finalSteps*intervalTime(70): " + finalSteps*intervalTime/1000);
         if(diodePct != 100)
