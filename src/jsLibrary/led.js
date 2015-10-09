@@ -222,6 +222,7 @@ var self = module.exports = {
 
     fadeCircle: function(previousColor, targetColor, totalDuration, diodePct, obj, callback){
         console.log("in fadeCircle function");
+        var prevtime = Date.now();
         var that = this; // for callback
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
@@ -281,6 +282,7 @@ var self = module.exports = {
 
         var decrementAmount = percentAr[index]/smallSteps;
         var finalSteps = diodePct == 100 ? smallSteps * (bigSteps - index) : Math.round(smallSteps * bigSteps * ( diodePct - startPercent ) / 100);
+        console.log("Estimated time: finalSteps*intervalTime(70): " + finalSteps*intervalTime/1000);
         if(diodePct != 100)
             var diffColor = new this.colorObj( (targetColor.red - currentColor.red), (targetColor.green - currentColor.green), (targetColor.blue - currentColor.blue) );
         else{
@@ -291,6 +293,8 @@ var self = module.exports = {
         var deltaColor = new this.colorObj( (diffColor.red / finalSteps), (diffColor.green / finalSteps), (diffColor.blue / finalSteps) );
 
         strip.show(); // update led strip display
+
+        console.log("Initialization time: " + Date.now() - prevTime);
 
         //var timer = setInterval(function(){
         var fadeCircleTimer = setInterval(function(){
