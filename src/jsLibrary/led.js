@@ -222,6 +222,7 @@ var self = module.exports = {
 
     fadeCircle: function(previousColor, targetColor, totalDuration, diodePct, obj, callback){
         console.log("in fadeCircle function");
+        var prevTime = Date.now();
         var that = this; // for callback
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
@@ -281,6 +282,7 @@ var self = module.exports = {
 
         var decrementAmount = percentAr[index]/smallSteps;
         var finalSteps = diodePct == 100 ? smallSteps * (bigSteps - index) : Math.round(smallSteps * bigSteps * ( diodePct - startPercent ) / 100);
+        console.log("Estimated time: finalSteps*intervalTime(70): " + finalSteps*intervalTime/1000);
         if(diodePct != 100)
             var diffColor = new this.colorObj( (targetColor.red - currentColor.red), (targetColor.green - currentColor.green), (targetColor.blue - currentColor.blue) );
         else{
@@ -291,6 +293,9 @@ var self = module.exports = {
         var deltaColor = new this.colorObj( (diffColor.red / finalSteps), (diffColor.green / finalSteps), (diffColor.blue / finalSteps) );
 
         strip.show(); // update led strip display
+
+        console.log("Done with Initialization");
+        console.log("Initialization time: " + (Date.now() - prevTime) / 1000);
 
         //var timer = setInterval(function(){
         var fadeCircleTimer = setInterval(function(){
@@ -329,6 +334,7 @@ var self = module.exports = {
                 that.color = currentColor;
                 that.percentAr = percentAr;
                 clearInterval(fadeCircleTimer);
+                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
                 that.fillCircle(currentColor, targetColor, 3, obj, callback);
             } // done fading and call callback to fill
 
@@ -338,6 +344,7 @@ var self = module.exports = {
                 that.color = currentColor;
                 that.percentAr = percentAr;
                 clearInterval(fadeCircleTimer);
+                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
                 callback();
             }
             count++;
@@ -347,6 +354,7 @@ var self = module.exports = {
 
     fillCircle: function(previousColor, targetColor, duration, obj, callback){
         console.log("in fillCircle function");
+        var prevTime = Date.now();
         var that = this;
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
@@ -368,6 +376,7 @@ var self = module.exports = {
         var factor = 2; // hard coded value for progression
         var intervalTime = 100; // original 55
         var smallSteps = Math.floor(duration * 1000 / (intervalTime * bigSteps)); // number of smallSteps to fade one diode
+        console.log("Estimated time: totalSteps*intervalTime(100): " + smallSteps*bigSteps*intervalTime/1000);
         var incrementAmount = 100 / smallSteps;
 
         var diffColor = new this.colorObj( (targetColor.red - currentColor.red), (targetColor.green - currentColor.green), (targetColor.blue - currentColor.blue) );
@@ -380,6 +389,9 @@ var self = module.exports = {
         for(var i = 0; i < percentAr.length-1; i++){
             percentAr[i] = 0;
         } // initialize percent array
+
+        console.log("Done with Initialization");
+        console.log("Initialization time: " + (Date.now() - prevTime) / 1000);
 
         //var timer = setInterval(function(){
         var fillCircleTimer = setInterval(function(){
@@ -414,6 +426,7 @@ var self = module.exports = {
                 that.color = currentColor;
                 that.percentAr = percentAr;
                 clearInterval(fillCircleTimer);
+                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
                 callback();
                 //that.blinking(blinkColor, blinkDuration, index, obj);
             }
