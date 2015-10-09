@@ -340,11 +340,11 @@ var self = module.exports = {
 
             else if(count == finalSteps){
                 console.log("at stop percent");
+                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
                 that.curFadePercent = diodePct;
                 that.color = currentColor;
                 that.percentAr = percentAr;
                 clearInterval(fadeCircleTimer);
-                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
                 callback();
             }
             count++;
@@ -421,12 +421,12 @@ var self = module.exports = {
             } // diode has gone to 100 brightness
 
             if(index < 0){
+                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
                 console.log("clear interval");
                 that.curFadePercent = 0; // reset current fade percent on fillCircle
                 that.color = currentColor;
                 that.percentAr = percentAr;
                 clearInterval(fillCircleTimer);
-                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
                 callback();
                 //that.blinking(blinkColor, blinkDuration, index, obj);
             }
