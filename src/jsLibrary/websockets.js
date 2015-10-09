@@ -302,10 +302,7 @@ io.on('connection', function (socket) {
 		error(err);
 	});
 
-  // Check for a desync between the frontend and the server in case the server is starting back up from a crash
-  socket.emit('ui check desync');
-
-  // ===========================================================================================
+  // ================================================================================
   // Seedling communication related to sounds
   var seedlingToPlay = Math.floor(Math.random() * 3);
   if(seedlingToPlay === lastSeedlingPlayed)
@@ -325,7 +322,7 @@ io.on('connection', function (socket) {
     previousSounds = updatedSounds;
   });
 
-  // ===========================================================================================
+  // ================================================================================
   // Front-end communication
   uiSocket = socket;
 
