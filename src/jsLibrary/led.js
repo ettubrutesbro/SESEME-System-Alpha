@@ -294,7 +294,8 @@ var self = module.exports = {
 
         strip.show(); // update led strip display
 
-        console.log("Initialization time: " + Date.now() - prevTime);
+        console.log("Done with Initialization");
+        console.log("Initialization time: " + (Date.now() - prevTime) / 1000);
 
         //var timer = setInterval(function(){
         var fadeCircleTimer = setInterval(function(){
