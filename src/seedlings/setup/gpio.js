@@ -30,7 +30,7 @@ function setup(socket) {
         //console.log(value)
       	if(value == false){
             if(coolDown < (Date.now() - 1000)){
-              console.log('BUTTON PRESSED');
+              console.log('\nBUTTON PRESSED');
               coolDown = Date.now();
               socket.emit('bigRedButton'); // big red button was pressed
             }
