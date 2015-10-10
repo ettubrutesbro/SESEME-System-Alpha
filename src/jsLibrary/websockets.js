@@ -28,45 +28,44 @@ var claptron = require(path.join(__dirname, 'slackbot.js'));
 
 // System check function to send a report to the slack diagnostics channel
 function reportSystemStatus() {
-		// Check if the beagle is connected
-	var systemStatus = {};
-		var pretext;
+	// Check if the beagle is connected
+    var systemStatus = {};
+	var pretext;
 
-		// Assume system is good right now
-		var allGood = true;
+	// Assume system is good right now
+	var allGood = true;
 
-	// Check the status of the beagle
-		if(beagleOnline)
-				systemStatus.monument = 'online';
+    // Check the status of the beagle
+	if(beagleOnline)
+		systemStatus.monument = 'online';
+	else {
+		systemStatus.monument = 'offline';
+		allGood = false;
+	}
+
+	// Check if all seedlings are connected
+	for(var i = 0; i < 3; i++) {
+		if(seedlings[i].online)
+			systemStatus['pi'+(i+1)] = 'online';
 		else {
-				systemStatus.monument = 'offline';
-				allGood = false;
+			systemStatus['pi'+(i+1)] = 'offline';
+			allGood = false;
 		}
+	}
 
-		// Check if all seedlings are connected
-		for(var i = 0; i < 3; i++) {
-				if(seedlings[i].online)
-						systemStatus['pi'+(i+1)] = 'online';
-				else {
-						systemStatus['pi'+(i+1)] = 'offline';
-						allGood = false;
-				}
-		}
-
-		var slackColor = (allGood) ?	"#00ff00" : "#f30020";
-		pretext = pretext || ((allGood) ? "it's lit" : "fuckin' garbage");
-		claptron.reportSysCheck(systemStatus, pretext);
+	var slackColor = (allGood) ?	"#00ff00" : "#f30020";
+	pretext = pretext || ((allGood) ? "it's lit" : "fuckin' garbage");
+	claptron.reportSysCheck(systemStatus, pretext);
 }
 
 // Check if all the seedlings are ready
 function seedlingsReady() {
-		var isReady = true;
-		for(var i = 0; i < 3; i++) {
-				// Check if all seedlings are connected
-				if(!seedlings[i].ready)
-						isReady = false;
-		}
-		return isReady;
+	var isReady = true;
+	for(var i = 0; i < 3; i++) {
+		// Check if all seedlings are connected
+		if(!seedlings[i].ready) isReady = false;
+	}
+	return isReady;
 }
 
 ////////////////////////////////////////////////
@@ -174,7 +173,7 @@ function idleBehavior(lifx) {
 
 function countdown() {
 	if (seconds < 1) {
-				console.log("[SESEME NOW IN IDLE MODE]!");
+		console.log("[SESEME NOW IN IDLE MODE]!");
 
 		// Begin the lifx idle state behavior
 		idleBehavior(lifx);
@@ -327,7 +326,7 @@ io.on('connection', function (socket) {
 		error(err);
 	});
 
-	// ================================================================================
+	// ==============================================================================
 	// Seedling communication related to sounds
 	var seedlingToPlay = Math.floor(Math.random() * 3);
 	if(seedlingToPlay === lastSeedlingPlayed)
@@ -347,7 +346,7 @@ io.on('connection', function (socket) {
 		previousSounds = updatedSounds;
 	});
 
-	// ================================================================================
+	// ==============================================================================
 	// Front-end communication
 	uiSocket = socket;
 
@@ -396,26 +395,26 @@ io.on('connection', function (socket) {
 	// Front-end simulation of a button press
 	socket.on('sim button', function(seedlingNum) {
 		if(!seedlings[seedlingNum].buttonPressed && seedlings[seedlingNum].online){
-				console.log("Sim button pressed")
-				seedlings[seedlingNum].buttonPressed = true;
-				bigRedButton(seedlings[seedlingNum]);
+			console.log("Sim button pressed")
+			seedlings[seedlingNum].buttonPressed = true;
+			bigRedButton(seedlings[seedlingNum]);
 		} else {
-				console.log('Wrong');
+			console.log('Wrong');
 		}
 	});
 
 	socket.on('sim button2', function(seedlingNum) {
 		if(!seedlings[seedlingNum].buttonPressed){
-				console.log("Sim button2 pressed");
-				var result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
-				socket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
+			console.log("Sim button2 pressed");
+			var result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
+			socket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
 		} else { console.log('Wrong'); }
 	});
 
 	socket.on('request status', function(seedlingNum) {
 		socket.emit('status report', {
-				'lastActiveSeedling: ':lastActiveSeedling,
-				'currentPart: ':seedlings[lastActiveSeedling].currentPart
+			'lastActiveSeedling: ':lastActiveSeedling,
+			'currentPart: ':seedlings[lastActiveSeedling].currentPart
 		});
 	});
 
@@ -464,10 +463,10 @@ function heightCalcGeneric(data){
 }
 
 function circleObj(previousColor, targetColor, duration, diodePct){
-		this.previousColor = previousColor;
-		this.targetColor = targetColor;
-		this.duration = duration;
-		this.diodePct = diodePct;
+	this.previousColor = previousColor;
+	this.targetColor = targetColor;
+	this.duration = duration;
+	this.diodePct = diodePct;
 }
 
 function getRingColor(seedling, currentPart){
@@ -598,7 +597,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 		// Report to the diagnostics channel that the seedling went down
 		var slackTitle = 'Seedling (.3'+(seedling.number+2)+') Disconnected!';
 		claptron.reportDisconnect(slackTitle);
-	})
+	});
 }
 
 function bigRedButtonHelper(seedling){
