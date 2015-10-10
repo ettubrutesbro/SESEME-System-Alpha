@@ -77,7 +77,6 @@ var hue = require(path.join(__dirname, 'hue.js'));
 var stories = require(path.join(__dirname, 'stories.js'));
 var led = require(path.join(__dirname, 'led.js'));
 var soundObj = require(path.join(__dirname, 'soundObj.js'));
-var sounds = require(path.join(__dirname, 'sounds.js'));
 var lifx = require(path.join(__dirname, 'lifx.js'));
 var motorMoveSlope = 0.001532452;
 var motorMoveConstant = 1.11223288003;
