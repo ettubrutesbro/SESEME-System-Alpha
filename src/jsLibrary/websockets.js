@@ -657,10 +657,6 @@ function bigRedButtonHelper(seedling){
 	for(var i = 0; i < 4; i++){
 		//var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - beagleStats["m"+(i+1)] ) );
 		var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - stepperPositionAr[i] ) );
-		console.log("TEMP: " + i + " " + temp);
-		console.log("StepperPositionAr", stepperPositionAr[i]);
-		console.log("TargetPercentages", Math.round(targetPercentages[i]*plrmax));
-		console.log("beagleStats", beagleStats["m"+(i+1)]);
 		if(temp > maxDistance) maxDistance = temp;
 	}
 	console.log("MAXDISTANCE:", maxDistance);
@@ -795,4 +791,3 @@ beagleIO.on('connection', function(beagleSocket){
 	})
 
 });
-
