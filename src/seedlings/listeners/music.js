@@ -2,7 +2,6 @@
 function listeners(socket, soundObj) {
     var Sound = require('node-mpg123');
     var path = require('path');
-    var sounds = require(path.join(__dirname, '..', '..', 'jsLibrary', 'sounds.js'));
     var music = null;
     var soundTypes = ["topical", "dumb", "no", "ready", "celebratory"];
 
@@ -24,13 +23,6 @@ function listeners(socket, soundObj) {
         var soundPath = path.join(__dirname, '..', '..', '..', 'sounds', soundName+'.mp3');
         var sound = new Sound(soundPath);
         sound.play();
-    });
-
-    // Listener to play a random sound given a sound type
-    socket.on('seedling play random-sound', function(type, previousSounds) {
-        console.log("Playing random sound of type " + type);
-        sounds.playRandomSound(soundObj, type, previousSounds);
-        socket.emit('xps update previous-sounds', previousSounds);
     });
 
     // Listeners to play a chime sequence upon syncing
