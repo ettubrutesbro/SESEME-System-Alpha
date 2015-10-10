@@ -10,6 +10,7 @@ var self = module.exports = {
     percentAr: null,
     color: null,
     lightPercentage: 0, // not sure if we can save fade state using fadeIn fadeOut
+    decrementAmount: null,
 
     showStrip: function(stripColor, strip){
       var string = "rgb(" + stripColor.red + ", " + stripColor.green + ", " + stripColor.blue + ")";
@@ -279,8 +280,10 @@ var self = module.exports = {
                 break;
             }
         } // set starting index
+        var decrementAmount;
+        if(this.decrementAmount) decrementAmount = this.decrementAmount;
+        else decrementAmount = percentAr[index]/smallSteps;
 
-        var decrementAmount = percentAr[index]/smallSteps;
         console.log("Small Steps", smallSteps);
         console.log("Big Steps", bigSteps);
         console.log("Index", index);
@@ -337,6 +340,7 @@ var self = module.exports = {
                 that.curFadePercent = 0;
                 that.color = currentColor;
                 that.percentAr = percentAr;
+                that.decrementAmount = null;
                 clearInterval(fadeCircleTimer);
                 console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
                 that.fillCircle(currentColor, targetColor, 3, obj, callback);
@@ -348,6 +352,7 @@ var self = module.exports = {
                 that.curFadePercent = diodePct;
                 that.color = currentColor;
                 that.percentAr = percentAr;
+                that.decrementAmount = decrementAmount;
                 clearInterval(fadeCircleTimer);
                 callback();
             }
@@ -376,7 +381,8 @@ var self = module.exports = {
         var percentAr = new Array(litPixelNum);
         var colorString = new Array(bigSteps);
         var pixel = new Array(litPixelNum);
-        var index = 13; // index of leading diode to brighten
+        var index = Math.floor(litPixelNum); // index of leading diode to brighten
+        // var index = 13; // index of leading diode to brighten
         var factor = 2; // hard coded value for progression
         var intervalTime = 100; // original 55
         var smallSteps = Math.floor(duration * 1000 / (intervalTime * bigSteps)); // number of smallSteps to fade one diode
