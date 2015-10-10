@@ -224,7 +224,7 @@ function getStates() {
 	return states;
 }
 
-///////////////////////////////////////////////////////////// 
+/////////////////////////////////////////////////////////////
 // Upon server startup, ensure the monumnet is set to the current story's color
 var lifxInitProps = { 'power' : 'on' };
 var activeSeedlingPart = seedlings[lastActiveSeedling].currentPart;
@@ -235,14 +235,14 @@ if(story[lastActiveSeedling].parts[activeSeedlingPart].color.monument) {
 
 	lifxInitProps.brightness = 1 * story[lastActiveSeedling]
 		.parts[activeSeedlingPart].color.monument.bri;
-} 
+}
 else if(story[lastActiveSeedling].parts[activeSeedlingPart].color) {
 
 	lifxInitProps.color = story[lastActiveSeedling]
 		.parts[activeSeedlingPart].color;
 
 	lifxInitProps.brightness = 0.5;
-} 
+}
 else {
 	lifxInitProps.color = 'red',
 	lifxInitProps.brightness = 0;
@@ -315,8 +315,8 @@ function randomSoundWeight(obj, type, socket){
 	  'type':type
 	});
 	console.log("Sending '"+obj[type][randValue]+"' to the seedling");
-	'socket.emit('seedling play sound', obj[type][randValue]);
-}
+	socket.emit('seedling play sound', obj[type][randValue]);
+)}
 
 io.on('connection', function (socket) {
 	webbyOnline = 1;
