@@ -381,7 +381,7 @@ var self = module.exports = {
         var percentAr = new Array(litPixelNum);
         var colorString = new Array(bigSteps);
         var pixel = new Array(litPixelNum);
-        var index = Math.floor(litPixelNum); // index of leading diode to brighten
+        var index = Math.floor(litPixelNum/2); // index of leading diode to brighten
         // var index = 13; // index of leading diode to brighten
         var factor = 2; // hard coded value for progression
         var intervalTime = 100; // original 55
