@@ -2,11 +2,9 @@
 
 function emptyCallback(){};
 
-
 function listeners(socket, obj, soundObj) {
     var path = require('path');
     var led = require(path.join(__dirname, '..', '..', 'jsLibrary', 'led.js'));
-    var sounds = require(path.join(__dirname, '..', '..', 'jsLibrary', 'sounds.js'));
     var Timer = require(path.join(__dirname, '..', '..', 'jsLibrary', 'timer.js'));
     var music = null;
 
@@ -89,7 +87,6 @@ function listeners(socket, obj, soundObj) {
             console.log("duration of fadeCircle " + (Date.now() - prevTime)/1000);
             console.log("in callback for fadeCircle");
             led.lightOn(1, obj.buttonLight, null);
-            sounds.playRandomSound(soundObj, 'ready');
             socket.emit('seedling actionCircle done', seedlingNum);
           });
         } // fades in progression if last active seedling
@@ -99,7 +96,6 @@ function listeners(socket, obj, soundObj) {
             console.log("duration of fillCircle " + (Date.now() - prevTime)/1000);
             console.log("in callback for fillCircle");
             led.lightOn(1, obj.buttonLight, null);
-            sounds.playRandomSound(soundObj, 'ready');
             socket.emit('seedling actionCircle done', seedlingNum);
           })
         }
