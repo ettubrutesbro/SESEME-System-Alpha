@@ -316,7 +316,7 @@ function randomSoundWeight(obj, type, socket){
 	});
 	console.log("Sending '"+obj[type][randValue]+"' to the seedling");
 	socket.emit('seedling play sound', obj[type][randValue]);
-)}
+}
 
 io.on('connection', function (socket) {
 	webbyOnline = 1;
