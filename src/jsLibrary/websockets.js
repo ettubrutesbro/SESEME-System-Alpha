@@ -658,6 +658,7 @@ function bigRedButtonHelper(seedling){
 	// Calculate the max distance of
 	for(var i = 0; i < 4; i++){
 		var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - beagleStats["m"+(i+1)] ) );
+    console.log("TEMP: " + i + " " + temp);
 		if(temp > maxDistance) maxDistance = temp;
 	}
 	console.log("MAXDISTANCE:", maxDistance);
