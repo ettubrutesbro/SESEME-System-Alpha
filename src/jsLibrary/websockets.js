@@ -682,6 +682,8 @@ function bigRedButtonHelper(seedling){
 
   var revolutions = Math.ceil(duration/timePerRev);
 	var timePerRev = duration / revolutions;
+	console.log("Revolutions", revolutions)
+	console.log("timePerRev", timePerRev)
 	var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, revolutions);
 
 	// Reset the countdown to idle state
