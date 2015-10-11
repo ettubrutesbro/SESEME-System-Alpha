@@ -362,7 +362,7 @@ io.on('connection', function (socket) {
 		console.log("Frontend requested story: sending current story data now")
 		// Have the frontend acquire the story data
 		io.sockets.emit('ui acquire story', {
-			story: story[lastActiveSeedling],
+			story: lastActiveSeedling,
 			part: seedlings[lastActiveSeedling].currentPart,
 			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart])
 		});
