@@ -629,12 +629,12 @@ function bigRedButtonHelper(seedling){
 		seedling.currentPart = (seedling.currentPart + 1) % seedling.totalStoryParts;
 
 		// Calculate the result of the
-		console.log("Emitting 'ui update part' to the front-end");
-		targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-		io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: targetPercentages} );
-
-		// Setting variables for fading the led circle
-		diodePct = seedling.currentPart === 0 ? 100: seedling.currentPart / seedling.totalStoryParts * 100;
+		// console.log("Emitting 'ui update part' to the front-end");
+		// targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+		// io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: targetPercentages} );
+		//
+		// // Setting variables for fading the led circle
+		// diodePct = seedling.currentPart === 0 ? 100: seedling.currentPart / seedling.totalStoryParts * 100;
 	}
 	// Update the story to the new one
 	else{
@@ -645,12 +645,14 @@ function bigRedButtonHelper(seedling){
 		console.log("should change to different story: current part should be 0:", seedling.currentPart)
 		diodePct = 0;
 
-		// Call the frontend to update to a different story
-		targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
-		console.log("Emitting 'ui different story' to the front-end");
-		io.sockets.emit('ui update part', {story: seedling.story, percentages: targetPercentages} );
-		//io.sockets.emit('ui different story', {story: seedling.story, percentages: targetPercentages} );
+		// // Call the frontend to update to a different story
+		// targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+		// console.log("Emitting 'ui different story' to the front-end");
+		// io.sockets.emit('ui different story', {story: seedling.story, percentages: targetPercentages} );
 	}
+	targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+	console.log("Emitting story to the front-end")
+	io.sockets.emit('ui update', {story: seedling.number, part: seedling.currentPart, percentages: targetPercentages} );
 
 	targetColor = getRingColor(seedling, seedling.currentPart);
 
