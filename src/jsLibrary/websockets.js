@@ -627,6 +627,7 @@ function bigRedButtonHelper(seedling){
 
 		// Increment current part of the same story
 		seedling.currentPart = (seedling.currentPart + 1) % seedling.totalStoryParts;
+		diodePct = seedling.currentPart === 0 ? 100: seedling.currentPart / seedling.totalStoryParts * 100;
 
 		// Calculate the result of the
 		// console.log("Emitting 'ui update part' to the front-end");
@@ -634,7 +635,6 @@ function bigRedButtonHelper(seedling){
 		// io.sockets.emit('ui update part', {part: seedling.currentPart, percentages: targetPercentages} );
 		//
 		// // Setting variables for fading the led circle
-		// diodePct = seedling.currentPart === 0 ? 100: seedling.currentPart / seedling.totalStoryParts * 100;
 	}
 	// Update the story to the new one
 	else{
