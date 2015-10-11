@@ -537,7 +537,8 @@ function seedlingConnected(seedSocket, seedlingNum){
 				stopIdleState();
 				console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
 				for(var i = 0; i < 3; i++){
-					seedlings[i].buttonPressed = true;
+					if(seedlings[i].online)
+						seedlings[i].buttonPressed = true;
 				}
 				//seedling.buttonPressed = true;
 				bigRedButtonHelper(seedling);
