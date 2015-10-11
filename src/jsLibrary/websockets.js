@@ -680,8 +680,9 @@ function bigRedButtonHelper(seedling){
 		duration += 3;
 	} // will run fill circle so add 3 sec to duration of lightTrail and timeout
 
-	var timePerRev = 2;
-	var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, Math.ceil(duration/timePerRev));
+  var revolutions = Math.ceil(duration/timePerRev);
+	var timePerRev = duration / revolutions;
+	var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, revolutions);
 
 	// Reset the countdown to idle state
 	if(idleCountdown) clearTimeout(idleCountdown);
