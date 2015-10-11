@@ -536,7 +536,10 @@ function seedlingConnected(seedSocket, seedlingNum){
 					// If system is in idle mode, clear the lifx breathe/desperation intervals
 				stopIdleState();
 				console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
-				seedling.buttonPressed = true;
+				for(var i = 0; i < 3; i++){
+					seedlings[i].buttonPressed = true;
+				}
+				//seedling.buttonPressed = true;
 				bigRedButtonHelper(seedling);
 			}
 			else{
@@ -582,9 +585,11 @@ function seedlingConnected(seedSocket, seedlingNum){
 	});
 
 	seedling.socket.on('seedling actionCircle done', function(seedlingNum){
+		console.log("set buttonPressed false", seedling.number);
+		seedling.buttonPressed = false;
 		if(seedling.number === seedlingNum){
-			console.log("set buttonPressed false", seedling.number);
-			seedling.buttonPressed = false;
+			// console.log("set buttonPressed false", seedling.number);
+			// seedling.buttonPressed = false;
 			randomSoundWeight(soundObj, 'ready', seedling.socket);
 		}
 	})
