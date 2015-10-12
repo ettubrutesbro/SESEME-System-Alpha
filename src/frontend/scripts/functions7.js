@@ -106,6 +106,7 @@
 		else if(height && view.height!=='plan') {viewHelp(); return}
 		viewInfoText()
 	}
+
 	//constituent functions determine obj states
 	function viewPillarOutlines(){
 		if(view.zoom === 'far' || view.height ==='plan'){ //none
@@ -713,42 +714,42 @@
 		var retainMainText = false, retainDetailText = [false,false,false,false],
 		retainName = [false,false,false,false], retainSymbol = [false,false,false,false],
 		retainLabel = [false,false,false,false]
-		if(data.maintext === story.parts[part].maintext) retainMainText = true
+		if(data.maintext === stories[story].parts[part].maintext) retainMainText = true
 		for(var i = 0; i<4; i++){ //per-pillar data
-			if(data.pTexts && story.parts[part].pTexts){//detail text in the DOM
-				if(!data.pTexts[i] || !story.parts[part].pTexts[i]) retainDetailText[i] = false
-				else if(data.pTexts[i] === story.parts[part].pTexts[i]) retainDetailText[i] = true
+			if(data.pTexts && stories[story].parts[part].pTexts){//detail text in the DOM
+				if(!data.pTexts[i] || !stories[story].parts[part].pTexts[i]) retainDetailText[i] = false
+				else if(data.pTexts[i] === stories[story].parts[part].pTexts[i]) retainDetailText[i] = true
 			}else retainDetailText[i] = false
 
-			if(data.pNames && story.parts[part].pNames){//pillar names in 3d and DOM
-				if(!data.pNames[i] || !story.parts[part].pNames[i]) retainName[i] = false
-				else if(typeof data.pNames[i] !== typeof story.parts[part].pNames[i]) retainName[i] = false
+			if(data.pNames && stories[story].parts[part].pNames){//pillar names in 3d and DOM
+				if(!data.pNames[i] || !stories[story].parts[part].pNames[i]) retainName[i] = false
+				else if(typeof data.pNames[i] !== typeof stories[story].parts[part].pNames[i]) retainName[i] = false
 				else if(typeof data.pNames[i] === 'string') {
-					if(data.pNames[i] === story.parts[part].pNames[i]) retainName[i] = true
+					if(data.pNames[i] === stories[story].parts[part].pNames[i]) retainName[i] = true
 				}
 				else if(data.pNames[i] instanceof Array){
-					if(data.pNames[i].equals(story.parts[part].pNames[i])) retainName[i] = true
+					if(data.pNames[i].equals(stories[story].parts[part].pNames[i])) retainName[i] = true
 				}
 			}else retainName[i] = false
 
-			if(data.pSymbols && story.parts[part].pSymbols){//pillar symbols in 3d
-				if(!data.pSymbols[i] || !story.parts[part].pSymbols[i]) retainSymbol[i] = false
-				else if(data.pSymbols[i].src === story.parts[part].pSymbols[i].src) retainSymbol[i] = true
+			if(data.pSymbols && stories[story].parts[part].pSymbols){//pillar symbols in 3d
+				if(!data.pSymbols[i] || !stories[story].parts[part].pSymbols[i]) retainSymbol[i] = false
+				else if(data.pSymbols[i].src === stories[story].parts[part].pSymbols[i].src) retainSymbol[i] = true
 			}
-			if(data.pLabels && story.parts[part].pLabels){
-				if(!data.pLabels[i] || !story.parts[part].pLabels[i]) retainLabel[i] = false
-				else if(typeof data.pLabels[i] !== typeof story.parts[part].pLabels[i]) retainLabel[i] = false
+			if(data.pLabels && stories[story].parts[part].pLabels){
+				if(!data.pLabels[i] || !stories[story].parts[part].pLabels[i]) retainLabel[i] = false
+				else if(typeof data.pLabels[i] !== typeof stories[story].parts[part].pLabels[i]) retainLabel[i] = false
 				else if(typeof data.pLabels[i] === 'string'){
-					if(data.pLabels[i] === story.parts[part].pLabels[i]) retainLabel[i] = true
+					if(data.pLabels[i] === stories[story].parts[part].pLabels[i]) retainLabel[i] = true
 				}
 				else if(data.pLabels[i] instanceof Array){
-					if(data.pLabels[i] === story.parts[part].pNames[i]) retainLabel[i] = true
+					if(data.pLabels[i] === stories[story].parts[part].pNames[i]) retainLabel[i] = true
 				}
 			}else retainLabel[i] = false
 		}
 		console.log('retention check complete')
 		//ESTABLISHING DATA, DISABLING CONTROLS, AND 'WAITING' FOR CONTENT FILLING
-		data = story.parts[part]
+		data = stories[story].parts[part]
 		var refillMgr = new THREE.LoadingManager()
 		controls.enabled = false; view.filling = true
 
@@ -832,9 +833,9 @@
 		function refillDOM(){
 			console.log('running refillDOM')
 			//STORY CHANGES?
-			dom.navspans[1].textContent = story.seedling
-			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
-			dom.overtext.textContent = story.description
+			dom.navspans[1].textContent = stories[story].seedling
+			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+stories[story].seedling+'.png)'
+			dom.overtext.textContent = stories[story].description
 			//MAJOR CONTENT CHANGES / FADE
 			Velocity(dom.bottom, {backgroundColor: data.color? data.color.ui : '#000000'})
 			//just hide what's being viewed, cb changes content and animates bottom
@@ -862,7 +863,7 @@
 				if(i!==facing) dom.navnames[i].textContent = navname
 				Velocity(dom.databars[i], {height: (plrOrder.indexOf(data.values[i])+1)*25+'%' })
 			}
-			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
+			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+stories[story].parts.length+ '</b>'
 		}//end refillDOM
 	} //END REFILL
 	//

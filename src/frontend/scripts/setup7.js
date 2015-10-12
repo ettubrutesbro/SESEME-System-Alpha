@@ -1,7 +1,7 @@
 
 //global data
 var socket
-var story = nostory, part = 0, data = story.parts[part], percentages
+var story=0, part=0, data = stories[story].parts[part], percentages
 var info = {name: []}
 // info.prev = [], info.name = [], info.detail = []
 //objects and resources
@@ -46,25 +46,21 @@ function setup(){
 					socket.emit('ui request story')
 					// socket.on('debug status report', function(d){console.log(d)})
 			 	})
-				socket.on('ui acquire story', function(d){
+				socket.once('ui acquire story', function(d){
 					console.log('ui acquired story')
 					console.log(d)
 						story = d.story; part = d.part; percentages = d.percentages
-						data = story.parts[part]
+						console.log(story)
+						data = stories[story].parts[part]
 					ready.itemEnd('firstdata')
 				})
-				//can also get the below through socket.emit('sim button',buttonNum)
-				socket.on('ui update part', function(d){
+				socket.on('ui update', function(d){
 					// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
-					console.log('ui updating part')
+					console.log('ui updating')
 					console.log(d)
-					part = d.part; percentages = d.percentages
-					refill()
-				})
-				socket.on('ui different story', function(d){
-					console.log('ui updating story')
-					console.log(d)
-					story = d.story; part = 0; percentages = d.percentages
+					story = d.story
+					part = d.part 
+					percentages = d.percentages
 					refill()
 				})
 				socket.on('ui check desync', function(){
@@ -80,7 +76,7 @@ function setup(){
 			else if(!online){
 				console.log('let\'s pretend we\'re online...')
 				story = teststory; part = 0
-				data = story.parts[part]
+				data = stories[story].parts[part]
 				ready.itemEnd('firstdata')
 				// setTimeout(function(){ part++; view.nextpart() }, 7500)
 			}
@@ -415,7 +411,7 @@ function setup(){
 			if(data.valueType === 'lessIsTall'){plrOrder.reverse()}
 
 			dom.navspans[1].textContent = story.seedling
-			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+story.parts.length+ '</b>'
+			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+stories[story].parts.length+ '</b>'
 			dom.navfigures[0].style.backgroundImage = 'url(assets/infoicon.png)'
 			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
 			dom.navfigures[2].style.backgroundImage = 'url(assets/partbook.png)'
