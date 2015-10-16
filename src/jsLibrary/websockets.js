@@ -93,9 +93,7 @@ var stepperPositionAr = null;
 var beagleOnline = false;
 var sesemeRunning = false;
 var updateFlag = false;
-var beagleStatsFlag = false;
 var maxDistanceFlag = false;
-var beagleStats = null;
 var beagleTime = -1;
 var plrmax = 5000; // lazy without sockets
 // this plrmax refers to steps (motors)
@@ -505,11 +503,10 @@ function getRingColor(seedling, currentPart){
 function checkSesemeRunning(callback){
 	console.log("checkSesemeRunning()");
 	if(beagleOnline){
-		beagle.emit('getBeagleStats');
 		beagle.emit('isRunning'); // check if seseme is running
 
 		var timer = setInterval(function(){
-			if(beagleStatsFlag && updateFlag){
+			if(updateFlag){
 				clearInterval(timer);
 				if(!sesemeRunning){
 					console.log("SESEME not running");
@@ -685,7 +682,6 @@ function bigRedButtonHelper(seedling){
 
 	// Calculate the max distance of
 	for(var i = 0; i < 4; i++){
-		//var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - beagleStats["m"+(i+1)] ) );
 		var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - stepperPositionAr[i] ) );
 		if(temp > maxDistance) maxDistance = temp;
 	}
@@ -792,12 +788,6 @@ beagleIO.on('connection', function(beagleSocket){
 		console.log("checkSesemeRunning data: " + data);
 		sesemeRunning = data;
 		updateFlag = true; // finished isRunning check and change flag
-	})
-
-	beagleSocket.on('returnBeagleStats', function(data){
-		console.log("returnBeagleStats data: " + JSON.stringify(data));
-		beagleStats = data;
-		beagleStatsFlag = true; // got beagle stats
 	})
 
 	beagleSocket.on('beagle 1 On', function(beagleAr){

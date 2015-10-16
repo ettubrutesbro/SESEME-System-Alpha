@@ -130,7 +130,7 @@ socket.on('resetPosition', function(motorName){
 socket.on('getBeagleStats', function(){
     console.log('-------------')
     console.log('BEAGLE STATS');
-    socket.emit('returnBeagleStats', seseme.getStats(stepper));
+    //socket.emit('returnBeagleStats', seseme.getStats(stepper));
 })
 
 function loopPillars(){
