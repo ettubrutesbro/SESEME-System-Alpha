@@ -36,6 +36,8 @@ app.get('/master', function (req, res) {
 
 app.post('/check', function(req, res) {
     console.log("RECEIVED A POST REQUEST: ")
-    console.log("request: "+req);
-    console.log("response: "+res);
+    console.log("Request: ");
+    console.dir(req);
+    console.log("Response: ");
+    console.dir(res);
 });
