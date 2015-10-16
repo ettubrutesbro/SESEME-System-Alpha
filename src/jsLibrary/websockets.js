@@ -693,9 +693,9 @@ function bigRedButtonHelper(seedling){
 	if(seedling.currentPart === 0) circleData = new circleObj(previousColor, targetColor, duration, diodePct); // will run fill circle so subtract 3 sec from fade to compensate for fill
 	else circleData = new circleObj(previousColor, targetColor, duration, diodePct);
 
-	if(seedling.currentPart === 0){
+	if(seedling.currentPart === 0 && diodePct === 100){
 		duration += 3;
-	} // will run fill circle so add 3 sec to duration of lightTrail and timeout
+	} // go back to first part of same story (fade then fill) so add 3 sec to duration of lightTrail
 
   var revolutions = Math.ceil(duration/1.5); // timePerRev set to 2 for revolutions calc
 	var timePerRev = duration / Math.ceil(duration/1.5);
