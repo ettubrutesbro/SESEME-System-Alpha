@@ -394,13 +394,35 @@ io.on('connection', function (socket) {
 
 	// Front-end simulation of a button press
 	socket.on('sim button', function(seedlingNum) {
-		if(!seedlings[seedlingNum].buttonPressed && seedlings[seedlingNum].online){
-			console.log("Sim button pressed")
-			seedlings[seedlingNum].buttonPressed = true;
-			bigRedButton(seedlings[seedlingNum]);
-		} else {
-			console.log('Wrong');
+		var seedling = seedlings[seedlingNum];
+		var error = false;
+		for(var i = 0; i < seedlings.length; i++){
+			if(seedlings[i].buttonPressed === true){
+				console.log("error is true", i)
+				error = true;
+				break;
+			} // invalid button press
 		}
+
+		checkSesemeRunning(function(data){
+			console.log("@@@@@@@@@@@@@@@@@@ in checkSesemeRunning callback @@@@@@@@@@@@@@@@@@");
+			if(!error && !data){
+					// If system is in idle mode, clear the lifx breathe/desperation intervals
+				stopIdleState();
+				console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
+				for(var i = 0; i < 3; i++){
+					if(seedlings[i].online)
+						seedlings[i].buttonPressed = true;
+				}
+				//seedling.buttonPressed = true;
+				bigRedButtonHelper(seedling);
+			}
+			else{
+				console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
+				randomSoundWeight(soundObj, 'no', seedling.socket);
+				seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
+			} // currently in animation
+		}); // end of checkSesemeRunning
 	});
 
 	socket.on('sim button2', function(seedlingNum) {
@@ -480,7 +502,7 @@ function getRingColor(seedling, currentPart){
 	return targetColor;
 }
 
-function checkSesemeRunning(seedling, callback){
+function checkSesemeRunning(callback){
 	console.log("checkSesemeRunning()");
 	if(beagleOnline){
 		beagle.emit('getBeagleStats');
@@ -498,7 +520,6 @@ function checkSesemeRunning(seedling, callback){
 					console.log("SESEME currently running");
 					callback(true);
 					return;
-					//seedling.socket.emit("playType", "idler");
 				}
 			}
 		}, 20);
@@ -530,7 +551,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 			} // invalid button press
 		}
 
-		checkSesemeRunning(seedling, function(data){
+		checkSesemeRunning(function(data){
 			console.log("@@@@@@@@@@@@@@@@@@ in checkSesemeRunning callback @@@@@@@@@@@@@@@@@@");
 			if(!error && !data){
 					// If system is in idle mode, clear the lifx breathe/desperation intervals
