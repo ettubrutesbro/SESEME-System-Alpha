@@ -23,13 +23,18 @@ app.use('/bower_components', express.static(__dirname + '/web/bower_components')
 console.log("static: "+path.join(__dirname, '..', 'frontend'));
 
 app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
 app.get('/control-center', function (req, res) {
-  res.sendFile(__dirname + '/web/index.html');
+    res.sendFile(__dirname + '/web/index.html');
 });
 
 app.get('/master', function (req, res) {
-  res.sendFile(__dirname + '/master/index.html');
+    res.sendFile(__dirname + '/master/index.html');
+});
+
+app.post('/check', function(req, res) {
+    console.log("RECEIVED A POST REQUEST: ")
+    console.log("request: "+JSON.stringify(req,null,2));
 });
