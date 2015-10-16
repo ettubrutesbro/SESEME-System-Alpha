@@ -24,7 +24,7 @@ function lightTrailObj(trailColor, nodes, time, revolutions){
 	this.revolutions = revolutions;
 }
 
-var claptron = require(path.join(__dirname, '../xps/slackbot.js'));
+var claptron = require(path.join(__dirname, '..', 'xps', 'slackbot.js'));
 
 // System check function to send a report to the slack diagnostics channel
 function reportSystemStatus() {
