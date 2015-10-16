@@ -13,12 +13,12 @@ function reportConnection(title) {
             "username"        : "claptron",
             "attachments": [
                 {
-                    "title"        : "~ :hurtrealbad: "+title+" :hurtrealbad: ~",
+                    "title"        : ":hurtrealbad: "+title+" :hurtrealbad: ~",
                     "title_link": "http://www.seseme.net",
                     "fallback"    : "*["+timestamp+"] Claptron reporting in: "
-                                    + "_hella' WET!",
+                                    + "_hella WET",
                     "pretext"    : "*["+timestamp+"] Claptron reporting in: " 
-                                    + "_hella WET!",
+                                    + "_hella WET",
                     "color"        : "green",
                     "mrkdwn_in": ["text", "pretext"]
                 }
@@ -43,12 +43,12 @@ function reportDisconnect(title) {
             "username"        : "claptron",
             "attachments": [
                 {
-                    "title"        : "~ :hurtrealbad: "+title+" :hurtrealbad: ~",
+                    "title"        : ":hurtrealbad: "+title+" :hurtrealbad:",
                     "title_link": "http://www.seseme.net",
                     "fallback"    : "*["+timestamp+"] Claptron reporting in: "
-                                    + "_fuckin' garbage_!",
+                                    + "_fuckin garbage_",
                     "pretext"    : "*["+timestamp+"] Claptron reporting in: " 
-                                    + "_fuckin' garbage_!",
+                                    + "_fuckin garbage_",
                     "color"        : "#f30020",
                     "mrkdwn_in": ["text", "pretext"]
                 }
