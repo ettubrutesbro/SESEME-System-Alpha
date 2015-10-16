@@ -34,10 +34,10 @@ app.get('/master', function (req, res) {
     res.sendFile(__dirname + '/master/index.html');
 });
 
-app.post('/check', function(req, res) {
-    console.log("RECEIVED A POST REQUEST: ")
+app.get('/check', function(req, res) {
+    console.log("RECEIVED A GET REQUEST: ")
+    console.log("Request token: ");
+    console.log(req.query.token)
     console.log("Request body: ");
     console.dir(req.body);
-    console.log("Response body: ");
-    console.dir(res.body);
 });
