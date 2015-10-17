@@ -34,10 +34,18 @@ app.get('/master', function (req, res) {
     res.sendFile(__dirname + '/master/index.html');
 });
 
-app.post('/check', function(req, res) {
-    console.log("RECEIVED A POST REQUEST: ")
-    console.log("Request body: ");
-    console.dir(req.body);
-    console.log("Response body: ");
-    console.dir(res.body);
+app.get('/check', function(req, res) {
+    console.log("RECEIVED A GET REQUEST: ")
+    console.log("Request token: ");
+    console.log(JSON.stringify(req.query,null,2))
+
+//	token=En3aTr3NitM7Mltum6EB6c7F
+//	team_id=T0001
+//	team_domain=example
+//	channel_id=C2147483705
+//	channel_name=test
+//	user_id=U2147483697
+//	user_name=Steve
+//	command=/weather
+//	text=94070
 });

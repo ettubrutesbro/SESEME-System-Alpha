@@ -2,6 +2,9 @@
 logs
 *.log
 
+# swp files
+*.swp
+
 # Runtime data
 pids
 *.pid
