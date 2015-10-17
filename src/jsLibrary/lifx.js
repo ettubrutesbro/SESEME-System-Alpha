@@ -26,9 +26,9 @@
 //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
-var authentication = 'c7e825e5dc8388b7283a216a73fd4ed8206b48f3625a4b6c612d6270e9f7cf90';
-var id = 'd073d5036dda';
-var id2 = 'd073d5035948';
+var authentication = process.env.LIFX_TOKEN;
+var id = process.env.MONUMENT_LIFX_ID;
+var id2 = process.env.SEEDLING_LIFX_ID;
 
 var request = require('request');
 var options = {

@@ -58,6 +58,8 @@ function reportSystemStatus() {
 	claptron.reportSysCheck(systemStatus, pretext);
 }
 
+exports.reportSystemStatus = reportSystemStatus;
+
 // Check if all the seedlings are ready
 function seedlingsReady() {
 	var isReady = true;
