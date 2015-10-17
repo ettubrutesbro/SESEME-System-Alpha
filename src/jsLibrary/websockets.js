@@ -395,7 +395,18 @@ io.on('connection', function (socket) {
 
 	// Front-end simulation of a button press
 	socket.on('sim button', function(seedlingNum) {
+		if(lockButtonPress === true){
+			console.log("lockButtonPress === true");
+			console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
+			randomSoundWeight(soundObj, 'no', seedling.socket);
+			seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
+			return;
+		} // lock doesn't allow
+
+		lockButtonPress = true;
+
 		var seedling = seedlings[seedlingNum];
+		/*
 		var error = false;
 		for(var i = 0; i < seedlings.length; i++){
 			if(seedlings[i].buttonPressed === true){
@@ -404,10 +415,12 @@ io.on('connection', function (socket) {
 				break;
 			} // invalid button press
 		}
+		*/
 
 		checkSesemeRunning(function(data){
 			console.log("@@@@@@@@@@@@@@@@@@ in checkSesemeRunning callback @@@@@@@@@@@@@@@@@@");
-			if(!error && !data){
+			//if(!error && !data){
+			if(!data){
 					// If system is in idle mode, clear the lifx breathe/desperation intervals
 				stopIdleState();
 				console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
@@ -543,6 +556,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 	seedling.socket.on('bigRedButton', function(){
 		if(lockButtonPress === true){
+			console.log("lockButtonPress === true");
 			console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
 			randomSoundWeight(soundObj, 'no', seedling.socket);
 			seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
@@ -550,6 +564,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 		} // lock doesn't allow
 
 		lockButtonPress = true;
+		/*
 		var error = false;
 		for(var i = 0; i < seedlings.length; i++){
 			if(seedlings[i].buttonPressed === true){
@@ -558,10 +573,12 @@ function seedlingConnected(seedSocket, seedlingNum){
 				break;
 			} // invalid button press
 		}
+		*/
 
 		checkSesemeRunning(function(data){
 			console.log("@@@@@@@@@@@@@@@@@@ in checkSesemeRunning callback @@@@@@@@@@@@@@@@@@");
-			if(!error && !data){
+			//if(!error && !data){
+			if(!data){
 					// If system is in idle mode, clear the lifx breathe/desperation intervals
 				stopIdleState();
 				console.log('[SEEDLING ' + (seedlingNum+1) + ': VALID BUTTON PRESS]')
