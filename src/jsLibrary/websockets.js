@@ -101,6 +101,7 @@ var plrmax = 5000; // lazy without sockets
 ////////////////////////////////////////////////
 //	SEEDLING Vars
 ////////////////////////////////////////////////
+var lockButtonPress = false;
 var seedlings = new Array(3); // 3 seedling objects
 var totalStoryParts = new Array(3);
 var seedlingIO = new Array(3);
@@ -539,6 +540,14 @@ function seedlingConnected(seedSocket, seedlingNum){
 	});
 
 	seedling.socket.on('bigRedButton', function(){
+		if(lockButtonPress === true){
+			console.log('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
+			randomSoundWeight(soundObj, 'no', seedling.socket);
+			seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
+			return;
+		} // lock doesn't allow
+
+		lockButtonPress = true;
 		var error = false;
 		for(var i = 0; i < seedlings.length; i++){
 			if(seedlings[i].buttonPressed === true){
@@ -604,6 +613,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 	});
 
 	seedling.socket.on('seedling actionCircle done', function(seedlingNum){
+		var allSeedlingsDone = true;
 		console.log("set buttonPressed false", seedling.number);
 		seedling.buttonPressed = false;
 		if(seedling.number === seedlingNum){
@@ -611,6 +621,16 @@ function seedlingConnected(seedSocket, seedlingNum){
 			// seedling.buttonPressed = false;
 			randomSoundWeight(soundObj, 'ready', seedling.socket);
 		}
+
+		for(var i = 0; i < 3; i++){
+			if(seedlings[i].buttonPressed === true){
+				allSeedlingsDone = false;
+				break;
+			}
+		} // allSeedlingsDone remains true only if all buttonPressed vars are false
+		if(allSeedlingsDone){
+			lockButtonPress = false;
+		} // unlock to allow button press
 	})
 
 	seedling.socket.on('disconnect', function(){
