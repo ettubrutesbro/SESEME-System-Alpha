@@ -37,14 +37,17 @@ app.get('/master', function (req, res) {
 });
 
 app.get('/check', function(req, res) {
+    console.log("- - - - - - - - - - - - - - - - - - - - - - ");
     console.log("RECEIVED A GET REQUEST: ")
     console.log("Request token: ");
     console.log(JSON.stringify(req.query,null,2))
 
     if(req.query.token == process.env.SLACK_TOKEN) {
+        console.log("Token verified!");
 	    // Determine the slash command
 	    switch(req.query.text) {
 	        case "system":
+                console.log("Checking system...");
 	            check.reportSystemStatus();
 	            break;
 	        case "pi1":
