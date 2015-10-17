@@ -43,7 +43,7 @@ app.get('/check', function(req, res) {
     console.log(JSON.stringify(req.query,null,2))
 
     if(req.query.token == process.env.SLACK_TOKEN) {
-        console.log("Token verified!");
+        console.log("Slack token verified!");
 	    // Determine the slash command
 	    switch(req.query.text) {
 	        case "system":
@@ -61,6 +61,10 @@ app.get('/check', function(req, res) {
             default:
                 console.log("Incorrect slash command!");
 	    }
+    } else {
+        console.log("Incorrect slack token!");
+        console.log("Given slack token: "+req.query.token);
+        console.log("Correct slack token: "+process.env.SLACK_TOKEN);
     }
 
 });
