@@ -44,7 +44,7 @@ app.get('/check', function(req, res) {
     console.log("Request token: ");
     console.log(JSON.stringify(req.query,null,2))
 
-    if(req.query.token == process.env.SLACK_TOKEN) {
+    if(req.query.token == process.env.SLACK_CHECK_TOKEN) {
         console.log("Slack token verified!");
 	    // Determine the slash command
 	    switch(req.query.text) {
@@ -73,7 +73,7 @@ app.get('/check', function(req, res) {
 
 // Ping slash command
 app.get('/ping', function(req, res) {
-    if(req.query.token == process.env.SLACK_TOKEN) {
+    if(req.query.token == process.env.SLACK_PING_TOKEN) {
         // Determine the slash command
 	    switch(req.query.text) {
 	        case "system":
