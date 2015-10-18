@@ -66,7 +66,7 @@ app.get('/check', function(req, res) {
     } else {
         console.log("Incorrect slack token!");
         console.log("Given slack token: "+req.query.token);
-        console.log("Correct slack token: "+process.env.SLACK_TOKEN);
+        console.log("Correct slack token: "+process.env.SLACK_CHECK_TOKEN);
     }
 
 });
@@ -101,6 +101,6 @@ app.get('/ping', function(req, res) {
     } else {
         console.log("Incorrect slack token!");
         console.log("Given slack token: "+req.query.token);
-        console.log("Correct slack token: "+process.env.SLACK_TOKEN);
+        console.log("Correct slack token: "+process.env.SLACK_PING_TOKEN);
     }
 });
