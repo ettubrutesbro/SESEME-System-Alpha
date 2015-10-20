@@ -153,7 +153,7 @@ function idleBehavior(lifx) {
 	// TEMP: Have active seedling turn off its light ring on idle
 	// May want to add some breathe feature for lastActiveSeedling's lights
 
-	seedlings[lastActiveSeedling].socket.emit('seedling turn off lights', lastActiveSeedling)''
+	seedlings[lastActiveSeedling].socket.emit('seedling turn off lights', lastActiveSeedling);
 
 	// Start breathing (no maintenance needed to clear it)
 	console.log("Lifx: Started breathing");
@@ -714,7 +714,7 @@ function bigRedButtonHelper(seedling){
 
 	// Reset the countdown to idle state
 	if(idleCountdown){
-		previousColor = led.hexToObj("000000"); // it was idle so color was reset 
+		previousColor = led.hexToObj("000000"); // it was idle so color was reset
 		clearTimeout(idleCountdown);
 	}
 	seconds = 120;
