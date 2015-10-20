@@ -150,6 +150,10 @@ function stopIdleState() {
 
 // Function to start the lifx idle behavior
 function idleBehavior(lifx) {
+	// TEMP: Have active seedling turn off its light ring on idle
+	// May want to add some breathe feature for lastActiveSeedling's lights
+
+	seedlings[lastActiveSeedling].socket.emit('seedling turn off lights', lastActiveSeedling)''
 
 	// Start breathing (no maintenance needed to clear it)
 	console.log("Lifx: Started breathing");
@@ -707,6 +711,15 @@ function bigRedButtonHelper(seedling){
 		// console.log("Emitting 'ui different story' to the front-end");
 		// io.sockets.emit('ui different story', {story: seedling.story, percentages: targetPercentages} );
 	}
+
+	// Reset the countdown to idle state
+	if(idleCountdown){
+		previousColor = led.hexToObj("000000"); // it was idle so color was reset 
+		clearTimeout(idleCountdown);
+	}
+	seconds = 120;
+	countdown();
+
 	targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
 	console.log("Emitting story to the front-end")
 	io.sockets.emit('ui update', {story: seedling.number, part: seedling.currentPart, percentages: targetPercentages} );
@@ -728,7 +741,6 @@ function bigRedButtonHelper(seedling){
 	var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
 	//var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance / plrmax * 10 + 0.6); // simple motion get time(sec) rounded up
 	console.log("DURATION:", duration);
-	var circleData;
 	if(seedling.currentPart === 0) circleData = new circleObj(previousColor, targetColor, duration, diodePct); // will run fill circle so subtract 3 sec from fade to compensate for fill
 	else circleData = new circleObj(previousColor, targetColor, duration, diodePct);
 
@@ -740,10 +752,6 @@ function bigRedButtonHelper(seedling){
 	var timePerRev = duration / Math.ceil(duration/1.5);
 	var lightTrailData = new lightTrailObj(trailColor, 6, timePerRev, revolutions);
 
-	// Reset the countdown to idle state
-	if(idleCountdown) clearTimeout(idleCountdown);
-	seconds = 120;
-	countdown();
 
 	// Set the variable to keep track of the last seedling that had its button pressed
 	lastActiveSeedling = seedling.number;

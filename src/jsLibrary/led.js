@@ -152,6 +152,17 @@ var self = module.exports = {
         //this.color = color;
     },
 
+    turnRingOff: function(color, obj){
+        console.log("in turnRingOff function");
+        var strip = obj.strip;
+        // var pixelNum = obj.pixelNum;
+        // var firstDiode = obj.firstDiode;
+        // var litPixelNum = pixelNum - firstDiode;
+        // var string = "rgb(" + color.red + ", " + color.green + ", " + color.blue + ")";
+        strip.color("#000"); // turn off all color
+        strip.show();
+    },
+
     lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){ // time = time for each rev
         console.log("in lightTrail function");
         var that = this;

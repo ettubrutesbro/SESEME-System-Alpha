@@ -49,6 +49,15 @@ function listeners(socket, obj, soundObj) {
       led.showStrip(stripColor, obj.strip);
     })
 
+
+    socket.on('seedling turn off lights', function(seedlingNum){
+      console.log("seedling turn off lights socket", seedlingNum);
+      if(seedlingNum === obj.seedlingNum){
+        console.log("message sent to correct seedling for lights to turn off; extra check");
+        led.turnRingOff(obj);
+      }
+    })
+
     socket.on('seedling add lights duration', function(seedlingNum){
       console.log("seedling add lights duration socket", seedlingNum);
       if(seedlingNum === obj.seedlingNum){
