@@ -152,7 +152,7 @@ var self = module.exports = {
         //this.color = color;
     },
 
-    turnRingOff: function(color, obj){
+    turnRingOff: function(obj){
         console.log("in turnRingOff function");
         var strip = obj.strip;
         // var pixelNum = obj.pixelNum;
