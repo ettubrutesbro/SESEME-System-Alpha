@@ -153,7 +153,8 @@ function idleBehavior(lifx) {
 	// TEMP: Have active seedling turn off its light ring on idle
 	// May want to add some breathe feature for lastActiveSeedling's lights
 
-	seedlings[lastActiveSeedling].socket.emit('seedling turn off lights', lastActiveSeedling);
+    // TODO: Thomas fix this later pls
+	// seedlings[lastActiveSeedling].socket.emit('seedling turn off lights', lastActiveSeedling);
 
 	// Start breathing (no maintenance needed to clear it)
 	print("LIFX: Started Breathing");
