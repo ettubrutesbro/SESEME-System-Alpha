@@ -1,4 +1,3 @@
-var hue = require('./hue.js');
 var seedlingHue = require('./lifx.js');
 
 var self = module.exports = {
