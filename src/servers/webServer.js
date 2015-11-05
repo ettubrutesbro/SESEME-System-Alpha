@@ -5,6 +5,7 @@
 // Socket on port 5000
 // Server on port 8000
 
+var print = require('../jsLibrary/print.js');
 var sockets = require('../jsLibrary/websockets.js')
 var express = require('express');
 var app = express();
