@@ -26,6 +26,7 @@
 //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
+var print = require('./print.js');
 var authentication = process.env.LIFX_TOKEN;
 var id = process.env.MONUMENT_LIFX_ID;
 var id2 = process.env.SEEDLING_LIFX_ID;

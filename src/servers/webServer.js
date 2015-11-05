@@ -13,10 +13,6 @@ var io = require('socket.io')(server);
 var moment = require('moment');
 var path = require('path');
 
-function print(message) {
-    console.log(moment().format('〈MM/DD | h:mm:ss a 〉'));
-}
-
 // Slack slash commands
 var claptron = require(path.join("..", "xps", "slackbot.js"));
 var check = require(path.join("..", "jsLibrary", "websockets.js"));

@@ -1,6 +1,7 @@
 // For claptron to report stuff to slack channels
 var request = require('request');
 var moment = require('moment');
+var print = require('../jsLibrary/print.js');
 
 function reportConnection(title) {
     var timestamp = moment().format("h:mm a* on ddd, M/D");
