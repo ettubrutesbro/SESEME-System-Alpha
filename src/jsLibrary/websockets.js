@@ -74,7 +74,6 @@ function seedlingsReady() {
 //	Constants
 ////////////////////////////////////////////////
 
-var hue = require(path.join(__dirname, 'hue.js'));
 var stories = require(path.join(__dirname, 'stories.js'));
 var led = require(path.join(__dirname, 'led.js'));
 var soundObj = require(path.join(__dirname, 'soundObj.js'));
@@ -469,11 +468,6 @@ io.on('connection', function (socket) {
 			console.log('beagle ONLINE')
 			beagle.emit('webMoveMotor', data);
 		}
-	})
-
-	socket.on('setHSL', function(data){
-		console.log(data)
-		hue.setHSL(data)
 	})
 
 });
