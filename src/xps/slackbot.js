@@ -28,7 +28,7 @@ function reportConnection(title) {
 
     // PUT http request to update the hue color
     request(options, function(error, response, body) {
-        if(error) console.log("Claptron Error: " + error);
+        if(error) print("Claptron Error: " + error);
     }); // end of request
 }
 
@@ -58,7 +58,7 @@ function reportDisconnect(title) {
 
     // PUT http request to update the hue color
     request(options, function(error, response, body) {
-        if(error) console.log("Claptron Error: " + error);
+        if(error) print("Claptron Error: " + error);
     }); // end of request
 }
 
@@ -144,7 +144,7 @@ function reportSysCheck(systemStatus, pretext) {
 
     // PUT http request to update the hue color
     request(options, function(error, response, body) {
-        if(error) console.log("Claptron Error: " + error);
+        if(error) print("Claptron Error: " + error);
     }); // end of request
 }
 
@@ -177,7 +177,7 @@ function reportPing(title, error) {
 
     // PUT http request to update the hue color
     request(options, function(error, response, body) {
-        if(error) console.log("Claptron Error: " + error);
+        if(error) print("Claptron Error: " + error);
     }); // end of request
 }
 

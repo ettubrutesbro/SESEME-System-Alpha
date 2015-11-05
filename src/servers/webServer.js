@@ -10,7 +10,12 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var moment = require('moment');
 var path = require('path');
+
+function print(message) {
+    console.log(moment().format('〈MM/DD | h:mm:ss a 〉'));
+}
 
 // Slack slash commands
 var claptron = require(path.join("..", "xps", "slackbot.js"));
@@ -18,7 +23,7 @@ var check = require(path.join("..", "jsLibrary", "websockets.js"));
 var pinger = require(path.join("..", "xps", "ping.js"));
 
 server.listen(8080);
-console.log('listening on port 8080  !!!');
+print('listening on port 8080  !!!');
 
 // app.use('/static', express.static(__dirname + '/web'));
 app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
@@ -39,17 +44,17 @@ app.get('/master', function (req, res) {
 
 // Check slash command
 app.get('/check', function(req, res) {
-    console.log("- - - - - - - - - - - - - - - - - - - - - - ");
-    console.log("RECEIVED A GET REQUEST: ")
-    console.log("Request token: ");
-    console.log(JSON.stringify(req.query,null,2))
+    print("- - - - - - - - - - - - - - - - - - - - - - ");
+    print("RECEIVED A GET REQUEST: ")
+    print("Request token: ");
+    print(JSON.stringify(req.query,null,2))
 
     if(req.query.token == process.env.SLACK_CHECK_TOKEN) {
-        console.log("Slack token verified!");
+        print("Slack token verified!");
 	    // Determine the slash command
 	    switch(req.query.text) {
 	        case "system":
-                console.log("Checking system...");
+                print("Checking system...");
 	            check.reportSystemStatus();
 	            break;
 	        case "pi1":
@@ -61,12 +66,12 @@ app.get('/check', function(req, res) {
 	        case "monument":
 	            break;
             default:
-                console.log("Incorrect slash command!");
+                print("Incorrect slash command!");
 	    }
     } else {
-        console.log("Incorrect slack token!");
-        console.log("Given slack token: "+req.query.token);
-        console.log("Correct slack token: "+process.env.SLACK_CHECK_TOKEN);
+        print("Incorrect slack token!");
+        print("Given slack token: "+req.query.token);
+        print("Correct slack token: "+process.env.SLACK_CHECK_TOKEN);
     }
 
 });
@@ -77,30 +82,30 @@ app.get('/ping', function(req, res) {
         // Determine the slash command
 	    switch(req.query.text) {
 	        case "system":
-                console.log("Pinging system...");
+                print("Pinging system...");
 	            break;
 	        case "pi1":
-                console.log("Pinging pi1...");
+                print("Pinging pi1...");
                 pinger.pingPi1();
 	            break;
 	        case "pi2":
-                console.log("Pinging pi2...");
+                print("Pinging pi2...");
                 pinger.pingPi2();
 	            break;
 	        case "pi3":
-                console.log("Pinging pi3...");
+                print("Pinging pi3...");
                 pinger.pingPi3();
 	            break;
 	        case "monument":
-                console.log("Pinging monument...");
+                print("Pinging monument...");
                 pinger.pingMonument();
 	            break;
             default:
-                console.log("Incorrect slash command!");
+                print("Incorrect slash command!");
 	    }
     } else {
-        console.log("Incorrect slack token!");
-        console.log("Given slack token: "+req.query.token);
-        console.log("Correct slack token: "+process.env.SLACK_PING_TOKEN);
+        print("Incorrect slack token!");
+        print("Given slack token: "+req.query.token);
+        print("Correct slack token: "+process.env.SLACK_PING_TOKEN);
     }
 });

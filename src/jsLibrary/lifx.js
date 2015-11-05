@@ -45,7 +45,7 @@ var options = {
 function validButtonPress(color, factor) {
     // Check for the sake of the precious lifx
     if(factor > 1) {
-        console.log("Lifx Error: Brightness factor greater than 1");
+        print("Lifx Error: Brightness factor greater than 1");
         return;
     }
 
@@ -66,7 +66,7 @@ function validButtonPress(color, factor) {
 // Function to update the light with custom properties that could take:
 // [ power / color / brightness / duration ]
 function updateLight(properties) {
-    console.log("Lifx: Updating light color now");
+    print("Lifx: Updating light color now");
 
     // Configurations and custom headers to send to the API
     options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
@@ -75,13 +75,13 @@ function updateLight(properties) {
 
     // PUT http request to update the hue color
     request(options, function(error, response, body) {
-        if(error) console.log("Lifx Error: " + error);
+        if(error) print("Lifx Error: " + error);
     }); // end of request
 }
 
 // Function to ramp down the brightness with a duration
 function rampDown(factor, duration) {
-    console.log("Lifx: Ramping down now");
+    print("Lifx: Ramping down now");
 
     // Configurations and custom headers to send to the API
     options.uri = 'https://api.lifx.com/v1beta1/lights/' + id + '/state';
@@ -93,7 +93,7 @@ function rampDown(factor, duration) {
 
     // PUT http request to ramp down
     request(options, function(error, response, body) {
-        if(error) console.log("Lifx Error: " + error);
+        if(error) print("Lifx Error: " + error);
     }); // end of request
 }
 
@@ -109,7 +109,7 @@ function breathe() {
 
     // PUT http request to fade on
     request(options, function(error, response, body) {
-        if(error) console.log('Lifx Error: '+error);
+        if(error) print('Lifx Error: '+error);
     }); // end of request
 }
 
@@ -167,7 +167,7 @@ function desperation(states) {
 
     // PUT http request to set a cycle of states representing each part in the story
     request(options, function(error, response, body) {
-        if(error) console.log('Lifx Error: '+error)
+        if(error) print('Lifx Error: '+error)
     }); // end of request
 
 }
@@ -187,7 +187,7 @@ function turnOn(duration, color) {
 
     // PUT http request to fade on
     request(options, function(error, response, body) {
-        if(error) console.log('Lifx Seedling Hue Error: '+error);
+        if(error) print('Lifx Seedling Hue Error: '+error);
     }); // end of request
 }
 
@@ -202,7 +202,7 @@ function turnOff(duration) {
 
     // PUT http request to fade off
     request(options, function(error, response, body) {
-        if(error) console.log('Lifx Seedling Hue Error: '+error);
+        if(error) print('Lifx Seedling Hue Error: '+error);
     }); // end of request
 }
 
