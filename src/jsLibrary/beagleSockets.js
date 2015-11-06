@@ -4,7 +4,6 @@
 //var seseme = require('./seseme.js');
 
 var path = require('path');
-var hue = require('./hue.js');
 var moment = require('moment');
 var stepper = null;
 
