@@ -726,10 +726,15 @@ function bigRedButtonHelper(seedling){
 				seedlings[i].currentPart = 0;
 	}
 
-	// Calculate the max distance of
-	for(var i = 0; i < 4; i++){
-		var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - stepperPositionAr[i] ) );
-		if(temp > maxDistance) maxDistance = temp;
+	// Calculate the max distance of monument movement for duration calculation
+	if(stepperPositionAr != null){
+	  for(var i = 0; i < 4; i++){
+	    var temp = Math.round( Math.abs( targetPercentages[i]*plrmax - stepperPositionAr[i] ) );
+		  if(temp > maxDistance) maxDistance = temp;
+	  }
+  }
+	else{
+		maxDistance = plrmax;
 	}
 	print("Monument Max Distance: " + maxDistance);
 	var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
