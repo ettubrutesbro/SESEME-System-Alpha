@@ -401,6 +401,11 @@ io.on('connection', function (socket) {
 	socket.on('sim button', function(seedlingNum) {
 		if(lockButtonPress === true){
 			print("lockButtonPress: true");
+			for(var i = 0; i < seedlings.length; i++){
+				if(seedlings[i].buttonPressed === true){
+					print("seedlings[" + i + "].buttonPressed === true");
+				}
+			}
 			print('[SEEDLING ' + (seedlingNum+1) + ': INVALID BUTTON PRESS]')
 			randomSoundWeight(soundObj, 'no', seedling.socket);
 			seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
