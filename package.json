@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "bonescript": "~0.2.4",
+    "colors": "^1.1.2",
     "express": "~4.11.2",
     "johnny-five": "~0.8.91",
     "moment": "~2.9.0",
