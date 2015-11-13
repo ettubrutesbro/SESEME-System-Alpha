@@ -154,6 +154,8 @@ function idleBehavior(lifx) {
 	// May want to add some breathe feature for lastActiveSeedling's lights
 
     // TODO: Thomas fix this later pls
+	if(seedlings[lastActiveSeedling].online)
+		seedlings[lastActiveSeedling].socket.emit('seedling turn off lights', lastActiveSeedling);
 	// seedlings[lastActiveSeedling].socket.emit('seedling turn off lights', lastActiveSeedling);
 
 	// Start breathing (no maintenance needed to clear it)
