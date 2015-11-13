@@ -639,7 +639,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 		var allSeedlingsDone = true;
 		print("Action Circle Done: " + seedling.number);
 		seedling.buttonPressed = false;
-		print("seedlings[" + seedlingNum + "].buttonPressed === false");
+		print("seedlings[" + seedling.number + "].buttonPressed === false");
 		if(seedling.number === seedlingNum){
 			// seedling.buttonPressed = false;
 			randomSoundWeight(soundObj, 'ready', seedling.socket);
@@ -652,6 +652,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 			}
 		} // allSeedlingsDone remains true only if all buttonPressed vars are false
 		if(allSeedlingsDone){
+			print("Unlock buttonPress");
 			lockButtonPress = false;
 		} // unlock to allow button press
 	})
