@@ -4,6 +4,7 @@ function emptyCallback(){};
 
 function listeners(socket, obj, soundObj) {
     var path = require('path');
+    var print = require(path.join(__dirname, '..', '..', 'jsLibrary', 'print.js'));
     var led = require(path.join(__dirname, '..', '..', 'jsLibrary', 'led.js'));
     var Timer = require(path.join(__dirname, '..', '..', 'jsLibrary', 'timer.js'));
     var music = null;
@@ -21,7 +22,7 @@ function listeners(socket, obj, soundObj) {
     function lightsOnCallback(obj){
       timerLastUpdate[obj.seedlingNum] = Date.now();
       lightTimer[obj.seedlingNum] = new Timer.Timer(function() { // init timer with 5 seconds
-        console.log('turning lights off, totalTimeOn in sec:', totalTimeOn / 1000);
+        print("turning lights off, totalTimeOn in sec: " + totalTimeOn / 1000);
         led.lightsOff(obj);
         timerLastUpdate[obj.seedlingNum] = null;
         totalTimeOn = 0;
@@ -29,16 +30,16 @@ function listeners(socket, obj, soundObj) {
     }
 
     function addLightsDuration(obj){
-      console.log("in function addLightsDuration, seedling number", obj.seedlingNum);
+      print("in function addLightsDuration, seedling number " + obj.seedlingNum);
       if(timerLastUpdate[obj.seedlingNum]){
         var addValue = Date.now() - timerLastUpdate[obj.seedlingNum];
-        console.log("add to lightTimer value", addValue / 1000);
+        print("add to lightTimer value " + addValue / 1000);
         totalTimeOn += addValue;
         lightTimer[obj.seedlingNum].add(Date.now() - timerLastUpdate[obj.seedlingNum]); //
         timerLastUpdate[obj.seedlingNum] = Date.now();
       } // lights of seedling currently on so add to timer
       else{
-        console.log("turn lights on for buttonPressed");
+        print("turn lights on for buttonPressed");
         timerLastUpdate[obj.seedlingNum] = Date.now();
         led.lightsOn(obj, lightsOnCallback);
         totalTimeOn = lightOnDuration;
@@ -51,36 +52,36 @@ function listeners(socket, obj, soundObj) {
 
 
     socket.on('seedling turn off lights', function(seedlingNum){
-      console.log("seedling turn off lights socket", seedlingNum);
+      print("seedling turn off lights socket " + seedlingNum);
       if(seedlingNum === obj.seedlingNum){
-        console.log("message sent to correct seedling for lights to turn off; extra check");
+        print("message sent to correct seedling for lights to turn off; extra check");
         led.turnRingOff(obj);
       }
     })
 
     socket.on('seedling add lights duration', function(seedlingNum){
-      console.log("seedling add lights duration socket", seedlingNum);
+      print("seedling add lights duration socket " + seedlingNum);
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
       }
     })
 
     socket.on('seedling initialize story', function(seedlingNum, targetColor){
-      console.log("in seedling initialize story socket", obj.seedlingNum);
+      print("in seedling initialize story socket " + obj.seedlingNum);
       if(obj.seedlingNum === seedlingNum){
-        console.log("turn on ring", obj.seedlingNum)
+        print("turn on ring " + obj.seedlingNum)
         led.turnRingOn(targetColor, obj);
       } // seedlings[0] has ring lit since set as lastActiveSeedling for default
-      console.log("turn on buttonLight");
+      print("turn on buttonLight");
       led.lightOn(1, obj.buttonLight, null); // button of all seedlings lit
     }) // start at initial color
 
     socket.on('buttonPressed', function(seedlingNum, circleData, lightTrailData){
-      console.log("buttonPressed", seedlingNum);
-      console.log("circleData.duration", circleData.duration)
+      print("buttonPressed " + seedlingNum);
+      print("circleData.duration " + circleData.duration)
       if(circleData.duration === 0){
-        console.log("duration is 0 so no action");
-        socket.emit('seedling actionCircle done', obj.seedlingNum);
+        print("duration is 0 so no action");
+        socket.emit('seedling actionCircle done', seedlingNum);
         return;
       } // shouldn't do anything, just emit back to xps
 
@@ -89,21 +90,21 @@ function listeners(socket, obj, soundObj) {
     var prevTime = Date.now();
       if(seedlingNum === obj.seedlingNum){
         addLightsDuration(obj);
-        console.log("circleData.diodePct", circleData.diodePct);
+        print("circleData.diodePct " + circleData.diodePct);
         if(circleData.diodePct !== 0){
-          console.log("seedling buttonPressed socket; should be fadeCircle");
+          print("seedling buttonPressed socket; should be fadeCircle");
           led.fadeCircle(circleData.previousColor, circleData.targetColor, circleData.duration, circleData.diodePct, obj, function(){
-            console.log("duration of fadeCircle " + (Date.now() - prevTime)/1000);
-            console.log("in callback for fadeCircle");
+            print("duration of fadeCircle " + (Date.now() - prevTime)/1000);
+            print("in callback for fadeCircle");
             led.lightOn(1, obj.buttonLight, null);
             socket.emit('seedling actionCircle done', seedlingNum);
           });
         } // fades in progression if last active seedling
         else{
-          console.log("seedling buttonPressed socket; should be fillCircle");
+          print("seedling buttonPressed socket; should be fillCircle");
           led.fillCircle(circleData.previousColor, circleData.targetColor, circleData.duration, obj, function(){
-            console.log("duration of fillCircle " + (Date.now() - prevTime)/1000);
-            console.log("in callback for fillCircle");
+            print("duration of fillCircle " + (Date.now() - prevTime)/1000);
+            print("in callback for fillCircle");
             led.lightOn(1, obj.buttonLight, null);
             socket.emit('seedling actionCircle done', seedlingNum);
           })
@@ -112,8 +113,8 @@ function listeners(socket, obj, soundObj) {
 
       else{
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
-          console.log("duration of lightTrail " + (Date.now() - prevTime)/1000);
-          console.log("in callback for lightTrail");
+          print("duration of lightTrail " + (Date.now() - prevTime)/1000);
+          print("in callback for lightTrail");
           led.lightOn(1, obj.buttonLight, null);
           socket.emit('seedling actionCircle done', seedlingNum);
         });
@@ -149,7 +150,7 @@ function listeners(socket, obj, soundObj) {
 
 
     socket.on('ledColor', function(data){
-      console.log("update color socket");
+      print("update color socket");
       var r = data.red;
       var g = data.green;
       var b = data.blue;
@@ -157,32 +158,32 @@ function listeners(socket, obj, soundObj) {
     })
 
     socket.on('ledBrightness', function(data){
-      console.log("update led brightness");
+      print("update led brightness");
       var brightness = data.brightness;
       led.updateBrightness(brightness, obj);
     })
 
     socket.on('ledPercentage', function(data){
-      console.log("update led percentage");
+      print("update led percentage");
       var percentage = data.percentage;
       led.updatePercent(percentage, obj);
     })
 
     socket.on('nameOn', function(data){
-      console.log("seseme.net on");
+      print("seseme.net on");
       if(data.hexVal == ""){
         data.hexVal = "FFFFFF";
       }
       if(data.time == null){
         data.time = fadeTime;
       }
-      console.log("hexval: " + data.hexVal);
+      print("hexval: " + data.hexVal);
       //led.nameOn(data.hexVal, data.time, obj.urlLight);
       led.lightOn(data.time, obj.urlLight, data.hexVal);
     })
 
     socket.on('nameOff', function(data){
-      console.log("seseme.net off");
+      print("seseme.net off");
       if(data.hexVal == ""){
         data.hexVal = "FFFFFF";
       }
@@ -193,21 +194,21 @@ function listeners(socket, obj, soundObj) {
     })
 
     socket.on('lightsOn', function(data){
-      console.log("lights on");
+      print("lights on");
       if(data == null)
         data = fadeTime;
       led.lightOn(data, obj.iconLight, null);
     })
 
     socket.on('lightsOff', function(data){
-      console.log("lights off");
+      print("lights off");
       if(data == null)
         data = fadeTime;
       led.lightOff(data, obj.iconlight, null);
     })
 
     socket.on('lightTrail', function(data){
-      console.log("light trail");
+      print("light trail");
       if(data.nodes == null)
         data.nodes = trailLength;
       if(data.time == null)
@@ -218,7 +219,7 @@ function listeners(socket, obj, soundObj) {
     })
 
     socket.on('fadeCircle', function(data){
-      console.log("fade from Top");
+      print("fade from Top");
       if(data.fadeTime == null)
         data.fadeTime = 10;
       if(data.diodePct == null)

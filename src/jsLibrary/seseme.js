@@ -1,4 +1,5 @@
 var five = require('johnny-five');
+var print = require('./print.js');
 
 //---------------------------------------//
 //    Module export
@@ -158,8 +159,8 @@ var self = module.exports = {
             });
 
 
-            console.log('**--------BOARD IS READY!!!')
-            console.log(JSON.stringify(stepper["m1"].isRunning));
+            print('**--------BOARD IS READY!!!')
+            print(JSON.stringify(stepper["m1"].isRunning));
 
             callback(stepper);
 
@@ -176,7 +177,7 @@ var self = module.exports = {
     },
 
     getStats: function(stepper){
-    console.log("getStats function");
+    print("getStats function");
     return {m1: stepper.m1.position,
         m2: stepper.m2.position,
         m3: stepper.m3.position,
@@ -192,7 +193,7 @@ var self = module.exports = {
         var adjust = 1;
         if(!state) adjust = -1;
         this.moveMotorCallback(stepper, 'm1', (1000*adjust), 1, function(){
-            console.log('at the top!');
+            print('at the top!');
             if(!state) that.testCycle(0);
         })
     },
@@ -207,43 +208,43 @@ var self = module.exports = {
 
     moveToPercent: function(stepper, motorName, newPercent){
 	    var newPosition = percentToPosition(newPercent);
-	    console.log('percent = ' + newPercent)
-	    console.log('position = ' + newPosition)
+	    print('percent = ' + newPercent)
+	    print('position = ' + newPosition)
 	    this.moveToPosition(stepper, newPosition);
     },
 
     moveToPosition: function(stepper, motorName, newPosition){
 	    newPosition = (newPosition/100)*this.maxPosition;
-	
+
 	    // move up
 	    if(newPosition > stepper[motorName].position){
 	        newPosition = (Math.abs(newPosition - stepper[motorName].position));
-	        console.log('$$$motor:' +motorName + '    $$$$steps:' + newPosition + '     $$$DIR:1')
+	        print('$$$motor:' +motorName + '    $$$$steps:' + newPosition + '     $$$DIR:1')
 	        this.moveMotor(stepper, motorName, newPosition, 1)
 	    }
 	    // else move down
 	    else{
 	        newPosition = (Math.abs(newPosition - stepper[motorName].position));
-	        console.log('$$$motor:' +motorName + '    $$$$steps:' + newPosition +    '     $$$DIR:0')
+	        print('$$$motor:' +motorName + '    $$$$steps:' + newPosition +    '     $$$DIR:0')
 	        this.moveMotor(stepper, motorName, Math.abs(newPosition), 0)
 	    }
     },
 
     moveToPositionCallback: function(stepper, motorName, newPosition, callback){
 	    newPosition = (newPosition/100)*this.maxPosition;
-	
+
 	    // move up
 	    if(newPosition > stepper[motorName].position){
-	        // console.log(' -- UP');
+	        // print(' -- UP');
 	        newPosition = (Math.abs(newPosition - stepper[motorName].position));
-	        console.log('$$$motor:' +motorName + '    $$$$steps:' + newPosition + '     $$$DIR:1')
+	        print('$$$motor:' +motorName + '    $$$$steps:' + newPosition + '     $$$DIR:1')
 	        this.moveMotor(stepper, motorName, newPosition, 1)
 	    }
 	    // else move down
 	    else{
-	        console.log(' -- DOWN');
+	        print(' -- DOWN');
 	        newPosition = (Math.abs(newPosition - stepper[motorName].position));
-	        console.log('$$$motor:' +motorName + '    $$$$steps:' + newPosition +    '     $$$DIR:0')
+	        print('$$$motor:' +motorName + '    $$$$steps:' + newPosition +    '     $$$DIR:0')
 	        this.moveMotor(stepper, motorName, Math.abs(newPosition), 0)
 	    }
 	    callback();
@@ -253,17 +254,17 @@ var self = module.exports = {
     //    Move the pillar move very slowly
     //
     moveMotorCreep: function(stepper, motorName, steps, dir){
-	
+
 	    var that = this;
-	
-	    console.log('hi')
-	    console.log('moving creep steps ========= ' + that.creepRate)
-	
+
+	    print('hi')
+	    print('moving creep steps ========= ' + that.creepRate)
+
 	    if(this.creepCounter < steps/this.creepRate){
 	        this.creepCounter += 1;
-	        console.log('yoyo')
+	        print('yoyo')
 	        this.moveMotorCallback(stepper, motorName, this.creepRate, dir, function(){
-	            console.log('yoyo **********************')
+	            print('yoyo **********************')
 	            that.moveMotorCreep(stepper, motorName, steps, dir)
 	        });
 	    }
@@ -273,7 +274,7 @@ var self = module.exports = {
     },
 
     moveMotor: function(stepper, motorName, steps, dir){
-	    console.log('motorName -- ' + motorName )
+	    print('motorName -- ' + motorName )
 	    if(!stepper[motorName].isRunning){
 	        var that = this;
 	        stepper[motorName].enableMotor.on(); // enable motor to move
@@ -281,52 +282,52 @@ var self = module.exports = {
 	            // motor down
 	            if(stepper[motorName].position - steps < this.buffer){
 	                steps = stepper[motorName].position - this.buffer
-	                console.log('adjusted steps')
+	                print('adjusted steps')
 	            }
 	            if(stepper[motorName].position > this.buffer){         // as long as the pillar is not above the limit than move
 	                // MOVE
 	                stepper[motorName].isRunning = true;
-	                console.log('             --- MOVING ** ' + motorName)
+	                print('             --- MOVING ** ' + motorName)
 	                var beforeTime = Date.now();
 	                stepper[motorName].motor.rpm(this.rpm).ccw().accel(this.accel).decel(this.accel).step(steps, function(){
-	                    console.log("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
-	                    console.log(' -- done moving ---    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
+	                    print("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
+	                    print(' -- done moving ---    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
 	                    stepper[motorName].isRunning = false;
 	                    stepper[motorName].position -= steps
-	                    console.log('    position: ' + stepper[motorName].position)
+	                    print('    position: ' + stepper[motorName].position)
 	                });
 	            }
 	        }
-	
+
 	        else if(dir == 1){
 	            // motor up
 	            if(stepper[motorName].position+steps > this.maxPosition - this.buffer){
 	                steps = (this.maxPosition - this.buffer) - stepper[motorName].position
-	                console.log('adjusted steps')
+	                print('adjusted steps')
 	            }
-	
+
 	            if(stepper[motorName].position < this.maxPosition){
 	                // MOVE
 	                stepper[motorName].isRunning = true;
-	                console.log('MOVING ** ' + motorName)
+	                print('MOVING ** ' + motorName)
 	                var beforeTime = Date.now();
 	                stepper[motorName].motor.rpm(this.rpm).cw().accel(this.accel).decel(this.accel).step(steps, function(){
-	                    console.log("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
-	                    console.log('DONE Moving!!!!!-    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
+	                    print("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
+	                    print('DONE Moving!!!!!-    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
 	                    stepper[motorName].isRunning = false;
 	                    stepper[motorName].position += steps;
 	                    stepper[motorName].enableMotor.off(); // power down motor to stop
-	                    console.log('position: ' + stepper[motorName].position)
+	                    print('position: ' + stepper[motorName].position)
 	                });
 	            }
 	        }
 	    }
-	    else console.log('already running')
+	    else print('already running')
     },
 
 
     moveMotorCallback: function(stepper, motorName, steps, dir, callback){
-	    console.log('motorName -- ' + motorName )
+	    print('motorName -- ' + motorName )
 	    if(!stepper[motorName].isRunning){
 	        var that = this;
 	        stepper[motorName].enableMotor.on(); // enable motor to move
@@ -334,50 +335,50 @@ var self = module.exports = {
 	            // motor down
 	            if(stepper[motorName].position - steps < this.buffer){
 	                steps = stepper[motorName].position - this.buffer
-	                console.log('adjusted steps')
+	                print('adjusted steps')
 	            }
 	            if(stepper[motorName].position > this.buffer){         // as long as the pillar is not above the limit than move
 	                // MOVE
 	                stepper[motorName].isRunning = true;
-	                console.log('             --- MOVING ** ' + motorName)
+	                print('             --- MOVING ** ' + motorName)
 	                var beforeTime = Date.now();
 	                stepper[motorName].motor.rpm(this.rpm).ccw().accel(this.accel).decel(this.accel).step(steps, function(){
-	                    console.log("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
-	                    console.log(' -- done moving ---    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
+	                    print("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
+	                    print(' -- done moving ---    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
 	                    stepper[motorName].isRunning = false;
 	                    stepper[motorName].position -= steps;
 	                    stepper[motorName].enableMotor.off(); // power down motor to stop
-	                    console.log('    position: ' + stepper[motorName].position);
+	                    print('    position: ' + stepper[motorName].position);
 	                    callback(stepper);
 	                });
 	            }
 	        }
-	
+
 	        else if(dir == 1){
 	            // motor up
 	            if(stepper[motorName].position+steps > this.maxPosition - this.buffer){
 	                steps = (this.maxPosition - this.buffer) - stepper[motorName].position
-	                console.log('adjusted steps')
+	                print('adjusted steps')
 	            }
-	
+
 	            if(stepper[motorName].position < this.maxPosition){
 	                // MOVE
 	                stepper[motorName].isRunning = true;
-	                console.log('MOVING ** ' + motorName)
+	                print('MOVING ** ' + motorName)
 	                var beforeTime = Date.now();
 	                stepper[motorName].motor.rpm(this.rpm).cw().accel(this.accel).decel(this.accel).step(steps, function(){
-	                    console.log("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
-	                    console.log('DONE Moving!!!!!-    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
+	                    print("Time to move: " + (Date.now() - beforeTime) / 1000 + " seconds\nSteps: " + steps);
+	                    print('DONE Moving!!!!!-    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
 	                    stepper[motorName].isRunning = false;
 	                    stepper[motorName].position += steps;
 	                    stepper[motorName].enableMotor.off(); // power down motor to stop
-	                    console.log('position: ' + stepper[motorName].position)
+	                    print('position: ' + stepper[motorName].position)
 	                    callback(stepper);
 	                });
 	            }
 	        }
 	    }
-	    else console.log('already running')
+	    else print('already running')
     },
 
 
@@ -389,46 +390,46 @@ var self = module.exports = {
 	            // motor down
 	            if(stepper[motorName].position - steps < this.buffer){
 	                steps = stepper[motorName].position - this.buffer
-	                console.log('adjusted steps')
+	                print('adjusted steps')
 	            }
 	            if(stepper[motorName].position > this.buffer){         // as long as the pillar is not above the limit than move
 	                // MOVE
 	                stepper[motorName].isRunning = true;
-	                console.log('MOVING ** ' + motorName)
+	                print('MOVING ** ' + motorName)
 	                stepper[motorName].motor.rpm(this.rpm).ccw().accel(this.accel).decel(this.accel).step(steps, function(){
-	                    console.log('DONE Moving!!!!!-    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
+	                    print('DONE Moving!!!!!-    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
 	                    stepper[motorName].isRunning = false;
 	                    stepper[motorName].position -= steps
-	                    console.log('position: ' + stepper[motorName].position)
+	                    print('position: ' + stepper[motorName].position)
 	                    callback(data);
 	                });
 	            }
 	        }
-	
+
 	        else if(dir == 1){
 	            // motor up
 	            if(stepper[motorName].position+steps > this.maxPosition - this.buffer){
 	                steps = (this.maxPosition - this.buffer) - stepper[motorName].position
-	                console.log('adjusted steps')
+	                print('adjusted steps')
 	            }
-	
+
 	            if(stepper[motorName].position < this.maxPosition){
 	                // MOVE
 	                stepper[motorName].isRunning = true;
-	                console.log('MOVING ** ' + motorName)
+	                print('MOVING ** ' + motorName)
 	                stepper[motorName].motor.rpm(this.rpm).cw().accel(this.accel).decel(this.accel).step(steps, function(){
-	                    console.log('DONE Moving!!!!!-    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
-	
+	                    print('DONE Moving!!!!!-    Motor: '+ motorName +'    steps:' + steps + '    dir: ' + dir )
+
 	                    stepper[motorName].isRunning = false;
 	                    stepper[motorName].position += steps
-	
-	                    console.log('position: ' + stepper[motorName].position)
+
+	                    print('position: ' + stepper[motorName].position)
 	                    callback();
 	                });
 	            }
 	        }
 	    }
-	    else console.log('already running')
+	    else print('already running')
     },
 
 }

@@ -1,4 +1,5 @@
 var seedlingHue = require('./lifx.js');
+var print = require('./print.js');
 
 var self = module.exports = {
     r: 0,
@@ -39,8 +40,6 @@ var self = module.exports = {
 
     hexToObj: function(color){
         if(!color) color = "FFFFFF";
-        console.log(color);
-        console.log(typeof color);
         var split = color.split("");
         var i = split[0] == "#" ? 1 : 0 // shift to right if first char is "#"
         var rStr = split[0+i] + split[1+i];
@@ -51,9 +50,6 @@ var self = module.exports = {
       }, // given color in hex return colorObj
 
     updateLED: function(obj){
-        console.log("updateLED function");
-        console.log("r: %d; g: %d; b: %d; percentage: %d", this.r, this.g, this.b, this.percentage);
-
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
         var firstDiode = obj.firstDiode;
@@ -65,11 +61,7 @@ var self = module.exports = {
         var percentage = this.percentage;
 
         strip.color("#000"); // blanks it out
-        console.log("r: " + (r*brightness)/100);
-        console.log("g: " + (g*brightness)/100);
-        console.log("b: " + (b*brightness)/100);
         var string = "rgb(" + Math.round((r*brightness)/100) + ", " + Math.round((g*brightness)/100) + ", " + Math.round((b*brightness)/100) + ")";
-        console.log(string);
         for (var i = firstDiode; i < (pixelNum*percentage)/100; i++) {
             var p = strip.pixel(i);
             p.color(string);
@@ -78,9 +70,6 @@ var self = module.exports = {
     },
 
     updateLEDGradient: function(obj){
-        console.log("updateLEDGradient function");
-        console.log("r: %d; g: %d; b: %d; percentage: %d", this.r, this.g, this.b, this.percentage);
-
         var maxBrightness = 100;
 
         var strip = obj.strip;
@@ -95,17 +84,11 @@ var self = module.exports = {
         strip.color("#000"); // blanks it out
         var diodesLit = Math.round((pixelNum*percentage)/100) - firstDiode;
         var decrement = 100/(diodesLit);
-        console.log(decrement);
-        console.log(diodesLit);
         var ratio = Math.pow((10/maxBrightness), (1/(diodesLit)));
-        console.log(ratio);
         for (var i = firstDiode; i < diodesLit+1; i++) {
-            //brightness = 100 - i*decrement;
             brightness = maxBrightness * Math.pow(ratio, i-firstDiode);
-            console.log(brightness);
             var p = strip.pixel(i);
             var string = "rgb(" + Math.round((r*brightness)/100) + ", " + Math.round((g*brightness)/100) + ", " + Math.round((b*brightness)/100) + ")";
-            console.log(string);
             p.color(string);
         }
         strip.show();
@@ -119,7 +102,6 @@ var self = module.exports = {
         this.r = (p.color().r);
         this.g = (p.color().g);
         this.b = (p.color().b);
-        console.log("updateColor\nr: %d, g: %d, b: %d", this.r, this.g, this.b);
         this.updateLED(obj);
     },
 
@@ -127,18 +109,16 @@ var self = module.exports = {
         this.r = red;
         this.g = green;
         this.b = blue;
-        console.log("updateColorRGB\nr: %d, g: %d, b: %d", this.r, this.g, this.b);
         this.updateLED(obj);
     },
 
     updatePercent: function(percent, obj){ // updates percent of light strip lit
         this.percentage = percent;
-        console.log("percentage: %d", this.percentage);
         this.updateLED(obj);
     },
 
     turnRingOn: function(color, obj){
-        console.log("in turnRingOn function");
+        print("in turnRingOn function");
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
         var firstDiode = obj.firstDiode;
@@ -152,7 +132,7 @@ var self = module.exports = {
     },
 
     turnRingOff: function(obj){
-        console.log("in turnRingOff function");
+        print("in turnRingOff function");
         var strip = obj.strip;
         // var pixelNum = obj.pixelNum;
         // var firstDiode = obj.firstDiode;
@@ -163,7 +143,7 @@ var self = module.exports = {
     },
 
     lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){ // time = time for each rev
-        console.log("in lightTrail function");
+        print("in lightTrail function");
         var that = this;
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
@@ -217,7 +197,7 @@ var self = module.exports = {
             strip.show();
 
             if((count + nodes) == pixelNum && (revs + 1) == revolutions){
-                console.log("done revolutions");
+                print("done revolutions");
                 clearInterval(lightTrailTimer);
                 callback();
             }
@@ -232,7 +212,7 @@ var self = module.exports = {
     },
 
     fadeCircle: function(previousColor, targetColor, totalDuration, diodePct, obj, callback){
-        console.log("in fadeCircle function");
+        print("in fadeCircle function");
         var prevTime = Date.now();
         var that = this; // for callback
         var strip = obj.strip;
@@ -242,13 +222,13 @@ var self = module.exports = {
 
         var startPercent = this.curFadePercent;
         if(startPercent >= diodePct){
-            console.log("error invalid stop percent too low");
+            print("error invalid stop percent too low");
             return -1;
         }
 
         //var currentColor = startPercent == 0 && this.color == null ? new this.colorObj(0, 0, 0) : new this.colorObj(this.color.red, this.color.green, this.color.blue);
         var currentColor = previousColor;
-        console.log("fadeCircle currentColor:", JSON.stringify(currentColor));
+        print("fadeCircle currentColor: " + JSON.stringify(currentColor));
 
         var litPixelNum = pixelNum - firstDiode;
         var bigSteps = Math.ceil(litPixelNum/2);
@@ -294,12 +274,12 @@ var self = module.exports = {
         if(this.decrementAmount) decrementAmount = this.decrementAmount;
         else decrementAmount = percentAr[index]/smallSteps;
 
-        console.log("Small Steps", smallSteps);
-        console.log("Big Steps", bigSteps);
-        console.log("Index", index);
-        console.log("startPercent", startPercent)
+        print("Small Steps " + smallSteps);
+        print("Big Steps " + bigSteps);
+        print("Index " + index);
+        print("startPercent " + startPercent)
         var finalSteps = diodePct == 100 ? smallSteps * (bigSteps - index) : Math.round(smallSteps * bigSteps * ( diodePct - startPercent ) / 100);
-        console.log("Estimated time: finalSteps*intervalTime(70): " + finalSteps*intervalTime/1000);
+        print("Estimated time: finalSteps*intervalTime(70): " + finalSteps*intervalTime/1000);
         if(diodePct != 100)
             var diffColor = new this.colorObj( (targetColor.red - currentColor.red), (targetColor.green - currentColor.green), (targetColor.blue - currentColor.blue) );
         else{
@@ -311,8 +291,8 @@ var self = module.exports = {
 
         strip.show(); // update led strip display
 
-        console.log("Done with Initialization");
-        console.log("Initialization time: " + (Date.now() - prevTime) / 1000);
+        print("Done with Initialization");
+        print("Initialization time: " + (Date.now() - prevTime) / 1000);
 
         //var timer = setInterval(function(){
         var fadeCircleTimer = setInterval(function(){
@@ -339,26 +319,26 @@ var self = module.exports = {
 
 
             if(percentAr[index] <= 0){
-                //console.log("count: " + count);
+                //print("count: " + count);
                 index++; // move leading diode
                 decrementAmount = percentAr[index] / smallSteps; // update decrementAmount
             } // diode has gone to 0
 
             if(index == bigSteps){
-                console.log("clear interval\n");
+                print("clear interval\n");
                 // reset object attributes
                 that.curFadePercent = 0;
                 that.color = currentColor;
                 that.percentAr = percentAr;
                 that.decrementAmount = null;
                 clearInterval(fadeCircleTimer);
-                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
+                print("Finished fade circle " + (Date.now - prevTime) / 1000);
                 that.fillCircle(currentColor, targetColor, 3, obj, callback);
             } // done fading and call callback to fill
 
             else if(count == finalSteps){
-                console.log("at stop percent");
-                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
+                print("at stop percent");
+                print("Finished fade circle " + (Date.now - prevTime) / 1000);
                 that.curFadePercent = diodePct;
                 that.color = currentColor;
                 that.percentAr = percentAr;
@@ -372,7 +352,7 @@ var self = module.exports = {
     },
 
     fillCircle: function(previousColor, targetColor, duration, obj, callback){
-        console.log("in fillCircle function");
+        print("in fillCircle function");
         var prevTime = Date.now();
         var that = this;
         var strip = obj.strip;
@@ -383,7 +363,7 @@ var self = module.exports = {
 
         //var currentColor = this.color == null ? new this.colorObj(0, 0, 0) : this.color;
         var currentColor = previousColor;
-        console.log("fillCircle currentColor:", JSON.stringify(currentColor));
+        print("fillCircle currentColor: " + JSON.stringify(currentColor));
 
         strip.color("#000"); // initialize led strip
         strip.show();
@@ -396,7 +376,7 @@ var self = module.exports = {
         var factor = 2; // hard coded value for progression
         var intervalTime = 100; // original 55
         var smallSteps = Math.floor(duration * 1000 / (intervalTime * bigSteps)); // number of smallSteps to fade one diode
-        console.log("Estimated time: totalSteps*intervalTime(100): " + smallSteps*bigSteps*intervalTime/1000);
+        print("Estimated time: totalSteps*intervalTime(100): " + smallSteps*bigSteps*intervalTime/1000);
         var incrementAmount = 100 / smallSteps;
 
         var diffColor = new this.colorObj( (targetColor.red - currentColor.red), (targetColor.green - currentColor.green), (targetColor.blue - currentColor.blue) );
@@ -410,8 +390,8 @@ var self = module.exports = {
             percentAr[i] = 0;
         } // initialize percent array
 
-        console.log("Done with Initialization");
-        console.log("Initialization time: " + (Date.now() - prevTime) / 1000);
+        print("Done with Initialization");
+        print("Initialization time: " + (Date.now() - prevTime) / 1000);
 
         //var timer = setInterval(function(){
         var fillCircleTimer = setInterval(function(){
@@ -441,8 +421,8 @@ var self = module.exports = {
             } // diode has gone to 100 brightness
 
             if(index < 0){
-                console.log("Finished fade circle " + (Date.now - prevTime) / 1000);
-                console.log("clear interval");
+                print("Finished fade circle " + (Date.now - prevTime) / 1000);
+                print("clear interval");
                 that.curFadePercent = 0; // reset current fade percent on fillCircle
                 that.color = currentColor;
                 that.percentAr = percentAr;
@@ -470,7 +450,7 @@ var self = module.exports = {
         }
         var percentAr = this.percentAr;
 
-        console.log("in blink function");
+        print("in blink function");
         var litPixelNum = pixelNum - firstDiode;
 
         if(percentAr == null){
@@ -555,18 +535,18 @@ var self = module.exports = {
     lightsOn: function(obj, callback){
         if(obj.seedlingNum === 0){
             // turn on hue
-            console.log("turn lights on for seedling1");
+            print("turn lights on for seedling1");
             seedlingHue.turnOn(1, 'white');
             this.lightOn(1, obj.urlLight, "FFFFFF")
         } // seedling 1
         else if(obj.seedlingNum === 1){
-            console.log("turn lights on for seedling2");
+            print("turn lights on for seedling2");
             this.lightOn(1, obj.iconLight, null);
             this.lightOn(1, obj.urlLight, null);
             this.lightOn(1, obj.lmLight, null);
         } // seedling 2
         else if(obj.seedlingNum === 2){
-            console.log("turn lights on for seedling3");
+            print("turn lights on for seedling3");
             this.lightOn(1, obj.iconLight, null);
         }
         callback(obj);
@@ -574,18 +554,18 @@ var self = module.exports = {
 
     lightsOff: function(obj){
         if(obj.seedlingNum === 0){
-            console.log("turn lights off for seedling1");
+            print("turn lights off for seedling1");
             seedlingHue.turnOff(1);
             this.lightOff(1, obj.urlLight, "FFFFFF")
         }
         else if(obj.seedlingNum === 1){
-            console.log("turn lights off for seedling2");
+            print("turn lights off for seedling2");
             this.lightOff(1, obj.iconLight, null);
             this.lightOff(1, obj.urlLight, null);
             this.lightOff(1, obj.lmLight, null);
         }
         else if(obj.seedlingNum === 2){
-            console.log("turn lights off for seedling3");
+            print("turn lights off for seedling3");
             this.lightOff(1, obj.iconLight, null);
         }
 
@@ -696,13 +676,13 @@ var self = module.exports = {
         lightOn: function(time, obj){
             var light = obj;
             light.fadeIn(time*1000);
-            console.log("lights are on");
+            print("lights are on");
         },
 
         lightOff: function(time, obj){
             var light = obj;
             light.fadeOut(time*1000);
-            console.log("lights are off");
+            print("lights are off");
         },
 
 
@@ -714,12 +694,12 @@ var self = module.exports = {
             var timer = setInterval(function() {
                 i = Math.pow(1.01, count);
                 count++;
-                console.log(i);
+                print(i);
                 if(i > 255)
                     i = 255;
                 light.brightness(Math.round(i));
                 if(i == 255){
-                    console.log("clear timer" + count);
+                    print("clear timer" + count);
                     clearInterval(timer);
                 }
             }, 4);
