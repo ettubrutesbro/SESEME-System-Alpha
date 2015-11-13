@@ -639,6 +639,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 		var allSeedlingsDone = true;
 		print("Action Circle Done: " + seedling.number);
 		seedling.buttonPressed = false;
+		print("seedlings[" + i + "].buttonPressed === false");
 		if(seedling.number === seedlingNum){
 			// seedling.buttonPressed = false;
 			randomSoundWeight(soundObj, 'ready', seedling.socket);
@@ -745,12 +746,26 @@ function bigRedButtonHelper(seedling){
 	var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
 	//var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance / plrmax * 10 + 0.6); // simple motion get time(sec) rounded up
 	print("Monument Expected Duration:" + duration);
+	circleData = new circleObj(previousColor, targetColor, duration, diodePct);
+
+	/*
 	if(seedling.currentPart === 0) circleData = new circleObj(previousColor, targetColor, duration, diodePct); // will run fill circle so subtract 3 sec from fade to compensate for fill
 	else circleData = new circleObj(previousColor, targetColor, duration, diodePct);
+	*/
 
 	if(seedling.currentPart === 0 && diodePct === 100){
 		duration += 3;
 	} // go back to first part of same story (fade then fill) so add 3 sec to duration of lightTrail
+/*
+	if(duration === 0){
+		setTimeout(function(){
+			for(var i = 0; i < 3; i++){
+				seedlings[i].buttonPressed = false;
+			}
+			lockButtonPress = false;
+		}, 1000); // 1 sec delay to release locks for safety
+	} // clear all locks if duration is 0
+*/
 
   var revolutions = Math.ceil(duration/1.5); // timePerRev set to 2 for revolutions calc
 	var timePerRev = duration / Math.ceil(duration/1.5);

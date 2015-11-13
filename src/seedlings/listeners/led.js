@@ -80,7 +80,7 @@ function listeners(socket, obj, soundObj) {
       console.log("circleData.duration", circleData.duration)
       if(circleData.duration === 0){
         console.log("duration is 0 so no action");
-        socket.emit('seedling actionCircle done', seedlingNum);
+        socket.emit('seedling actionCircle done', obj.seedlingNum);
         return;
       } // shouldn't do anything, just emit back to xps
 
