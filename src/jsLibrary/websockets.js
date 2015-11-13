@@ -639,7 +639,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 		var allSeedlingsDone = true;
 		print("Action Circle Done: " + seedling.number);
 		seedling.buttonPressed = false;
-		print("seedlings[" + i + "].buttonPressed === false");
+		print("seedlings[" + seedlingNum + "].buttonPressed === false");
 		if(seedling.number === seedlingNum){
 			// seedling.buttonPressed = false;
 			randomSoundWeight(soundObj, 'ready', seedling.socket);
