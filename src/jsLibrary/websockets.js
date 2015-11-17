@@ -400,11 +400,11 @@ io.on('connection', function (socket) {
 	});
 
 	socket.on('check lockButtonPress', function(){
-		print("check lockButtonPress ===" + lockButtonPress);)
+		print("check lockButtonPress ===" + lockButtonPress);
 	});
 
 	socket.on('check buttonPress', function(seedlingNum){
-		print("check seedlings[" + seedlingNum + "].buttonPressed ===" + seedlings[seedlingNum].buttonPressed);)
+		print("check seedlings[" + seedlingNum + "].buttonPressed ===" + seedlings[seedlingNum].buttonPressed);
 	});
 
 	// Front-end simulation of a button press
