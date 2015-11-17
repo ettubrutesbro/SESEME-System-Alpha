@@ -60,15 +60,16 @@ var stories = [
       },
 
       {
-        values: [311,1450,16.7,89],
+        values: [311,1450,16.7,89], customLo: -200,
         title: {
-          main: {c: 'Annual Energy Costs', size: 25, font: 'Droid Serif', weight: 400},
-          pre: {c: '@ UC DAVIS', size: 21}
+          pregame: {c: 'POWERING UC DAVIS', size: 16},
+          main: {c: ['Annual Energy', 'Expenditures'], size: 26, font: 'Droid Serif', weight: 400, margin: -.25},
+          pre: {c: '(some campus buildings)', size: 14, margin: 0.75}
         },
         maintext: 'The energy expenditures data shown here was sourced from the Energy Feedback Team (eco.ucdavis.edu)\'s awesome tool, CEED (ceed.ucdavis.edu).',
         color: { ui: '3a3a3a', monument: {hex: "#ffffff", bri: 0.5}, ring: '284444' },
         sound: ['schmoney1','schmoney2'],
-        pNames: ['The ARC','Meyer Hall','Giedt Hall',['Student Community','Center']],
+        pNames: ['The ARC','Meyer Hall','Giedt Hall','The SCC'],
         pTexts: [
           'Long hours of operation in a large space haven\'t impacted the ARC\'s efficiency too adversely - it\'s only a little more expensive than the average \'community\' building.',
           'Constructed in 1987, this hall houses a great many departments, but its energy footprint is scarcely excusable; even accounting for size, its energy use intensity is nearly double the average lab.',
@@ -79,10 +80,10 @@ var stories = [
         pLabels: ['','','',''],
         pStatboxes: [{c:'$311,000'},{c:'$1.45 million'},{c:'$16,700'},{c:'$89,000'}],
         pLinks: [
-          [{type: 'site', c: 'https://cru.ucdavis.edu/content/531-history-of-the-arc.htm'}, {type: 'data', c: 'http://ceed.ucdavis.edu'}],
+          [{type: 'site', c: 'https://cru.ucdavis.edu/content/531-history-of-the-arc.htm'}, {type: 'www', c: 'http://eco.ucdavis.edu'}],
           [{type: 'article', c: 'https://localwiki.org/davis/Meyer_Hall'}, {type: 'data', c: 'http://ceed.ucdavis.edu'}],
           [{type: 'article', c: 'https://localwiki.org/davis/Warren_and_Leta_Giedt_Hall'}, {type: 'data', c: 'http://ceed.ucdavis.edu'}],
-          {type: 'site', c: 'http://www.bararch.com/work/academic-institutional/project/uc-davis-student-community-center'}
+          [{type: 'site', c: 'http://www.bararch.com/work/academic-institutional/project/uc-davis-student-community-center'}]
         ]
       }
     ]
@@ -106,15 +107,21 @@ var stories = [
 
           pNames: ['White Men','Black Men','Asian Men','Hispanic Men'],
           pTexts: ['','','',''],
-          pSymbols: ['','','',''],
+          pSymbols: [
+            {type: 'img', src:'whiteman'},
+            {type: 'img', src:'blackman'},
+            {type: 'img', src:'asianman'},
+            {type: 'img', src:'hispman'}
+          ],
           pLabels: ['','','',''],
           pStatboxes: [
             {c:['$1300','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$950','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$1325','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$1050','weekly'], size: [24,14], font: ['Droid Serif','Karla']}],
-          pLinks: [{type:'data',c:'http://www.infoplease.com/ipa/A0882775.html'},
-          {type: 'tw2', c: 'https://twitter.com/eveewing/status/648282820079693824'},
+          pLinks: [
+          [{type:'data',c:'http://www.infoplease.com/ipa/A0882775.html'}],
+          [{type: 'tw2', c: 'https://twitter.com/eveewing/status/648282820079693824'}],
           '','']
         }, //end part 0
         {
@@ -135,7 +142,12 @@ var stories = [
             'Examining the data, Deborah Ashton of Harvard Business Review notes that black and Hispanic women "vie for last place on the earnings pyramid at every level of education".',
             'The gap between Asian women/men is the largest; Asian women earn 78 cents to every dollar their male counterparts earn (81% for whites).',
             'Examining the data, Deborah Ashton of Harvard Business Review notes that black and Hispanic women "vie for last place on the earnings pyramid at every level of education".'],
-          pSymbols: ['','','',''],
+          pSymbols: [
+            {type: 'img', src:'whitewoman'},
+            {type: 'img', src:'blackwoman'},
+            {type: 'img', src:'asianwoman'},
+            {type: 'img', src:'hispwoman'}
+          ],
           pLabels: ['','','',''],
           pStatboxes: [
             {c:['$950','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
