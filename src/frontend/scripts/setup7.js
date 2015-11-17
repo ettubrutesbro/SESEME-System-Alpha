@@ -26,7 +26,7 @@ facingRotations = [-45,-135,135,45]
 var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
-var online = true
+var online = false
 var performance = 'med'
 
 function setup(){
@@ -59,7 +59,7 @@ function setup(){
 					console.log('ui updating')
 					console.log(d)
 					story = d.story
-					part = d.part 
+					part = d.part
 					percentages = d.percentages
 					refill()
 				})
@@ -75,9 +75,29 @@ function setup(){
 			//development w/o server: mock
 			else if(!online){
 				console.log('let\'s pretend we\'re online...')
-				story = teststory; part = 0
+				story = 0; part = 0
 				data = stories[story].parts[part]
+				percentages = heightCalc(data)
 				ready.itemEnd('firstdata')
+
+				function heightCalc(data){
+						//pass in story[i].parts[part].values, get percentages
+						var top = 100, bottom = 0
+						if(!data.valueType || data.valueType === "moreIsTall"){
+							top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
+							bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
+						}
+						else if(data.valueType === 'lessIsTall'){
+							top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
+							bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
+						}
+						var range = Math.abs(bottom-top)
+						var percentagesArray = []
+						for(var i = 0; i < 4; i++){
+							percentagesArray[i] = Math.abs(bottom-data.values[i])/range
+						}
+						return percentagesArray
+				}
 				// setTimeout(function(){ part++; view.nextpart() }, 7500)
 			}
 	} // end query
@@ -109,7 +129,8 @@ function setup(){
 		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
-			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings'] //names of external imgs (PNG)
+			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings',
+			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
@@ -510,6 +531,10 @@ function setup(){
 				else clickedHelpOutside()
 			}
 			if(raycast.intersectObject(info.btn,true).length>0) clickedMainButton()
+			else if(raycast.intersectObjects(seseme.plr0.links.children,true)){ console.log('clicked link of 0') }
+			else if(raycast.intersectObjects(seseme.plr1.links.children,true)){ console.log('clicked link of 0') }
+			else if(raycast.intersectObjects(seseme.plr2.links.children,true)){ console.log('clicked link of 0') }
+			else if(raycast.intersectObjects(seseme.plr3.links.children,true)){ console.log('clicked link of 0') }
 			else if(view.text) clickedToClose()
 		}) // end click event listener
 		//HASHING

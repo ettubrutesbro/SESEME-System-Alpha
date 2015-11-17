@@ -32,7 +32,7 @@ module.exports = {
         ]
       }, //end part 0
       {
-        values: [55,6,1,33], valueType: 'lessIsTall', 
+        values: [55,6,1,33], valueType: 'lessIsTall',
         title: {
           pre: {c: 'GREEN CAMPUSES', size: 18},
           main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
@@ -93,7 +93,7 @@ module.exports = {
     description: 'The stories and data in this series deal with issues of social justice and inequity on a large scale.',
     parts: [
         {
-          values: [1300,950,1325,1050], customLo: 700,
+          values: [1300,950,1325,1050], customLo: 300,
           color: { ui: '#628976', monument: {hex: "#628976", bri: 1}, ring: '337946' },
           sound: ['schmoney1','schmoney2'],
           title: {
@@ -115,7 +115,7 @@ module.exports = {
           pLinks: ['','','','']
         }, //end part 0
         {
-          values: [950,870,1040,815], customHi: 1325, customLo: 700,
+          values: [950,870,1040,815], customHi: 1325, customLo: 300,
           title: {
             pre: {c: 'WAGE GAPS', size: 18},
             main: {c: ['Women\'s Weekly','Median Earnings'], size: 24, font: 'Droid Serif', weight: 400, margin: -.2},
