@@ -85,10 +85,13 @@ function listeners(socket, obj, soundObj) {
         return;
       } // shouldn't do anything, just emit back to xps
 
+      print("Turn obj.buttonLight Off");
       led.lightOff(1, obj.buttonLight, null);
 
     var prevTime = Date.now();
+    print("Check For Fade/Fill or LightTrail");
       if(seedlingNum === obj.seedlingNum){
+        print("Turn On Lights");
         addLightsDuration(obj);
         print("circleData.diodePct " + circleData.diodePct);
         if(circleData.diodePct !== 0){
@@ -112,6 +115,7 @@ function listeners(socket, obj, soundObj) {
       } // this seedling fills from empty since not last activeSeedling
 
       else{
+        print("Do Light Trail");
         led.lightTrail(lightTrailData.trailColor, lightTrailData.nodes, lightTrailData.time, lightTrailData.revolutions, obj, function(){
           print("duration of lightTrail " + (Date.now() - prevTime)/1000);
           print("in callback for lightTrail");
