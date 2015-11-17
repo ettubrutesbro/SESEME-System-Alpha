@@ -399,6 +399,14 @@ io.on('connection', function (socket) {
 		}, states.length * 5000);
 	});
 
+	socket.on('check lockButtonPress', function(){
+		print("check lockButtonPress ===" + lockButtonPress);)
+	});
+
+	socket.on('check buttonPress', function(seedlingNum){
+		print("check seedlings[" + seedlingNum + "].buttonPressed ===" + seedlings[seedlingNum].buttonPressed);)
+	});
+
 	// Front-end simulation of a button press
 	socket.on('sim button', function(seedlingNum) {
 		if(lockButtonPress === true){
