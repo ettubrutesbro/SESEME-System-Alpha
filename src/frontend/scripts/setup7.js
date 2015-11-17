@@ -97,9 +97,7 @@ function setup(){
 							percentagesArray[i] = Math.abs(bottom-data.values[i])/range
 						}
 						return percentagesArray
-
 				}
-
 				// setTimeout(function(){ part++; view.nextpart() }, 7500)
 			}
 	} // end query
