@@ -1,0 +1,142 @@
+
+<!doctype html>
+<?xml version="1.0" encoding="utf-8"?>
+<head>
+<!--
+<link rel="stylesheet/less" type="text/css" href="style.less" />
+!-->
+
+
+<script type="text/javascript" src="jquery-ui/jquery.js"></script>
+<script type="text/javascript" src="jquery-ui/ui/jquery-ui.js"></script>
+<script type="text/javascript" src="jquery.ui.slider-rtl.min.js"></script>
+<link rel="stylesheet" href="jquery-ui/themes/base/jquery.ui.all.css" />
+<link type="text/css" href="jquery.ui.slider-rtl.css" rel="stylesheet">
+<link rel ="stylesheet" href ="style.css" />
+
+<script src = "script.js"></script>
+
+
+<title>SESAME</title>
+
+</head>
+<body>
+<embed src = "background.svg" type="image/svg+xml" /></embed>
+<section class = "above">
+<form>
+
+<div id = "timeSlider"></div>
+</form>
+
+<p id = "clock">  </p>
+<p id = "buildingTitle">TRANQUILITY BASE</p>
+<p id = "dataSet">POWER GAIN, SOLAR USE</p>
+</section>
+
+
+
+<section class = "dimensional" id = "container"> <!--container for 3d objects !-->
+	
+	<div class = "box" id = "box1">
+		<figure class = "sides" id = "front"></figure>
+		
+		<figure class = "sides" id = "left"></figure>
+		
+		<figure id = "top"></figure>
+		
+	</div>
+	<div class = "box" id = "box2" >
+		<figure class = "sides" id = "front"></figure>
+		
+		<figure class = "sides" id = "left"></figure>
+		
+		<figure id = "top"></figure>
+		
+	</div>
+	<div class = "box"  id = "box3">
+		<figure class = "sides" id = "front"></figure>
+		
+		<figure class = "sides" id = "left"></figure>
+		
+		<figure id = "top"></figure>
+		
+	</div>
+	<div id = "box4" class = "box">
+		<figure class = "sides" id = "front"></figure>
+		
+		<figure class = "sides" id = "left"></figure>
+		
+		<figure id = "top"></figure>
+		
+	</div>
+
+</section>
+<section class = "below"> <!--this is a flexible section that'll display a lot of different content, articles as modules!--> 
+
+	
+	<article id = "dimensionalInfo">
+	<span id = "selected">selected</span> 
+	<p id = "locationSelect"> </p> <br>
+	<p id = "unitStatisticTime"></p><br>
+	<p id = "data"> <span></span> </p>
+	<p id = "dataUnit"> <span></span> </p>
+	</article>
+	<article id = "planarInfo">
+	<p id = "selected">displaying</p>
+	<p id = "locationSelect"></p>
+	<p id = "statistic"></p>
+	<p id = "time"></p>
+	</article>
+	<article id = "barInfo">
+	<div id = "line3">
+		<p id = "data"></p>
+		<p id = "dataUnit"></p>
+		<p id = "time"></p>
+		<p id = "locationStatistic"></p>
+	</div>
+	
+	<div id = "line1">
+		<p id = "data"></p>
+		<p id = "dataUnit"></p>
+		<p id = "time"></p>
+		<p id = "locationStatistic"></p>
+	</div>
+	<div id = "line2">
+		<p id = "data"></p>
+		<p id = "dataUnit"></p>
+		<p id = "time"></p>
+		<p id = "locationStatistic"></p>
+	</div>
+	<div id = "line4">
+		<p id = "data"></p>
+		<p id = "dataUnit"></p>
+		<p id = "time"></p>
+		<p id = "locationStatistic"></p>
+	</div>
+	
+	
+	</article>
+
+</section>
+<div id = "selectionmask"><!--non transforming 2d selection mask in quadrants for planar and bar views!-->
+<div id = "selectionlayer1">
+<div class = "planarQuads" id = "topleft"></div>
+<div class = "planarQuads" id = "topright"></div>
+<div class = "planarQuads" id = "bottomleft"></div>
+<div class = "planarQuads" id = "bottomright"></div>
+</div>
+<div id = "selectionlayer2">
+<div class = "barQuads" id = "leftleft"></div>
+<div class = "barQuads" id = "middleleft"></div>
+<div class = "barQuads" id = "middleright"></div>
+<div class = "barQuads" id = "rightright"></div>
+</div>
+</div>
+<section id = "tempinputs">
+<input id = "planar" type = "button" value = "Planar View" />
+<input id = "dimensional" type = "button" value = "Dimensional View" />
+<input id = "bar" type = "button" value = "Bar View" />
+
+</section>
+</body>
+	

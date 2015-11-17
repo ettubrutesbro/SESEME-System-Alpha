@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1600px" height="900px" viewBox="0 0 1600 900" enable-background="new 0 0 1600 900" xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="129.5005" y1="694" x2="129.5005" y2="75.0296" gradientTransform="matrix(1 0 0 -1 404 1045)">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.5" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#4F4F4F"/>
+</linearGradient>
+<rect x="397" y="532" fill="url(#SVGID_1_)" width="273" height="800"/>
+<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="274.4766" y1="694" x2="274.4765" y2="75.0296" gradientTransform="matrix(1 0 0 -1 404 1045)">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.5" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#4F4F4F"/>
+</linearGradient>
+<rect x="532" y="559" fill="url(#SVGID_2_)" width="292.953" height="800"/>
+<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-16.5229" y1="694" x2="-16.523" y2="75.0296" gradientTransform="matrix(1 0 0 -1 404 1045)">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.5" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#4F4F4F"/>
+</linearGradient>
+<rect x="241" y="559" fill="url(#SVGID_3_)" width="292.953" height="800"/>
+<linearGradient id="SVGID_4_" gradientUnits="userSpaceOnUse" x1="129.5005" y1="694" x2="129.5005" y2="75.0296" gradientTransform="matrix(1 0 0 -1 404 1045)">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.5" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#4F4F4F"/>
+</linearGradient>
+<rect x="397" y="451" fill="url(#SVGID_4_)" width="273" height="800"/>
+<g>
+	<defs>
+		<polygon id="SVGID_5_" points="657.942,1095.426 540.17,1027.43 421.87,1095.426 421.871,549.328 540.171,481.027 
+			658.469,549.327 		"/>
+	</defs>
+	<clipPath id="SVGID_6_">
+		<use xlink:href="#SVGID_5_"  overflow="visible"/>
+	</clipPath>
+	<g id="d" clip-path="url(#SVGID_6_)">
+		
+			<linearGradient id="d_body_1_" gradientUnits="userSpaceOnUse" x1="136.1704" y1="553.4395" x2="136.1704" y2="25.603" gradientTransform="matrix(1 0 0 -1 404 1045)">
+			<stop  offset="0" style="stop-color:#999999"/>
+			<stop  offset="1" style="stop-color:#1A1A1A"/>
+		</linearGradient>
+		<polygon id="d_body" fill="url(#d_body_1_)" points="655.583,554.861 540.17,488.526 424.757,554.863 424.758,1087.926 
+			540.17,1021.59 655.067,1087.926 		"/>
+		<polygon id="d_top" opacity="0.4" fill="#FFFFFF" enable-background="new    " points="424.759,555.16 540.171,488.526 
+			655.581,555.159 540.171,621.793 		"/>
+		
+			<polygon id="d_stroker" fill="none" stroke="#FFFFFF" stroke-width="20" stroke-dasharray="1600" stroke-dashoffset="1600" points="
+			655.583,554.861 540.17,488.526 424.757,554.863 424.758,1087.926 540.17,1021.59 655.067,1087.926 		"/>
+	</g>
+</g>
+<g>
+	<defs>
+		<polygon id="SVGID_7_" points="386.293,1251.201 268.021,1182.914 268.022,637.855 386.031,569.721 510.331,644.333 
+			510.092,1251.201 		"/>
+	</defs>
+	<clipPath id="SVGID_8_">
+		<use xlink:href="#SVGID_7_"  overflow="visible"/>
+	</clipPath>
+	<g id="a" clip-path="url(#SVGID_8_)">
+		
+			<linearGradient id="a_body_1_" gradientUnits="userSpaceOnUse" x1="-17.9692" y1="464.1875" x2="-17.9693" y2="-278.4922" gradientTransform="matrix(1 0 0 -1 404 1045)">
+			<stop  offset="0" style="stop-color:#808080"/>
+			<stop  offset="1" style="stop-color:#333333"/>
+		</linearGradient>
+		<polygon id="a_body" fill="url(#a_body_1_)" points="270.619,643.855 386.031,577.221 501.442,643.854 386.031,710.487 
+			386.288,1243.701 270.618,1176.918 		"/>
+		<polygon id="a_top" opacity="0.3" fill="#FFFFFF" enable-background="new    " points="270.619,643.855 386.031,577.221 
+			501.441,643.854 386.031,710.487 		"/>
+		
+			<polygon id="a_stroker" fill="none" stroke="#34A849" stroke-width="20" stroke-dasharray="1600" stroke-dashoffset="-1600" points="
+			270.619,643.855 386.031,577.221 501.442,643.854 386.031,710.487 386.288,1243.701 270.618,1176.918 		"/>
+	</g>
+</g>
+<g>
+	<defs>
+		<polygon id="SVGID_9_" points="811.802,1182.914 693.528,1251.201 569.664,1251.201 569.664,643.667 693.971,569.721 
+			811.979,637.854 		"/>
+	</defs>
+	<clipPath id="SVGID_10_">
+		<use xlink:href="#SVGID_9_"  overflow="visible"/>
+	</clipPath>
+	<g id="c" clip-path="url(#SVGID_10_)">
+		
+			<linearGradient id="c_body_1_" gradientUnits="userSpaceOnUse" x1="289.9712" y1="462.6475" x2="289.9711" y2="-285.591" gradientTransform="matrix(1 0 0 -1 404 1045)">
+			<stop  offset="0" style="stop-color:#808080"/>
+			<stop  offset="1" style="stop-color:#333333"/>
+		</linearGradient>
+		<polygon id="c_body" fill="url(#c_body_1_)" points="809.383,643.948 693.971,577.315 578.56,643.95 693.971,710.582 
+			693.538,1243.701 809.208,1176.918 		"/>
+		<polygon id="C_top" opacity="0.2" fill="#FFFFFF" enable-background="new    " points="578.561,643.855 693.973,577.221 
+			809.383,643.854 693.973,710.487 		"/>
+		
+			<polygon id="c_stroker" fill="none" stroke="#F8A71A" stroke-width="20" stroke-dasharray="1600" stroke-dashoffset="1600" points="
+			809.383,643.948 693.971,577.315 578.56,643.95 693.971,710.582 693.538,1243.701 809.208,1176.918 		"/>
+	</g>
+</g>
+<g>
+	<defs>
+		<polygon id="SVGID_11_" points="657.4,1270.563 539.915,1338.396 422.421,1270.563 422.683,727.896 540.173,660.061 
+			657.662,727.894 		"/>
+	</defs>
+	<clipPath id="SVGID_12_">
+		<use xlink:href="#SVGID_11_"  overflow="visible"/>
+	</clipPath>
+	<g id="b" clip-path="url(#SVGID_12_)">
+		
+			<linearGradient id="b_body_1_" gradientUnits="userSpaceOnUse" x1="135.917" y1="462.6475" x2="135.9169" y2="-285.591" gradientTransform="matrix(1 0 0 -1 404 1045)">
+			<stop  offset="0" style="stop-color:#808080"/>
+			<stop  offset="1" style="stop-color:#333333"/>
+		</linearGradient>
+		<polygon id="b_body" fill="url(#b_body_1_)" points="655.332,732.693 539.92,666.061 424.509,732.695 424.501,1265.764 
+			539.913,1332.396 655.324,1265.764 		"/>
+		<polygon id="B_top" opacity="0.1" fill="#FFFFFF" enable-background="new    " points="424.759,732.695 540.171,666.061 
+			655.581,732.693 540.171,799.328 		"/>
+		
+			<polygon id="b_stroker" fill="none" stroke="#0FA1C5" stroke-width="20" stroke-dasharray="1600" stroke-dashoffset="-1600" points="
+			655.332,732.693 539.92,666.061 424.509,732.695 424.501,1265.764 539.913,1332.396 655.324,1265.764 		"/>
+	</g>
+</g>
+<text transform="matrix(1 0 0 1 540.1694 396.5)" font-family="'Roboto-Regular'" font-size="60">PWR</text>
+</svg>

@@ -1329,3 +1329,6 @@
 			}
 			percentages = percentagesArray
 	}
+	function forceNext(){
+			part++; refill()
+	}

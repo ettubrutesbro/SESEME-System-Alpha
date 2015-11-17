@@ -1,0 +1,97 @@
+2c2
+<  * jQuery UI Slider 1.8.9.rtl.1
+---
+>  * jQuery UI Slider 1.8.9
+31d30
+< 		isRTL: false, // RTL
+52d50
+< 				( o.isRTL ? " ui-slider-rtl" : "" ) + // RTL
+177,182d174
+< 				var adjust = function( minMax, offset ) { // RTL
+< 					if ( curVal === minMax ) {
+< 						return;
+< 					}
+< 					newVal = self._trimAlignValue( curVal + offset );
+< 				};
+197,198d188
+< 						adjust( self._valueMax(), step ); // RTL
+< 						break;
+200c190,193
+< 						adjust( self._valueMax(), self.options.isRTL ? -step : step ); // RTL
+---
+> 						if ( curVal === self._valueMax() ) {
+> 							return;
+> 						}
+> 						newVal = self._trimAlignValue( curVal + step );
+203,204d195
+< 						adjust( self._valueMin(), -step ); // RTL
+< 						break;
+206c197,200
+< 						adjust( self._valueMin(), self.options.isRTL ? step : -step ); // RTL
+---
+> 						if ( curVal === self._valueMin() ) {
+> 							return;
+> 						}
+> 						newVal = self._trimAlignValue( curVal - step );
+381,383d374
+< 		if ( this.options.isRTL ) { // RTL
+< 			percentMouse = 1 - percentMouse;
+< 		}
+544,547d534
+< 			case "isRTL": // RTL
+< 				this.element.toggleClass( "ui-slider-rtl", value );
+< 				this._refreshValue();
+< 				break;
+642,643c629
+< 				valPercent = ( self.values( i ) - self._valueMin() ) / ( self._valueMax() - self._valueMin() ) * 100;
+< 				valPercent = ( self.options.isRTL ? 100 - valPercent : valPercent ); // RTL
+---
+> 				valPercent = ( self.values(i) - self._valueMin() ) / ( self._valueMax() - self._valueMin() ) * 100;
+649,651c635
+< 							self.range.stop( 1, 1 )[ animate ? "animate" : "css" ](
+< 								self.options.isRTL ? { right: ( 100 - valPercent ) + "%"} : // RTL
+< 								{ left: valPercent + "%" }, o.animate );
+---
+> 							self.range.stop( 1, 1 )[ animate ? "animate" : "css" ]( { left: valPercent + "%" }, o.animate );
+654,656c638
+< 							self.range[ animate ? "animate" : "css" ]( {
+< 								width: ( ( self.options.isRTL ? -1 : +1 ) * ( valPercent - lastValPercent ) ) + "%" }, // RTL
+< 								{ queue: false, duration: o.animate } );
+---
+> 							self.range[ animate ? "animate" : "css" ]( { width: ( valPercent - lastValPercent ) + "%" }, { queue: false, duration: o.animate } );
+660,662c642
+< 							self.range.stop( 1, 1 )[ animate ? "animate" : "css" ](
+< 								self.options.isRTL ? { top: ( 100 - valPercent ) + "%" } : // RTL
+< 								{ bottom: ( valPercent ) + "%" }, o.animate );
+---
+> 							self.range.stop( 1, 1 )[ animate ? "animate" : "css" ]( { bottom: ( valPercent ) + "%" }, o.animate );
+665,667c645
+< 							self.range[ animate ? "animate" : "css" ]( {
+< 								height: ( ( self.options.isRTL ? -1 : +1 ) * ( valPercent - lastValPercent ) ) + "%" }, // RTL
+< 								{ queue: false, duration: o.animate } );
+---
+> 							self.range[ animate ? "animate" : "css" ]( { height: ( valPercent - lastValPercent ) + "%" }, { queue: false, duration: o.animate } );
+680d657
+< 			valPercent = ( self.options.isRTL ? 100 - valPercent : valPercent ); // RTL
+685,686c662
+< 				this.range.stop( 1, 1 )[ animate ? "animate" : "css" ](
+< 					{ width: ( self.options.isRTL ? 100 - valPercent : valPercent ) + "%" }, o.animate ); // RTL
+---
+> 				this.range.stop( 1, 1 )[ animate ? "animate" : "css" ]( { width: valPercent + "%" }, o.animate );
+689,691c665
+< 				this.range[ animate ? "animate" : "css" ]( {
+< 					width: ( self.options.isRTL ? valPercent : 100 - valPercent ) + "%" }, // RTL
+< 					{ queue: false, duration: o.animate } );
+---
+> 				this.range[ animate ? "animate" : "css" ]( { width: ( 100 - valPercent ) + "%" }, { queue: false, duration: o.animate } );
+694,695c668
+< 				this.range.stop( 1, 1 )[ animate ? "animate" : "css" ](
+< 					{ height: ( self.options.isRTL ? 100 - valPercent : valPercent ) + "%" }, o.animate ); // RTL
+---
+> 				this.range.stop( 1, 1 )[ animate ? "animate" : "css" ]( { height: valPercent + "%" }, o.animate );
+698,700c671
+< 				this.range[ animate ? "animate" : "css" ](
+< 					{ height: ( self.options.isRTL ? valPercent : 100 - valPercent ) + "%" }, // RTL
+< 					{ queue: false, duration: o.animate } );
+---
+> 				this.range[ animate ? "animate" : "css" ]( { height: ( 100 - valPercent ) + "%" }, { queue: false, duration: o.animate } );

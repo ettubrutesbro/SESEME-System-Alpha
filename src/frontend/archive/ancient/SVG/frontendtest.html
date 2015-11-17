@@ -1,0 +1,54 @@
+
+<html>
+<head>
+<style>
+	body {
+		width: 100%;
+		border: 3px black solid;
+	}
+	#topdata{
+		border: 1px green solid;
+		margin-left: auto;
+		margin-right: auto;
+		font-size: 24pt;
+		width: 80%;
+
+	}
+
+	ul {
+		width: 42%;
+		float: left;
+		border: 2px black solid;
+	}
+
+</style>
+</head>
+
+<body>
+	<section id = "topdata">
+	now displaying <div id  = "metric">
+		blah shit blah
+	</div>
+	<ul id = "names">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+	<ul id = "values">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<input id = "dataChanger" type = "submit" value = "state"></input>
+</section>
+	<svg id = "mainSvg" width = "900px" height = "1600px"></svg>
+
+	<script src="/static/socket.io/socket.io.js"></script>
+	<script src = "zepto.min.js"> </script>
+	<script src = "snap.svg-min.js"> </script>
+	<script src = "frontEndData.js"> </script>
+	<script src = "frontend.js"> </script>
+</body>

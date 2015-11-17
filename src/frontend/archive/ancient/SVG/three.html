@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Basic Three.js App</title>
+    <style>
+      html, body { margin: 0; padding: 0; overflow: hidden; }
+    </style>
+  </head>
+  <body>
+    <script src="three.min.js"></script>
+    <script>
+     
+     var screen_width = window.innerWidth,
+     screen_height = window.innerHeight
+     var ground = 0
+
+     var container //whats this
+
+     var camera, screen_height, webglRenderer
+
+     var zmesh, geometry
+
+     var mouseX = 0
+     var mouseY = 0
+
+     document.addEventListener("mousemove", onDocumentMouseMove, false)
+     init() //setup
+     //animate() //draw / render
+
+
+     function init(){
+      container = document.createElement('div')
+      document.body.appendChild(container) //appends div...what
+     }
+
+
+    camera.position.set( 20, 20, 20 );
+    camera.rotation.order = 'YXZ';
+    camera.rotation.y = - Math.PI / 4;
+    camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 ) );
+      
+    
+    </script>
+  </body>
+</html>
