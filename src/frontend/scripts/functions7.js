@@ -449,10 +449,7 @@
 		var loadcb = false
 		if(view.filling && !controls.enabled){
 			console.log('remake links')
-			if(!view.text || view.zoom !== 'close' || !data.pLinks) { makeLinks(); return }
-			loadcb = true
-			var allgone = new THREE.LoadingManager()
-			allgone.onLoad = function(){ makeLinks(); return }
+			makeLinks()
 		}
 		if(view.text && view.zoom === 'close' && !view.filling && !loadcb){
 			console.log('show links')

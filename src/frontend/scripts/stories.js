@@ -25,9 +25,9 @@ var stories = [
           {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
         ],
         pLinks: [
-          [{type:'yt', c: 'sierraclubvideo'}, {type: 'article', c: 'sierraclubslideshow'}, {type: 'article', c: 'ucdpress'}],
-          [{type:'article', c: 'sierraclubslideshow'}, {type: 'list', c: 'sierraclublist'}],
-          [{type:'article', c: 'sierraclubslideshow'}, {type: 'list', c: 'sierraclublist'}],
+          [{type:'yt', c: 'https://youtu.be/s_aYTip3jK0'}, {type: 'article', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-uc-davis-1.aspx'}, {type: 'www', c: 'http://ucdavis.edu/ucdavis-today/2012/august/14-cool-school.html'}],
+          [{type:'article', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-stanford-university-3.aspx'}, {type: 'list', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/complete-rankings-cool-schools.aspx'}],
+          [{type:'article', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-uc-irvine-9.aspx'}, {type: 'list', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/complete-rankings-cool-schools.aspx'}],
           [{type: 'list', c: 'sierraclublist'}],
         ]
       }, //end part 0
@@ -52,10 +52,10 @@ var stories = [
         pLabels: ['','','',''],
         pStatboxes: [{c: '55th :(', size: 18},{c:'6th',size:18},{c:'1st',size:18},{c:'33rd',size:18}],
         pLinks: [
-          [{type: 'list',c:'2014list'}],
-          [{type: 'article',c:'sierraclubslideshow'}],
-          [{type: 'article',c:'sierraclubslideshow'},{type:'article',c:'ucipressrelease'},{type:'yt',c:'video?'}],
-          [{type: 'list', c: '2014list'}]
+          [{type: 'list',c:'http://www.sierraclub.org/sierra/2014-5-september-october/cool-schools-2014/full-ranking'}],
+          [{type: 'article',c:'http://www.sierraclub.org/sierra/slideshow/top-ten-coolest-schools-2014#7'}],
+          [{type: 'article',c:'http://www.sierraclub.org/sierra/slideshow/top-ten-coolest-schools-2014#12'},{type:'www',c:'http://news.uci.edu/campus-life/uci-were-the-coolest/'}],
+          [{type: 'list', c: 'http://www.sierraclub.org/sierra/2014-5-september-october/cool-schools-2014/full-ranking'}]
         ]
       },
 
@@ -73,16 +73,16 @@ var stories = [
           'Long hours of operation in a large space haven\'t impacted the ARC\'s efficiency too adversely - it\'s only a little more expensive than the average \'community\' building.',
           'Constructed in 1987, this hall houses a great many departments, but its energy footprint is scarcely excusable; even accounting for size, its energy use intensity is nearly double the average lab.',
           'Comfy but a little energy-expensive, Giedt\'s energy use intensity of 75 is notably above the classroom average - perhaps surprising considering it was built in 2007.',
-          ''
+          'Designed by BAR Architects and certified LEED Platinum in 2013, the SCC was underperforming its energy goals for quite some time, as popular as it is.'
         ],
         pSymbols: ['','','',''],
         pLabels: ['','','',''],
         pStatboxes: [{c:'$311,000'},{c:'$1.45 million'},{c:'$16,700'},{c:'$89,000'}],
         pLinks: [
-          {type: 'site', c: 'daviswiki'},
-          {type: 'site', c: 'daviswiki'},
-          {type: 'site', c: 'daviswiki'},
-          ''
+          [{type: 'site', c: 'https://cru.ucdavis.edu/content/531-history-of-the-arc.htm'}, {type: 'data', c: 'http://ceed.ucdavis.edu'}],
+          [{type: 'article', c: 'https://localwiki.org/davis/Meyer_Hall'}, {type: 'data', c: 'http://ceed.ucdavis.edu'}],
+          [{type: 'article', c: 'https://localwiki.org/davis/Warren_and_Leta_Giedt_Hall'}, {type: 'data', c: 'http://ceed.ucdavis.edu'}],
+          {type: 'site', c: 'http://www.bararch.com/work/academic-institutional/project/uc-davis-student-community-center'}
         ]
       }
     ]
@@ -113,7 +113,9 @@ var stories = [
             {c:['$950','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$1325','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$1050','weekly'], size: [24,14], font: ['Droid Serif','Karla']}],
-          pLinks: ['','','','']
+          pLinks: [{type:'data',c:'http://www.infoplease.com/ipa/A0882775.html'},
+          {type: 'tw2', c: 'https://twitter.com/eveewing/status/648282820079693824'},
+          '','']
         }, //end part 0
         {
           values: [950,870,1040,815], customHi: 1325, customLo: 300,
@@ -140,7 +142,12 @@ var stories = [
             {c:['$870','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$1040','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$815','weekly'], size: [24,14], font: ['Droid Serif','Karla']}],
-          pLinks: ['','','','']
+          pLinks: [
+            [{type: 'data', c: 'https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg'},{type:'article',c:'https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/'}],
+            [{type: 'data', c: 'https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg'},{type:'article',c:'https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/'}],
+            [{type: 'data', c: 'https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg'},{type:'article',c:'https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/'}],
+            [{type: 'data', c: 'https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg'},{type:'article',c:'https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/'}]
+          ]
         },
         {
           values: [2217,1657,644,607], customLo: 300,
@@ -167,9 +174,11 @@ var stories = [
             {c: '608,000'}
           ],
           pLinks: [
-            [{type: 'site', c: 'aclumassinca'},{type:'yt',c:'viceshit'}],
-            [{type: 'data', c: '#list'}],
-            '','']
+            {type: 'site', c: 'https://www.aclu.org/prison-crisis'},
+            {type: 'data', c: 'http://www.prisonstudies.org/highest-to-lowest/prison-population-total?field_region_taxonomy_tid=All'},
+            {type: 'site', c: 'https://www.aclu.org/prison-crisis'},
+            {type: 'data', c: 'http://www.prisonstudies.org/highest-to-lowest/prison-population-total?field_region_taxonomy_tid=All'}
+          ]
         },
         {
           values: [41,15.3,52,20], customLo: 12,
@@ -190,7 +199,12 @@ var stories = [
             {c: '$52,000'},
             {c: '$20,000'}
           ],
-          pLinks: ['','','','']
+          pLinks: [
+            [{type:'list',c:'https://www.aclu.org/files/assets/massincarceration_problems.pdf'},{type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}],
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}
+          ]
         },
         {
           values: [8.2,9.3,12.6,7.6], customLo: 5.3,
@@ -211,7 +225,12 @@ var stories = [
             {c: '$12,600'},
             {c: '$7,600'}
           ],
-          pLinks: ['','','','']
+          pLinks: [
+            [{type:'list',c:'https://www.aclu.org/files/assets/massincarceration_problems.pdf'},{type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}],
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}
+          ]
         },
         {
           values: [.33,.05,.16,0.1], customLo: 0,
@@ -234,7 +253,7 @@ var stories = [
             {c: '1 in 9'}
           ],
           pLinks: [
-            [{type: 'book',c:'michellealexander'},{type:'data',c:'sentencingproject'}],
+            [{type: 'book',c:'http://www.goodreads.com/book/show/6792458-the-new-jim-crow'},{type:'yt',c:'https://youtu.be/u51_pzax4M0'}],
             '','','']
         },
       ]

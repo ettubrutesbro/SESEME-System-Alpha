@@ -530,6 +530,10 @@ function setup(){
 				else clickedHelpOutside()
 			}
 			if(raycast.intersectObject(info.btn,true).length>0) clickedMainButton()
+			else if(raycast.intersectObjects(seseme.plr0.links.children,true)){ console.log('clicked link of 0') }
+			else if(raycast.intersectObjects(seseme.plr1.links.children,true)){ console.log('clicked link of 0') }
+			else if(raycast.intersectObjects(seseme.plr2.links.children,true)){ console.log('clicked link of 0') }
+			else if(raycast.intersectObjects(seseme.plr3.links.children,true)){ console.log('clicked link of 0') }
 			else if(view.text) clickedToClose()
 		}) // end click event listener
 		//HASHING
