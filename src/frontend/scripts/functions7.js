@@ -767,6 +767,7 @@
 		}
 		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
 		//3D SHIT - color, namesprites, titleblock, main button position
+		if(!online) pctCalc()
 		pctsToHeights();
 		movePillars();
 		makeNames(retainName);
@@ -1312,4 +1313,22 @@
 				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_worst
 			}
 		}
+	}
+	function pctCalc(){
+			//calc percentages for pillar change in offline mode
+			var top = 100, bottom = 0
+			if(!data.valueType || data.valueType === "moreIsTall"){
+				top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
+				bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
+			}
+			else if(data.valueType === 'lessIsTall'){
+				top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
+				bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
+			}
+			var range = Math.abs(bottom-top)
+			var percentagesArray = []
+			for(var i = 0; i < 4; i++){
+				percentagesArray[i] = Math.abs(bottom-data.values[i])/range
+			}
+			percentages = percentagesArray
 	}
