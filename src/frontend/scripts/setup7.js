@@ -26,7 +26,7 @@ facingRotations = [-45,-135,135,45]
 var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
-var online = false
+var online = true
 var performance = 'med'
 
 function setup(){
