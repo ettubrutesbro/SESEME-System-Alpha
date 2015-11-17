@@ -698,8 +698,8 @@
 	function clickedLR(left){
 		if(!controls.enabled) return
 		var target
-		if(left) target = facing===0?3: facing-1
-		else target = facing===3?0: facing+1
+		if(left) target = facing===3?0: facing+1
+		else target = facing===0?3: facing-1
 		rotateTo(target)
 	}
 	function clickedDetailLink(){
@@ -1231,9 +1231,9 @@
 			dir = 'Up'
 		}
 		else if(typeof which === 'number'){ // horizontal rotation
-			//exception for 2--3
-			if((facing===2&&which===3)||(facing===3&&which===2)){
-				var full = which>facing?90:-90
+			//exception for 1--2
+			if((facing===1&&which===2)||(facing===2&&which===1)){
+				var full = which>facing?-90:90
 				var dev = degs(controls.getAzimuthalAngle()) - facingRotations[facing]
 				dist = -(full-dev)
 			}

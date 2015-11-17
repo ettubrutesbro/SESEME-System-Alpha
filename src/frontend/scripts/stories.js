@@ -32,7 +32,7 @@ var stories = [
         ]
       }, //end part 0
       {
-        values: [55,6,1,33], valueType: 'lessIsTall', 
+        values: [55,6,1,33], valueType: 'lessIsTall',
         title: {
           pre: {c: 'GREEN CAMPUSES', size: 18},
           main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
@@ -93,13 +93,14 @@ var stories = [
     description: 'The stories and data in this series deal with issues of social justice and inequity on a large scale.',
     parts: [
         {
-          values: [1300,950,1325,1050], customLo: 700,
+          values: [1300,950,1325,1050], customLo: 300,
           color: { ui: '#628976', monument: {hex: "#628976", bri: 1}, ring: '337946' },
           sound: ['schmoney1','schmoney2'],
           title: {
-            pre: {c: 'WAGE GAPS', size: 18},
-            main: {c: ['Men\'s Weekly','Median Earnings'], size: 24, font: 'Droid Serif', weight: 400, margin: -.2},
-            post: {c: '(Bachelor\'s, Full-Time)', size: 14}
+            pre: {c: 'U.S. WAGE INEQUITY', size: 18, margin: -.75},
+            main: {c: ['Men\'s Weekly','Earnings'], size: 28, font: 'Droid Serif', weight: 400, margin: -.2},
+            post: {c: ['w/ Bachelor\'s degree,','working full-time','(median)'], size: 14, margin: .85},
+            fuckers: {c: '', margin: -2.5}
           },
           maintext: 'In 2013, women in the US earned 82 cents to every dollar a man made. Stats from the Bureau of Labor Statistics show that income is staggered by both race and gender. Shown is a comparison of median weekly earnings between bachelor\'s degree holders.',
 
@@ -115,11 +116,12 @@ var stories = [
           pLinks: ['','','','']
         }, //end part 0
         {
-          values: [950,870,1040,815], customHi: 1325, customLo: 700,
+          values: [950,870,1040,815], customHi: 1325, customLo: 300,
           title: {
-            pre: {c: 'WAGE GAPS', size: 18},
-            main: {c: ['Women\'s Weekly','Median Earnings'], size: 24, font: 'Droid Serif', weight: 400, margin: -.2},
-            post: {c: '(Bachelor\'s, Full-Time)', size: 14}
+            pre: {c: 'U.S. WAGE INEQUITY', size: 18, margin: -.75},
+            main: {c: ['Women\'s Weekly','Earnings'], size: 23, font: 'Droid Serif', weight: 400},
+            post: {c: ['w/ Bachelor\'s degree,','working full-time','(median)'], size: 14, margin: .7},
+            fuckers: {c: '', margin: -2.5}
           },
           maintext: 'The same dataset reveals that women make less than men of the same race at every level of education. This gives the lie to the myth of education-as-equalizer; while lack of education results in poverty for any race or gender, men - especially whites - benefit disproportionately from it.', //recommended 230 character maximum
           color: { ui: '#626b66', monument: {hex: "#628976", bri: 0.5}, ring: '152821' },
