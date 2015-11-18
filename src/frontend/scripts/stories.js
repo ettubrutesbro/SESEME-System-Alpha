@@ -34,7 +34,7 @@ var stories = [
       {
         values: [55,6,1,33], valueType: 'lessIsTall',
         title: {
-          pre: {c: 'GREEN CAMPUSES', size: 18},
+          pre: {c: 'TWO YEARS LATER', size: 18},
           main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
           post: {c: '2014', size: 18, margin: .5}
         },
