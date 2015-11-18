@@ -2,7 +2,6 @@ var stories = [
 	{
 		id: 1,
 		title: 'UCD vs. The World',
-		topic: 'ENVIRONMENT',
 		geo: 'simplecow',
 		parts: [
 			{
@@ -10,7 +9,7 @@ var stories = [
 				text: 'In 2012, UC Davis was named the "coolest school" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education. But a lot has changed since then...',
 				color: '#339167', hueVal: {hue: 155, sat: 100, bri: 35},
 				pointNames: ['UC Davis!','Stanford','UC Irvine','UC Berkeley'],
-				pointTitles: ['COOLEST SCHOOL 2012', '3rd COOLEST', '#9 COOL SCHOOL', '20th \'COOLEST\''], pointData: '2012 COOL RANK',
+				pointTitles: ['COOLEST SCHOOL 2012', '3rd COOLEST', '#9 COOL SCHOOL', '20th \'COOLEST\''], pointData: 'COOL SCHOOLS 2012',
 				pointValues: [1,3,9,20], valueType: 'smallerIsHigher', valueRange: [1,23],
 				pointText: ['2 years ago, we drew praise for our \'well-rounded\' environmental efforts, including bicycle infrastructure and waste diversion.”'
 				,'Barely behind us, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.'
@@ -23,7 +22,7 @@ var stories = [
 				color: '#685338', hueVal: {hue: 60, sat: 76, bri: 25},
 				pointNames: ['UC Davis..','Stanford','UC IRVINE','UC Berkeley'],
 				pointValues: [55,6,1,33],
-				pointTitles: ['2014: FELL TO 55TH', 'now 6th COOLEST', 'new #1 COOL SCHOOL', '33rd place in 2014'], pointData: '2014 COOL RANK',
+				pointTitles: ['2014: FELL TO 55TH', 'now 6th COOLEST', 'new #1 COOL SCHOOL', '33rd place in 2014'], pointData: 'COOL SCHOOLS 2014',
 				valueType: 'smallerIsHigher', valueRange: [1,60],
 
 				pointText: ['Aenean urna erat, lacinia in hendrerit id, rutrum et est. Suspendisse potenti. Vestibulum sit amet sem ultricies, sagittis augue at posuere.'

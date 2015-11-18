@@ -11,11 +11,15 @@
 /*tablet portrait, phone landscape*/
 @media (min-device-width: 600px)
   and (max-device-width: 1280px) {
-		html{ font-size: 26px;}
-		.text{ line-height: .95rem;}
-		#ui{ position: absolute; width: 95%; height: 100%; left:0; right:0; margin: 0 auto; top: .05rem;}
-		#containerSESEME{ position: absolute; top:0; width:95%; height: 100%;
+		html{ font-size: 32px; }
+    span, div { line-height: .95rem; }
+		#containerSESEME{ position: absolute; top:0; width:100%; height: 100%;
 			margin: 0 auto; left: 0; right: 0;}
+    div.nav_content { margin-top: -.1rem; }
+    #help .open { padding-top: 20%; }
+    #help_label { margin-right: .25rem;}
+    .text_title::before{ left: -1.5rem; }
+    #nav_title::before{ top: -.8rem; }
 }
 
 html { background-color: #ededed; overflow: hidden;}
@@ -23,229 +27,22 @@ body { color: white; } /* apply univ. text styles here? */
 
 #all_ui {
   position: absolute;
-  width: 95%; height: 96.5%;
+  width: 100%; height: 100%;
   margin: auto auto; left: 0; right: 0; top: 0; bottom: 0;
   overflow: hidden;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Karla', sans-serif;
+  perspective:  0; -webkit-perspective: 0; -moz-perspective: 0;
 }
 #top_ui{
-  position: absolute; width: 100%; height: 3rem;
+  position: absolute; width: 97%; height: 100%;
+  overflow: hidden;
+  left: 0; right: 0; margin: 0 auto;
+  top: .25rem;
+  transform:  translateZ(0);-webkit-transform: translateZ(0);-moz-transform: translateZ(0);
  }
- #nav {
-   position: absolute; height: 1.5rem;
-   top: 0;left: 0;
-   border: .25rem solid #ededed;
-   font-weight: 500; letter-spacing: 0.08rem;
-   border-radius: 0 0 1rem 0;
-   font-size: .65rem;
-   padding: 0 1rem 0 0;
-   overflow: hidden;
- }
-  #nav #overview {
-    /*initial placement defined in initDom*/
-    position: absolute; left: .5rem; top: -.1rem;
-    font-size: .85rem; letter-spacing: 0.2rem; color: black;
-    padding: 0.1rem 0rem .125rem 1.75rem; box-sizing: border-box;
-    background-color: #ededed;
-  }
-    #nav #overview::before{
-      content: ''; position: absolute;
-      width: 0; height: 0; border: 1rem solid transparent;
-      border-left-color: #ededed; border-top-color: #ededed;
-      right: -2rem; top: -.75rem;
-    }
-  #nav .open{
-    position: absolute;
-    /*it'll be left by however wide the icon is...*/
-    margin-top: .1rem;
-    width: 20rem;
-
-  }
-    #nav figure { position: absolute; top: 0; width: 1.25rem; height: 1.25rem;
-    margin: 0; padding: 0; position: absolute;}
-    #nav ul {  padding: 0; margin: 0; list-style-type: none;}
-    #nav ul li { position: relative; height: 1.25rem;}
-    #nav .icon{transform-origin: 0% 0%; -webkit-transform-origin: 0% 0%; -moz-transform-origin: 0% 0%;}
-    div.nav_content{ position: absolute; left: 1.75rem; top: .27rem; }
-    .nav_content span{ position: absolute; white-space: nowrap;}
-    .nav_content span.name{ transform-origin: 0% 0%; -webkit-transform-origin: 0% 0%; -moz-transform-origin: 0% 0%; }
-    .nav_content span.label{ font-weight: 600; letter-spacing: .125rem;}
-    .nav_content span.point{ display: inline; opacity: 0;}
-
-  #nav .close{
-    position: absolute; left: 0;
-    width: 0px;
-    border: 1.2rem solid transparent;
-    border-top-color: #ededed;
-    border-left-color: #ededed;
-    transform: translateX(-2.25rem);
-    -webkit-transform: translateX(-2.25rem);
-    -moz-transform: translateX(-2.25rem);
-  }
-    #nav .close::before{
-      content: '';
-      position: absolute; left: -1.2rem; top: -1.2rem;
-      border: 1rem solid transparent;
-      border-top-color: #676767;
-      border-left-color: #676767;
-    }
-
-#help {
-  right: 0;
-  position: absolute;
-  width: 4.25rem; height: 18rem;
-  /*border: 1px blue solid;*/
-}
-
-  #help .info {
-    /*border: .25rem solid #ededed;*/
-    position: absolute; right: 0;
-    margin: 0 auto; left: 0; top: 1.4rem;
-    height: 16.25rem; width: 3.75rem;
-    background-color: black;
-    border-radius: 0 0 0 1rem;
-    z-index: 3;
-    overflow: hidden;
-  }
-  #help hr#backing {
-    position: absolute; width: 100%;
-    height: 94%; background-color: #ededed;
-    border: 0; bottom: 0; z-index: 1;
-    padding: 0; margin: 0; border-radius: 0 0 0 1.25rem;
-  }
-  #help .open {
-    position: absolute; right: 0;
-    bottom: -2.25rem;
-    width: 1.6rem; height: 2.75rem;
-    border-radius: 0% 0% 1.25rem 1.25rem;
-    background-color: #676767;
-    border: .25rem solid #ededed;
-    z-index: 2;
-  }
-    #help .open hr#line{
-      position: absolute; border: 0;
-      top: .75rem;
-      width: 100%; padding: 0; margin: 0;
-      height: .25rem; background-color: #ededed;
-      z-index: 5;
-    }
-  #help .close {
-    position: absolute; top: 0; right: 0;
-    z-index: 4; width: 0; height: 0;
-    border: 1.45rem solid transparent;
-    border-right-color: #ededed; border-top-color: #ededed;
-  }
-  #help .close::before{
-    content: '';
-    border: 1rem solid transparent;
-    border-right-color: #676767; border-top-color: #676767;
-    width: 0; height: 0; position: absolute;
-    top: -1.2rem; right: -1.2rem;
-  }
-  #help ul { padding: 0; list-style-type: none;
-  text-align: right; margin-top: 1rem;}
-    #help ul li.help_button{
-      /*width: 75%;*/
-      width: 2.3rem;
-      height: 2.3rem;
-      background-color: #ededed;
-      /*margin: .5rem 0 auto auto; */
-      /*border-radius: 1rem 0 0 1rem; */
-      margin: .5rem auto;
-      border-radius: 50%;
-      position: relative;
-      }
-
-      #help ul li.caption{
-        width: 90%;
-        font-size: .6rem; letter-spacing: 0.05rem; margin-top: .2rem;}
-
-      #help #help_label {
-        font-family: 'Source Serif Pro', sans-serif;
-        font-size: 1.2rem; font-weight: 600;
-        position: absolute; top: 0; color: black;
-        width: 2rem; left: 1.2rem; height: 1.2rem;
-        z-index: 2;
-        background-color: #ededed;
-      }
-        #help #help_label::before{
-          content: ''; position: absolute; width: 0; height: 0;
-          border: .65rem solid transparent;
-          border-right-color: #ededed; border-bottom-color: #ededed;
-          left: -1.25rem; top: -0.1rem;
-        }
-
-
 #bottom_ui{
   position: absolute; bottom: 0;
-  width: 100%; height: 3rem;
-  transform: translateY(3.1rem);
-  -webkit-transform: translateY(3.1rem);
-  -moz-transform: translateY(3.1rem);
-}
-
-  #text hr{
-    position: absolute; border: none;
-    width: 100%; top: 1.3rem;
-    height: .5rem; background-color: #ededed;
-  }
-  #text .open{
-    width: 5rem; height: 5rem;
-    border: .45rem solid #ededed; box-sizing: border-box;
-    border-radius: 50%; background-color: #000000;
-    position: absolute; left: 0; right: 0; margin: 0 auto;
-  }
-  #text .close{
-    position: absolute; right: 0; bottom: 0;
-    width: 0; height: 0;
-    border: 1.6rem solid transparent;
-    border-bottom-color: #ededed; border-right-color: #ededed;
-    top: 3rem;
-  }
-    #text .close::before{
-      content: '';
-      position: absolute; width: 0; height: 0;
-      bottom: -1.75rem; right: -1.35rem;
-      border: 1.25rem solid transparent;
-      border-bottom-color: #676767;
-      border-right-color: #676767;
-    }
-  #text .info{
-    position: absolute;
-    top: 2.2rem; left: 0; right: 0; margin: 0 auto; bottom: 0
-    width: 100%; height: 31rem; background-color: #000000;
-    padding: 0.75rem 0.5rem 1.2rem 0.5rem;
-    border-right: .25rem solid #ededed;
-    border-left: .25rem solid #ededed;
-    /*border-bottom: .5rem solid #ededed;*/
-    color: white; font-family: 'Fira Sans', sans-serif; font-weight: 200;
-    font-size: 0.65rem; text-align: justify;
-  }
-    #text #part{
-      position: absolute; top: 0.75rem;
-      width: 91%; left: 0; right: 0; margin: 0 auto;
-      padding-bottom: .75rem;
-    }
-    #text .point{
-      opacity: 0;
-      position: absolute; top: 0.75rem;
-      width: 91%; left: 0; right: 0; margin: 0 auto;
-      padding-bottom: .75rem;
-      /*transform: translateY(1.5rem)*/
-    }
-
-#bottom_line {
-  position: absolute; width: 100%;
-  bottom: 0; background-color: #ededed;
-  margin: 0; border: 0; height: .25rem;
-  opacity: 0;
-}
-
-#overlays div {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: #ededed; color: black;
-  padding: 50%;
-  transform: translateX(100%);
+  width: 97%; height: 90%;
+  left: 0; right: 0; margin: 0 auto;
+  transform-origin: 50% 80%; -webkit-transform-origin: 50% 80%; -moz-transform-origin: 50% 80%;
 }

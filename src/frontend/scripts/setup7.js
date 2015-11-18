@@ -545,22 +545,7 @@ function setup(){
 				rotateTo('mid'); rotateTo(0)
 			}
 		})
-		//DEVICE ORIENTATION
-		window.addEventListener('deviceorientation', function(evt){
-			//uber prototype based on andrew's code
-			//maybe it multiplies against an attribute so that the effect
-			//is 'depth' scaled....
-			var gamma = evt.gamma, beta = evt.beta, alpha = evt.alpha
-			if(beta/1.8 > 35) { beta = 40*1.8; gamma = 0; }
-			else if(beta/1.8 < -35) { beta = -40*1.8; gamma = 0; }
 
-			var xlatY = evt.gamma>25?.25:evt.gamma<-25?-.25:evt.gamma/100
-			var xlatX = evt.beta>25?.25:evt.beta<-25?-.25:evt.beta/100
-
-			seseme.position.x = xlatX
-			seseme.position.y = xlatY
-
-		})
 		//WINDOW RESIZING
 		window.addEventListener('resize', function(){
 			var aspect = window.innerWidth / window.innerHeight; var d = 20

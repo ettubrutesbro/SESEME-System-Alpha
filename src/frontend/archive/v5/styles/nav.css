@@ -1,0 +1,79 @@
+#nav {
+  visibility: hidden;
+  position: absolute; height: 1.5rem;
+  top: 0;left: 0;
+  border: .25rem solid #ededed;
+  font-weight: 500; letter-spacing: 0.08rem;
+  border-radius: 0 0 1rem 0;
+  font-size: .65rem;
+  padding: 0 1.1rem 0 0.1rem;
+  overflow: hidden;
+  /*border: 1px green solid;*/
+}
+ #nav_title {
+   /*initial placement defined in initDom*/
+   position: absolute; left: .5rem; top: -.1rem;
+   font-size: .85rem; letter-spacing: 0.2rem; color: black;
+   padding: 0.1rem 0rem .125rem 1.95rem; box-sizing: border-box;
+   background-color: #ededed;
+ }
+   #nav_title::before{
+     content: ''; position: absolute;
+     width: 0; height: 0; border: 1rem solid transparent;
+     border-left-color: #ededed; border-top-color: #ededed;
+     right: -2rem; top: -.75rem;
+   }
+ #nav .open{
+   position: absolute;
+   /*it'll be left by however wide the icon is...*/
+   margin-top: .1rem;
+   width: 100%; height: 100%;
+ }
+   #nav figure { position: absolute; top: 0; width: 1.25rem; height: 1.25rem;
+   margin: 0; padding: 0; left: .2rem;}
+   #nav ul {  padding: 0; margin: 0; list-style-type: none;}
+   #nav ul li { position: absolute; height: 1.25rem;}
+   .nav_icon{transform-origin: 0% 0%; -webkit-transform-origin: 0% 0%; -moz-transform-origin: 0% 0%;}
+     #nav_story .nav_icon{ background-image: url(../assets/book_inv.png); background-size: contain; }
+
+     #nav_point .nav_icon{ overflow: hidden; }
+      .nav_point_bar {
+        width: 33%; margin: 0; padding: 1.5px 1px 1.5px 0; box-sizing: border-box;
+        background-clip: content-box;
+        height: 100%; position: absolute; bottom: 0;
+        background-color: white;
+      }
+      /*seriously cannot wait for better native variables -_-*/
+      /*.nav_point_bar:nth-child(1){left: -33%;}
+      .nav_point_bar:nth-child(2){left: 0;}
+      .nav_point_bar:nth-child(3){left: 33%;}
+      .nav_point_bar:nth-child(4){left: 66%;}*/
+
+   div.nav_content{ position: absolute; left: 1.75rem; top: .27rem; }
+   .nav_content span{ position: absolute; white-space: nowrap;}
+   .nav_name{ padding-left: .15rem; transform-origin: 0% 0%; -webkit-transform-origin: 0% 0%; -moz-transform-origin: 0% 0%; }
+   .nav_label{ font-weight: 600; letter-spacing: .125rem; opacity: 0; text-transform: uppercase; padding-left: .15rem;}
+   .nav_label_data{ opacity: 0; }
+   .nav_point{ display: inline; opacity: 0;}
+
+ #nav .close{
+   position: absolute; left: 0;
+   width: 0px;
+   border: 1.5rem solid transparent;
+   border-top-color: #ededed;
+   border-left-color: #ededed;
+ }
+   #nav .close::before{
+     content: '';
+     position: absolute; left: -1.5rem; top: -1.5rem;
+     border: 1.25rem solid transparent;
+     border-top-color: #676767;
+     border-left-color: #676767;
+   }
+   #nav .close::after{
+     content: '';
+     position: absolute; left: -.9rem; top: -.9rem;
+     width: .8rem; height: 1rem;
+     background-image: url(../assets/exitx_2.png);
+     background-size: contain; background-repeat: no-repeat;
+   }

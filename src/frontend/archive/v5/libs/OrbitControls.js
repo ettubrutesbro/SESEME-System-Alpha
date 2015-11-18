@@ -19,7 +19,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	// "target" sets the location of focus, where the control orbits around
 	// and where it pans with respect to.
-	this.target = new THREE.Vector3(0,-4.25,0);
+	this.target = new THREE.Vector3(0,-4,0);
 
 	// center is old, deprecated; use "target" instead
 	this.center = this.target;
@@ -34,7 +34,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.maxDistance = Infinity;
 
 	// Limits to how far you can zoom in and out ( OrthographicCamera only )
-	this.minZoom = 0.45;
+	this.minZoom = 0.4;
 	this.maxZoom = 2.5;
 
 	// Set to true to disable this control

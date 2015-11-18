@@ -1,11 +1,14 @@
-<html>
+<html lang = "en">
 <head>
 	<meta charset = "UTF-8">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="theme-color" content="#000000">
-	<title>Project SESEME</title>
+  <meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+	<title>SESEME</title>
+	<link rel = "stylesheet" href = "styles/nav.css" />
+	<link rel = "stylesheet" href = "styles/help.css" />
+	<link rel = "stylesheet" href = "styles/text.css" />
 	<link rel = "stylesheet" href = "styles/UI.css" />
 </head>
 
@@ -14,40 +17,59 @@
 
 <div id = "all_ui">  <!-- all ui elements contained herein -->
 	<section id = "top_ui">
+
 		<div id = "nav" class = "ui-element">
-			<div class = "open stuff">
-				<div id = "nav_story" class = "nav_type">
-					<figure class = "icon"></figure>
-					<figure class = "content">
-						<span class = "label">SUSTAINABILITY</span>
-						<span class = "name">UCD Vs. The World</span>
-					</figure>
-				</div>
-				<div id = "nav_part" class = "nav_type">
-					<figure class = "icon"></figure>
-					<figure class = "content">
-						<span class = "label">PART 2/3 </span>
-						<span class = "name">Glory Days</span>
-					</figure>
-				</div>
-				<div id = "nav_point" class = "nav_type">
-					<figure class = "icon"></figure>
-					<figure class = "content">
-						<span class = "label">COOL SCHOOL RANKS </span>
-						<span class = "name">
-							<span>UC Davis</span>
-							<span>UC Irvine</span>
-							<span>Stanford</span>
-							<span>UC Berkeley</span>
-						</span>
-					</figure>
-				</div>
-			</div>
+			<div class = "open">
+				<span id = "nav_title">OVERVIEW</span>
+				<ul class = "info">
+
+					<li id = "nav_story" class = "nav_item">
+						<figure class = "nav_icon"></figure>
+						<div class = "nav_content">
+							<span class = "nav_label">STORY</span>
+							<span class = "nav_name"></span>
+						</div>
+					</li>
+
+					<li id = "nav_point" class = "nav_item">
+						<figure class = "nav_icon">
+							<span class = "nav_point_bar"> </span>
+							<span class = "nav_point_bar"> </span>
+							<span class = "nav_point_bar"> </span>
+							<span class = "nav_point_bar"> </span>
+						</figure>
+						<div class = "nav_content">
+							<span class = "nav_label">
+							</span>
+								<span class = "nav_name">
+									<span class = "nav_point"></span>
+									<span class = "nav_point"></span>
+									<span class = "nav_point"></span>
+									<span class = "nav_point"></span>
+								</span>
+						</div>
+					</li>
+
+				</ul>
+
+			</div> <!-- end .open div !-->
 			<div class = "close"></div>
-		</div>
+		</div> <!-- end NAV !-->
+
 		<div id = "help" class = "ui-element">
-			<div class = "close"></open>
-			<div class = "open"></open>
+			<div class = "close"></div>
+			<div class = "open">?</div>
+			<div class = "info">
+				<ul>
+					<li id = "howto" class = "help_button"></li>
+					<li class = "caption">HELP</li>
+					<li id = "about" class = "help_button"></li>
+					<li class = "caption">ABOUT</li>
+					<li id = "feedback" class = "help_button"></li>
+					<li class = "caption">CONTACT</li>
+				</ul>
+			</div>
+
 		</div>
 
 	</section>
@@ -55,23 +77,43 @@
 
 	<section id = "bottom_ui">
 
-	<div id = "text" class = "ui-element">
-		<hr />
+	<div id = "text">
+		<hr id = "text_top_line"/>
+		<span id = "text_title_part" class = "text_title">
+			glory days
+		</span>
+		<span id = "text_title_point" class = "text_title">
+			<span class = "text_title_point">uc davis</span>
+			<span class = "text_title_point">stanford</span>
+			<span class = "text_title_point">irvine</span>
+			<span class = "text_title_point">fuck ya self brah</span>
+		</span>
 		<div class = "open"></div>
 		<div class = "close"></div>
-		<div class = "stuff">
-			<div id = "part"></div>
-			<div class = "point"></div>
-			<div class = "point"></div>
-			<div class = "point"></div>
-			<div class = "point"></div>
+		<div class = "info">
+			<div class = "hyphenate" id = "text_part"></div>
+			<div class = "hyphenate text_point"></div>
+			<div class = "hyphenate text_point"></div>
+			<div class = "hyphenate text_point"></div>
+			<div class = "hyphenate text_point"></div>
+
 		</div>
+		<hr id = "text_bottom_line" />
 	</div>
-
-
 	</section>
 
-	<hr id = "bottom_line" />
+	<section id = "overlays">
+		<div class = "overlay_howto" id = "intro">how to 1</div>
+		<div class = "overlay_howto" id = "seedling">how to 2</div>
+		<div class = "overlay_howto" id = "controls">how to 3</div>
+		<div class = "overlay_howto" id = "hud">how to 4</div>
+		<div class = "overlay_about">about 1</div>
+		<div class = "overlay_about">about 2</div>
+		<div id = "overlay_feedback">FEEDBACK</div>
+
+		<span id = "nextbutton"></span>
+	</section>
+
 </div> <!-- end all ui elements -->
 
 </body>
@@ -81,12 +123,12 @@
 <script src="libs/fastclick.js"></script>
 <script src="libs/tween.min.js"></script>
 <script src="libs/velocity.min.js"></script>
+<script src="libs/Hyphenator.js"></script>
 
-<script src = "scripts/data.js"></script>
-<script src = "scripts/functions2.js"></script>
-<script src = "scripts/setup3.js"></script>
-<script>
-	setup()
-</script>
+<script src = "scripts/teststory.js"></script>
+<!-- JS v5: trying to simplify the super fragmented logic of part/point & cyclePoints & facing & expandText (callContent) -->
+<script src = "scripts/functions5.js"></script>
+<script src = "scripts/setup5.js"></script>
+<script>setup()</script>
 
 <script src="libs/webfontloader.js"></script>
