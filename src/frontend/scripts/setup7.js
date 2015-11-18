@@ -27,7 +27,7 @@ var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
 var online = false
-var performance = 'med'
+var performance = 'hi'
 
 function setup(){
 	//ready waits for data & 3d before filling the scene
@@ -65,7 +65,7 @@ function setup(){
 				})
 				socket.on('ui check desync', function(){
 					console.log('XPS is checking desync')
-					socket.emit('ui report status', {story: story.id, part: part})
+					socket.emit('ui report status', {story: stories[story].id, part: part})
 				})
 				socket.on('disconnect',function(){ console.log('disconnected')})
 				socket.on('reconnect', function(){ console.log('reconnected') })
@@ -130,8 +130,12 @@ function setup(){
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
 			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings',
+			'about_team0','about_team1','about_team2','about_about',
+			'feedback_tw','feedback_email',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
+
+
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
 		resourceMgr.onLoad = function(){
@@ -191,7 +195,7 @@ function setup(){
 			resources.mtls.seseme_phong = new THREE.MeshPhongMaterial({color: 0x80848e,shininess:17,specular:0x9a6a40,emissive: 0x101011})
 			resources.mtls.seseme_lambert = new THREE.MeshLambertMaterial({color: 0x80848e})
 			resources.mtls.seseme_worst = new THREE.MeshBasicMaterial({color: 0x000})
-			resources.mtls.seseme = resources.mtls.seseme_lambert
+			resources.mtls.seseme = resources.mtls.seseme_phong
 			resources.mtls.orb = new THREE.MeshPhongMaterial({color:0xff6666,emissive:0x771100,shininess:1,specular:0x272727})
 			resources.mtls.ground = new THREE.MeshBasicMaterial({color: 0xededed})
 			//meshes
@@ -343,11 +347,11 @@ function setup(){
 					x: 0, z: 14, icon: 'about',
 					objs: [
 						//team rows
-						{dims: {x:40,y:7}, pos: {x:0, z:-28.75}, origin: {x:0,z:-30,delay:150, }},
-						{dims: {x:40,y:7}, pos: {x:0, z:-20.75, delay: 75}, origin: {x:0,z:-29,delay:75}},
-						{dims: {x:40,y:7}, pos: {x:0, z:-12.75, delay: 150, }, origin: {x:0,z:-25}},
+						{dims: {x:11.2,y:3.2}, pos: {x:13.95, z:-28.75, delay:350, spd: 100}, origin: {x:6,z:-28.75}, map: 'about_team0'},
+						{dims: {x:40,y:7}, pos: {x:0, z:-22, delay: 0}, origin: {x:-5,z:-22,delay:75}, map: 'about_team1'},
+						{dims: {x:40,y:7}, pos: {x:0, z:-14, delay: 150}, origin: {x:-3,z:-14}, map: 'about_team2'},
 						// paragraph
-						{dims: {x:40,y:18}, pos: {x:0,z:28}, origin:{x:0,z:36}}
+						{dims: {x:40,y:18}, pos: {x:0,z:28.5}, origin:{x:0,z:36}, map: 'about_about'}
 					]
 				},
 				{name: 'howto',
@@ -356,7 +360,7 @@ function setup(){
 						//app animations
 						{dims: {x:12,y:16},pos:{x:-14,z:-21,delay:100},origin:{x:10,z:-21}},
 						{dims: {x:12,y:16},pos:{x:-0,z:-21,delay:50},origin:{x:12,z:-21,delay:50}},
-						{dims: {x:12,y:16},pos:{x:14,z:-21},origin:{x:16,z:-21,delay:100,}},
+						{dims: {x:12,y:16},pos:{x:14,z:-21},origin:{x:16,z:-21,delay:100}},
 						//blurb
 						{dims: {x:20,y:16},pos:{x:-10,z:0},origin:{x:-3,z:0}},
 						//below: seedling graphic & text
@@ -380,11 +384,13 @@ function setup(){
 				{name: 'feedback',
 					x: -14, z: 0, icon: 'feedback',
 					objs: [
-						{dims: {x:16,y:18 }, pos: {x:13,z:-20},origin:{x:0,z:0,delay:100,}},
-						{dims: {x:16,y:18 }, pos: {x:13,z:0,delay:50},origin:{x:0,z:0,delay:50},
-						clicked:function(){ window.location = "http://twitter.com/hi_datalith" }},
-						{dims: {x:16,y:18 }, pos: {x:13,z:20,delay:100,},origin:{x:0,z:0},
-						clicked: function(){ window.location= "mailto:Jack.Leng@gmail.com" }}
+						{dims: {x:40,y:18 }, pos: {x:1,z:-20},origin:{x:9,z:-20,delay:100,},
+						clicked:function(){ window.location = "http://twitter.com/hi_datalith"},
+					 	map:'feedback_tw'},
+
+						{dims: {x:40,y:18 }, pos: {x:1,z:20,delay:100,},origin:{x:18,z:20},
+						clicked: function(){ window.location.href= "mailto:Jack.Leng@gmail.com" },
+						map: 'feedback_email'}
 					]
 				}
 			]
@@ -407,7 +413,8 @@ function setup(){
 				var helpcontent = new THREE.Group()
 				for(var it = 0; it<sections[i].objs.length; it++){
 					var objInfo = sections[i].objs[it]
-					var helpObj = new THREE.Mesh(new THREE.PlaneBufferGeometry(objInfo.dims.x,objInfo.dims.y), new THREE.MeshBasicMaterial({color: 0x00000, transparent: true, opacity: 0, depthWrite: false}))
+					var helpObj = new THREE.Mesh(new THREE.PlaneBufferGeometry(objInfo.dims.x,objInfo.dims.y), new THREE.MeshBasicMaterial({transparent: true, opacity: 0, depthWrite: false}))
+					helpObj.material.map = objInfo.map? resources.mtls[objInfo.map].map : ''
 					helpObj.expand = {x:objInfo.pos.x, y:-17.75, z:objInfo.pos.z}
 					helpObj.origin = objInfo.origin? {x:objInfo.origin.x,y:-17.9,z:objInfo.origin.z}: {x:0,y:-17.9,z:0}
 					helpObj.onClick = objInfo.clicked
@@ -431,10 +438,10 @@ function setup(){
 			var plrOrder = data.values.concat().sort(function(a,b){return a-b})
 			if(data.valueType === 'lessIsTall'){plrOrder.reverse()}
 
-			dom.navspans[1].textContent = story.seedling
+			dom.navspans[1].textContent = stories[story].seedling
 			dom.navspans[2].innerHTML = 'PART <b>'+(part+1)+'</b> <em>of</em> <b>'+stories[story].parts.length+ '</b>'
 			dom.navfigures[0].style.backgroundImage = 'url(assets/infoicon.png)'
-			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+story.seedling+'.png)'
+			dom.navfigures[1].style.backgroundImage = 'url(assets/seedling_'+stories[story].seedling+'.png)'
 			dom.navfigures[2].style.backgroundImage = 'url(assets/partbook.png)'
 			for(var i = 0; i<4; i++){
 				dom.databars[i].style.height = (plrOrder.indexOf(data.values[i])+1)*25+'%'
@@ -444,7 +451,7 @@ function setup(){
 			}
 			dom.bottom.style.backgroundColor = data.color? data.color.ui : '#000000'
 			dom.maintext.textContent = data.maintext
-			dom.overtext.textContent = story.description
+			dom.overtext.textContent = stories[story].description
 			Velocity(dom.closebutton, {translateX: '0%'})
 
 			Velocity(dom.leftarrow, {translateX: '500%', scale: 0.3})
@@ -461,7 +468,7 @@ function setup(){
 			}
 			//content changers
 			dom.maintext.refill = function(){ this.textContent = data.maintext}
-			dom.overtext.refill = function(){ this.textContent = story.description}
+			dom.overtext.refill = function(){ this.textContent = stories[story].description}
 			dom.detail0.refill = function(){ this.textContent = data.pTexts[0] }
 			dom.detail1.refill = function(){ this.textContent = data.pTexts[1] }
 			dom.detail2.refill = function(){ this.textContent = data.pTexts[2] }
@@ -517,6 +524,8 @@ function setup(){
 				if(intersects.length > 0){
 					var target = intersects[0].object
 					window.location.href = target.goTo
+					Velocity($('containerSESEME'),{opacity:0})
+					return
 				}
 			}
 			else if(view.height === 'plan' && view.zoom === 'far'){ //help
@@ -531,10 +540,6 @@ function setup(){
 				else clickedHelpOutside()
 			}
 			if(raycast.intersectObject(info.btn,true).length>0) clickedMainButton()
-			else if(raycast.intersectObjects(seseme.plr0.links.children,true)){ console.log('clicked link of 0') }
-			else if(raycast.intersectObjects(seseme.plr1.links.children,true)){ console.log('clicked link of 0') }
-			else if(raycast.intersectObjects(seseme.plr2.links.children,true)){ console.log('clicked link of 0') }
-			else if(raycast.intersectObjects(seseme.plr3.links.children,true)){ console.log('clicked link of 0') }
 			else if(view.text) clickedToClose()
 		}) // end click event listener
 		//HASHING
