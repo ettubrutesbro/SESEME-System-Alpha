@@ -27,7 +27,7 @@ var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
 var online = true
-var performance = 'med'
+var performance = 'hi'
 
 function setup(){
 	//ready waits for data & 3d before filling the scene
