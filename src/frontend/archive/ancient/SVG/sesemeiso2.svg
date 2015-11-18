@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: adobe Illustrator 16.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="0" viewbox = "-50 250 1080 1920"
+>
+
+<style>
+	#a, #b, #c, #d {
+	cursor: pointer;
+	}
+</style>
+
+<text>
+	thnthtnshnsths
+</text>
+
+<linearGradient id="D_body_1_" gradientUnits="userSpaceOnUse" x1="540.1694" y1="491.5615" x2="540.1694" y2="1019.3979">
+	<stop  offset="0" style="stop-color:#999999"/>
+	<stop  offset="1" style="stop-color:#1a1a1a"/>
+</linearGradient>
+
+<g id = "d" clip-path = "url(#maskd)">
+<polygon id="D_body" fill="url(#D_body_1_)" points="655.583,554.861 540.17,488.526 424.757,554.863 424.758,1087.926 
+	540.17,1021.59 655.067,1087.926 " stroke = "#FFFFFF" stroke-width = "10" stroke-dasharray = "1600" stroke-dashoffset = "1600"/>
+<polygon id="D_top" opacity="0.4" fill="#FFFFFF" points="424.759,555.16 540.171,488.526 655.581,555.159 540.171,621.793 "/>
+</g>
+<linearGradient id="a_body_1_" gradientUnits="userSpaceOnUse" x1="386.0298" y1="580.8135" x2="386.0298" y2="1323.4932">
+	<stop  offset="0" style="stop-color:#808080"/>
+	<stop  offset="1" style="stop-color:#333333"/>
+</linearGradient>
+
+<g id = "a" clip-path = "url(#maska)">
+<polygon id="a_body" fill="url(#a_body_1_)" points="270.619,643.855 386.031,577.221 501.442,643.854 386.031,710.487 
+	386.288,1243.701 270.618,1176.918 " stroke = "#34A849" stroke-width = "10" stroke-dasharray = "1600" stroke-dashoffset = "-1600"/>
+<polygon id="a_top" opacity="0.3" fill="#FFFFFF" points="270.619,643.855 386.031,577.221 501.441,643.854 386.031,710.487 
+	"/>
+</g>
+
+<linearGradient id="C_body_1_" gradientUnits="userSpaceOnUse" x1="693.9707" y1="582.3525" x2="693.9706" y2="1330.5909">
+	<stop  offset="0" style="stop-color:#808080"/>
+	<stop  offset="1" style="stop-color:#333333"/>
+</linearGradient>
+
+<g id = "c" clip-path = "url(#maskc)">
+<polygon id="c_stroker" points="809.383,643.948 693.971,577.315 578.56,643.95 693.971,710.582 
+	693.538,1243.701 809.208,1176.918 " stroke = "#F8A71A" stroke-width = "10" stroke-dasharray = "1600" stroke-dashoffset = "1600"/>
+<polygon id="c_body" fill="url(#C_body_1_)" points="809.383,643.948 693.971,577.315 578.56,643.95 693.971,710.582 
+	693.538,1243.701 809.208,1176.918 " stroke = "#F8A71A" stroke-width = "10" stroke-dasharray = "1600" stroke-dashoffset = "1600"/>
+<polygon id="C_top" opacity="0.2" fill="#FFFFFF" points="578.561,643.855 693.973,577.221 809.383,643.854 693.973,710.487 "/>
+</g>
+
+<linearGradient id="B_body_1_" gradientUnits="userSpaceOnUse" x1="539.9165" y1="666.061" x2="539.9165" y2="1332.397">
+	<stop  offset="0" style="stop-color:#808080"/>
+	<stop  offset="1" style="stop-color:#333333"/>
+</linearGradient>
+
+<g id = "b" clip-path = "url(#maskb)">
+<polygon id="b_body" fill="url(#B_body_1_)" points="655.332,732.693 539.92,666.061 424.509,732.695 424.501,1265.764 
+	539.913,1332.396 655.324,1265.764 " stroke = "#0FA1C5" stroke-width = "10" stroke-dasharray = "1600" stroke-dashoffset = "-1600"/>
+<polygon id="B_top" opacity="0.1" fill="#FFFFFF" points="424.759,732.695 540.171,666.061 655.581,732.693 540.171,799.328 "/>
+</g>
+
+
+
+<clipPath id = "maskd">
+<polygon id="md" points="657.942,1095.426 540.17,1027.43 421.87,1095.426 421.871,549.328 540.171,481.027 
+	658.469,549.327 "/>
+</clipPath>
+
+<clipPath id = "maska">
+<polygon id="ma" points="386.293,1251.201 268.021,1182.914 268.022,637.855 386.031,569.721 510.331,644.333 
+	510.092,1251.201 "/>
+</clipPath>
+
+<clipPath id = "maskb">
+<polygon id="mb" points="657.4,1270.563 539.915,1338.396 422.421,1270.563 422.683,727.896 540.173,660.061 
+	657.662,727.894 "/>
+</clipPath>
+
+<clipPath id = "maskc">
+<polygon id="mc" points="811.802,1182.914 693.528,1251.201 569.664,1251.201 569.664,643.667 693.971,569.721 
+	811.979,637.854 "/>
+</clipPath>
+
+
+	<linearGradient id="strokemaskgradient" x1="433.9526" y1="351" x2="433.9526" y2="969.9704">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#000000"/>
+	</linearGradient>
+
+<mask id = "strokemask1"> 
+	<rect x="297.453" y="351" fill="url(#strokemaskgradient)" width="273" height="621.668"/>
+</mask>
+
+<mask id = "strokemask2">
+<rect x="141" y="439" fill="url(#strokemaskgradient)" width="292.953" height="694"/>
+</mask>
+
+<mask id = "strokemask3">
+<rect x="432.279" y="439" fill="url(#strokemaskgradient)" width="292.953" height="694"/>
+</mask>
+
+<mask id = "strokemask4">
+<rect x="297.453" y="532.033" fill="url(#strokemaskgradient)" width="273" height="688.543"/>
+</mask>
+</svg>
+
+
+</svg>
+
+
+
+
+

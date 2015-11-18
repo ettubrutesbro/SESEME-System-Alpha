@@ -1,0 +1,133 @@
+html {
+	background-color: black;
+	overflow: hidden;
+}
+	body {
+		height: 100%;
+		color: white;
+		font-family: 'Raleway', sans-serif;
+		overflow: hidden;
+	}
+	#topdata{
+		position:absolute;
+		width: 70%;
+		margin: auto;
+		top: -80%;left:0;right:0;bottom:0;
+		font-size: 42pt;
+		z-index: 1;
+		height: 200px;
+	}
+	#timeplace {
+		text-align: center;
+		margin: auto;
+		font-family: 'Source Sans Pro', sans-serif;
+	}
+	#topdata span {
+		margin-top: -10px;
+		font-weight: 800;
+		letter-spacing: 0.25em;
+		font-family: 'Raleway', sans-serif;
+		
+	}
+
+	#tophelper {
+		text-align: left;
+		font-size: 24pt;
+		font-family: 'Libre Baskerville', serif;
+		font-style:italic;
+		letter-spacing: 0.1em;
+		padding-bottom: 35px;
+		opacity: 0;
+	}
+	span#time {
+		
+		text-align: center;
+		border: 8px solid;
+		border-color: white #afddda #6b8db4 #fff996;
+		padding: 1.8% 3.5% 1.8% 5%;
+		float: left;
+	}
+	span#place {
+	
+		border: 8px solid;
+		border-color: #9f9b00 #867b22 #d34f00 #ff9f45;
+		padding: 1.8% 3.5% 1.8% 5%;
+		float: right;
+	}
+
+	#middata{
+		position: absolute;
+		width: 70%;
+		margin: auto;
+		top: 75%; left: 0; right: 0; bottom: 0;
+		z-index: 1;
+		padding: 0;
+		height: 360px;
+	}
+
+	#overall_data{
+		width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		letter-spacing: 0.12em;
+	}
+	#overall_data ul li {
+		list-style-type: none;
+	} 
+	#breakdown {
+		margin: 0;
+		margin-top: 0px;
+		padding: 0;
+		font-weight: 400;
+		float: left;
+		text-transform: uppercase;
+		
+	}
+	#breakdown li{
+		display: inline-block;
+		font-family: 'Source Sans Pro', sans-serif;
+		margin-top: 30px;
+		width: auto;
+		font-size:32pt;
+		font-weight: 600;
+		letter-spacing: 0.15em;
+		/*line-height: 0.98em;*/
+		
+	}
+	
+
+	span.unit {
+		font-size: 30pt;
+		font-weight: 300;
+		letter-spacing: 0.1em;
+	}
+
+	img {
+		display: inline;
+		line-height: 0;
+		padding: 0;
+		margin: 0;
+		margin-left: 10px;
+		opacity: 0.7;
+	}
+
+
+#svgInside {
+	overflow: hidden;
+}
+
+#breakdown li:nth-of-type(1) {
+	color: #f7ec2f;
+}
+#breakdown li:nth-of-type(2) {
+	color: #f47945;
+}
+#breakdown li:nth-of-type(3) {
+	color: #71b6e4;
+}
+#breakdown li:nth-of-type(4) {
+	color: #5dba47;
+}
+
+
+

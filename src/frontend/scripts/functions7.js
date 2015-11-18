@@ -449,10 +449,7 @@
 		var loadcb = false
 		if(view.filling && !controls.enabled){
 			console.log('remake links')
-			if(!view.text || view.zoom !== 'close' || !data.pLinks) { makeLinks(); return }
-			loadcb = true
-			var allgone = new THREE.LoadingManager()
-			allgone.onLoad = function(){ makeLinks(); return }
+			makeLinks()
 		}
 		if(view.text && view.zoom === 'close' && !view.filling && !loadcb){
 			console.log('show links')
@@ -698,8 +695,8 @@
 	function clickedLR(left){
 		if(!controls.enabled) return
 		var target
-		if(left) target = facing===0?3: facing-1
-		else target = facing===3?0: facing+1
+		if(left) target = facing===3?0: facing+1
+		else target = facing===0?3: facing-1
 		rotateTo(target)
 	}
 	function clickedDetailLink(){
@@ -767,6 +764,7 @@
 		}
 		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
 		//3D SHIT - color, namesprites, titleblock, main button position
+		if(!online) pctCalc()
 		pctsToHeights();
 		movePillars();
 		makeNames(retainName);
@@ -1230,9 +1228,9 @@
 			dir = 'Up'
 		}
 		else if(typeof which === 'number'){ // horizontal rotation
-			//exception for 2--3
-			if((facing===2&&which===3)||(facing===3&&which===2)){
-				var full = which>facing?90:-90
+			//exception for 1--2
+			if((facing===1&&which===2)||(facing===2&&which===1)){
+				var full = which>facing?-90:90
 				var dev = degs(controls.getAzimuthalAngle()) - facingRotations[facing]
 				dist = -(full-dev)
 			}
@@ -1312,4 +1310,25 @@
 				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_worst
 			}
 		}
+	}
+	function pctCalc(){
+			//calc percentages for pillar change in offline mode
+			var top = 100, bottom = 0
+			if(!data.valueType || data.valueType === "moreIsTall"){
+				top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
+				bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
+			}
+			else if(data.valueType === 'lessIsTall'){
+				top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
+				bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
+			}
+			var range = Math.abs(bottom-top)
+			var percentagesArray = []
+			for(var i = 0; i < 4; i++){
+				percentagesArray[i] = Math.abs(bottom-data.values[i])/range
+			}
+			percentages = percentagesArray
+	}
+	function forceNext(){
+			part++; refill()
 	}

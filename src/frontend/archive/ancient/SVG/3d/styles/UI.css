@@ -1,0 +1,99 @@
+
+#uiNav /* holds fixed UI nav at bottom */ {
+	position: fixed;
+	bottom: 2em;
+	z-index: 3;
+	width: 100%;
+}
+
+#uiBody { /*holds dynamic UI data/content */
+	position: absolute;
+	z-index: 2;
+	width: 100%;
+	bottom: 4em;
+}
+
+#uiBodyTitle {
+	background-color: white;
+	text-align: center;
+}
+
+section{
+	display: none;
+	overflow: hidden;
+	height: 0;
+}
+section#view .columns, section#view .column {
+	background-color: yellow;
+	text-align: center;
+}
+
+section#data td {
+	background-color: blue;
+	padding: 0.5em;
+}
+
+#viewnav {
+	background-color: yellow;
+}
+#talknav {
+	background-color: green;
+}
+#datanav {
+	background-color: blue;
+}
+#helpnav {
+	background-color: violet;
+}
+
+section#talk {
+}
+
+section#talk .column, section#talk .columns{
+	background-color: green;
+	height: 100%;
+}
+section#talk input{
+	width: 100%;
+}
+
+section#talk ul {
+	padding-left: 0;
+	list-style-type: none;
+}
+
+#convTimes {
+	text-align: right;
+}
+
+#stickerDrawer {	
+	border: 1px red solid;
+}
+
+#stickerDrawer .row {
+	height: 0;
+	overflow: hidden;
+}
+
+#conversate {
+	overflow: hidden;
+}
+
+#voteDiv {
+}
+
+#voteDiv div {
+	background-color: green;
+	text-align: center;
+	display: none;
+}
+
+#switchVote {
+	float: right;
+}
+
+#switchConv {
+	display: none;
+}
+
+

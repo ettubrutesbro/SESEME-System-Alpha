@@ -2,6 +2,7 @@
 /*phone portrait*/
 @media (max-device-width: 600px) {
 		html{ font-size: 21px;}
+		body{ margin: 0; }
 		#ui{position: absolute; 	width: 100%; height: 100%; left:0; right:0; margin: 0 auto; bottom: 0.05rem;}
 		#containerSESEME{ position: absolute; top:0; width:100%; height: 100%;
 			margin: 0 auto; left: 0; right: 0;}
@@ -11,6 +12,7 @@
 @media (min-device-width: 600px)
   and (max-device-width: 1280px) {
 		html{ font-size: 32px; }
+		body{ margin: 0; }
     span, div { line-height: .95rem; }
 		#containerSESEME{ position: absolute; top:0; width:100%; height: 100%;
 			margin: 0 auto; left: 0; right: 0;}
@@ -21,8 +23,25 @@
     #nav_title::before{ top: -.8rem; }
 }
 
-html { background-color: #ededed; overflow: hidden;}
-body { font-family: 'Karla', sans-serif; } /* apply univ. text styles here? */
+/*probably a computer*/
+@media (min-device-width: 1281px)
+  and (max-device-width: 4860px) {
+		html{ font-size: 18px; }
+		body {width: 1000px; height: 90%; position: absolute; top: 0; bottom: 0;
+			margin: auto auto; left: 0; right: 0;}
+		body::before { width: 100px; background-color: black; height: 100%; position: absolute; left: 0; }
+		span, div { line-height: .95rem; }
+		#containerSESEME{ position: absolute; top:0; width:100%; height: 100%;
+			margin: 0 auto; left: 0; right: 0;}
+    div.nav_content { margin-top: -.1rem; }
+    #help .open { padding-top: 20%; }
+    #help_label { margin-right: .25rem;}
+    .text_title::before{ left: -1.5rem; }
+    #nav_title::before{ top: -.8rem; }
+}
+
+html { background-color: #676767; overflow: hidden;}
+body { font-family: 'Karla', sans-serif; background-color: #ededed;} /* apply univ. text styles here? */
 
 section { position: absolute; }
 #nav { top: 1rem; left: 1rem; }
@@ -135,6 +154,11 @@ hr {
 	position: absolute; top: 0rem; left: 0rem;
 	width: 1.9rem; height: 1.9rem; background-image: url('../assets/exit.png');
 	background-size: cover;
+}
+
+#closebuttoncropper{
+	position: absolute; right: -6rem; bottom: -.5rem;
+	width: 6rem; height: 6.5rem; background-color: #676767;
 }
 
 

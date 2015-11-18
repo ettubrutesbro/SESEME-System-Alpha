@@ -1,0 +1,22 @@
+
+
+<script src = "jquery-1.10.2.min.js"></script>
+
+<script>
+
+$.getJSON('http://10.0.1.201:8080/rest/testdata?hour=13&minute=8', function(data) {
+  var items = [];
+ 
+  $.each(data, function(key, val) {
+    items.push('<li id="' + key + '">' + val + '</li>');
+  });
+ 
+ 
+});
+
+</script>
+
+<body>
+
+
+</body>

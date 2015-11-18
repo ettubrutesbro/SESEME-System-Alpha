@@ -25,16 +25,16 @@ var stories = [
           {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
         ],
         pLinks: [
-          [{type:'yt', c: 'sierraclubvideo'}, {type: 'article', c: 'sierraclubslideshow'}, {type: 'article', c: 'ucdpress'}],
-          [{type:'article', c: 'sierraclubslideshow'}, {type: 'list', c: 'sierraclublist'}],
-          [{type:'article', c: 'sierraclubslideshow'}, {type: 'list', c: 'sierraclublist'}],
+          [{type:'yt', c: 'https://youtu.be/s_aYTip3jK0'}, {type: 'article', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-uc-davis-1.aspx'}, {type: 'www', c: 'http://ucdavis.edu/ucdavis-today/2012/august/14-cool-school.html'}],
+          [{type:'article', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-stanford-university-3.aspx'}, {type: 'list', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/complete-rankings-cool-schools.aspx'}],
+          [{type:'article', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-uc-irvine-9.aspx'}, {type: 'list', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/complete-rankings-cool-schools.aspx'}],
           [{type: 'list', c: 'sierraclublist'}],
         ]
       }, //end part 0
       {
-        values: [55,6,1,33], valueType: 'lessIsTall', 
+        values: [55,6,1,33], valueType: 'lessIsTall',
         title: {
-          pre: {c: 'GREEN CAMPUSES', size: 18},
+          pre: {c: 'TWO YEARS LATER', size: 18},
           main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
           post: {c: '2014', size: 18, margin: .5}
         },
@@ -52,37 +52,38 @@ var stories = [
         pLabels: ['','','',''],
         pStatboxes: [{c: '55th :(', size: 18},{c:'6th',size:18},{c:'1st',size:18},{c:'33rd',size:18}],
         pLinks: [
-          [{type: 'list',c:'2014list'}],
-          [{type: 'article',c:'sierraclubslideshow'}],
-          [{type: 'article',c:'sierraclubslideshow'},{type:'article',c:'ucipressrelease'},{type:'yt',c:'video?'}],
-          [{type: 'list', c: '2014list'}]
+          [{type: 'list',c:'http://www.sierraclub.org/sierra/2014-5-september-october/cool-schools-2014/full-ranking'}],
+          [{type: 'article',c:'http://www.sierraclub.org/sierra/slideshow/top-ten-coolest-schools-2014#7'}],
+          [{type: 'article',c:'http://www.sierraclub.org/sierra/slideshow/top-ten-coolest-schools-2014#12'},{type:'www',c:'http://news.uci.edu/campus-life/uci-were-the-coolest/'}],
+          [{type: 'list', c: 'http://www.sierraclub.org/sierra/2014-5-september-october/cool-schools-2014/full-ranking'}]
         ]
       },
 
       {
-        values: [311,1450,16.7,89],
+        values: [311,1450,16.7,89], customLo: -200,
         title: {
-          main: {c: 'Annual Energy Costs', size: 25, font: 'Droid Serif', weight: 400},
-          pre: {c: '@ UC DAVIS', size: 21}
+          pregame: {c: 'POWERING UC DAVIS', size: 16},
+          main: {c: ['Annual Energy', 'Expenditures'], size: 26, font: 'Droid Serif', weight: 400, margin: -.25},
+          pre: {c: '(some campus buildings)', size: 14, margin: 0.75}
         },
         maintext: 'The energy expenditures data shown here was sourced from the Energy Feedback Team (eco.ucdavis.edu)\'s awesome tool, CEED (ceed.ucdavis.edu).',
         color: { ui: '3a3a3a', monument: {hex: "#ffffff", bri: 0.5}, ring: '284444' },
         sound: ['schmoney1','schmoney2'],
-        pNames: ['The ARC','Meyer Hall','Giedt Hall',['Student Community','Center']],
+        pNames: ['The ARC','Meyer Hall','Giedt Hall','The SCC'],
         pTexts: [
           'Long hours of operation in a large space haven\'t impacted the ARC\'s efficiency too adversely - it\'s only a little more expensive than the average \'community\' building.',
           'Constructed in 1987, this hall houses a great many departments, but its energy footprint is scarcely excusable; even accounting for size, its energy use intensity is nearly double the average lab.',
           'Comfy but a little energy-expensive, Giedt\'s energy use intensity of 75 is notably above the classroom average - perhaps surprising considering it was built in 2007.',
-          ''
+          'Designed by BAR Architects and certified LEED Platinum in 2013, the SCC was underperforming its energy goals for quite some time, as popular as it is.'
         ],
         pSymbols: ['','','',''],
         pLabels: ['','','',''],
         pStatboxes: [{c:'$311,000'},{c:'$1.45 million'},{c:'$16,700'},{c:'$89,000'}],
         pLinks: [
-          {type: 'site', c: 'daviswiki'},
-          {type: 'site', c: 'daviswiki'},
-          {type: 'site', c: 'daviswiki'},
-          ''
+          [{type: 'site', c: 'https://cru.ucdavis.edu/content/531-history-of-the-arc.htm'}, {type: 'www', c: 'http://eco.ucdavis.edu'}],
+          [{type: 'article', c: 'https://localwiki.org/davis/Meyer_Hall'}, {type: 'data', c: 'http://ceed.ucdavis.edu'}],
+          [{type: 'article', c: 'https://localwiki.org/davis/Warren_and_Leta_Giedt_Hall'}, {type: 'data', c: 'http://ceed.ucdavis.edu'}],
+          [{type: 'site', c: 'http://www.bararch.com/work/academic-institutional/project/uc-davis-student-community-center'}]
         ]
       }
     ]
@@ -93,33 +94,43 @@ var stories = [
     description: 'The stories and data in this series deal with issues of social justice and inequity on a large scale.',
     parts: [
         {
-          values: [1300,950,1325,1050], customLo: 700,
+          values: [1300,950,1325,1050], customLo: 300,
           color: { ui: '#628976', monument: {hex: "#628976", bri: 1}, ring: '337946' },
           sound: ['schmoney1','schmoney2'],
           title: {
-            pre: {c: 'WAGE GAPS', size: 18},
-            main: {c: ['Men\'s Weekly','Median Earnings'], size: 24, font: 'Droid Serif', weight: 400, margin: -.2},
-            post: {c: '(Bachelor\'s, Full-Time)', size: 14}
+            pre: {c: 'U.S. WAGE INEQUITY', size: 18, margin: -.75},
+            main: {c: ['Men\'s Weekly','Earnings'], size: 28, font: 'Droid Serif', weight: 400, margin: -.2},
+            post: {c: ['w/ Bachelor\'s degree,','working full-time','(median)'], size: 14, margin: .85},
+            fuckers: {c: '', margin: -2.5}
           },
           maintext: 'In 2013, women in the US earned 82 cents to every dollar a man made. Stats from the Bureau of Labor Statistics show that income is staggered by both race and gender. Shown is a comparison of median weekly earnings between bachelor\'s degree holders.',
 
           pNames: ['White Men','Black Men','Asian Men','Hispanic Men'],
           pTexts: ['','','',''],
-          pSymbols: ['','','',''],
+          pSymbols: [
+            {type: 'img', src:'whiteman'},
+            {type: 'img', src:'blackman'},
+            {type: 'img', src:'asianman'},
+            {type: 'img', src:'hispman'}
+          ],
           pLabels: ['','','',''],
           pStatboxes: [
             {c:['$1300','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$950','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$1325','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$1050','weekly'], size: [24,14], font: ['Droid Serif','Karla']}],
-          pLinks: ['','','','']
+          pLinks: [
+          [{type:'data',c:'http://www.infoplease.com/ipa/A0882775.html'}],
+          [{type: 'tw2', c: 'https://twitter.com/eveewing/status/648282820079693824'}],
+          '','']
         }, //end part 0
         {
-          values: [950,870,1040,815], customHi: 1325, customLo: 700,
+          values: [950,870,1040,815], customHi: 1325, customLo: 300,
           title: {
-            pre: {c: 'WAGE GAPS', size: 18},
-            main: {c: ['Women\'s Weekly','Median Earnings'], size: 24, font: 'Droid Serif', weight: 400, margin: -.2},
-            post: {c: '(Bachelor\'s, Full-Time)', size: 14}
+            pre: {c: 'U.S. WAGE INEQUITY', size: 18, margin: -.75},
+            main: {c: ['Women\'s Weekly','Earnings'], size: 23, font: 'Droid Serif', weight: 400},
+            post: {c: ['w/ Bachelor\'s degree,','working full-time','(median)'], size: 14, margin: .7},
+            fuckers: {c: '', margin: -2.5}
           },
           maintext: 'The same dataset reveals that women make less than men of the same race at every level of education. This gives the lie to the myth of education-as-equalizer; while lack of education results in poverty for any race or gender, men - especially whites - benefit disproportionately from it.', //recommended 230 character maximum
           color: { ui: '#626b66', monument: {hex: "#628976", bri: 0.5}, ring: '152821' },
@@ -131,14 +142,24 @@ var stories = [
             'Examining the data, Deborah Ashton of Harvard Business Review notes that black and Hispanic women "vie for last place on the earnings pyramid at every level of education".',
             'The gap between Asian women/men is the largest; Asian women earn 78 cents to every dollar their male counterparts earn (81% for whites).',
             'Examining the data, Deborah Ashton of Harvard Business Review notes that black and Hispanic women "vie for last place on the earnings pyramid at every level of education".'],
-          pSymbols: ['','','',''],
+          pSymbols: [
+            {type: 'img', src:'whitewoman'},
+            {type: 'img', src:'blackwoman'},
+            {type: 'img', src:'asianwoman'},
+            {type: 'img', src:'hispwoman'}
+          ],
           pLabels: ['','','',''],
           pStatboxes: [
             {c:['$950','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$870','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$1040','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$815','weekly'], size: [24,14], font: ['Droid Serif','Karla']}],
-          pLinks: ['','','','']
+          pLinks: [
+            [{type: 'data', c: 'https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg'},{type:'article',c:'https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/'}],
+            [{type: 'data', c: 'https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg'},{type:'article',c:'https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/'}],
+            [{type: 'data', c: 'https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg'},{type:'article',c:'https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/'}],
+            [{type: 'data', c: 'https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg'},{type:'article',c:'https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/'}]
+          ]
         },
         {
           values: [2217,1657,644,607], customLo: 300,
@@ -165,9 +186,11 @@ var stories = [
             {c: '608,000'}
           ],
           pLinks: [
-            [{type: 'site', c: 'aclumassinca'},{type:'yt',c:'viceshit'}],
-            [{type: 'data', c: '#list'}],
-            '','']
+            {type: 'site', c: 'https://www.aclu.org/prison-crisis'},
+            {type: 'data', c: 'http://www.prisonstudies.org/highest-to-lowest/prison-population-total?field_region_taxonomy_tid=All'},
+            {type: 'site', c: 'https://www.aclu.org/prison-crisis'},
+            {type: 'data', c: 'http://www.prisonstudies.org/highest-to-lowest/prison-population-total?field_region_taxonomy_tid=All'}
+          ]
         },
         {
           values: [41,15.3,52,20], customLo: 12,
@@ -188,7 +211,12 @@ var stories = [
             {c: '$52,000'},
             {c: '$20,000'}
           ],
-          pLinks: ['','','','']
+          pLinks: [
+            [{type:'list',c:'https://www.aclu.org/files/assets/massincarceration_problems.pdf'},{type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}],
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}
+          ]
         },
         {
           values: [8.2,9.3,12.6,7.6], customLo: 5.3,
@@ -209,7 +237,12 @@ var stories = [
             {c: '$12,600'},
             {c: '$7,600'}
           ],
-          pLinks: ['','','','']
+          pLinks: [
+            [{type:'list',c:'https://www.aclu.org/files/assets/massincarceration_problems.pdf'},{type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}],
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
+            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}
+          ]
         },
         {
           values: [.33,.05,.16,0.1], customLo: 0,
@@ -232,7 +265,7 @@ var stories = [
             {c: '1 in 9'}
           ],
           pLinks: [
-            [{type: 'book',c:'michellealexander'},{type:'data',c:'sentencingproject'}],
+            [{type: 'book',c:'http://www.goodreads.com/book/show/6792458-the-new-jim-crow'},{type:'yt',c:'https://youtu.be/u51_pzax4M0'}],
             '','','']
         },
       ]

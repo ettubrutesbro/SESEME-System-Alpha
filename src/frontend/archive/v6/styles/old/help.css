@@ -1,0 +1,117 @@
+#help {
+  right: 0;
+  position: absolute;
+  top: -.25rem; right: 0;
+  box-sizing: border-box;
+  border-top: .25rem #ededed solid;
+  width: 4.5rem;
+  opacity: 0;
+  /*box-shadow: 0px 10px green inset;*/
+}
+
+  #help .info {
+    border: .25rem solid #ededed;
+    position: absolute; right: 0; top: 0;
+    width: 100%;
+    background-color: black;
+    border-radius: 0 0 0 1.1rem;
+    padding: .25rem;
+    box-sizing: border-box;
+    z-index: 3;
+  }
+  /*#help_backing {
+    position: absolute; width: 100%;
+    height: 93%; top: 0.225rem; z-index: 1;
+    border: .25rem solid #ededed; box-sizing: border-box;
+    padding: 0; margin: 0; border-radius: 0 0 0 1.1rem;
+    visibility: hidden;
+  }*/
+  #help .open {
+    visibility: hidden;
+    position: absolute;
+    right: 0; top: 0;
+    width: 2.15rem; height: 2.25rem;
+    border-radius: 0 0 1rem 1rem;
+    background-color: #676767;
+    border: .25rem solid #ededed;
+    z-index: 2;
+    text-align: center;font-weight: 200;
+    font-size: 1.4rem;
+    box-sizing: border-box;
+  }
+    /*#help_line{
+      position: absolute; border: 0;
+      top: .125rem; right: 0;
+      width: 100%; padding: 0; margin: 0;
+      height: .25rem; background-color: #ededed;
+      z-index: 5;
+    }
+    */
+  #help .close {
+    position: absolute; top: 0; right: 0;
+    z-index: 4; width: 0; height: 0;
+    border: 1.7rem solid transparent;
+    border-right-color: #ededed; border-top-color: #ededed;
+  }
+  #help .close::before{
+    content: '';
+    border: 1.25rem solid transparent;
+    border-right-color: #676767; border-top-color: #676767;
+    width: 0; height: 0; position: absolute;
+    top: -1.45rem; right: -1.45rem;
+  }
+  #help .close::after{
+    content: '';
+    position: absolute; width: .8rem; height: .85rem;
+    top: -.9rem; right: -.9rem;
+    background-image: url(../assets/exitx_3.png);
+    background-size: contain; background-repeat: no-repeat;
+  }
+  #help ul { padding: .5rem 0 .75rem 0; list-style-type: none; margin: 0;}
+    #help ul li.help_button{
+      /*width: 75%;*/
+      width: 2.3rem;
+      height: 2.3rem;
+      background-color: #ededed;
+      /*margin: .5rem 0 auto auto; */
+      /*border-radius: 1rem 0 0 1rem; */
+      margin: .5rem auto;
+      border-radius: 50%;
+      position: relative;
+      }
+
+      #help ul li.caption{
+        width: 90%; margin: 0 auto; text-align: center;
+        font-size: .6rem; letter-spacing: 0.05rem; }
+
+        #overlays {
+          width: 100%; height: 100%;
+        }
+        #overlays div {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-color: #ededed; color: black;
+          visibility: hidden;
+        }
+
+        #nextbutton {
+          position: absolute;
+          bottom: 2rem; left: 0; right: 0;
+          margin: 0 auto; width: 2.5rem; height: 2.5rem;
+          background-color: green; border-radius: 50%;
+        }
+
+  /*#help_label {
+    position: absolute; right: 0; top: 0;
+    color: black; background-color: #ededed; padding-top: .5rem;
+    font-size: .75rem; letter-spacing: 0.1rem;
+    width: 4.5rem; height: 1.2rem;
+    visibility: hidden;
+  }
+  #help_label::before{
+    content: ''; position: absolute; width: 0; height: 0;
+    border: .85rem solid transparent;
+    border-top-color: #ededed; border-right-color: #ededed;
+    top: -0.1rem; left: -1.55rem;
+  }*/

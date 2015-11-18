@@ -1,0 +1,52 @@
+
+<html>
+<head>
+
+	<meta charset="UTF-8">
+	<meta content='user-scalable=no' name='viewport' />
+	
+
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:600,300' rel='stylesheet' type='text/css'>
+
+	<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,500,600,700' rel='stylesheet' type='text/css'>
+
+	<link href='http://fonts.googleapis.com/css?family=Libre+Baskerville:400italic' rel='stylesheet' type='text/css'>
+
+	<link href='style2.css' rel = 'stylesheet' type = 'text/css'/>
+
+	<script>
+	</script>
+</head> 
+
+<body> 
+<div id = "dataoverlay">
+	<section id = "topdata">
+		<div id = "tophelper">now displaying...</div>
+		<div id = "timeplace">
+			<span id = "time">MORN</span>@<span id = "place">SCC</place>
+		</div>
+	</section>
+	<section id = "middata">
+		<div id = "overall_data">
+				<ul id = "breakdown">
+					<li><img src = "img/plug2.svg" /> 67 kW</li>
+					<li><img src = "img/temp2.svg" /> 45k BTU</li>
+					<li><img src = "img/h202.svg" /> 13.5 g/m</li>
+					<li><img src = "img/nrg2.svg" /> 100 pts </li>
+				</ul>
+			</div>
+
+	</section>
+</div>
+<div id = "svgInside">
+	<svg id = "mainSvg" width = "100%" height = "100%" style = "position:absolute; top: -2; left: -2;"></svg>
+</div>
+
+	<script src="socket.io/socket.io.js"></script>
+	<script src = "zepto.min.js"> </script>
+	<script src = "velocity.min.js"> </script>
+	<script src = "snap.svg-min.js"> </script>
+	<script src = "hammer.min.js"> </script>
+	<script src = "frontEndData.js"> </script>
+	<script src = "frontend2.js"> </script>
+</body>
