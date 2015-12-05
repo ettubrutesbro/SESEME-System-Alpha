@@ -695,7 +695,6 @@ function bigRedButtonHelper(seedling){
 
 		// Get previous part color for fadeCircle function
 		previousColor = getRingColor(seedling, seedling.currentPart);
-		print("previousColor Red: " + previousColor.red + "; Green: " + previousColor.green + "; Blue: " + previousColor.blue);
 
 
 		// Increment current part of the same story
@@ -726,8 +725,10 @@ function bigRedButtonHelper(seedling){
 
 	// Reset the countdown to idle state
 	if(idleCountdown){
-		previousColor = led.hexToObj("000000"); // it was idle so color was reset
 		clearTimeout(idleCountdown);
+	}
+	else {
+		previousColor = led.hexToObj("000000"); // it was idle so color was reset
 	}
 	seconds = 120;
 	countdown();
