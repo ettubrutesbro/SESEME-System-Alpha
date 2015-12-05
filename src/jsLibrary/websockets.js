@@ -695,6 +695,7 @@ function bigRedButtonHelper(seedling){
 
 		// Get previous part color for fadeCircle function
 		previousColor = getRingColor(seedling, seedling.currentPart);
+		print("previousColor Red: " + previousColor.red + "; Green: " + previousColor.green + "; Blue: " + previousColor.blue);
 
 
 		// Increment current part of the same story
