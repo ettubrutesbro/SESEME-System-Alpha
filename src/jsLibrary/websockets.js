@@ -725,9 +725,11 @@ function bigRedButtonHelper(seedling){
 
 	// Reset the countdown to idle state
 	if(idleCountdown){
+		print("in if idleCountdown");
 		clearTimeout(idleCountdown);
 	}
 	else {
+		print("else idleCountdown");
 		previousColor = led.hexToObj("000000"); // it was idle so color was reset
 	}
 	seconds = 120;
