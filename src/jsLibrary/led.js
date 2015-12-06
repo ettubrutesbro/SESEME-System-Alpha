@@ -227,7 +227,11 @@ var self = module.exports = {
         }
 
         //var currentColor = startPercent == 0 && this.color == null ? new this.colorObj(0, 0, 0) : new this.colorObj(this.color.red, this.color.green, this.color.blue);
-        var currentColor = previousColor;
+        var currentColorl
+        if(previousColor.red == 0 && previousColor.green == 0 && previousColor.blue == 0 && this.color != null)
+          currentColor = this.color;
+        else
+          currentColor = previousColor;
         print("fadeCircle currentColor: " + JSON.stringify(currentColor));
 
         var litPixelNum = pixelNum - firstDiode;
