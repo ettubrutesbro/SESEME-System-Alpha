@@ -221,8 +221,10 @@ function countdown() {
 	} // turn ring light off
 	seconds--;
 	longSeconds--;
+	systemCheckSeconds--;
 	idleCountdown = setTimeout(countdown, 1000);
 	longIdleCountdown = setTimeout(countdown, 1000)
+	systemCheckCountdown = setTimeout(countdown, 1000)
 }
 // Make sure to broadcast to all when the button is pressed
 countdown();
@@ -748,7 +750,7 @@ function bigRedButtonHelper(seedling){
 		previousColor = led.hexToObj("000000"); // it was idle so color was reset
 		clearTimeout(longIdleCountdown);
 	}
-	if(systemCheckCountdown){
+	if(!systemCheckCountdown){
 		clearTimeout(systemCheckCountdown);
 	}
 	seconds = 120;
