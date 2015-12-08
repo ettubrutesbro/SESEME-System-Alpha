@@ -131,12 +131,8 @@ for(var i = 0; i < 3; i++){
 // COUNTDOWN 'TIL IDLE STATE
 ////////////////////////////////////////////////
 var seconds = 120; // Global seconds variable
-var longSeconds = 60*10; // Global seconds for longIdleCountdown
-var systemCheckSeconds = 15;
 var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
 var idleCountdown;
-var longIdleCountdown;
-var systemCheckCountdown;
 
 // Globals related to representing the idle state
 var startDesperation;
@@ -171,7 +167,6 @@ function idleBehavior(lifx) {
 	startDesperation = setTimeout(function() {
 		if(breathing) clearInterval(breathing);
 		// Start desperation immediately after breathing ends
-		print("LIFX: Started Desperation");
 		var states = getStates();
 		lifx.desperation(states);
 
@@ -184,12 +179,6 @@ function idleBehavior(lifx) {
 
 
 function countdown() {
-	if (systemCheckSeconds < 1) {
-		lockButtonPress = false;
-		for(i = 0; i < 3; i++) {
-			seedlings[i].buttonPressed = false;
-		}
-	} // clear locks since 15 sec since last button press
 	if (seconds < 1) {
 		print("[SESEME NOW IN IDLE MODE]!");
 
@@ -215,16 +204,8 @@ function countdown() {
 		// Stop decrementing counting down and return
 		return;
 	}
-	if(longSeconds < 1) {
-		if(seedlings[lastActiveSeedling].online)
-			seedlings[lastActiveSeedling].socket.emit('seedling turn off lights', lastActiveSeedling);
-	} // turn ring light off
 	seconds--;
-	longSeconds--;
-	systemCheckSeconds--;
 	idleCountdown = setTimeout(countdown, 1000);
-	longIdleCountdown = setTimeout(countdown, 1000)
-	systemCheckCountdown = setTimeout(countdown, 1000)
 }
 // Make sure to broadcast to all when the button is pressed
 countdown();
@@ -745,17 +726,7 @@ function bigRedButtonHelper(seedling){
 	if(idleCountdown){
 		clearTimeout(idleCountdown);
 	}
-	if(!longIdleCountdown){
-		print("Turn off led ring; long idle");
-		previousColor = led.hexToObj("000000"); // it was idle so color was reset
-		clearTimeout(longIdleCountdown);
-	}
-	if(!systemCheckCountdown){
-		clearTimeout(systemCheckCountdown);
-	}
 	seconds = 120;
-	longSeconds = 60*10;
-	systemCheckSeconds = 15;
 	countdown();
 
 	targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
