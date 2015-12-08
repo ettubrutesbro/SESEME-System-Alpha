@@ -181,7 +181,7 @@ function idleBehavior(lifx) {
 function countdown() {
 	if (seconds < 1) {
 		print("[SESEME NOW IN IDLE MODE]!");
-
+		lockButtonPress = false; // temp fix of clearing variable if idle (wait 2 min)
 		// Begin the lifx idle state behavior
 		idleBehavior(lifx);
 
