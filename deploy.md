@@ -1,5 +1,5 @@
 # SESEME System Deployment Documentation
-
+###### ⚠️ Notice: Make sure the monument pillars are fully down and motors are powered on before `deploy`ing the monument computer
 ##
 
 1. For Windows, download and run [PuTTY](http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe), to see this window:
@@ -29,5 +29,3 @@
 7. Upon a successfull login, type `deploy` into the terminal and press `Enter`.
 
 ### Done! 😁
-
-###### Note: The `deploy` command is ubiquitous to the SESEME system and will thus work on any of the computers listed in the table above.
