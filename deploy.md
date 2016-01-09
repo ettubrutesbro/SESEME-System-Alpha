@@ -1,5 +1,5 @@
 # SESEME System Deployment Documentation
-###### ⚠️ Notice: Make sure the monument pillars are fully down and motors are powered on before `deploy`ing the monument computer
+###### ⚠️ Notice: When starting the system for the first time, start the web server (XPS Mint) first and make sure the monument pillars are fully down and motors are powered on before `deploy`ing the monument computer.
 ##
 
 1. For Windows, download and run [PuTTY](http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe), to see this window:
@@ -16,7 +16,7 @@
 | Seedling 3 	| pi@169.237.123.19	| 2002  |
 | Monument  	| pi@169.237.123.19	| 2003  |
 
-3. (Optional) In the `Saved Sessions` input field, type in the computer name, then click `Save` to simply `Load` the login session later for convenience. 
+3. (Optional) In the `Saved Sessions` input field, type in the computer name, then click `Save` to simply `Load` the login session later for convenience.
 4. Click `Open` to start the terminal.
 5. Upon a potential security alert such as the following, simply click `Yes`.
 
@@ -26,6 +26,6 @@
 
 <img src="https://www.dropbox.com/s/cn8l2c11wlvoiwx/pw%20prompt.png?dl=1" alt="Drawing" style="width: 500px;"/>
 
-7. Upon a successfull login, type `deploy` into the terminal and press `Enter`.
+7. Upon a successful login, type `deploy` into the terminal and press `Enter`.
 
 ### Done! 😁
