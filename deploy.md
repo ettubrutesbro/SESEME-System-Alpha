@@ -14,7 +14,7 @@
 | Seedling 1    | pi@169.237.123.19 | 2000  |
 | Seedling 2 	| pi@169.237.123.19	| 2001  |
 | Seedling 3 	| pi@169.237.123.19	| 2002  |
-| Seedling 4 	| pi@169.237.123.19	| 2003  |
+| Monument  	| pi@169.237.123.19	| 2003  |
 
 3. (Optional) In the `Saved Sessions` input field, type in the computer name, then click `Save` to simply `Load` the login session later for convenience. 
 4. Click `Open` to start the terminal.
