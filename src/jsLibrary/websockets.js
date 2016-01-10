@@ -177,6 +177,9 @@ function idleBehavior(lifx) {
 	}, 120000);
 }
 
+setInterval(function() {
+    lifx.updateLight({ power: 'off' });
+}, 900000);
 
 function countdown() {
 	if (seconds < 1) {
