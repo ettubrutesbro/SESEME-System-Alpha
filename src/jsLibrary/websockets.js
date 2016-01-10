@@ -467,7 +467,7 @@ io.on('connection', function (socket) {
 
 	socket.on('reset position', function(){
 		stepperPositionAr = [0, 0, 0, 0];
-	}
+	});
 
 	socket.on('request status', function(seedlingNum) {
 		socket.emit('status report', {
