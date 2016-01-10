@@ -76,7 +76,7 @@ function updateLight(properties) {
 
     // PUT http request to update the hue color
     request(options, function(error, response, body) {
-        if(response !== 200) print("Lifx Update Light Error: " + JSON.stringify(response,null.2));
+        if(response !== 200) print("Lifx Update Light Error: " + JSON.stringify(response,null,2));
     }); // end of request
 }
 
