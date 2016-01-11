@@ -72,7 +72,7 @@ var stories = [
         pNames: ['The ARC','Meyer Hall','Giedt Hall','The SCC'],
         pTexts: [
           'Long hours of operation in a large space haven\'t impacted the ARC\'s efficiency too adversely - it\'s only a little more expensive than the average \'community\' building.',
-          'Constructed in 1987, this hall houses a great many departments, but its energy footprint is scarcely excusable; even accounting for size, its energy use intensity is nearly double the average lab.',
+          'Constructed in 1987, this hall houses a great many departments, but that alone doesn\'t explain its energy footprint; even accounting for size, Meyer\'s energy use intensity is nearly double the average lab.',
           'Comfy but a little energy-expensive, Giedt\'s energy use intensity of 75 is notably above the classroom average - perhaps surprising considering it was built in 2007.',
           'Designed by BAR Architects and certified LEED Platinum in 2013, the SCC was underperforming its energy goals for quite some time, as popular as it is.'
         ],
