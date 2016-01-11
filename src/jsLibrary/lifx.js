@@ -27,9 +27,9 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 
 var print = require('./print.js');
-var authentication = process.env.LIFX_TOKEN;
-var id = process.env.MONUMENT_LIFX_ID;
-var id2 = process.env.SEEDLING_LIFX_ID;
+var authentication = 'c7e825e5dc8388b7283a216a73fd4ed8206b48f3625a4b6c612d6270e9f7cf90';
+var id = 'd073d5036dda';
+var id2 = 'd073d5035948';
 
 var request = require('request');
 var options = {
@@ -76,7 +76,7 @@ function updateLight(properties) {
 
     // PUT http request to update the hue color
     request(options, function(error, response, body) {
-        if(error) print("Lifx Error: " + error);
+        if(response !== 200) print("Lifx Update Light Error: " + JSON.stringify(response,null,2));
     }); // end of request
 }
 
@@ -94,7 +94,7 @@ function rampDown(factor, duration) {
 
     // PUT http request to ramp down
     request(options, function(error, response, body) {
-        if(error) print("Lifx Error: " + error);
+        if(response !== 200) print("Lifx Ramp Down Error: " + JSON.stringify(response,null,2));
     }); // end of request
 }
 
@@ -110,7 +110,7 @@ function breathe() {
 
     // PUT http request to fade on
     request(options, function(error, response, body) {
-        if(error) print('Lifx Error: '+error);
+        if(response !== 200) print("Lifx Breathe Error: " + JSON.stringify(response,null,2));
     }); // end of request
 }
 
@@ -127,9 +127,12 @@ function fadeOn(duration) {
 
         // PUT http request to fade on
         request(options, function(error, response, body) {
-            if(error) reject(error);
-            else if(response.statusCode == 200 || response.statusCode == 201)
+            if(response !== 200) {
+                print("Lifx FadeOn Error: " + JSON.stringify(response,null,2));
+                reject(response);
+            } else if(response.statusCode == 200 || response.statusCode == 201) {
                 resolve();
+            }
         }); // end of request
     }); // end of promise
 }
@@ -146,9 +149,12 @@ function fadeOff(duration) {
 
         // PUT http request to fade off
         request(options, function(error, response, body) {
-            if(error) reject(error);
-            else if(response.statusCode == 200 || response.statusCode == 201)
+            if(response !== 200) {
+                print("Lifx FadeOff Error: " + JSON.stringify(response,null,2));
+                reject(response);
+            } else if(response.statusCode == 200 || response.statusCode == 201) {
                 resolve();
+            }
         }); // end of request
     }); // end of promise
 }
@@ -168,7 +174,7 @@ function desperation(states) {
 
     // PUT http request to set a cycle of states representing each part in the story
     request(options, function(error, response, body) {
-        if(error) print('Lifx Error: '+error)
+        if(response !== 200) print("Lifx Monument Error: " + JSON.stringify(response,null,2));
     }); // end of request
 
 }
@@ -188,7 +194,7 @@ function turnOn(duration, color) {
 
     // PUT http request to fade on
     request(options, function(error, response, body) {
-        if(error) print('Lifx Seedling Hue Error: '+error);
+        if(response !== 200) print("Lifx Hue Error: " + JSON.stringify(response,null,2));
     }); // end of request
 }
 
@@ -203,7 +209,7 @@ function turnOff(duration) {
 
     // PUT http request to fade off
     request(options, function(error, response, body) {
-        if(error) print('Lifx Seedling Hue Error: '+error);
+        if(response !== 200) print("Lifx Seedling Hue Error: " + JSON.stringify(response,null,2));
     }); // end of request
 }
 

@@ -177,6 +177,9 @@ function idleBehavior(lifx) {
 	}, 120000);
 }
 
+setInterval(function() {
+    lifx.updateLight({ power: 'off' });
+}, 900000);
 
 function countdown() {
 	if (seconds < 1) {
@@ -467,7 +470,7 @@ io.on('connection', function (socket) {
 
 	socket.on('reset position', function(){
 		stepperPositionAr = [0, 0, 0, 0];
-	}
+	});
 
 	socket.on('request status', function(seedlingNum) {
 		socket.emit('status report', {
