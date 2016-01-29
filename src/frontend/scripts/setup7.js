@@ -50,10 +50,14 @@ function setup(){
 				socket.once('ui acquire story', function(d){
 					console.log('ui acquired story')
 					console.log(d)
-						stories = [d.stories]
-						story = d.story; part = d.part; percentages = d.percentages
-						console.log(story)
-						data = stories[story].parts[part]
+                    stories = [
+                        d.stories.environment,
+                        d.stories.society,
+                        d.stories.anomalous
+                    ]
+                    story = d.story; part = d.part; percentages = d.percentages
+                    console.log(story)
+                    data = stories[story].parts[part]
 					ready.itemEnd('firstdata')
 				})
 				socket.on('ui update', function(d){
