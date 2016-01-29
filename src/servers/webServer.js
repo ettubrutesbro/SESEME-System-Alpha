@@ -31,6 +31,10 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
 });
 
+app.get('/stories', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'webform', 'index.html'));
+});
+
 app.get('/control-center', function (req, res) {
     res.sendFile(__dirname + '/web/index.html');
 });
