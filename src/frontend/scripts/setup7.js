@@ -1,7 +1,8 @@
 
 //global data
 var socket
-var story=0, part=0, data = stories[story].parts[part], percentages
+var stories = null
+var story=0, part=0, data = null, percentages
 var info = {name: []}
 // info.prev = [], info.name = [], info.detail = []
 //objects and resources
@@ -49,6 +50,7 @@ function setup(){
 				socket.once('ui acquire story', function(d){
 					console.log('ui acquired story')
 					console.log(d)
+						stories = [d.stories]
 						story = d.story; part = d.part; percentages = d.percentages
 						console.log(story)
 						data = stories[story].parts[part]
