@@ -75,7 +75,7 @@ function seedlingsReady() {
 //	Constants
 ////////////////////////////////////////////////
 
-var stories = require(path.join(__dirname, 'stories.js'));
+var stories = require(path.join(__dirname, 'stories.json'));
 var led = require(path.join(__dirname, 'led.js'));
 var soundObj = require(path.join(__dirname, 'soundObj.js'));
 var lifx = require(path.join(__dirname, 'lifx.js'));
@@ -374,7 +374,8 @@ io.on('connection', function (socket) {
 		io.sockets.emit('ui acquire story', {
 			story: lastActiveSeedling,
 			part: seedlings[lastActiveSeedling].currentPart,
-			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart])
+			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]),
+            stories: stories
 		});
 	});
 
