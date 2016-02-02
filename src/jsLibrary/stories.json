@@ -2,7 +2,7 @@
   "environment": {
     "id": 0,
     "seedling": "environment",
-    "description": "The stories in this series all deal with our environment - from vain ones (our sustainability ranking) to the transformative and immediate (the CA drought, marine biodiversity).",
+    "description": "Stories in this series deal with local and global environmental issues.",
     "parts": [
       {
         "values": [
@@ -46,7 +46,7 @@
             "margin": 0.5
           }
         },
-        "maintext": "In 2012, UC Davis was named the \"coolest school\" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.",
+        "maintext": "In 2012, UC Davis was named the \"coolest school\" in the US by the Sierra Club. The award celebrates environmental responsibility in categories like energy use, waste management, food sources, and education.",
         "pNames": [
           "UC Davis",
           "Stanford",
@@ -54,10 +54,10 @@
           "UC Berkeley"
         ],
         "pTexts": [
-          "2 years ago, we drew praise for our 'well-rounded' environmental efforts, including bicycle infrastructure and waste diversion.",
+          "We drew praise for our 'well-rounded' environmental efforts, including bicycle infrastructure and waste diversion.",
           "Barely behind us in 3rd place, Stanford earned honors for its commitment to \tsustainable agriculture in class and cafeteria.",
-          "Then the closest-ranked UC behind Davis, Irvine was noted for its many \textracurricular environmental groups and recycling efforts.",
-          "The Sierra Club doesn't write anything about schools outside the top 10, but Davis thoroughly trounced Berkeley (20th) in the sustainability department in 2012."
+          "Irvine was our closest UC competitor, noted for its many extracurricular environmental groups and recycling efforts.",
+          "Berkeley ranked at 20th place, scoring surprisingly low in sustainability education and research."
         ],
         "pSymbols": [
           "",
@@ -73,7 +73,7 @@
         ],
         "pStatboxes": [
           {
-            "c": "1st Place",
+            "c": "1st Place :)",
             "size": 18
           },
           {
@@ -85,7 +85,7 @@
             "size": 18
           },
           {
-            "c": "20th, lol",
+            "c": "20th",
             "size": 18
           }
         ],
@@ -161,7 +161,7 @@
             "margin": 0.5
           }
         },
-        "maintext": "By 2014, our rank had plummeted to a lowly 55th. Nearly the worst UC in that year's report, we were behind all manner of schools - old, new, far, near, expensive, and cheap.",
+        "maintext": "By 2014, our rank had plummeted to a lowly 55th. Nearly the worst UC in that year's report.",
         "color": {
           "ui": "#777035",
           "monument": {
@@ -181,8 +181,8 @@
           "UC Berkeley"
         ],
         "pTexts": [
-          "2 years later, we were behind every UC but LA, outscored even by Chico State (not even ranked in 2012). Poor marks in energy use and new construction seem to have hurt particularly.",
-          "In 6th place, Stanford scored prominently in purchasing, transportation, and water conservation. It  even divested from the coal industry to the tune of $18bn.",
+          "2 years later, we were behind every UC but LA. Poor marks in energy use and new construction seem to have hurt particularly.",
+          "In 6th place, Stanford scored prominently in purchasing, transportation, and water conservation. It even divested $18 billion of direct investments in the coal industry.",
           "The new 1st place school, Irvine supplanted us and wowed the Sierra Club with its extensive solar power and water-recycling programs.",
           "Still outside of the top 10, but now a full 22 spots ahead of us, UC Berkeley scored far ahead of us on co-curricular activities, investments, and planning."
         ],
@@ -213,6 +213,125 @@
           },
           {
             "c": "33rd",
+            "size": 18
+          }
+        ],
+        "pLinks": [
+          [
+            {
+              "type": "list",
+              "c": "2014list"
+            }
+          ],
+          [
+            {
+              "type": "article",
+              "c": "sierraclubslideshow"
+            }
+          ],
+          [
+            {
+              "type": "article",
+              "c": "sierraclubslideshow"
+            },
+            {
+              "type": "article",
+              "c": "ucipressrelease"
+            },
+            {
+              "type": "yt",
+              "c": "video?"
+            }
+          ],
+          [
+            {
+              "type": "list",
+              "c": "2014list"
+            }
+          ]
+        ]
+      },
+      {
+        "values": [
+          2,
+          21,
+          1,
+          13
+        ],
+        "valueType": "lessIsTall",
+        "title": {
+          "pre": {
+            "c": "GREEN CAMPUSES",
+            "size": 18
+          },
+          "main": {
+            "c": [
+              "Sierra Club",
+              "Rankings"
+            ],
+            "size": 30,
+            "font": "Droid Serif",
+            "weight": 400,
+            "margin": -0.2
+          },
+          "post": {
+            "c": "2014",
+            "size": 18,
+            "margin": 0.5
+          }
+        },
+        "maintext": "Redeemed! We climbed back up to 2nd place in 2015.",
+        "color": {
+          "ui": "#88d5b2",
+          "monument": {
+            "hex": "#88d5b2",
+            "bri": 0.65
+          },
+          "ring": "dbd109"
+        },
+        "sound": [
+          "cheer1",
+          "cheer2"
+        ],
+        "pNames": [
+          "UC Davis",
+          "Stanford",
+          "UC Irvine",
+          "UC Berkeley"
+        ],
+        "pTexts": [
+          "We were acclaimed for our investments in environmental education and research, with 300 undergraduate classes about sustainability and many specialized research institutes, like the Fish Conservation and Culture Laboratory.",
+          "Stanford dropped way down to 21st place despite relative strengths in purchasing and transportation.",
+          "Irvine is holding tight at 1st place for the second year in a row. We’re right behind them in several categories, but falling behind in energy. Let’s step it up, Aggies!",
+          "Berkeley stepped it up from previous years, climbing to 13th place overall and 3rd place in the food sustainability category. Go Bears!"
+        ],
+        "pSymbols": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pLabels": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pStatboxes": [
+          {
+            "c": "2nd",
+            "size": 18
+          },
+          {
+            "c": "21st",
+            "size": 18
+          },
+          {
+            "c": "1st",
+            "size": 18
+          },
+          {
+            "c": "13th",
             "size": 18
           }
         ],
