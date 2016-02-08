@@ -27,7 +27,7 @@
         ],
         "title": {
           "pre": {
-            "c": "GREEN CAMPUSES",
+            "c": "Cool Schools",
             "size": 18
           },
           "main": {
@@ -55,7 +55,7 @@
         ],
         "pTexts": [
           "We drew praise for our 'well-rounded' environmental efforts, including bicycle infrastructure and waste diversion.",
-          "Barely behind us in 3rd place, Stanford earned honors for its commitment to \tsustainable agriculture in class and cafeteria.",
+          "Barely behind us in 3rd place, Stanford earned honors for its commitment to sustainable agriculture in class and cafeteria.",
           "Irvine was our closest UC competitor, noted for its many extracurricular environmental groups and recycling efforts.",
           "Berkeley ranked at 20th place, scoring surprisingly low in sustainability education and research."
         ],
@@ -73,7 +73,7 @@
         ],
         "pStatboxes": [
           {
-            "c": "1st Place :)",
+            "c": "1st :)",
             "size": 18
           },
           {
@@ -142,7 +142,7 @@
         "valueType": "lessIsTall",
         "title": {
           "pre": {
-            "c": "GREEN CAMPUSES",
+            "c": "",
             "size": 18
           },
           "main": {
@@ -261,7 +261,7 @@
         "valueType": "lessIsTall",
         "title": {
           "pre": {
-            "c": "GREEN CAMPUSES",
+            "c": "Cool Schools",
             "size": 18
           },
           "main": {
@@ -303,7 +303,7 @@
           "We were acclaimed for our investments in environmental education and research, with 300 undergraduate classes about sustainability and many specialized research institutes, like the Fish Conservation and Culture Laboratory.",
           "Stanford dropped way down to 21st place despite relative strengths in purchasing and transportation.",
           "Irvine is holding tight at 1st place for the second year in a row. We’re right behind them in several categories, but falling behind in energy. Let’s step it up, Aggies!",
-          "Berkeley stepped it up from previous years, climbing to 13th place overall and 3rd place in the food sustainability category. Go Bears!"
+          "Berkeley stepped it up from previous years, climbing to 13th place overall and 3rdplace in the food sustainability category. Go Bears!"
         ],
         "pSymbols": [
           "",
@@ -464,7 +464,7 @@
   "society": {
     "id": 1,
     "seedling": "society",
-    "description": "The stories and data in this series deal with issues of social justice and inequity on a large scale.",
+    "description": "The stories in this series deal with issues of social justice",
     "parts": [
       {
         "values": [
@@ -488,7 +488,7 @@
         ],
         "title": {
           "pre": {
-            "c": "WAGE GAPS",
+            "c": "Wage Gaps",
             "size": 18
           },
           "main": {
@@ -506,7 +506,7 @@
             "size": 14
           }
         },
-        "maintext": "In 2013, women in the US earned 82 cents to every dollar a man made. Stats from the Bureau of Labor Statistics show that income is staggered by both race and gender. Shown is a comparison of median weekly earnings between bachelor's degree holders.",
+        "maintext": "The Bureau of Labor Statistics reveals how race and ethnicity factor into income. Here you see average weekly earnings for men with a Bachelor's degree.",
         "pNames": [
           "White Men",
           "Black Men",
@@ -534,7 +534,7 @@
         "pStatboxes": [
           {
             "c": [
-              "$1300",
+              "$1,300",
               "weekly"
             ],
             "size": [
@@ -562,7 +562,7 @@
           },
           {
             "c": [
-              "$1325",
+              "$1,325",
               "weekly"
             ],
             "size": [
@@ -576,7 +576,7 @@
           },
           {
             "c": [
-              "$1050",
+              "$1,050",
               "weekly"
             ],
             "size": [
@@ -607,7 +607,7 @@
         "customLo": 300,
         "title": {
           "pre": {
-            "c": "WAGE GAPS",
+            "c": "Wage Gaps",
             "size": 18
           },
           "main": {
@@ -625,7 +625,7 @@
             "size": 14
           }
         },
-        "maintext": "The same dataset reveals that women make less than men of the same race at every level of education. This gives the lie to the myth of education-as-equalizer; while lack of education results in poverty for any race or gender, men - especially whites - benefit disproportionately from it.",
+        "maintext": "Women in the US are still earning less than men, and their incomes are further affected by race and ethnicity.",
         "color": {
           "ui": "#626b66",
           "monument": {
@@ -646,9 +646,9 @@
         ],
         "pTexts": [
           "",
-          "Examining the data, Deborah Ashton of Harvard Business Review notes that black and Hispanic women \"vie for last place on the earnings pyramid at every level of education\".",
-          "The gap between Asian women/men is the largest; Asian women earn 78 cents to every dollar their male counterparts earn (81% for whites).",
-          "Examining the data, Deborah Ashton of Harvard Business Review notes that black and Hispanic women \"vie for last place on the earnings pyramid at every level of education\"."
+          "",
+          "",
+          ""
         ],
         "pSymbols": [
           "",
@@ -693,7 +693,7 @@
           },
           {
             "c": [
-              "$1040",
+              "$1,040",
               "weekly"
             ],
             "size": [
@@ -732,12 +732,12 @@
           2217,
           1657,
           644,
-          607
+        607 
         ],
         "customLo": 300,
         "title": {
           "pre": {
-            "c": "MASS INCARCERATION",
+            "c": "Mass Incarceration",
             "size": 14
           },
           "main": {
@@ -751,7 +751,7 @@
             "margin": -0.2
           }
         },
-        "maintext": "As the ACLU puts it: \"America, \"land of the free\", has earned the disturbing distinction of being the world’s leading jailer\". Though it contains just 5 percent of the world’s population, the US holds 25 percent of its prisoners.",
+        "maintext": "According to ACLU, \"America, 'land of the free', has earned the disturbing distinction of being the world's leading jailer\", holding 25% of the world's prisoners, though it contains just 5% of the world's population. Here are the number of prisoners in some of the world's largest countries.",
         "color": {
           "ui": "#db6719",
           "monument": {
@@ -770,8 +770,8 @@
           "Brazil"
         ],
         "pTexts": [
-          "Lengthy minimum sentences, three strikes laws, and other draconian policies have fed a thriving prison-industrial complex, choked federal and state budgets, and inflated the national prison population over 700% in the last 40 years.",
-          "China, itself no stranger to human rights controversy and worldwide condemnation, has a population more than 4 times greater than the US's but 75% less prisoners.",
+          "",
+          "",
           "",
           ""
         ],
@@ -832,7 +832,7 @@
         "customLo": 12,
         "title": {
           "pre": {
-            "c": "MASS INCARCERATION",
+            "c": "Mass Incarceration",
             "size": 14
           },
           "main": {
@@ -846,7 +846,7 @@
             "margin": -0.2
           }
         },
-        "maintext": "Mass incarceration accounts for the 2nd fastest growing type of state government spending, having grown 127% since 1987 (higher education spending increased 21% in the same period). The U.S. spends over $80 billion on prisons and related expenses every year.",
+        "maintext": "The US spends over $80 billion on prisons and related expenses every year. Mass incarceration is the 2nd fastest growing type of state government spending. Here are some annual state expenditures per inmate.",
         "color": {
           "ui": "#ad360c",
           "monument": {
@@ -913,7 +913,7 @@
         "customLo": 5.3,
         "title": {
           "pre": {
-            "c": "MASS INCARCERATION",
+            "c": "Mass Incarceration",
             "size": 14
           },
           "main": {
@@ -927,7 +927,7 @@
             "margin": -0.2
           }
         },
-        "maintext": "Meanwhile, data from the U.S. Census and the Vera Institute of Justice shows that states spend far less money on K-12 students - nearly 5 times less, in California's case.",
+        "maintext": "Compare those stats with these annual state expenditures per K-12 student.",
         "color": {
           "ui": "#ad360c",
           "monument": {
@@ -983,183 +983,14 @@
           "",
           ""
         ]
-      },
-      {
-        "values": [
-          0.33,
-          0.05,
-          0.16,
-          0.1
-        ],
-        "customLo": 0,
-        "title": {
-          "pre": {
-            "c": "MASS INCARCERATION",
-            "size": 14
-          },
-          "main": {
-            "c": [
-              "Lifetime Chance",
-              "of Imprisonment"
-            ],
-            "size": 21,
-            "font": "Droid Serif",
-            "weight": 400,
-            "margin": -0.2
-          }
-        },
-        "maintext": "The US imprisons a larger percentage of its black population than South Africa ever did during apartheid. Data from the Bureau of Justice Statistics shows that over 60% of American inmates are racial or ethnic minorities.",
-        "color": {
-          "ui": "#7c0701",
-          "monument": {
-            "hex": "#7c0701",
-            "bri": 0.75
-          },
-          "ring": "ff0000"
-        },
-        "sound": [
-          "jail"
-        ],
-        "pNames": [
-          "Black Men",
-          "White Men",
-          "Latino Men",
-          "All Men"
-        ],
-        "pTexts": [
-          "Black men are 20 to 50 times more likely to be imprisoned on drug charges than white men, but there is no significant difference in drug crime or use between races.",
-          "",
-          "",
-          ""
-        ],
-        "pSymbols": [
-          "",
-          "",
-          "",
-          ""
-        ],
-        "pLabels": [
-          "",
-          "",
-          "",
-          ""
-        ],
-        "pStatboxes": [
-          {
-            "c": "1 in 3"
-          },
-          {
-            "c": "1 in 17"
-          },
-          {
-            "c": "1 in 6"
-          },
-          {
-            "c": "1 in 9"
-          }
-        ],
-        "pLinks": [
-          [
-            {
-              "type": "book",
-              "c": "michellealexander"
-            },
-            {
-              "type": "data",
-              "c": "sentencingproject"
-            }
-          ],
-          "",
-          "",
-          ""
-        ]
       }
     ]
   },
   "anomalous": {
     "id": 2,
     "seedling": "anomalous",
-    "description": "These stories can be about anything.",
+    "description": "These stories can be about anything. Hope you like surprises!",
     "parts": [
-      {
-        "values": [
-          0,
-          5,
-          88,
-          22
-        ],
-        "valueType": "lessIsTall",
-        "customLo": 0,
-        "color": {
-          "ui": "#339167",
-          "monument": {
-            "hex": "#339167",
-            "bri": 1
-          },
-          "ring": "24BB48"
-        },
-        "sound": [
-          "cheer1",
-          "cheer2"
-        ],
-        "title": {
-          "pre": {
-            "c": [
-              "SEXUAL HEALTH",
-              "REPORT CARD"
-            ],
-            "size": 24
-          }
-        },
-        "maintext": "Every year, Trojan and BestPlaces study and rank colleges nationwide to produce a 'Sexual Health Report Card'. The rankings are based on campuses' student health centers and the quality / availability of the services they provide.",
-        "pNames": [
-          "UC Davis",
-          "Stanford",
-          "UCLA",
-          "UC Berkeley"
-        ],
-        "pTexts": [
-          "Trojan and BestPlaces' selection of 140 schools to rank is (stupidly) tied to prominent athletic conferences / college football, so UC Davis isn't featured.",
-          "",
-          "",
-          ""
-        ],
-        "pSymbols": [
-          "",
-          "",
-          "",
-          ""
-        ],
-        "pLabels": [
-          "",
-          "",
-          "",
-          ""
-        ],
-        "pStatboxes": [
-          {
-            "c": "N/A"
-          },
-          {
-            "c": "5th"
-          },
-          {
-            "c": "88th"
-          },
-          {
-            "c": "22nd"
-          }
-        ],
-        "pLinks": [
-          {
-            "type": "list",
-            "c": "bestplaces"
-          },
-          "",
-          "",
-          ""
-        ]
-      },
       {
         "values": [
           15,
@@ -1182,7 +1013,7 @@
         ],
         "title": {
           "pre": {
-            "c": "The Cost of Education",
+            "c": "College tuition and salary",
             "size": 12
           },
           "main": {
@@ -1191,7 +1022,7 @@
             "font": "Droid Serif"
           }
         },
-        "maintext": "Here are some college tuitions. Y'all getting jacked.",
+        "maintext": "Check out the average annual college tuition here at Davis compared to other California schools.",
         "pNames": [
           "UC Davis",
           "Stanford",
@@ -1218,16 +1049,16 @@
         ],
         "pStatboxes": [
           {
-            "c": "$15k"
+            "c": "$15,000"
           },
           {
-            "c": "$15.7k"
+            "c": "$15,700"
           },
           {
-            "c": "$12k"
+            "c": "$12,000"
           },
           {
-            "c": "$13.7k"
+            "c": "$13,700"
           }
         ],
         "pLinks": [
@@ -1259,7 +1090,7 @@
         ],
         "title": {
           "pre": {
-            "c": "The Cost of Education",
+            "c": "College tuition and salary",
             "size": 12
           },
           "main": {
@@ -1271,7 +1102,7 @@
             "font": "Droid Serif"
           }
         },
-        "maintext": "Here's what the average student at these universities makes after attending.",
+        "maintext": "And here's the average salary of students after graduating from these universities.",
         "pNames": [
           "UC Davis",
           "Stanford",
@@ -1298,16 +1129,16 @@
         ],
         "pStatboxes": [
           {
-            "c": "$57k / year"
+            "c": "$57,000"
           },
           {
-            "c": "$80.9k / year"
+            "c": "$80,900"
           },
           {
-            "c": "$55.8k / year"
+            "c": "$55,800"
           },
           {
-            "c": "$62k / year"
+            "c": "$62,000"
           }
         ],
         "pLinks": [
