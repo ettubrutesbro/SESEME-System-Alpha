@@ -27,10 +27,10 @@ function reportConnection(title) {
         }) // end of body
     };
 
-    // PUT http request to update the hue color
-    request(options, function(error, response, body) {
-        if(error) print("Claptron Error: " + error);
-    }); // end of request
+    // // PUT http request to update the hue color
+    // request(options, function(error, response, body) {
+    //     if(error) print("Claptron Error: " + error);
+    // }); // end of request
 }
 
 function reportDisconnect(title) {
@@ -57,10 +57,10 @@ function reportDisconnect(title) {
         }) // end of body
     };
 
-    // PUT http request to update the hue color
-    request(options, function(error, response, body) {
-        if(error) print("Claptron Error: " + error);
-    }); // end of request
+    // // PUT http request to update the hue color
+    // request(options, function(error, response, body) {
+    //     if(error) print("Claptron Error: " + error);
+    // }); // end of request
 }
 
 function reportSysCheck(systemStatus, pretext) {
@@ -143,10 +143,10 @@ function reportSysCheck(systemStatus, pretext) {
         }) // end of body
     };
 
-    // PUT http request to update the hue color
-    request(options, function(error, response, body) {
-        if(error) print("Claptron Error: " + error);
-    }); // end of request
+    // // PUT http request to update the hue color
+    // request(options, function(error, response, body) {
+    //     if(error) print("Claptron Error: " + error);
+    // }); // end of request
 }
 
 function reportPing(title, error) {
@@ -176,10 +176,10 @@ function reportPing(title, error) {
         }) // end of body
     };
 
-    // PUT http request to update the hue color
-    request(options, function(error, response, body) {
-        if(error) print("Claptron Error: " + error);
-    }); // end of request
+    // // PUT http request to update the hue color
+    // request(options, function(error, response, body) {
+    //     if(error) print("Claptron Error: " + error);
+    // }); // end of request
 }
 
 exports.reportPing          = reportPing;
