@@ -653,6 +653,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 	});
 
 	seedling.socket.on('seedling actionCircle done', function(seedlingNum){
+    /*
 		var allSeedlingsDone = true;
 		print("Action Circle Done: " + seedling.number);
 		seedling.buttonPressed = false;
@@ -672,6 +673,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 			print("Unlock buttonPress");
 			lockButtonPress = false;
 		} // unlock to allow button press
+    */
 	})
 
 	seedling.socket.on('disconnect', function(){
@@ -865,6 +867,7 @@ beagleIO.on('connection', function(beagleSocket){
 		print("Seseme Finished Moving Socket");
 		stepperPositionAr = obj; // update stepperPositionAr after moving
 		print("Finished Moving stepperPositionAr: " + stepperPositionAr);
+    lockButtonPress = false;
 	})
 
 	beagleSocket.on('checkSesemeRunning', function(data){
