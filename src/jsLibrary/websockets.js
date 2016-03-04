@@ -644,6 +644,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 
 	seedling.socket.on('seedling actionCircle done', function(seedlingNum){
 		//var allSeedlingsDone = true;
+    /*
 		print("Action Circle Done: " + seedling.number);
 		seedling.buttonPressed = false;
 		print("seedlings[" + seedling.number + "].buttonPressed === false");
@@ -651,6 +652,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 			// seedling.buttonPressed = false;
 			randomSoundWeight(soundObj, 'ready', seedling.socket);
 		}
+    */
 
 /*
 		for(var i = 0; i < 3; i++){
@@ -859,6 +861,7 @@ beagleIO.on('connection', function(beagleSocket){
 		print("Finished Moving stepperPositionAr: " + stepperPositionAr);
     setTimeout(function(){
       lockButtonPress = false;
+  		randomSoundWeight(soundObj, 'ready', seedlings[lastActiveSeedling].socket);
     }, 2000);
 	})
 
