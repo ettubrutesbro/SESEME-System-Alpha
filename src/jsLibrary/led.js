@@ -606,7 +606,8 @@ var self = module.exports = {
         var light = obj;
         var timer = null;
         if(color == null){
-            light.fadeOut(time*1000);
+            //light.fadeOut(time*1000);
+            light.off();
             /*
             setTimeout(function(){
                 light.off();
