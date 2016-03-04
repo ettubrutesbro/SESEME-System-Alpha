@@ -607,10 +607,10 @@ var self = module.exports = {
         var timer = null;
         if(color == null){
             light.fadeOut(time*1000);
+            setTimeout(function(){
+                light.off();
+            }, time*1000+100);
         } // halogen or led light bulb
-        setTimeout(function(){
-            light.off();
-        }, time*1000+100);
         else{
             //var this.lightPercentage = 100;
             light.color("000000");
