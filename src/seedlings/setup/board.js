@@ -59,8 +59,8 @@ function setup(socket, seedlingNum, callback) {
         }
 
         else if(seedlingNum == 1){
-            pixelNum = 26;
-            firstDiode = 4;
+            pixelNum = 25;
+            firstDiode = 3;
 
             iconLight = new five.Led(11);
             buttonLight = new five.Led(10);
