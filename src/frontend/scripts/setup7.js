@@ -7,7 +7,7 @@ var info = {name: []}
 //objects and resources
 var scene = new THREE.Scene(), camera, renderer
 var resources = {geos: {}, mtls: {}}
-var seseme = new THREE.Group(), ground, lights, shadow
+var seseme = new THREE.Group(), ground, lights, shadow, signifier
 //global states
 var facing = 0, startHash = window.location.hash.slice(1)
 view = {text: false, content: '', lastTextHeight: 0, filling: false,
@@ -26,7 +26,7 @@ facingRotations = [-45,-135,135,45]
 var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
-var online = true
+var online = false
 var performance = 'hi'
 
 function setup(){
@@ -126,7 +126,7 @@ function setup(){
 	} //end initDOM
 	function assets(){
 		var allModels = ['quaped','pillar','outline3','outcap','templategeo'] //symbolgeos?
-		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
+		var allTextures = ['signifieralpha','chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
 			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings',
@@ -198,6 +198,7 @@ function setup(){
 			resources.mtls.seseme = resources.mtls.seseme_phong
 			resources.mtls.orb = new THREE.MeshPhongMaterial({color:0xff6666,emissive:0x771100,shininess:1,specular:0x272727})
 			resources.mtls.ground = new THREE.MeshBasicMaterial({color: 0xededed})
+			resources.mtls.signifier = new THREE.MeshBasicMaterial({color: 0xff0000,transparent: true, needsUpdate: true, alphaMap: resources.mtls.signifieralpha.map})
 			//meshes
 			// ground = new THREE.Mesh(new THREE.PlaneBufferGeometry( 150, 150 ), resources.mtls.ground)
 			// ground.rotation.x = rads(-90); ground.position.set(0,-18,0)
@@ -240,11 +241,19 @@ function setup(){
 		  	//other FX
 		  	shadow = new THREE.Mesh(new THREE.PlaneBufferGeometry(16,16), resources.mtls.shadow)
 		  	shadow.rotation.x = rads(-90); shadow.position.set(-0.1,-17.99,0.1)
-				shadow.material.opacity = 0
-				//adding to scene
-				seseme.add(covercube)
-				// scene.add(ground); // ground may be obselete....
-				scene.add(seseme); scene.add(lights); scene.add(shadow)
+			shadow.material.opacity = 0
+			signifier = new THREE.Group()
+				sigfaceA = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
+				sigfaceA.position.set(-2.55,-.3,4)
+				sigfaceB = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
+				sigfaceB.position.set(-4,-.3,2.55); sigfaceB.rotation.y = rads(-90)
+				sigfaceC = new THREE.Mesh(new THREE.PlaneBufferGeometry(4.4,2), resources.mtls.signifier)
+				sigfaceC.position.set(-2.5,-.3,2.5); sigfaceC.rotation.y = rads(135)
+				signifier.add(sigfaceA); signifier.add(sigfaceB); signifier.add(sigfaceC)
+			//adding to scene
+			seseme.add(covercube); seseme.add(signifier)
+			// scene.add(ground); // ground may be obsolete....
+			scene.add(seseme); scene.add(lights); scene.add(shadow)
 		}//build
 	}//assets
 	function fill(){
