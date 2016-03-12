@@ -32,7 +32,7 @@ var stories = [
         ]
       }, //end part 0
       {
-        values: [55,6,1,33], valueType: 'lessIsTall',
+        values: [55,6,1,33], valueType: 'lessIsTall', customLo: 65,
         title: {
           pre: {c: 'TWO YEARS LATER', size: 18},
           main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},

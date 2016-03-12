@@ -1,7 +1,6 @@
 
 //global data
 var socket
-var stories = null
 var story=0, part=0, data = null, percentages
 var info = {name: []}
 // info.prev = [], info.name = [], info.detail = []
@@ -256,8 +255,9 @@ function setup(){
 				sigfaceC = new THREE.Mesh(new THREE.PlaneBufferGeometry(4.4,2), resources.mtls.signifier)
 				sigfaceC.position.set(-2.5,-.3,2.5); sigfaceC.rotation.y = rads(135)
 				signifier.add(sigfaceA); signifier.add(sigfaceB); signifier.add(sigfaceC)
+			signifier.position.set(-1.5,-2,-1)
 			//adding to scene
-			seseme.add(covercube); seseme.add(signifier)
+			seseme.add(covercube); seseme.quad0.add(signifier)
 			// scene.add(ground); // ground may be obsolete....
 			scene.add(seseme); scene.add(lights); scene.add(shadow)
 		}//build
@@ -270,7 +270,7 @@ function setup(){
 
 		initQuads() //completion of each also runs initPillar
 		makeOrbiter()
-		highlightColor()
+		colorObjects()
 		makeNames([false,false,false,false]); projectionMgr.itemEnd('names')
 		makeTitleblock(); projectionMgr.itemEnd('titleblock')
 		makeSymbols([false,false,false,false])
@@ -312,17 +312,22 @@ function setup(){
 			}
 			plrMgr.onLoad = function(){
 				console.log('pillars in place'); allMgr.itemEnd('plrMgr')
+				anim3d(signifier,'position',{y:0})
 			}
 			// projectionMgr.onProgress = function(item,loaded,total){console.log(item,loaded,total)}
 			projectionMgr.onLoad = function(){
 				console.log('projections initialized'); allMgr.itemEnd('projectionMgr')
 			}
 		}//end loadingManagers
-		function highlightColor(){
+		function colorObjects(){
 				var rgb = data.color.ui? hexToRgb(data.color.ui): {r:0,g:0,b:0}
+				rgb = {r:rgb.r/255,g:rgb.g/255,b:rgb.b/255}
 				for(var i = 0; i<4; i++){
-					seseme['plr'+i].outline.material.color = {r: rgb.r/255, g: rgb.g/255, b: rgb.b/255}
-					seseme['plr'+i].outcap.material.color = {r: rgb.r/255, g: rgb.g/255, b: rgb.b/255}
+					seseme['plr'+i].outline.material.color = rgb
+					seseme['plr'+i].outcap.material.color = rgb
+				}
+				for(var i = 0; i<3; i++){
+					signifier.children[i].material.color = rgb
 				}
 		}
 		function makeOrbiter(){
