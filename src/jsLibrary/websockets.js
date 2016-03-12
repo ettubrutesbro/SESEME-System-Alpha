@@ -75,7 +75,7 @@ function seedlingsReady() {
 //	Constants
 ////////////////////////////////////////////////
 
-var stories = require(path.join(__dirname, 'stories.js'));
+var stories = require(path.join(__dirname, 'stories.json'));
 var led = require(path.join(__dirname, 'led.js'));
 var soundObj = require(path.join(__dirname, 'soundObj.js'));
 var lifx = require(path.join(__dirname, 'lifx.js'));
@@ -374,7 +374,8 @@ io.on('connection', function (socket) {
 		io.sockets.emit('ui acquire story', {
 			story: lastActiveSeedling,
 			part: seedlings[lastActiveSeedling].currentPart,
-			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart])
+			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]),
+            stories: stories
 		});
 	});
 
@@ -584,16 +585,6 @@ function seedlingConnected(seedSocket, seedlingNum){
 		} // lock doesn't allow
 
 		lockButtonPress = true;
-		/*
-		var error = false;
-		for(var i = 0; i < seedlings.length; i++){
-			if(seedlings[i].buttonPressed === true){
-				print("error is true")
-				error = true;
-				break;
-			} // invalid button press
-		}
-		*/
 
 		checkSesemeRunning(function(data){
 			print("In checkSesemeRunning Callback");
@@ -652,7 +643,8 @@ function seedlingConnected(seedSocket, seedlingNum){
 	});
 
 	seedling.socket.on('seedling actionCircle done', function(seedlingNum){
-		var allSeedlingsDone = true;
+		//var allSeedlingsDone = true;
+    /*
 		print("Action Circle Done: " + seedling.number);
 		seedling.buttonPressed = false;
 		print("seedlings[" + seedling.number + "].buttonPressed === false");
@@ -660,7 +652,9 @@ function seedlingConnected(seedSocket, seedlingNum){
 			// seedling.buttonPressed = false;
 			randomSoundWeight(soundObj, 'ready', seedling.socket);
 		}
+    */
 
+/*
 		for(var i = 0; i < 3; i++){
 			if(seedlings[i].buttonPressed === true){
 				allSeedlingsDone = false;
@@ -671,6 +665,7 @@ function seedlingConnected(seedSocket, seedlingNum){
 			print("Unlock buttonPress");
 			lockButtonPress = false;
 		} // unlock to allow button press
+    */
 	})
 
 	seedling.socket.on('disconnect', function(){
@@ -864,6 +859,10 @@ beagleIO.on('connection', function(beagleSocket){
 		print("Seseme Finished Moving Socket");
 		stepperPositionAr = obj; // update stepperPositionAr after moving
 		print("Finished Moving stepperPositionAr: " + stepperPositionAr);
+    setTimeout(function(){
+      lockButtonPress = false;
+  		randomSoundWeight(soundObj, 'ready', seedlings[lastActiveSeedling].socket);
+    }, 2000);
 	})
 
 	beagleSocket.on('checkSesemeRunning', function(data){

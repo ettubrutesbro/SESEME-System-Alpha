@@ -24,6 +24,7 @@
     "express": "~4.11.2",
     "johnny-five": "~0.8.91",
     "moment": "~2.9.0",
+    "mongodb": "^2.1.7",
     "net-ping": "^1.1.12",
     "node-hue-api": "~1.1.2",
     "node-mpg123": "~1.0.2-23",
