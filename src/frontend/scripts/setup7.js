@@ -1,9 +1,9 @@
 
 //global data
+var stories = null
 var socket
 var story=0, part=0, data = null, percentages
 var info = {name: []}
-// info.prev = [], info.name = [], info.detail = []
 //objects and resources
 var scene = new THREE.Scene(), camera, renderer
 var resources = {geos: {}, mtls: {}}
@@ -26,7 +26,6 @@ facingRotations = [-45,-135,135,45]
 var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
-var online = false
 var performance = 'hi'
 
 function setup(){
@@ -76,34 +75,6 @@ function setup(){
 				socket.on('reconnect', function(){ console.log('reconnected') })
 				// socket.on('receive something', function(d){ console.log(d) })
 				socket.on('status report', function(d){ console.log(d) })
-			}
-			//development w/o server: mock
-			else if(!online){
-				console.log('let\'s pretend we\'re online...')
-				story = 0; part = 0
-				data = stories[story].parts[part]
-				percentages = heightCalc(data)
-				ready.itemEnd('firstdata')
-
-				function heightCalc(data){
-						//pass in story[i].parts[part].values, get percentages
-						var top = 100, bottom = 0
-						if(!data.valueType || data.valueType === "moreIsTall"){
-							top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
-							bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
-						}
-						else if(data.valueType === 'lessIsTall'){
-							top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
-							bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
-						}
-						var range = Math.abs(bottom-top)
-						var percentagesArray = []
-						for(var i = 0; i < 4; i++){
-							percentagesArray[i] = Math.abs(bottom-data.values[i])/range
-						}
-						return percentagesArray
-				}
-				// setTimeout(function(){ part++; view.nextpart() }, 7500)
 			}
 	} // end query
 	function initDOM(){ // defining global DOM items
