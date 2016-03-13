@@ -764,7 +764,7 @@
 		}
 		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
 		//3D SHIT - color, namesprites, titleblock, main button position
-		if(!online) pctCalc()
+		
 		pctsToHeights();
 		movePillars();
 		makeNames(retainName);
@@ -813,11 +813,14 @@
 
 		function recolor3d(){
 			var rgb = data.color.ui? hexToRgb(data.color.ui): {r:0,g:0,b:0}
+			console.log('recolor to: ' + rgb.r, rgb.g, rgb.b)
 			for(var i = 0; i<4; i++){
 				anim3d(seseme['plr'+i].outline, 'color', rgb)
 				anim3d(seseme['plr'+i].outcap, 'color', rgb)
 			}
 			anim3d(info.btn.color, 'color', rgb)
+			anim3d(orb, 'color', {r: rgb.r/2, g: rgb.g/2, b: rgb.b/2})
+			anim3d(orb, 'emissive', {r: rgb.r*1.25, g: rgb.g*1.25, b: rgb.b*1.25})
 		}
 		function sceneHeightTransition(){
 			if(camera.zoom > 1){
@@ -1180,7 +1183,7 @@
 			if(start.x === destination.x && start.y === destination.y && start.z === destination.z) return
 			update = function(){ obj[property].x = start.x; obj[property].y = start.y; obj[property].z = start.z }
 		}
-		else if(property === 'color'){ //affecting RGB
+		else if(property === 'color' || property === 'emissive'){ //affecting RGB
 			start = {r: obj.material[property].r, g: obj.material[property].g, b: obj.material[property].b}
 			destination = {r: options.r/255, g: options.g/255, b: options.b/255}
 			if(start.r === destination.r && start.g === destination.g && start.b === destination.z) return
@@ -1311,24 +1314,9 @@
 			}
 		}
 	}
-	function pctCalc(){
-			//calc percentages for pillar change in offline mode
-			var top = 100, bottom = 0
-			if(!data.valueType || data.valueType === "moreIsTall"){
-				top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
-				bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
-			}
-			else if(data.valueType === 'lessIsTall'){
-				top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
-				bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
-			}
-			var range = Math.abs(bottom-top)
-			var percentagesArray = []
-			for(var i = 0; i < 4; i++){
-				percentagesArray[i] = Math.abs(bottom-data.values[i])/range
-			}
-			percentages = percentagesArray
-	}
 	function forceNext(){
-			part++; refill()
+		part++; refill()
+	}
+	function forceStory(storynumber){
+		story = storynumber; refill()
 	}

@@ -7,7 +7,7 @@ var info = {name: []}
 //objects and resources
 var scene = new THREE.Scene(), camera, renderer
 var resources = {geos: {}, mtls: {}}
-var seseme = new THREE.Group(), ground, lights, shadow, signifier
+var seseme = new THREE.Group(), ground, lights, orb, shadow, signifier
 //global states
 var facing = 0, startHash = window.location.hash.slice(1)
 view = {text: false, content: '', lastTextHeight: 0, filling: false,
@@ -38,47 +38,44 @@ function setup(){
 	initDOM() //dom
 
 	function netOps(){
-			if(online){ //server is hooked up
-				socket = io.connect('http://169.237.123.19:5000')
-				socket.once('connect', function(){
-					console.log('successfully connected')
-					socket.emit('ui request story')
-					// socket.on('debug status report', function(d){console.log(d)})
-			 	})
-				socket.once('ui acquire story', function(d){
-					console.log('ui acquired story')
-					console.log(d)
-                    stories = [
-                        d.stories.environment,
-                        d.stories.society,
-                        d.stories.anomalous
-                    ]
-                    story = d.story; part = d.part; percentages = d.percentages
-                    console.log(story)
-                    data = stories[story].parts[part]
-					ready.itemEnd('firstdata')
-				})
-				socket.on('ui update', function(d){
-					// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
-					console.log('ui updating')
-					console.log(d)
-					story = d.story
-					part = d.part
-					percentages = d.percentages
-					refill()
-				})
-				socket.on('ui check desync', function(){
-					console.log('XPS is checking desync')
-					socket.emit('ui report status', {story: stories[story].id, part: part})
-				})
-				socket.on('disconnect',function(){ console.log('disconnected')})
-				socket.on('reconnect', function(){ console.log('reconnected') })
-				// socket.on('receive something', function(d){ console.log(d) })
-				socket.on('status report', function(d){ console.log(d) })
-			}
-	} // end query
+		socket = io.connect('http://169.237.123.19:5000')
+		socket.once('connect', function(){
+			console.log('successfully connected')
+			socket.emit('ui request story')
+			// socket.on('debug status report', function(d){console.log(d)})
+	 	})
+		socket.once('ui acquire story', function(d){
+			console.log('ui acquired story')
+			console.log(d)
+            stories = [
+                d.stories.environment,
+                d.stories.society,
+                d.stories.anomalous
+            ]
+            story = d.story; part = d.part; percentages = d.percentages
+            console.log(story)
+            data = stories[story].parts[part]
+			ready.itemEnd('firstdata')
+		})
+		socket.on('ui update', function(d){
+			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
+			console.log('ui updating')
+			console.log(d)
+			story = d.story
+			part = d.part
+			percentages = d.percentages
+			refill()
+		})
+		socket.on('ui check desync', function(){
+			console.log('XPS is checking desync')
+			socket.emit('ui report status', {story: stories[story].id, part: part})
+		})
+		socket.on('disconnect',function(){ console.log('disconnected')})
+		socket.on('reconnect', function(){ console.log('reconnected') })
+		// socket.on('receive something', function(d){ console.log(d) })
+		socket.on('status report', function(d){ console.log(d) })
+	} // end netOps
 	function initDOM(){ // defining global DOM items
-		// document.addEventListener('DOMContentLoaded', function(){
 			dom.containerSESEME = $('containerSESEME')
 			dom.bottom = $('bottom'); dom.closebutton = $('closebutton');
 			dom.bottomwrapper = $('bottomwrapper')
@@ -98,10 +95,9 @@ function setup(){
 			}
 			dom.leftarrow = $('leftarrow'); dom.rightarrow = $('rightarrow')
 			assets()
-		// })
 	} //end initDOM
 	function assets(){
-		var allModels = ['quaped','pillar','outline3','outcap','templategeo'] //symbolgeos?
+		var allModels = ['quaped','pillar','outline3','outcap','orb_lo','templategeo'] //symbolgeos?
 		var allTextures = ['signifieralpha','chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
@@ -209,10 +205,11 @@ function setup(){
 			{
 				lights = new THREE.Group(); var amblight = new THREE.AmbientLight( 0x232330 )
 				var backlight = new THREE.SpotLight(0xeaddb9, 1.2); var camlight = new THREE.PointLight(0xffffff, .35)
-		  	backlight.position.set(-7,25,-4); camlight.position.set(-40,-7,-24)
+			  	backlight.position.set(-7,25,-4); camlight.position.set(-40,-7,-24)
 				backlight.default = 1.2, camlight.default = .35
-		  	lights.add(backlight); lights.add(amblight); lights.add(camlight)
+			  	lights.add(backlight); lights.add(amblight); lights.add(camlight); 
 				lights.rotation.set(-camera.rotation.x/2, camera.rotation.y + rads(45), -camera.rotation.z/2)
+
 			}
 		  	//other FX
 		  	shadow = new THREE.Mesh(new THREE.PlaneBufferGeometry(16,16), resources.mtls.shadow)
@@ -227,8 +224,14 @@ function setup(){
 				sigfaceC.position.set(-2.5,-.3,2.5); sigfaceC.rotation.y = rads(135)
 				signifier.add(sigfaceA); signifier.add(sigfaceB); signifier.add(sigfaceC)
 			signifier.position.set(-1.5,-2,-1)
+			orb = new THREE.Mesh(resources.geos.orb_lo, resources.mtls.orb)
+			orb.scale.set(0.45,0.45,0.45); orb.position.y = -20.25
+			var orblight = new THREE.PointLight(0xff0000, 0.7); orblight.position.y = -1
+			orb.add(orblight)
+
 			//adding to scene
 			seseme.add(covercube); seseme.quad0.add(signifier)
+			seseme.add(orb)
 			// scene.add(ground); // ground may be obsolete....
 			scene.add(seseme); scene.add(lights); scene.add(shadow)
 		}//build
@@ -300,6 +303,9 @@ function setup(){
 				for(var i = 0; i<3; i++){
 					signifier.children[i].material.color = rgb
 				}
+					resources.mtls.orb.color = {r: rgb.r/2, g: rgb.g/2, b:rgb.b/2}
+					resources.mtls.orb.emissive = {r: rgb.r*1.25, g: rgb.g*1.25, b: rgb.b*1.25}
+					orb.children[0].color = rgb
 		}
 		function makeOrbiter(){
 			console.log('make orbiter')
@@ -480,6 +486,7 @@ function setup(){
 				cb: function(){ plrMgr.itemEnd('plr'+which) }})
 		}
 		function initQuads(){
+				anim3d(orb, 'position', {y: -2, delay: 600, spd: 600, easing: ['Cubic','Out']})
 				for(var i = 0; i<4; i++){
 					var q = seseme['quad'+i]
 					q.position.y = -31
