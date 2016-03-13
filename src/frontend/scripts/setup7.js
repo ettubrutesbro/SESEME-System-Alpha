@@ -212,16 +212,8 @@ function setup(){
 			  	lights.add(backlight); lights.add(amblight); lights.add(camlight); 
 				lights.rotation.set(-camera.rotation.x/2, camera.rotation.y + rads(45), -camera.rotation.z/2)
 
-				backlight.castShadow = true
 				backlight.shadow.mapSize.width = 512
 				backlight.shadow.mapSize.height = 512
-				for(var i =0; i<4; i++){
-					seseme['quad'+i].castShadow = true
-					seseme['quad'+i].receiveShadow = true
-					seseme['plr'+i].castShadow = true
-					seseme['plr'+i].receiveShadow = true
-				}
-
 
 			}
 		  	//other FX
@@ -240,6 +232,7 @@ function setup(){
 			orb = new THREE.Mesh(resources.geos.orb_lo, resources.mtls.orb)
 			orb.scale.set(0.45,0.45,0.45); orb.position.y = -20.25 //final position in initQuads, line 511
 			var orblight = new THREE.PointLight(0xff0000, 0.7); orblight.position.y = -1
+			orblight.default = 0.7
 			orb.add(orblight)
 
 			//adding to scene

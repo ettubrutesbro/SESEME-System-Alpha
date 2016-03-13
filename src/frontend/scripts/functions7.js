@@ -1279,24 +1279,35 @@
 }
 //9. ETC / other
 	function performanceLevel(){
-		var allLevels = ['barren', 'lo', 'med', 'hi']
+		var allLevels = ['barren', 'lo', 'med', 'hi', 'ultra']
 		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: 'barren'
-		// alert('performance is now ' + performance)
-		if(performance === 'hi'){
-			// realtime shadows (someday), and phong material
+		alert('performance is now ' + performance)
+		if(performance === 'ultra'){
+			//+ realtime shadows
+			lights.children[0].castShadow = true
+			for(var i =0; i<4; i++){
+				seseme['quad'+i].castShadow = true
+				seseme['quad'+i].receiveShadow = true
+				seseme['plr'+i].castShadow = true
+				seseme['plr'+i].receiveShadow = true
+			}
+		}
+		else if(performance === 'hi'){
+			// + specular / phong material, orb light on
 			for(var i = 0; i<4; i++){
 				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
 			}
+			orb.children[0].intensity = orb.children[0].default
 		}
 		else if(performance === 'med'){
-			//lambert material
+			// + backlight and camlight both on and at full intensity, viewport correction
+			var viewport = document.querySelector("meta[name=viewport]")
+			viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no')
 			lights.children[0].intensity = lights.children[0].default
 			lights.children[2].intensity = lights.children[2].default
 		}
 		else if(performance === 'lo'){
-			//single light, 32^2 textures
-			var viewport = document.querySelector("meta[name=viewport]")
-			viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no')
+			//half intensity camlight, 2d animations enabled, basic lambert mtl
 			Velocity.mock = false
 			lights.children[2].intensity = .5
 			shadow.visible = true
@@ -1305,14 +1316,22 @@
 			}
 		}
 		else if(performance === 'barren'){
-			//affect meta viewport (less AA), 32^2 textures, turn off lights, no 2d animations
+			//no 2d animations, all lights off, no mock shadow, disable all effects
 			var viewport = document.querySelector("meta[name=viewport]")
 			viewport.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=0.75, user-scalable=no')
 			Velocity.mock = true
 			lights.children[0].intensity = lights.children[2].intensity =  0
+			lights.children[0].castShadow = false
+			orb.children[0].intensity = 0
 			shadow.visible = false
 			for(var i = 0; i<4; i++){
 				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_worst
+			}
+			for(var i =0; i<4; i++){
+				seseme['quad'+i].castShadow = false
+				seseme['quad'+i].receiveShadow = false
+				seseme['plr'+i].castShadow = false
+				seseme['plr'+i].receiveShadow = false
 			}
 		}
 	}
