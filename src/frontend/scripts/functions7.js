@@ -705,7 +705,7 @@
 }
 //4. REFILLING AND GLOBAL CONTENT POPULATION (shared b/w setup and refill)
 {
-	function refill(){
+	function refill(debug){
 		console.log('refilling')
 		//CHECKING FOR RETENTION
 		var retainMainText = false, retainDetailText = [false,false,false,false],
@@ -764,7 +764,7 @@
 		}
 		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
 		//3D SHIT - color, namesprites, titleblock, main button position
-		
+		if(debug) pctCalc() //for frontend simulation shit
 		pctsToHeights();
 		movePillars();
 		makeNames(retainName);
@@ -788,6 +788,8 @@
 				var plrspd = ((Math.abs(seseme['plr'+i].targetY - seseme['plr'+i].position.y) / plrmax) * constspd) + spdcompensator
 				anim3d(seseme['plr'+i], 'position', {y: seseme['plr'+i].targetY, spd: plrspd})
 			}
+			if(seseme.plr0.targetY < 0.8) signifier.visible = false
+			else if(!signifier.visible) signifier.visible = true
 		}
 		function replaceTitleblock(){
 			//if titleblock isnt visible at time of replacement, no need for fade
@@ -1315,8 +1317,26 @@
 		}
 	}
 	function forceNext(){
-		part++; refill()
+		part++; refill(true)
 	}
 	function forceStory(storynumber){
-		story = storynumber; refill()
+		story = storynumber; refill(true)
+	}
+	function pctCalc(){		
+		//calc percentages for pillar change in offline mode		
+		var top = 100, bottom = 0		
+		if(!data.valueType || data.valueType === "moreIsTall"){		
+			top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi		
+			bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo		
+		}		
+		else if(data.valueType === 'lessIsTall'){		
+			top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi		
+			bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo		
+		}		
+		var range = Math.abs(bottom-top)		
+		var percentagesArray = []		
+		for(var i = 0; i < 4; i++){		
+			percentagesArray[i] = Math.abs(bottom-data.values[i])/range		
+		}		
+		percentages = percentagesArray
 	}

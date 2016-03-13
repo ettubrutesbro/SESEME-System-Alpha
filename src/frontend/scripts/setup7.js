@@ -163,19 +163,22 @@ function setup(){
 			dom.containerSESEME.appendChild( renderer.domElement )
 			controls = new THREE.OrbitControls(camera)
 			raycast = new THREE.Raycaster()
+			renderer.shadowMap.enabled = true
+		    renderer.shadowMap.type = THREE.PCFSoftShadowMap
 			//materials
 			resources.mtls.seseme_phong = new THREE.MeshPhongMaterial({color: 0x80848e,shininess:17,specular:0x9a6a40,emissive: 0x101011})
 			resources.mtls.seseme_lambert = new THREE.MeshLambertMaterial({color: 0x80848e})
 			resources.mtls.seseme_worst = new THREE.MeshBasicMaterial({color: 0x000})
 			resources.mtls.seseme = resources.mtls.seseme_phong
 			resources.mtls.orb = new THREE.MeshPhongMaterial({color:0xff6666,emissive:0x771100,shininess:1,specular:0x272727})
-			resources.mtls.ground = new THREE.MeshBasicMaterial({color: 0xededed})
+			resources.mtls.ground = new THREE.MeshBasicMaterial({color:0xededed})
 			resources.mtls.signifier = new THREE.MeshBasicMaterial({color: 0xff0000,transparent: true, needsUpdate: true, alphaMap: resources.mtls.signifieralpha.map})
 			//meshes
-			// ground = new THREE.Mesh(new THREE.PlaneBufferGeometry( 150, 150 ), resources.mtls.ground)
-			// ground.rotation.x = rads(-90); ground.position.set(0,-18,0)
+			ground = new THREE.Mesh(new THREE.PlaneBufferGeometry( 30, 30 ), resources.mtls.ground)
+			ground.rotation.x = rads(-90); ground.position.set(0,-18,0)
 			covercube = new THREE.Mesh(new THREE.BoxGeometry( 15,30,15 ),resources.mtls.ground)
 			covercube.position.y = -33; covercube.name = 'covercube'
+
 
 			var qPos= [{x:1.5,z:1,r:0},{x:-1,z:1.5,r:270},{x:-1.5,z:-1,r:180},{x:1,z:-1.5,r:90}]
 		 	var pillarStartY = dice(2)===1? 0: 72
@@ -191,7 +194,6 @@ function setup(){
 				seseme['plr'+i].rotation.y = rads(-90)
 				//outline addition
 				outline = new THREE.Mesh(resources.geos.outline3, new THREE.MeshBasicMaterial({transparent: true, side: THREE.BackSide, depthWrite: true, opacity: 0, color: 0xff0000, needsUpdate: true}))
-
 				outline.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,-2.25,0))
 				seseme['plr'+i].outline = outline; seseme['plr'+i].add(outline)
 				//outcap
@@ -210,6 +212,17 @@ function setup(){
 			  	lights.add(backlight); lights.add(amblight); lights.add(camlight); 
 				lights.rotation.set(-camera.rotation.x/2, camera.rotation.y + rads(45), -camera.rotation.z/2)
 
+				backlight.castShadow = true
+				backlight.shadow.mapSize.width = 512
+				backlight.shadow.mapSize.height = 512
+				for(var i =0; i<4; i++){
+					seseme['quad'+i].castShadow = true
+					seseme['quad'+i].receiveShadow = true
+					seseme['plr'+i].castShadow = true
+					seseme['plr'+i].receiveShadow = true
+				}
+
+
 			}
 		  	//other FX
 		  	shadow = new THREE.Mesh(new THREE.PlaneBufferGeometry(16,16), resources.mtls.shadow)
@@ -225,14 +238,14 @@ function setup(){
 				signifier.add(sigfaceA); signifier.add(sigfaceB); signifier.add(sigfaceC)
 			signifier.position.set(-1.5,-2,-1)
 			orb = new THREE.Mesh(resources.geos.orb_lo, resources.mtls.orb)
-			orb.scale.set(0.45,0.45,0.45); orb.position.y = -20.25
+			orb.scale.set(0.45,0.45,0.45); orb.position.y = -20.25 //final position in initQuads, line 511
 			var orblight = new THREE.PointLight(0xff0000, 0.7); orblight.position.y = -1
 			orb.add(orblight)
 
 			//adding to scene
 			seseme.add(covercube); seseme.quad0.add(signifier)
 			seseme.add(orb)
-			// scene.add(ground); // ground may be obsolete....
+			// scene.add(ground); ground.receiveShadow = true
 			scene.add(seseme); scene.add(lights); scene.add(shadow)
 		}//build
 	}//assets
@@ -486,7 +499,7 @@ function setup(){
 				cb: function(){ plrMgr.itemEnd('plr'+which) }})
 		}
 		function initQuads(){
-				anim3d(orb, 'position', {y: -2, delay: 600, spd: 600, easing: ['Cubic','Out']})
+				anim3d(orb, 'position', {y: -2.2, delay: 600, spd: 600, easing: ['Cubic','Out']})
 				for(var i = 0; i<4; i++){
 					var q = seseme['quad'+i]
 					q.position.y = -31
