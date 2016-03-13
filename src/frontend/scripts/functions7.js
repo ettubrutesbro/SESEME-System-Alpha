@@ -1281,41 +1281,8 @@
 	function performanceLevel(){
 		var allLevels = ['barren', 'lo', 'med', 'hi', 'ultra']
 		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: 'barren'
-		alert('performance is now ' + performance)
-		if(performance === 'ultra'){
-			//+ realtime shadows
-			lights.children[0].castShadow = true
-			for(var i =0; i<4; i++){
-				seseme['quad'+i].castShadow = true
-				seseme['quad'+i].receiveShadow = true
-				seseme['plr'+i].castShadow = true
-				seseme['plr'+i].receiveShadow = true
-			}
-		}
-		else if(performance === 'hi'){
-			// + specular / phong material, orb light on
-			for(var i = 0; i<4; i++){
-				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
-			}
-			orb.children[0].intensity = orb.children[0].default
-		}
-		else if(performance === 'med'){
-			// + backlight and camlight both on and at full intensity, viewport correction
-			var viewport = document.querySelector("meta[name=viewport]")
-			viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no')
-			lights.children[0].intensity = lights.children[0].default
-			lights.children[2].intensity = lights.children[2].default
-		}
-		else if(performance === 'lo'){
-			//half intensity camlight, 2d animations enabled, basic lambert mtl
-			Velocity.mock = false
-			lights.children[2].intensity = .5
-			shadow.visible = true
-			for(var i = 0; i<4; i++){
-				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_lambert
-			}
-		}
-		else if(performance === 'barren'){
+		// alert('performance is now ' + performance)
+		if(performance === 'barren'){
 			//no 2d animations, all lights off, no mock shadow, disable all effects
 			var viewport = document.querySelector("meta[name=viewport]")
 			viewport.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=0.75, user-scalable=no')
@@ -1334,6 +1301,41 @@
 				seseme['plr'+i].receiveShadow = false
 			}
 		}
+		else if(performance === 'lo'){
+			//half intensity camlight, 2d animations enabled, basic lambert mtl
+			Velocity.mock = false
+			lights.children[2].intensity = .5
+			shadow.visible = true
+			for(var i = 0; i<4; i++){
+				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_lambert
+			}
+		}
+		else if(performance === 'med'){
+			// + backlight and camlight both on and at full intensity, viewport correction
+			var viewport = document.querySelector("meta[name=viewport]")
+			viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no')
+			lights.children[0].intensity = lights.children[0].default
+			lights.children[2].intensity = lights.children[2].default
+		}
+		else if(performance === 'hi'){
+			// + specular / phong material, orb light on
+			for(var i = 0; i<4; i++){
+				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
+			}
+			orb.children[0].intensity = orb.children[0].default
+		}
+		else if(performance === 'ultra'){
+			//+ realtime shadows
+			lights.children[0].castShadow = true
+			for(var i =0; i<4; i++){
+				seseme['quad'+i].castShadow = true
+				seseme['quad'+i].receiveShadow = true
+				seseme['plr'+i].castShadow = true
+				seseme['plr'+i].receiveShadow = true
+			}
+		}
+
+
 	}
 	function forceNext(){
 		part++; refill(true)

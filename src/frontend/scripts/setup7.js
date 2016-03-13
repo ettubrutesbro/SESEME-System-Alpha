@@ -102,7 +102,7 @@ function setup(){
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
 			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings',
-			'about_team0','about_team1','about_team2','about_about',
+			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings',
 			'feedback_tw','feedback_email',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
@@ -365,10 +365,11 @@ function setup(){
 						{dims: {x:12,y:16},pos:{x:-0,z:-21,delay:50},origin:{x:12,z:-21,delay:50}},
 						{dims: {x:12,y:16},pos:{x:14,z:-21},origin:{x:16,z:-21,delay:100}},
 						//blurb
-						{dims: {x:20,y:16},pos:{x:-10,z:0},origin:{x:-3,z:0}},
+						{dims: {x:20,y:16},pos:{x:-10,z:0},origin:{x:-3,z:0}, map: 'howto_ui'},
 						//below: seedling graphic & text
-						{dims: {x:40,y:16},pos:{x:0,z:21,delay:100},origin:{x:0,z:14,delay:70}},
-						{dims: {x:40,y:5},pos:{x:0,z:34,delay:200,},origin:{x:0,z:23}}
+						{dims: {x:40,y:20},pos:{x:0,z:21,delay:100},origin:{x:0,z:14,delay:70}, map:'howto_seedlings'},
+						// {dims: {x:40,y:16},pos:{x:0,z:21,delay:100},origin:{x:0,z:14,delay:70}},
+						// {dims: {x:40,y:5},pos:{x:0,z:34,delay:200,},origin:{x:0,z:23}}
 					]
 				},
 				{name: 'options',
