@@ -103,7 +103,7 @@ function setup(){
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
 			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings',
 			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings','howto_swipe',
-			'howto_pinch',
+			'howto_pinch','howto_tap',
 			'feedback_tw','feedback_email',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
@@ -362,27 +362,39 @@ function setup(){
 					x: 14, z: 0, icon: 'howto',
 					objs: [
 						//app animations
-						{dims: {x:11.25,y:16},pos:{x:-15,z:-22},origin:{x:-15,z:-24,delay:100},map:'howto_swipe',
+						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24,delay:100},map:'howto_swipe',
 							frames:11, 
 							sequence: function(){
 								anim3d(this, 'sprite', {dest: 10, frames:11, delay: 1000, loop:true})
 							}
 						}, //tween ABABA...
-						{dims: {x:16,y:16},pos:{x:1,z:-22,delay:100},origin:{x:1,z:-25},map: 'howto_pinch',
+						{dims: {x:16,y:16},pos:{x:0,z:-22,delay:100},origin:{x:0,z:-25},map: 'howto_pinch',
 							frames: 20,
 							sequence: function(){
 								setInterval(function(){
 									var pinch = info.help.children[1].children[1].children[1]
 									var whichFrame = pinch.material.map.offset.x * 20
 									if(whichFrame===0) anim3d(pinch, 'sprite', {dest: 10, frames: 20, spd: 300})
-									if(whichFrame===10) anim3d(pinch, 'sprite', {dest: 19, frames: 20, spd: 300})
-									if(whichFrame===19) anim3d(pinch, 'sprite', {dest: 0, frames: 20, spd: 550})
+									else if(whichFrame===10) anim3d(pinch, 'sprite', {dest: 19, frames: 20, spd: 300})
+									else if(whichFrame===19) anim3d(pinch, 'sprite', {dest: 0, frames: 20, spd: 550})
 								}, 1400)
 								
 							}
-							
 						}, //tween A....B....C
-						{dims: {x:12,y:16},pos:{x:14,z:-22},origin:{x:14,z:-26,delay:100}},
+						{dims: {x:12,y:16},pos:{x:16,z:-20.75},origin:{x:16,z:-26,delay:100},map:'howto_tap',
+							frames:42,
+							sequence: function(){
+								setInterval(function(){
+									var tap = info.help.children[1].children[1].children[2]
+									var whichFrame = tap.material.map.offset.x * 42
+									if(whichFrame===20) anim3d(tap, 'sprite', {dest: 41, frames: 42, spd: 800})
+									else{
+										if(whichFrame===41) tap.material.map.offset.x = 0
+										anim3d(tap, 'sprite', {dest: 20, frames: 42, spd: 800})
+									}
+								},2000)
+							}
+						},
 						//blurb
 						{dims: {x:20,y:16},pos:{x:-10,z:0},origin:{x:-3,z:0}, map: 'howto_ui'},
 						//below: seedling graphic & text
