@@ -1221,8 +1221,9 @@
 		if(obj[property+'Tween']) obj[property+'Tween'].stop()
 		obj[property+'Tween'] = new TWEEN.Tween(start).to(destination, options.spd? options.spd: 400)
 		.onUpdate(update).easing(options.easing?TWEEN.Easing[options.easing[0]][options.easing[1]]:TWEEN.Easing.Quadratic.Out).delay(options.delay?options.delay:0)
-		if(options.cb) obj[property+'Tween'].onComplete(function(){ options.cb(); delete obj[property+'Tween'] })
-		else obj[property+'Tween'].onComplete(function(){ delete obj[property+'Tween'] })
+		if(options.loop) {obj[property+'Tween'].repeat(Infinity); obj[property+'Tween'].yoyo( true )}
+		if(options.cb) obj[property+'Tween'].onComplete(function(){ delete this; options.cb()  })
+		else obj[property+'Tween'].onComplete(function(){ delete this })
 		obj[property+'Tween'].start()
 	}
 	function rotateTo(which){

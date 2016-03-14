@@ -102,10 +102,12 @@ function setup(){
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
 			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings',
-			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings',
+			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings','howto_swipe',
+			'howto_pinch',
 			'feedback_tw','feedback_email',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
+		
 
 
 		var resourceMgr = new THREE.LoadingManager()
@@ -350,7 +352,6 @@ function setup(){
 					x: 0, z: 14, icon: 'about',
 					objs: [
 						//team rows
-						{dims: {x:11.2,y:3.2}, pos: {x:13.95, z:-28.75, delay:350, spd: 100}, origin: {x:6,z:-28.75}, map: 'about_team0'},
 						{dims: {x:40,y:7}, pos: {x:0, z:-22, delay: 0}, origin: {x:-5,z:-22,delay:75}, map: 'about_team1'},
 						{dims: {x:40,y:7}, pos: {x:0, z:-14, delay: 150}, origin: {x:-3,z:-14}, map: 'about_team2'},
 						// paragraph
@@ -361,15 +362,31 @@ function setup(){
 					x: 14, z: 0, icon: 'howto',
 					objs: [
 						//app animations
-						{dims: {x:12,y:16},pos:{x:-14,z:-21,delay:100},origin:{x:10,z:-21}},
-						{dims: {x:12,y:16},pos:{x:-0,z:-21,delay:50},origin:{x:12,z:-21,delay:50}},
-						{dims: {x:12,y:16},pos:{x:14,z:-21},origin:{x:16,z:-21,delay:100}},
+						{dims: {x:11.25,y:16},pos:{x:-15,z:-22},origin:{x:-15,z:-24,delay:100},map:'howto_swipe',
+							frames:11, 
+							sequence: function(){
+								anim3d(this, 'sprite', {dest: 10, frames:11, delay: 1000, loop:true})
+							}
+						}, //tween ABABA...
+						{dims: {x:16,y:16},pos:{x:1,z:-22,delay:100},origin:{x:1,z:-25},map: 'howto_pinch',
+							frames: 20,
+							sequence: function(){
+								setInterval(function(){
+									var pinch = info.help.children[1].children[1].children[1]
+									var whichFrame = pinch.material.map.offset.x * 20
+									if(whichFrame===0) anim3d(pinch, 'sprite', {dest: 10, frames: 20, spd: 300})
+									if(whichFrame===10) anim3d(pinch, 'sprite', {dest: 19, frames: 20, spd: 300})
+									if(whichFrame===19) anim3d(pinch, 'sprite', {dest: 0, frames: 20, spd: 550})
+								}, 1400)
+								
+							}
+							
+						}, //tween A....B....C
+						{dims: {x:12,y:16},pos:{x:14,z:-22},origin:{x:14,z:-26,delay:100}},
 						//blurb
 						{dims: {x:20,y:16},pos:{x:-10,z:0},origin:{x:-3,z:0}, map: 'howto_ui'},
 						//below: seedling graphic & text
-						{dims: {x:40,y:20},pos:{x:0,z:21,delay:100},origin:{x:0,z:14,delay:70}, map:'howto_seedlings'},
-						// {dims: {x:40,y:16},pos:{x:0,z:21,delay:100},origin:{x:0,z:14,delay:70}},
-						// {dims: {x:40,y:5},pos:{x:0,z:34,delay:200,},origin:{x:0,z:23}}
+						{dims: {x:40,y:20},pos:{x:0,z:19.5,delay:0},origin:{x:0,z:25,delay:70}, map:'howto_seedlings'},
 					]
 				},
 				{name: 'options',
@@ -427,6 +444,9 @@ function setup(){
 					helpObj.name = sections[i].name; helpObj.class = 'content'; helpObj.index = it
 					helpObj.visible = false
 					helpcontent.add(helpObj)
+					if(objInfo.frames) helpObj.material.map.repeat.set(1/objInfo.frames, 1)
+					if(objInfo.sequence) {helpObj.sequence = objInfo.sequence; helpObj.sequence()}
+
 				}
 				helpsection.content = helpcontent
 				helpsection.add(helpsection.content)
@@ -434,6 +454,9 @@ function setup(){
 				info.help[sections[i].name] = helpsection
 				info.help.add(info.help[sections[i].name])
 				projectionMgr.itemEnd('helpSection'+i)
+
+				//specific stuff
+
 			}
 			info.orbiter.add(info.help)
 		}
