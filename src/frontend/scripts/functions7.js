@@ -1280,41 +1280,26 @@
 }
 //9. ETC / other
 	function performanceLevel(){
-		var allLevels = ['barren', 'lo', 'med', 'hi', 'ultra']
-		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: 'barren'
+		var allLevels = ['lo', 'med', 'hi', 'ultra']
+		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: allLevels[0]
 		// alert('performance is now ' + performance)
-		if(performance === 'barren'){
-			//no 2d animations, all lights off, no mock shadow, disable all effects
-			var viewport = document.querySelector("meta[name=viewport]")
-			viewport.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=0.75, user-scalable=no')
+		
+		if(performance === 'lo'){
+			//no orb geometry, no mock shadow, no 2d anims, no backlight or orb, half camlight, lambert materials
 			Velocity.mock = true
-			lights.children[0].intensity = lights.children[2].intensity =  0
-			lights.children[0].castShadow = false
-			orb.children[0].intensity = 0
-			shadow.visible = false
-			for(var i = 0; i<4; i++){
-				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_worst
-			}
-			for(var i =0; i<4; i++){
-				seseme['quad'+i].castShadow = false
-				seseme['quad'+i].receiveShadow = false
-				seseme['plr'+i].castShadow = false
-				seseme['plr'+i].receiveShadow = false
-			}
-		}
-		else if(performance === 'lo'){
-			//half intensity camlight, 2d animations enabled, basic lambert mtl
-			Velocity.mock = false
+			shadow.visible = orb.visible = lights.children[0].castShadow = false
+			lights.children[0].intensity = orb.chlidren[0].intensity = 0
 			lights.children[2].intensity = .5
-			shadow.visible = true
 			for(var i = 0; i<4; i++){
 				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_lambert
+				seseme['quad'+i].castShadow = seseme['plr'+i].castShadow = false
+				seseme['quad'+i].receiveShadow = seseme['plr'+i].receiveShadow = false
 			}
 		}
 		else if(performance === 'med'){
-			// + backlight and camlight both on and at full intensity, viewport correction
-			var viewport = document.querySelector("meta[name=viewport]")
-			viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no')
+			// normal lights on and full, 2d animations restored, visible mock shadow
+			Velocity.mock = false
+			shadow.visible = orb.visible = true
 			lights.children[0].intensity = lights.children[0].default
 			lights.children[2].intensity = lights.children[2].default
 		}
