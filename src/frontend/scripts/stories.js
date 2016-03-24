@@ -22,7 +22,7 @@ var stories = [
         pLabels: ['','','',''],
         pStatboxes: [
           {c:'1st Place', size: 18 }, {c: '3rd', size: 18 },
-          {c:'9th', size: 18 }, {c: '20th, lol', size: 18 }
+          {c:'9th', size: 18 }, {c: '20th, lol', size: 18 },
         ],
         pLinks: [
           [{type:'yt', c: 'https://youtu.be/s_aYTip3jK0'}, {type: 'article', c: 'http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-uc-davis-1.aspx'}, {type: 'www', c: 'http://ucdavis.edu/ucdavis-today/2012/august/14-cool-school.html'}],
