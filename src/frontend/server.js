@@ -2,8 +2,6 @@ var path = require('path');
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
-var story = 0;
-var part = 0;
 
 server.listen(8080);
 
@@ -15,7 +13,7 @@ app.use('/bower_components', express.static(__dirname + '/web/bower_components')
 
 var socket = require('socket.io');
 var io = new socket.listen(5000);
-var stories = require(path.join(__dirname, '..', 'jsLibrary', 'stories.json'));
+var stories = require(path.join(__dirname, 'scripts', 'stories.js'));
 
 // MAIN index loader
 app.get('/', function (req, res) {
@@ -24,17 +22,18 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
 	socket.on('error', function (err) {
-		console.log("Socket Error! "+err);
+		print("Socket Error! "+err);
 		error(err);
 	});
 
 	socket.on('ui request story', function() {
-		console.log("Frontend Requested Story: Sending Current Story Data");
-        io.sockets.emit('ui acquire story', {
-            story: story,
-            part: part,
-            percentages: [Math.random(), Math.random(), Math.random(), Math.random()],
+		print("Frontend Requested Story: Sending Current Story Data");
+		// Have the frontend acquire the story data
+		io.sockets.emit('ui acquire story', {
+			story: 2,
+			part: 0,
+			percentages: [0.8771929824561404, 1, 0.3508771929824562, 0.6491228070175438],
             stories: stories
-        });
+		});
 	});
 });
