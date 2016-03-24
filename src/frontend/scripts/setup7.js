@@ -101,15 +101,13 @@ function setup(){
 		var allTextures = ['signifieralpha','chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
-			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings',
-			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings','howto_swipe',
-			'howto_pinch','howto_tap',
-			'feedback_tw','feedback_email',
+			'link_ig2','link_fb','link_podcast', 
+			'btn_howto','btn_feedback','btn_about','btn_settings',
+			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings','howto_swipe','howto_pinch','howto_tap','feedback_tw','feedback_email',
+			'ucd','cal','nyu','aau',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
 		
-
-
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
 		resourceMgr.onLoad = function(){

@@ -210,9 +210,14 @@ var stories = [
         },
         maintext: 'In September, the U.S. Department of Education launched a \'College Scorecard\' website, powered by open data and designed to help students & their families make informed decisions about attending university.',
 
-        pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
+        pNames: ['UC Davis', 'UC Davis', ['New York', 'University'], 'Academy of Art'],
         pTexts: ['','','',''],
-        pSymbols: ['','','',''],
+        pSymbols: [
+          {type: 'img', src: 'ucd'},
+          {type: 'img', src: 'cal'},
+          {type: 'img', src: 'nyu'},
+          {type: 'img', src: 'aau'}
+        ],
         pLabels: ['','','',''],
         pStatboxes: [
           {c:'$15k'}, {c: '$15.7k'}, {c:'$12k'}, {c: '$13.7k' }

@@ -1036,10 +1036,10 @@
           ""
         ],
         "pSymbols": [
-          "",
-          "",
-          "",
-          ""
+          {"type": "img", "src": "ucd"},
+          {"type": "img", "src": "cal"},
+          {"type": "img", "src": "nyu"},
+          {"type": "img", "src": "aau"}
         ],
         "pLabels": [
           "",
@@ -1116,10 +1116,10 @@
           ""
         ],
         "pSymbols": [
-          "",
-          "",
-          "",
-          ""
+          {"type": "img", "src": "ucd"},
+          {"type": "img", "src": "cal"},
+          {"type": "img", "src": "nyu"},
+          {"type": "img", "src": "aau"}
         ],
         "pLabels": [
           "",
