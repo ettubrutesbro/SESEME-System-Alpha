@@ -18,7 +18,7 @@ init = true
 var controls, mouse = new THREE.Vector2(), raycast
 // 3d constants
 var plrmax = 12, constspd = 10000, spdcompensator = 400,
-thresholds = {zoom: [.675,1.15], height: [-3,-56], perspectiveZoom: [29,40.5]},
+thresholds = {zoom: [.675,1.15], height: [-3,-56], persZ: [46,28]},
 facingRotations = [-45,-135,135,45]
 //dom
 var dom = {}
