@@ -1216,6 +1216,12 @@
 			options.easing = ['Linear','None']
 			update = function(){ obj.material.map.offset.x = Math.ceil(start.f)/ options.frames }
 		}
+		else if(property === 'scrollmap'){ //give a percentage value
+			start.x = obj.material.map.offset.x 
+			if(start.x === options.dest) return
+			destination.x = options.dest 
+			update = function(){ obj.material.map.offset.x = start.x}
+		}
 		else{ console.log('invalid tween type...'); return}
 		//the actual tween:
 		if(obj[property+'Tween']) obj[property+'Tween'].stop()
@@ -1320,8 +1326,29 @@
 				seseme['plr'+i].receiveShadow = true
 			}
 		}
+	}
+	function cameraPerspective(){
+		var sprite = info.help.children[2].children[1].children[1]
+		var caption = info.help.children[2].children[1].children[4]
+		anim3d(sprite, 'sprite', {frames: 11, dest: 10, spd: 400})
+		anim3d(caption, 'scrollmap', {dest: 0.5})
+	}
+	function collectDataMode(){
+		var sprite = info.help.children[2].children[1].children[2]
+		var caption = info.help.children[2].children[1].children[5]
+		if(userPermission){ // turn it off
+			anim3d(sprite, 'sprite', {frames: 10, dest: 9, spd: 400, cb: function(){
+				userPermission = false
+			}})
+			anim3d(caption, 'scrollmap', {dest: 0.5})
 
-
+		}	
+		else{ // turn it on
+			anim3d(sprite, 'sprite',{frames:10,dest:0,spd:400, cb: function(){
+				userPermission = true
+			}})
+			anim3d(caption, 'scrollmap', {dest: 0})
+		}
 	}
 	function forceNext(){
 		part++; refill(true)
