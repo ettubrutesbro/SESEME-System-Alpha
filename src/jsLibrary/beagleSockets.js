@@ -38,6 +38,9 @@ console.log('----CONNECTING ON PORT 4000----     IP:169.237.123.19:4000')
 var IP = 'http://169.237.123.19:4000';
 var socket = require('socket.io-client')(IP);
 
+var initGPIO = require(path.join(__dirname, '..', 'monument', 'gpio.js'));
+initGPIO.setup(socket);
+
 getIP();
 
 socket.emit('checkin', ' * DATA')
@@ -88,6 +91,11 @@ socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
             } // all four motors have finished moving
         });
     }
+});
+
+//TODO: what happens after monument's reset button was pressed
+socket.on('seseme reset button', function() {
+    
 });
 
 

@@ -4,7 +4,7 @@ function setup(socket) {
 
   gpio.setup(7, gpio.DIR_IN, function(){
     console.log('setup :)');
-    setInterval( readInput, 150);
+    setInterval(readInput, 150);
   });
 
   var coolDown = Date.now();
@@ -15,12 +15,12 @@ function setup(socket) {
       //console.log(value)
       if(value == false){
         if(coolDown < (Date.now() - 1000)){
-          console.log('\nBUTTON PRESSED');
+          console.log('\nRESET BUTTON PRESSED');
           coolDown = Date.now();
-          socket.emit('bigRedButton'); // big red button was pressed
+          socket.emit('seseme reset button'); // big red button was pressed
         }
       }
-    })
+    });
   }
 }
 

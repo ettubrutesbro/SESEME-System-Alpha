@@ -49,13 +49,7 @@ function setup(socket, seedlingNum, callback) {
             firstDiode = 2;
 
             buttonLight = new five.Led(10);
-            urlLight = new five.Led.RGB({
-              pins: {
-                red: 3,
-                green: 5,
-                blue: 9
-              }
-            }); // led strip used to light up seseme.net logo
+            urlLight = new five.Led.RGB([3, 5, 9]);
         }
 
         else if(seedlingNum == 1){
@@ -85,7 +79,6 @@ function setup(socket, seedlingNum, callback) {
         });
         strip.on("ready", function() {
             console.log("Strip initialized");
-            //obj = new Board(board, strip, pixelNum, name, light, button);
         });
 
         obj = new Board(seedlingNum, strip, pixelNum, firstDiode, buttonLight, urlLight, iconLight, lmLight);
@@ -95,14 +88,6 @@ function setup(socket, seedlingNum, callback) {
             console.log("read directory")
             filesAr = files;
         }); // call from seedlings folder in directory
-
-        // /* prototype to fill in arrays of sounds */
-        // var topical = ['cash','police','vroom','water1','water2','horhorhor'];
-        // var dumb = ['baa','horse','quak1','quak2','meow1','meow2','moo1','moo2','moo3','moo4','moo5'];
-        // var no = ['error1','error2','error3','no1','no2','no3','no4'];
-        // var ready = ['chime1','chime2','chime3','chime4','chime5','ready1','ready2','ready3','ready4'];
-        // var celebratory = ['sad','roar'];
-        // soundObj = new SoundsObj(topical, dumb, no, ready, celebratory);
 
         // Init LED socket listeners
         var initLED = require(path.join(__dirname, '..', 'listeners', 'led.js'));

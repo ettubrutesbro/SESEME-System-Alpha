@@ -1,33 +1,30 @@
 //***************************************************
 // ******************* SOCKET.IO SHIT **************
 //
-var num = 4;
-console.log('----CONNECTING ON PORT 600' + num + '----   IP:169.237.123.19:600' + num)
+console.log('----CONNECTING ON PORT 7000 ----   IP:169.237.123.19:7000');
 
 // log into XPS server in the office
-var IP = 'http://169.237.123.19:600' + num;
+var IP = 'http://169.237.123.19:7000';
 var socket = require('socket.io-client')(IP);
 var path = require('path');
 var obj = null;
-var led = require(path.join(__dirname, '..', 'jsLibrary', 'led.js'));
+var led = require(path.join(__dirname, '..', 'monument', 'led.js'));
 
-socket.emit('checkin', 'SEEDLING' + (num+1));
+socket.emit('checkin');
 
 // Init the board as well as the led socket listeners
 var initBoard = require(path.join(__dirname, '..', 'monument', 'board.js'));
-/*
-initBoard.setup(socket, num, function(data){
+initBoard.setup(socket, function(data){
 	obj = data;
 });
-*/
 
 // Init GPIO setup and socket emits
 //var initGPIO = require(path.join(__dirname, 'setup', 'gpio.js'));
 //initGPIO.setup(socket);
 
 socket.on('connect', function() {
-  console.log('seedling ' + (num+1) + ' On', socket.connected);
-  socket.emit('seedling ' + (num+1) + ' On');
+  console.log('monumentLights On', socket.connected);
+  socket.emit('monumentLights 1 On');
 });
 
 socket.on('disconnect', function() {

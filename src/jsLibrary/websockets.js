@@ -127,6 +127,13 @@ for(var i = 0; i < 3; i++){
 	seedlings[i] = new seedlingObj(story[i], 0, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, readyState);
 }
 
+
+////////////////////////////////////////////////
+//	MONUMENT Pi Vars
+////////////////////////////////////////////////
+var monumentLightsIO = new socket.listen(7000);
+var monumentLightsOnline = false;
+
 ////////////////////////////////////////////////
 // COUNTDOWN 'TIL IDLE STATE
 ////////////////////////////////////////////////
@@ -892,3 +899,31 @@ beagleIO.on('connection', function(beagleSocket){
 	})
 
 });
+
+
+////////////////////////////////////////////////
+//	Monument Lights Pi
+////////////////////////////////////////////////
+
+monumentLightsIO.on('connection', function(monumentSocket){
+  monumentSocket.on('checkin', function(){
+    print('Monument Lights Pi checkin');
+  });  
+
+  monumentSocket.on('monumentLights 1 On', function(){
+    monumentLightsOnline = true;
+    print('Monument Lights Pi Online');
+    monumentSocket.emit('monument lights on');
+  });  
+
+	monumentSocket.on('disconnect', function(){
+		monumentLightsOnline = false;
+		print('[MONUMENT LIGHTS: DISCONNECTED]')
+
+		// Report to the diagnostics channel that the monument went down
+		var slackTitle = 'Monument (.31) Disconnected!';
+		claptron.reportDisconnect(slackTitle);
+	})
+
+});
+
