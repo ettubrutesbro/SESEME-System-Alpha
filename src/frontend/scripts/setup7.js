@@ -1,14 +1,13 @@
 
 //global data
-var socket
 var stories = null
+var socket
 var story=0, part=0, data = null, percentages
 var info = {name: []}
-// info.prev = [], info.name = [], info.detail = []
 //objects and resources
 var scene = new THREE.Scene(), camera, renderer
 var resources = {geos: {}, mtls: {}}
-var seseme = new THREE.Group(), ground, lights, shadow
+var seseme = new THREE.Group(), ground, lights, orb, shadow, signifier
 //global states
 var facing = 0, startHash = window.location.hash.slice(1)
 view = {text: false, content: '', lastTextHeight: 0, filling: false,
@@ -19,16 +18,13 @@ init = true
 var controls, mouse = new THREE.Vector2(), raycast
 // 3d constants
 var plrmax = 12, constspd = 10000, spdcompensator = 400,
-// plrSlope = 638.5, plrConstant = 1112.2,
-thresholds = {zoom: [.675,1.15], height: [-3,-56]},
-// facingRotations = [-45,45,135,-135]
+thresholds = {zoom: [.675,1.15], height: [-3,-56], persZ: [46,28]},
 facingRotations = [-45,-135,135,45]
 //dom
 var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
-var online = true
-var performance = 'hi'
+var performance = 'hi', cameraPerspective = false
 
 function setup(){
 	//ready waits for data & 3d before filling the scene
@@ -40,75 +36,44 @@ function setup(){
 	initDOM() //dom
 
 	function netOps(){
-			if(online){ //server is hooked up
-				socket = io.connect('http://169.237.123.19:5000')
-				socket.once('connect', function(){
-					console.log('successfully connected')
-					socket.emit('ui request story')
-					// socket.on('debug status report', function(d){console.log(d)})
-			 	})
-				socket.once('ui acquire story', function(d){
-					console.log('ui acquired story')
-					console.log(d)
-                    stories = [
-                        d.stories.environment,
-                        d.stories.society,
-                        d.stories.anomalous
-                    ]
-                    story = d.story; part = d.part; percentages = d.percentages
-                    console.log(story)
-                    data = stories[story].parts[part]
-					ready.itemEnd('firstdata')
-				})
-				socket.on('ui update', function(d){
-					// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
-					console.log('ui updating')
-					console.log(d)
-					story = d.story
-					part = d.part
-					percentages = d.percentages
-					refill()
-				})
-				socket.on('ui check desync', function(){
-					console.log('XPS is checking desync')
-					socket.emit('ui report status', {story: stories[story].id, part: part})
-				})
-				socket.on('disconnect',function(){ console.log('disconnected')})
-				socket.on('reconnect', function(){ console.log('reconnected') })
-				// socket.on('receive something', function(d){ console.log(d) })
-				socket.on('status report', function(d){ console.log(d) })
-			}
-			//development w/o server: mock
-			else if(!online){
-				console.log('let\'s pretend we\'re online...')
-				story = 0; part = 0
-				data = stories[story].parts[part]
-				percentages = heightCalc(data)
-				ready.itemEnd('firstdata')
-
-				function heightCalc(data){
-						//pass in story[i].parts[part].values, get percentages
-						var top = 100, bottom = 0
-						if(!data.valueType || data.valueType === "moreIsTall"){
-							top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
-							bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
-						}
-						else if(data.valueType === 'lessIsTall'){
-							top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
-							bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
-						}
-						var range = Math.abs(bottom-top)
-						var percentagesArray = []
-						for(var i = 0; i < 4; i++){
-							percentagesArray[i] = Math.abs(bottom-data.values[i])/range
-						}
-						return percentagesArray
-				}
-				// setTimeout(function(){ part++; view.nextpart() }, 7500)
-			}
-	} // end query
+		socket = io.connect('http://169.237.123.19:5000')
+		socket.once('connect', function(){
+			console.log('successfully connected')
+			socket.emit('ui request story')
+			// socket.on('debug status report', function(d){console.log(d)})
+	 	})
+		socket.once('ui acquire story', function(d){
+			console.log('ui acquired story')
+			console.log(d)
+            stories = [
+                d.stories.environment,
+                d.stories.society,
+                d.stories.anomalous
+            ]
+            story = d.story; part = d.part; percentages = d.percentages
+            console.log(story)
+            data = stories[story].parts[part]
+			ready.itemEnd('firstdata')
+		})
+		socket.on('ui update', function(d){
+			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
+			console.log('ui updating')
+			console.log(d)
+			story = d.story
+			part = d.part
+			percentages = d.percentages
+			refill()
+		})
+		socket.on('ui check desync', function(){
+			console.log('XPS is checking desync')
+			socket.emit('ui report status', {story: stories[story].id, part: part})
+		})
+		socket.on('disconnect',function(){ console.log('disconnected')})
+		socket.on('reconnect', function(){ console.log('reconnected') })
+		// socket.on('receive something', function(d){ console.log(d) })
+		socket.on('status report', function(d){ console.log(d) })
+	} // end netOps
 	function initDOM(){ // defining global DOM items
-		// document.addEventListener('DOMContentLoaded', function(){
 			dom.containerSESEME = $('containerSESEME')
 			dom.bottom = $('bottom'); dom.closebutton = $('closebutton');
 			dom.bottomwrapper = $('bottomwrapper')
@@ -128,18 +93,19 @@ function setup(){
 			}
 			dom.leftarrow = $('leftarrow'); dom.rightarrow = $('rightarrow')
 			assets()
-		// })
 	} //end initDOM
 	function assets(){
-		var allModels = ['quaped','pillar','outline3','outcap','templategeo'] //symbolgeos?
-		var allTextures = ['chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
+		var allModels = ['quaped','pillar','outline3','outcap','orb_lo','templategeo'] //symbolgeos?
+		var allTextures = ['signifieralpha','chevron','shadow','bookeyemag', 'circle', 'templategeo', 'planetest',
 			,'link_chain','link_list','link_data','link_www','link_yt','link_pix',
 			'link_article','link_book','link_site','link_convo','link_tw','link_tw2','link_tw3','link_ig',
 			'link_ig2','link_fb','link_podcast', 'btn_howto','btn_feedback','btn_about','btn_settings',
-			'about_team0','about_team1','about_team2','about_about',
+			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings','howto_swipe',
+			'howto_pinch','howto_tap',
 			'feedback_tw','feedback_email',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
+		
 
 
 		var resourceMgr = new THREE.LoadingManager()
@@ -187,6 +153,7 @@ function setup(){
 			//camera/renderer/dom
 			var aspect = dom.containerSESEME.offsetWidth / dom.containerSESEME.offsetHeight; var d = 20
 			camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 0, 100 )
+			// camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000)
 			camera.position.set( -d, 10, d ); camera.rotation.order = 'YXZ'
 			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 )); camera.zoom = .875
 			camera.updateProjectionMatrix();
@@ -197,18 +164,22 @@ function setup(){
 			dom.containerSESEME.appendChild( renderer.domElement )
 			controls = new THREE.OrbitControls(camera)
 			raycast = new THREE.Raycaster()
+			renderer.shadowMap.enabled = true
+		    renderer.shadowMap.type = THREE.PCFSoftShadowMap
 			//materials
 			resources.mtls.seseme_phong = new THREE.MeshPhongMaterial({color: 0x80848e,shininess:17,specular:0x9a6a40,emissive: 0x101011})
 			resources.mtls.seseme_lambert = new THREE.MeshLambertMaterial({color: 0x80848e})
 			resources.mtls.seseme_worst = new THREE.MeshBasicMaterial({color: 0x000})
 			resources.mtls.seseme = resources.mtls.seseme_phong
 			resources.mtls.orb = new THREE.MeshPhongMaterial({color:0xff6666,emissive:0x771100,shininess:1,specular:0x272727})
-			resources.mtls.ground = new THREE.MeshBasicMaterial({color: 0xededed})
+			resources.mtls.ground = new THREE.MeshBasicMaterial({color:0xededed})
+			resources.mtls.signifier = new THREE.MeshBasicMaterial({color: 0xff0000,transparent: true, needsUpdate: true, alphaMap: resources.mtls.signifieralpha.map})
 			//meshes
-			// ground = new THREE.Mesh(new THREE.PlaneBufferGeometry( 150, 150 ), resources.mtls.ground)
-			// ground.rotation.x = rads(-90); ground.position.set(0,-18,0)
+			ground = new THREE.Mesh(new THREE.PlaneBufferGeometry( 30, 30 ), resources.mtls.ground)
+			ground.rotation.x = rads(-90); ground.position.set(0,-18,0)
 			covercube = new THREE.Mesh(new THREE.BoxGeometry( 15,30,15 ),resources.mtls.ground)
 			covercube.position.y = -33; covercube.name = 'covercube'
+
 
 			var qPos= [{x:1.5,z:1,r:0},{x:-1,z:1.5,r:270},{x:-1.5,z:-1,r:180},{x:1,z:-1.5,r:90}]
 		 	var pillarStartY = dice(2)===1? 0: 72
@@ -224,7 +195,6 @@ function setup(){
 				seseme['plr'+i].rotation.y = rads(-90)
 				//outline addition
 				outline = new THREE.Mesh(resources.geos.outline3, new THREE.MeshBasicMaterial({transparent: true, side: THREE.BackSide, depthWrite: true, opacity: 0, color: 0xff0000, needsUpdate: true}))
-
 				outline.geometry.applyMatrix(new THREE.Matrix4().makeTranslation(0,-2.25,0))
 				seseme['plr'+i].outline = outline; seseme['plr'+i].add(outline)
 				//outcap
@@ -238,19 +208,39 @@ function setup(){
 			{
 				lights = new THREE.Group(); var amblight = new THREE.AmbientLight( 0x232330 )
 				var backlight = new THREE.SpotLight(0xeaddb9, 1.2); var camlight = new THREE.PointLight(0xffffff, .35)
-		  	backlight.position.set(-7,25,-4); camlight.position.set(-40,-7,-24)
+			  	backlight.position.set(-7,25,-4); camlight.position.set(-40,-7,-24)
 				backlight.default = 1.2, camlight.default = .35
-		  	lights.add(backlight); lights.add(amblight); lights.add(camlight)
+			  	lights.add(backlight); lights.add(amblight); lights.add(camlight); 
 				lights.rotation.set(-camera.rotation.x/2, camera.rotation.y + rads(45), -camera.rotation.z/2)
+
+				backlight.shadow.mapSize.width = 512
+				backlight.shadow.mapSize.height = 512
+
 			}
 		  	//other FX
 		  	shadow = new THREE.Mesh(new THREE.PlaneBufferGeometry(16,16), resources.mtls.shadow)
 		  	shadow.rotation.x = rads(-90); shadow.position.set(-0.1,-17.99,0.1)
-				shadow.material.opacity = 0
-				//adding to scene
-				seseme.add(covercube)
-				// scene.add(ground); // ground may be obselete....
-				scene.add(seseme); scene.add(lights); scene.add(shadow)
+			shadow.material.opacity = 0
+			signifier = new THREE.Group()
+				sigfaceA = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
+				sigfaceA.position.set(-2.55,-.3,4)
+				sigfaceB = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
+				sigfaceB.position.set(-4,-.3,2.55); sigfaceB.rotation.y = rads(-90)
+				sigfaceC = new THREE.Mesh(new THREE.PlaneBufferGeometry(4.4,2), resources.mtls.signifier)
+				sigfaceC.position.set(-2.5,-.3,2.5); sigfaceC.rotation.y = rads(135)
+				signifier.add(sigfaceA); signifier.add(sigfaceB); signifier.add(sigfaceC)
+			signifier.position.set(-1.5,-2,-1)
+			orb = new THREE.Mesh(resources.geos.orb_lo, resources.mtls.orb)
+			orb.scale.set(0.45,0.45,0.45); orb.position.y = -20.25 //final position in initQuads, line 511
+			var orblight = new THREE.PointLight(0xff0000, 0.7); orblight.position.y = -1
+			orblight.default = 0.7
+			orb.add(orblight)
+
+			//adding to scene
+			seseme.add(covercube); seseme.quad0.add(signifier)
+			seseme.add(orb)
+			// scene.add(ground); ground.receiveShadow = true
+			scene.add(seseme); scene.add(lights); scene.add(shadow)
 		}//build
 	}//assets
 	function fill(){
@@ -261,7 +251,7 @@ function setup(){
 
 		initQuads() //completion of each also runs initPillar
 		makeOrbiter()
-		highlightColor()
+		colorObjects()
 		makeNames([false,false,false,false]); projectionMgr.itemEnd('names')
 		makeTitleblock(); projectionMgr.itemEnd('titleblock')
 		makeSymbols([false,false,false,false])
@@ -303,18 +293,26 @@ function setup(){
 			}
 			plrMgr.onLoad = function(){
 				console.log('pillars in place'); allMgr.itemEnd('plrMgr')
+				anim3d(signifier,'position',{y:0})
 			}
 			// projectionMgr.onProgress = function(item,loaded,total){console.log(item,loaded,total)}
 			projectionMgr.onLoad = function(){
 				console.log('projections initialized'); allMgr.itemEnd('projectionMgr')
 			}
 		}//end loadingManagers
-		function highlightColor(){
+		function colorObjects(){
 				var rgb = data.color.ui? hexToRgb(data.color.ui): {r:0,g:0,b:0}
+				rgb = {r:rgb.r/255,g:rgb.g/255,b:rgb.b/255}
 				for(var i = 0; i<4; i++){
-					seseme['plr'+i].outline.material.color = {r: rgb.r/255, g: rgb.g/255, b: rgb.b/255}
-					seseme['plr'+i].outcap.material.color = {r: rgb.r/255, g: rgb.g/255, b: rgb.b/255}
+					seseme['plr'+i].outline.material.color = rgb
+					seseme['plr'+i].outcap.material.color = rgb
 				}
+				for(var i = 0; i<3; i++){
+					signifier.children[i].material.color = rgb
+				}
+					resources.mtls.orb.color = {r: rgb.r/2, g: rgb.g/2, b:rgb.b/2}
+					resources.mtls.orb.emissive = {r: rgb.r*1.25, g: rgb.g*1.25, b: rgb.b*1.25}
+					orb.children[0].color = rgb
 		}
 		function makeOrbiter(){
 			console.log('make orbiter')
@@ -353,7 +351,6 @@ function setup(){
 					x: 0, z: 14, icon: 'about',
 					objs: [
 						//team rows
-						{dims: {x:11.2,y:3.2}, pos: {x:13.95, z:-28.75, delay:350, spd: 100}, origin: {x:6,z:-28.75}, map: 'about_team0'},
 						{dims: {x:40,y:7}, pos: {x:0, z:-22, delay: 0}, origin: {x:-5,z:-22,delay:75}, map: 'about_team1'},
 						{dims: {x:40,y:7}, pos: {x:0, z:-14, delay: 150}, origin: {x:-3,z:-14}, map: 'about_team2'},
 						// paragraph
@@ -364,14 +361,43 @@ function setup(){
 					x: 14, z: 0, icon: 'howto',
 					objs: [
 						//app animations
-						{dims: {x:12,y:16},pos:{x:-14,z:-21,delay:100},origin:{x:10,z:-21}},
-						{dims: {x:12,y:16},pos:{x:-0,z:-21,delay:50},origin:{x:12,z:-21,delay:50}},
-						{dims: {x:12,y:16},pos:{x:14,z:-21},origin:{x:16,z:-21,delay:100}},
+						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24,delay:100},map:'howto_swipe',
+							frames:11, 
+							sequence: function(){
+								anim3d(this, 'sprite', {dest: 10, frames:11, delay: 1000, loop:true})
+							}
+						}, //tween ABABA...
+						{dims: {x:16,y:16},pos:{x:0,z:-22,delay:100},origin:{x:0,z:-25},map: 'howto_pinch',
+							frames: 20,
+							sequence: function(){
+								setInterval(function(){
+									var pinch = info.help.children[1].children[1].children[1]
+									var whichFrame = pinch.material.map.offset.x * 20
+									if(whichFrame===0) anim3d(pinch, 'sprite', {dest: 10, frames: 20, spd: 300})
+									else if(whichFrame===10) anim3d(pinch, 'sprite', {dest: 19, frames: 20, spd: 300})
+									else if(whichFrame===19) anim3d(pinch, 'sprite', {dest: 0, frames: 20, spd: 550})
+								}, 1400)
+								
+							}
+						}, //tween A....B....C
+						{dims: {x:12,y:16},pos:{x:16,z:-20.75},origin:{x:16,z:-26,delay:100},map:'howto_tap',
+							frames:42,
+							sequence: function(){
+								setInterval(function(){
+									var tap = info.help.children[1].children[1].children[2]
+									var whichFrame = tap.material.map.offset.x * 42
+									if(whichFrame===20) anim3d(tap, 'sprite', {dest: 41, frames: 42, spd: 800})
+									else{
+										if(whichFrame===41) tap.material.map.offset.x = 0
+										anim3d(tap, 'sprite', {dest: 20, frames: 42, spd: 800})
+									}
+								},2000)
+							}
+						},
 						//blurb
-						{dims: {x:20,y:16},pos:{x:-10,z:0},origin:{x:-3,z:0}},
+						{dims: {x:20,y:16},pos:{x:-10,z:0},origin:{x:-3,z:0}, map: 'howto_ui'},
 						//below: seedling graphic & text
-						{dims: {x:40,y:16},pos:{x:0,z:21,delay:100},origin:{x:0,z:14,delay:70}},
-						{dims: {x:40,y:5},pos:{x:0,z:34,delay:200,},origin:{x:0,z:23}}
+						{dims: {x:40,y:20},pos:{x:0,z:19.5,delay:0},origin:{x:0,z:25,delay:70}, map:'howto_seedlings'},
 					]
 				},
 				{name: 'options',
@@ -429,6 +455,9 @@ function setup(){
 					helpObj.name = sections[i].name; helpObj.class = 'content'; helpObj.index = it
 					helpObj.visible = false
 					helpcontent.add(helpObj)
+					if(objInfo.frames) helpObj.material.map.repeat.set(1/objInfo.frames, 1)
+					if(objInfo.sequence) {helpObj.sequence = objInfo.sequence; helpObj.sequence()}
+
 				}
 				helpsection.content = helpcontent
 				helpsection.add(helpsection.content)
@@ -436,6 +465,9 @@ function setup(){
 				info.help[sections[i].name] = helpsection
 				info.help.add(info.help[sections[i].name])
 				projectionMgr.itemEnd('helpSection'+i)
+
+				//specific stuff
+
 			}
 			info.orbiter.add(info.help)
 		}
@@ -495,6 +527,7 @@ function setup(){
 				cb: function(){ plrMgr.itemEnd('plr'+which) }})
 		}
 		function initQuads(){
+				anim3d(orb, 'position', {y: -2.2, delay: 600, spd: 600, easing: ['Cubic','Out']})
 				for(var i = 0; i<4; i++){
 					var q = seseme['quad'+i]
 					q.position.y = -31

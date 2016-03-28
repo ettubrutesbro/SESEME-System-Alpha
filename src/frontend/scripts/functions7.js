@@ -43,8 +43,16 @@
 {
 	function check(){
 		const height = degs(camera.rotation.x)>thresholds.height[0]?'elevation': degs(camera.rotation.x)<thresholds.height[1]?'plan':'isometric';
-		const zoom = camera.zoom>thresholds.zoom[1]? 'close' : camera.zoom<thresholds.zoom[0]? 'far' : 'normal'
-		const addzoom = camera.zoom - 1
+		var zoom
+		if(!cameraPerspective){ //orthographic camera can measure zoom
+			zoom = camera.zoom>thresholds.zoom[1]? 'close' : camera.zoom<thresholds.zoom[0]? 'far' : 'normal'
+		}
+		if(cameraPerspective){ //get distance and calculate by different thresholds if it's perspective
+			var measure = camera.position.distanceTo(controls.center)
+			zoom = measure < thresholds.persZ[1]? 'close' : measure > thresholds.persZ[0]? 'far' : 'normal' //the distance to the focal point. 
+		}
+		//addzoom: how much more you're zoomed in than a really normal amount
+		const addzoom = !cameraPerspective? camera.zoom - 1 : Math.abs(camera.position.distanceTo(controls.center) - 28) / 8
 		controls.zoomSpeed = 0.7-(Math.abs(camera.zoom-1)/3)
 		controls.rotateSpeed = 0.1 - (Math.abs(camera.zoom-1)/20)
 		lights.rotation.set(-camera.rotation.x/2, camera.rotation.y + rads(45), -camera.rotation.z/2)
@@ -54,11 +62,17 @@
 		facingRotations.some(function(ele,i){
 			if(Math.abs(degs(camera.rotation.y)-ele)<45){
 				if(facing!==i){
-					if(camera.zoom>1){
+					if(!cameraPerspective && camera.zoom>1){
 						view.zoomswitch = true; controls.noZoom = true
 						var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+i].targetY) * 50
 						anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3.5),
 						spd: 300+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false; controls.noZoom = false }})
+					}
+					else if(cameraPerspective && camera.position.distanceTo(controls.center) < 28){
+						view.zoomswitch = true; controls.noZoom = true
+						var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+i].targetY) * 50
+						anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3.5),
+						spd: 300, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false; controls.noZoom = false }})
 					}
 					if(((i>facing) || (i===0 && facing===3)) && !(i===3 && facing===0)) view.cycleDirection = true
 					else view.cycleDirection = false
@@ -68,7 +82,7 @@
 			return true }
 		})
 		//zoom change
-		if(view.zoom!==zoom){
+		if(view.zoom!==zoom){ 
 			if((zoom==='close') || (zoom==='normal' && view.zoom==='far')) view.zoomDirection = true
 			else if((zoom === 'far') || (zoom === 'normal' && view.zoom === 'close')) view.zoomDirection = false
 			view.zoom = zoom
@@ -81,10 +95,19 @@
 			setView(false, true)
 		}
 		//zoom offseting -obj scaling and scene position
-		if(camera.zoom > 1){
-			info.btn.scale.set(1-(addzoom/3.5),1-(addzoom/3.5),1-(addzoom/3.5))
-			if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5)
+		if(!cameraPerspective){
+			if(camera.zoom > 1){
+				info.btn.scale.set(1-(addzoom/3.5),1-(addzoom/3.5),1-(addzoom/3.5))
+				if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5)
+			}
+		}else{
+			var measure = camera.position.distanceTo(controls.center)
+			if(measure < 28){
+				info.btn.scale.set(1-(addzoom/3.5),1-(addzoom/3.5),1-(addzoom/3.5))
+				if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5)				
+			}
 		}
+		
 		if(init) init = false
 	}//end 'check'
 	//package function uses states to set displayed objects
@@ -705,7 +728,7 @@
 }
 //4. REFILLING AND GLOBAL CONTENT POPULATION (shared b/w setup and refill)
 {
-	function refill(){
+	function refill(debug){
 		console.log('refilling')
 		//CHECKING FOR RETENTION
 		var retainMainText = false, retainDetailText = [false,false,false,false],
@@ -764,7 +787,7 @@
 		}
 		refillMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total)}
 		//3D SHIT - color, namesprites, titleblock, main button position
-		if(!online) pctCalc()
+		if(debug) pctCalc() //for frontend simulation shit
 		pctsToHeights();
 		movePillars();
 		makeNames(retainName);
@@ -788,6 +811,8 @@
 				var plrspd = ((Math.abs(seseme['plr'+i].targetY - seseme['plr'+i].position.y) / plrmax) * constspd) + spdcompensator
 				anim3d(seseme['plr'+i], 'position', {y: seseme['plr'+i].targetY, spd: plrspd})
 			}
+			if(seseme.plr0.targetY < 0.8) signifier.visible = false
+			else if(!signifier.visible) signifier.visible = true
 		}
 		function replaceTitleblock(){
 			//if titleblock isnt visible at time of replacement, no need for fade
@@ -813,11 +838,14 @@
 
 		function recolor3d(){
 			var rgb = data.color.ui? hexToRgb(data.color.ui): {r:0,g:0,b:0}
+			console.log('recolor to: ' + rgb.r, rgb.g, rgb.b)
 			for(var i = 0; i<4; i++){
 				anim3d(seseme['plr'+i].outline, 'color', rgb)
 				anim3d(seseme['plr'+i].outcap, 'color', rgb)
 			}
 			anim3d(info.btn.color, 'color', rgb)
+			anim3d(orb, 'color', {r: rgb.r/2, g: rgb.g/2, b: rgb.b/2})
+			anim3d(orb, 'emissive', {r: rgb.r*1.25, g: rgb.g*1.25, b: rgb.b*1.25})
 		}
 		function sceneHeightTransition(){
 			if(camera.zoom > 1){
@@ -1180,7 +1208,7 @@
 			if(start.x === destination.x && start.y === destination.y && start.z === destination.z) return
 			update = function(){ obj[property].x = start.x; obj[property].y = start.y; obj[property].z = start.z }
 		}
-		else if(property === 'color'){ //affecting RGB
+		else if(property === 'color' || property === 'emissive'){ //affecting RGB
 			start = {r: obj.material[property].r, g: obj.material[property].g, b: obj.material[property].b}
 			destination = {r: options.r/255, g: options.g/255, b: options.b/255}
 			if(start.r === destination.r && start.g === destination.g && start.b === destination.z) return
@@ -1216,8 +1244,9 @@
 		if(obj[property+'Tween']) obj[property+'Tween'].stop()
 		obj[property+'Tween'] = new TWEEN.Tween(start).to(destination, options.spd? options.spd: 400)
 		.onUpdate(update).easing(options.easing?TWEEN.Easing[options.easing[0]][options.easing[1]]:TWEEN.Easing.Quadratic.Out).delay(options.delay?options.delay:0)
-		if(options.cb) obj[property+'Tween'].onComplete(function(){ options.cb(); delete obj[property+'Tween'] })
-		else obj[property+'Tween'].onComplete(function(){ delete obj[property+'Tween'] })
+		if(options.loop) {obj[property+'Tween'].repeat(Infinity); obj[property+'Tween'].yoyo( true )}
+		if(options.cb) obj[property+'Tween'].onComplete(function(){ delete this; options.cb()  })
+		else obj[property+'Tween'].onComplete(function(){ delete this })
 		obj[property+'Tween'].start()
 	}
 	function rotateTo(which){
@@ -1274,61 +1303,91 @@
 }
 //9. ETC / other
 	function performanceLevel(){
-		var allLevels = ['barren', 'lo', 'med', 'hi']
-		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: 'barren'
+		var allLevels = ['lo', 'med', 'hi', 'ultra']
+		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: allLevels[0]
 		// alert('performance is now ' + performance)
-		if(performance === 'hi'){
-			// realtime shadows (someday), and phong material
+		
+		if(performance === 'lo'){
+			//no orb geometry, no mock shadow, no 2d anims, no backlight or orb, half camlight, lambert materials
+			Velocity.mock = true
+			shadow.visible = orb.visible = lights.children[0].castShadow = false
+			lights.children[0].intensity = orb.chlidren[0].intensity = 0
+			lights.children[2].intensity = .5
 			for(var i = 0; i<4; i++){
-				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
+				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_lambert
+				seseme['quad'+i].castShadow = seseme['plr'+i].castShadow = false
+				seseme['quad'+i].receiveShadow = seseme['plr'+i].receiveShadow = false
 			}
 		}
 		else if(performance === 'med'){
-			//lambert material
+			// normal lights on and full, 2d animations restored, visible mock shadow
+			Velocity.mock = false
+			shadow.visible = orb.visible = true
 			lights.children[0].intensity = lights.children[0].default
 			lights.children[2].intensity = lights.children[2].default
 		}
-		else if(performance === 'lo'){
-			//single light, 32^2 textures
-			var viewport = document.querySelector("meta[name=viewport]")
-			viewport.setAttribute('content', 'width=device-width, initial-scale=0.5, maximum-scale=0.5, user-scalable=no')
-			Velocity.mock = false
-			lights.children[2].intensity = .5
-			shadow.visible = true
+		else if(performance === 'hi'){
+			// + specular / phong material, orb light on
 			for(var i = 0; i<4; i++){
-				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_lambert
+				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
+			}
+			orb.children[0].intensity = orb.children[0].default
+		}
+		else if(performance === 'ultra'){
+			//+ realtime shadows
+			lights.children[0].castShadow = true
+			for(var i =0; i<4; i++){
+				seseme['quad'+i].castShadow = true
+				seseme['quad'+i].receiveShadow = true
+				seseme['plr'+i].castShadow = true
+				seseme['plr'+i].receiveShadow = true
 			}
 		}
-		else if(performance === 'barren'){
-			//affect meta viewport (less AA), 32^2 textures, turn off lights, no 2d animations
-			var viewport = document.querySelector("meta[name=viewport]")
-			viewport.setAttribute('content', 'width=device-width, initial-scale=0.75, maximum-scale=0.75, user-scalable=no')
-			Velocity.mock = true
-			lights.children[0].intensity = lights.children[2].intensity =  0
-			shadow.visible = false
-			for(var i = 0; i<4; i++){
-				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_worst
-			}
-		}
+
+
 	}
-	function pctCalc(){
-			//calc percentages for pillar change in offline mode
-			var top = 100, bottom = 0
-			if(!data.valueType || data.valueType === "moreIsTall"){
-				top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
-				bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
-			}
-			else if(data.valueType === 'lessIsTall'){
-				top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
-				bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
-			}
-			var range = Math.abs(bottom-top)
-			var percentagesArray = []
-			for(var i = 0; i < 4; i++){
-				percentagesArray[i] = Math.abs(bottom-data.values[i])/range
-			}
-			percentages = percentagesArray
+	function cameraMode(){
+		var aspect = dom.containerSESEME.offsetWidth / dom.containerSESEME.offsetHeight; var d = 20
+		if(cameraPerspective){ // change to ortho
+			camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 0, 100 )
+			camera.position.set( -d, 10, d ); camera.rotation.order = 'YXZ'
+			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 )); camera.zoom = .875
+			camera.updateProjectionMatrix()
+			controls = new THREE.OrbitControls(camera)
+			controls.addEventListener( 'change', check )
+
+		} else { // change to perspective
+			camera = new THREE.PerspectiveCamera(70, aspect, 0.5, 100)
+			camera.position.set( -d, 8, d ); camera.rotation.order = 'YXZ'
+			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 )); camera.zoom = .875
+			camera.updateProjectionMatrix()
+			controls = new THREE.OrbitControls(camera)
+			controls.addEventListener( 'change', check )
+		}
+		cameraPerspective = !cameraPerspective
+		console.log('camera is now perspective: '+cameraPerspective)
 	}
 	function forceNext(){
-			part++; refill()
+		part++; refill(true)
+	}
+	function forceStory(storynumber){
+		story = storynumber; refill(true)
+	}
+	function pctCalc(){		
+		//calc percentages for pillar change in offline mode		
+		var top = 100, bottom = 0		
+		if(!data.valueType || data.valueType === "moreIsTall"){		
+			top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi		
+			bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo		
+		}		
+		else if(data.valueType === 'lessIsTall'){		
+			top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi		
+			bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo		
+		}		
+		var range = Math.abs(bottom-top)		
+		var percentagesArray = []		
+		for(var i = 0; i < 4; i++){		
+			percentagesArray[i] = Math.abs(bottom-data.values[i])/range		
+		}		
+		percentages = percentagesArray
 	}

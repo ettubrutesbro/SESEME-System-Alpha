@@ -8,7 +8,7 @@ var stories = [
         color: { ui: '#339167', monument: {hex: "#339188", bri: 1}, ring: '14BB35' },
         sound: ['cheer1','cheer2'],
         title: {
-          pre: {c: 'GREEN CAMPUSES', size: 18},
+          pre: {c: '\"COOL\" SCHOOLS', size: 18},
           main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
           post: {c: '2012', size: 18, margin: .5}
         },
@@ -32,7 +32,7 @@ var stories = [
         ]
       }, //end part 0
       {
-        values: [55,6,1,33], valueType: 'lessIsTall',
+        values: [55,6,1,33], valueType: 'lessIsTall', customLo: 65,
         title: {
           pre: {c: 'TWO YEARS LATER', size: 18},
           main: {c: ['Sierra Club','Rankings'], size: 30, font: 'Droid Serif', weight: 400, margin: -.2},
@@ -72,7 +72,7 @@ var stories = [
         pNames: ['The ARC','Meyer Hall','Giedt Hall','The SCC'],
         pTexts: [
           'Long hours of operation in a large space haven\'t impacted the ARC\'s efficiency too adversely - it\'s only a little more expensive than the average \'community\' building.',
-          'Constructed in 1987, this hall houses a great many departments, but its energy footprint is scarcely excusable; even accounting for size, its energy use intensity is nearly double the average lab.',
+          'Constructed in 1987, this hall houses a great many departments, but that alone doesn\'t explain its energy footprint; even accounting for size, Meyer\'s energy use intensity is nearly double the average lab.',
           'Comfy but a little energy-expensive, Giedt\'s energy use intensity of 75 is notably above the classroom average - perhaps surprising considering it was built in 2007.',
           'Designed by BAR Architects and certified LEED Platinum in 2013, the SCC was underperforming its energy goals for quite some time, as popular as it is.'
         ],
@@ -132,7 +132,7 @@ var stories = [
             post: {c: ['w/ Bachelor\'s degree,','working full-time','(median)'], size: 14, margin: .7},
             fuckers: {c: '', margin: -2.5}
           },
-          maintext: 'The same dataset reveals that women make less than men of the same race at every level of education. This gives the lie to the myth of education-as-equalizer; while lack of education results in poverty for any race or gender, men - especially whites - benefit disproportionately from it.', //recommended 230 character maximum
+          maintext: 'The same data reveals that women make less than men of the same race at every level of education. This gives the lie to the myth of education-as-equalizer; while less schooling tends to result in poverty for anyone, men - especially whites - benefit disproportionately from more education.', //recommended 230 character maximum
           color: { ui: '#626b66', monument: {hex: "#628976", bri: 0.5}, ring: '152821' },
           sound: ['schmoney1','schmoney2'],
 
@@ -191,126 +191,24 @@ var stories = [
             {type: 'site', c: 'https://www.aclu.org/prison-crisis'},
             {type: 'data', c: 'http://www.prisonstudies.org/highest-to-lowest/prison-population-total?field_region_taxonomy_tid=All'}
           ]
-        },
-        {
-          values: [41,15.3,52,20], customLo: 12,
-          title: {
-            pre: {c: 'MASS INCARCERATION', size: 14},
-            main: {c: ['State Spending','per Inmate'], size: 24, font: 'Droid Serif', weight: 400, margin: -.2}
-          },
-          maintext: 'Mass incarceration accounts for the 2nd fastest growing type of state government spending, having grown 127% since 1987 (higher education spending increased 21% in the same period). The U.S. spends over $80 billion on prisons and related expenses every year.',
-          color: { ui: '#ad360c', monument: {hex: "#ad360c", bri: 1}, ring: 'ff2200' },
-          sound: ['jail'],
-          pNames: ['California','Louisiana','New York','Texas'],
-          pTexts: ['','','',''],
-          pSymbols: ['','','',''],
-          pLabels: ['','','',''],
-          pStatboxes: [
-            {c: '$41,000'},
-            {c: '$15,000'},
-            {c: '$52,000'},
-            {c: '$20,000'}
-          ],
-          pLinks: [
-            [{type:'list',c:'https://www.aclu.org/files/assets/massincarceration_problems.pdf'},{type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}],
-            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
-            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
-            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}
-          ]
-        },
-        {
-          values: [8.2,9.3,12.6,7.6], customLo: 5.3,
-          title: {
-            pre: {c: 'MASS INCARCERATION', size: 14},
-            main: {c: ['State Spending','per Student'], size: 24, font: 'Droid Serif', weight: 400, margin: -.2}
-          },
-          maintext: 'Meanwhile, data from the U.S. Census and the Vera Institute of Justice shows that states spend far less money on K-12 students - nearly 5 times less, in California\'s case.',
-          color: { ui: '#ad360c', monument: {hex: "#ad360c", bri: 1}, ring: 'ff2200' },
-          sound: ['jail'],
-          pNames: ['California','Louisiana','New York','Texas'],
-          pTexts: ['','','',''],
-          pSymbols: ['','','',''],
-          pLabels: ['','','',''],
-          pStatboxes: [
-            {c: '$8,200'},
-            {c: '$9,300'},
-            {c: '$12,600'},
-            {c: '$7,600'}
-          ],
-          pLinks: [
-            [{type:'list',c:'https://www.aclu.org/files/assets/massincarceration_problems.pdf'},{type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}],
-            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
-            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'},
-            {type:'data',c:'http://money.cnn.com/infographic/economy/education-vs-prison-costs/'}
-          ]
-        },
-        {
-          values: [.33,.05,.16,0.1], customLo: 0,
-          title: {
-            pre: {c: 'MASS INCARCERATION', size: 14},
-            main: {c: ['Lifetime Chance','of Imprisonment'], size: 21, font: 'Droid Serif', weight: 400, margin: -.2}
-          },
-          maintext: 'The US imprisons a larger percentage of its black population than South Africa ever did during apartheid. Data from the Bureau of Justice Statistics shows that over 60% of American inmates are racial or ethnic minorities.',
-          color: { ui: '#7c0701', monument: {hex: "#7c0701", bri: 0.75}, ring: 'ff0000' },
-          sound: ['jail'],
-          pNames: ['Black Men','White Men','Latino Men','All Men'],
-          pTexts: ['Black men are 20 to 50 times more likely to be imprisoned on drug charges than white men, but there is no significant difference in drug crime or use between races.',
-          '','',''],
-          pSymbols: ['','','',''],
-          pLabels: ['','','',''],
-          pStatboxes: [
-            {c: '1 in 3'},
-            {c: '1 in 17'},
-            {c: '1 in 6'},
-            {c: '1 in 9'}
-          ],
-          pLinks: [
-            [{type: 'book',c:'http://www.goodreads.com/book/show/6792458-the-new-jim-crow'},{type:'yt',c:'https://youtu.be/u51_pzax4M0'}],
-            '','','']
-        },
+        }
       ]
   },
 
   {
     id: 2, seedling: 'anomalous',
-    description: 'These stories can be about anything.',
+    description: 'These stories can be about anything - from silly to sobering - that didn\'t fit in the other two categories.',
     parts: [
-      {
-        values: [0,5,88,22], valueType: 'lessIsTall', customLo: 0,
-        color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
-        sound: ['cheer1','cheer2'],
-        title: {
-          pre: {c: ['SEXUAL HEALTH','REPORT CARD'], size: 24}
-        },
-        maintext: 'Every year, Trojan and BestPlaces study and rank colleges nationwide to produce a \'Sexual Health Report Card\'. The rankings are based on campuses\' student health centers and the quality / availability of the services they provide.',
-
-        pNames: ['UC Davis', 'Stanford', 'UCLA', 'UC Berkeley'],
-        pTexts: [
-          'Trojan and BestPlaces\' selection of 140 schools to rank is (stupidly) tied to prominent athletic conferences / college football, so UC Davis isn\'t featured.',
-          '',
-          '',
-          ''
-        ],
-        pSymbols: ['','','',''],
-        pLabels: ['','','',''],
-        pStatboxes: [
-          {c:'N/A'}, {c: '5th' },
-          {c:'88th'}, {c: '22nd' }
-        ],
-        pLinks: [
-          {type: 'list', c:'bestplaces'},
-          '','',''
-        ]
-      }, //end part 0
       {
         values: [15,15.7,12,13.7], customLo: 10,
         color: { ui: '#339167', monument: {hex: "#339167", bri: 1}, ring: '24BB48' },
         sound: ['cheer1','cheer2'],
         title: {
           pre: {c: 'The Cost of Education', size: 12},
-          main: {c: 'Average Annual Cost', size: 24, font: 'Droid Serif'}
+          main: {c: ['Average Annual', 'Cost'], size: 24, font: 'Droid Serif'},
+          post: {c: 'thank god you dont go to NYU', size: 12}
         },
-        maintext: 'Here are some college tuitions. Y\'all getting jacked.',
+        maintext: 'In September, the U.S. Department of Education launched a \'College Scorecard\' website, powered by open data and designed to help students & their families make informed decisions about attending university.',
 
         pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
         pTexts: ['','','',''],
