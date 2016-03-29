@@ -7,13 +7,19 @@ function setup(socket) {
     setInterval(readInput, 150);
   });
 
+  gpio.setup(8, gpio.DIR_OUT, function(){
+    console.log('setup output pin');
+    setInterval(readInput, 150);
+  });
+
+
   var coolDown = Date.now();
 
   function readInput() {
     gpio.read(7, function(err, value) {
       if (err) throw err;
       //console.log(value)
-      if(value == false){
+      if(value == true){
         if(coolDown < (Date.now() - 1000)){
           console.log('\nRESET BUTTON PRESSED');
           coolDown = Date.now();
