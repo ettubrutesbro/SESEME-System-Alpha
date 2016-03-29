@@ -32,13 +32,43 @@ function setup(socket, callback){
 
     this.each(function(board) {
       if(board.id === "A"){
-        var led[0] = new five.Led.RGB([6,5,3]);
-        var led[1] = new five.Led.RGB([11,10,9]);
+        led[0] = new five.Led.RGB({
+          pins: {
+            red: 6,
+            green: 5,
+            blue: 3
+          },
+          board: board
+        });
+
+        led[1] = new five.Led.RGB({
+          pins: {
+            red: 11,
+            green: 10,
+            blue: 9
+          },
+          board: board
+        });
       }
 
       else if(board.id === "B"){
-        var led[2] = new five.Led.RGB([6,5,3]);
-        var led[3] = new five.Led.RGB([11,10,9]);
+        led[0] = new five.Led.RGB({
+          pins: {
+            red: 6,
+            green: 5,
+            blue: 3
+          },
+          board: board
+        });
+
+        led[1] = new five.Led.RGB({
+          pins: {
+            red: 11,
+            green: 10,
+            blue: 9
+          },
+          board: board
+        });
       }
 
       else if(board.id === "C"){
