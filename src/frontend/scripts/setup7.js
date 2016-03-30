@@ -105,7 +105,7 @@ function setup(){
 			'feedback_tw','feedback_email',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
-		
+
 
 
 		var resourceMgr = new THREE.LoadingManager()
@@ -210,7 +210,7 @@ function setup(){
 				var backlight = new THREE.SpotLight(0xeaddb9, 1.2); var camlight = new THREE.PointLight(0xffffff, .35)
 			  	backlight.position.set(-7,25,-4); camlight.position.set(-40,-7,-24)
 				backlight.default = 1.2, camlight.default = .35
-			  	lights.add(backlight); lights.add(amblight); lights.add(camlight); 
+			  	lights.add(backlight); lights.add(amblight); lights.add(camlight);
 				lights.rotation.set(-camera.rotation.x/2, camera.rotation.y + rads(45), -camera.rotation.z/2)
 
 				backlight.shadow.mapSize.width = 512
@@ -362,7 +362,7 @@ function setup(){
 					objs: [
 						//app animations
 						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24,delay:100},map:'howto_swipe',
-							frames:11, 
+							frames:11,
 							sequence: function(){
 								anim3d(this, 'sprite', {dest: 10, frames:11, delay: 1000, loop:true})
 							}
@@ -377,7 +377,7 @@ function setup(){
 									else if(whichFrame===10) anim3d(pinch, 'sprite', {dest: 19, frames: 20, spd: 300})
 									else if(whichFrame===19) anim3d(pinch, 'sprite', {dest: 0, frames: 20, spd: 550})
 								}, 1400)
-								
+
 							}
 						}, //tween A....B....C
 						{dims: {x:12,y:16},pos:{x:16,z:-20.75},origin:{x:16,z:-26,delay:100},map:'howto_tap',
