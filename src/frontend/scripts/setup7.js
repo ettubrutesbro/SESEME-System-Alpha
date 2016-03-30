@@ -410,8 +410,8 @@ function setup(){
 						{dims:{x:6,y:6}, pos:{x:-11, z:29.5}, origin: {x:-13, z:29.5, delay: 200}, map: 'settings_data', frames: 10, clicked:collectDataMode},
 
 						{dims:{x:20,y:3}, pos:{x:4,z:14, delay: 500}, origin: {x:13,z:14}},
-						{dims:{x:20,y:3}, pos:{x:4,z:22, delay: 100}, origin: {x:11.5,z:22, delay: 100}, map: 'settings_persptext', frames: 2},
-						{dims:{x:20,y:3}, pos:{x:4,z:30}, origin: {x:10,z:30, delay: 200}, map: 'settings_datatext', frames: 2}
+						{dims:{x:20,y:3}, pos:{x:4,z:22, delay: 100}, origin: {x:11.5,z:22, delay: 100}, map: 'settings_persptext', frames: 2,clicked:cameraMode},
+						{dims:{x:20,y:3}, pos:{x:4,z:30}, origin: {x:10,z:30, delay: 200}, map: 'settings_datatext', rows: 2, clicked:collectDataMode}
 
 						//settings: performance and collect usage data
 						// {dims: {x:15,y:15}, pos: {x:-9, z:18}, origin: {x:0,z:0,delay:150},
@@ -466,6 +466,7 @@ function setup(){
 					helpObj.visible = false
 					helpcontent.add(helpObj)
 					if(objInfo.frames) helpObj.material.map.repeat.set(1/objInfo.frames, 1)
+					if(objInfo.rows) helpObj.material.map.repeat.set(1, 1/objInfo.rows)
 					if(objInfo.sequence) {helpObj.sequence = objInfo.sequence; helpObj.sequence()}
 
 				}

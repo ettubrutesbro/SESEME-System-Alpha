@@ -651,8 +651,8 @@
 		}
 	}
 	function camHeight(){
-		if(view.height==='elevation' && view.zoom !== 'far') anim3d(controls, 'target', {y: -1, spd: 600})
-		else anim3d(controls, 'target', {y: -4, spd: 600})
+		if(view.height==='elevation' && view.zoom !== 'far') anim3d(controls, 'target', {y: !cameraPerspective?-1:1, spd: 600})
+		else anim3d(controls, 'target', {y: !cameraPerspective?-4:-2, spd: 600})
 		if(camera.zoom <= 1) scene.position.y = 0
 	}
 }
@@ -1241,10 +1241,10 @@
 			update = function(){ obj.material.map.offset.x = Math.ceil(start.f)/ options.frames }
 		}
 		else if(property === 'scrollmap'){ //give a percentage value
-			start.x = obj.material.map.offset.x
-			if(start.x === options.dest) return
-			destination.x = options.dest
-			update = function(){ obj.material.map.offset.x = start.x}
+			start = {x: obj.material.map.offset.x, y: obj.material.map.offset.y}
+			if(start.x === options.x && start.y === options.y) return
+			destination = {x: options.x, y: options.y}
+			update = function(){ obj.material.map.offset.x = start.x; obj.material.map.offset.y = start.y}
 		}
 		else{ console.log('invalid tween type...'); return}
 		//the actual tween:
@@ -1358,44 +1358,59 @@
 			anim3d(sprite, 'sprite', {frames: 10, dest: 9, spd: 400, cb: function(){
 				userPermission = false
 			}})
-			anim3d(caption, 'scrollmap', {dest: 0.5})
+			anim3d(caption, 'scrollmap', {y: 0.5})
 
 		}
 		else{ // turn it on
 			anim3d(sprite, 'sprite',{frames:10,dest:0,spd:400, cb: function(){
 				userPermission = true
 			}})
-			anim3d(caption, 'scrollmap', {dest: 0})
+			anim3d(caption, 'scrollmap', {y: 0})
 		}
 	}
 	function cameraMode(){
 		var aspect = dom.containerSESEME.offsetWidth / dom.containerSESEME.offsetHeight, d = 20,
 		sprite = info.help.children[2].children[1].children[1], caption = info.help.children[2].children[1].children[4],
-		savePos = camera.position, saveZoom = camera.zoom
+		savePos = camera.position, saveZoom = camera.zoom, saveRot = camera.rotation
+
 
 		if(cameraPerspective){ // change to ortho
 			camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 0, 100 )
 			camera.position = savePos; camera.rotation.order = 'YXZ'
-			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 ));
 			camera.zoom = saveZoom
 			camera.updateProjectionMatrix()
+
+			anim3d(info.orbiter, 'scale', {x:1,y:1,z:1})
+			anim3d(info.titleblock, 'position', {z:7.5})
+			anim3d(info.btn, 'position', {z:12})
+
 			controls = new THREE.OrbitControls(camera)
+			anim3d(controls, 'target', {y: -2})
+			camera.translateZ(0);
+			camera.rotation = saveRot
 			controls.addEventListener( 'change', check )
 			anim3d(sprite, 'sprite', {frames: 11, dest: 0, spd: 400})
-			anim3d(caption, 'scrollmap', {dest: 0})
+			anim3d(caption, 'scrollmap', {x: 0})
 
 		} else { // change to perspective
-
-			camera = new THREE.PerspectiveCamera(70, aspect, 0.5, 100)
-			camera.zoom = saveZoom
-			camera.position = savePos; camera.rotation.order = 'YXZ'
-			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 ))
+			console.log(saveRot)
+			camera = new THREE.PerspectiveCamera(50, aspect, 0.5, 100)
+			camera.rotation = saveRot; camera.rotation.order = 'YXZ'
+			camera.zoom = saveZoom; camera.position = savePos;
 			camera.updateProjectionMatrix()
+
+			anim3d(info.orbiter, 'scale', {x:0.8,y:0.8,z:0.8})
+			anim3d(info.titleblock, 'position', {z:9})
+			anim3d(info.btn, 'position', {z:13})
+
 			controls = new THREE.OrbitControls(camera)
+			anim3d(controls, 'target', {y: -2})
+			camera.translateZ(15);
 			controls.addEventListener( 'change', check )
 			anim3d(sprite, 'sprite', {frames: 11, dest: 10, spd: 400})
-			anim3d(caption, 'scrollmap', {dest: 0.5})
+			anim3d(caption, 'scrollmap', {x: 0.5})
 		}
+		rotateTo(0)
 		cameraPerspective = !cameraPerspective
 		console.log('camera is now perspective: '+cameraPerspective)
 		check()
