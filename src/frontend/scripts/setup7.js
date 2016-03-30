@@ -36,7 +36,8 @@ function setup(){
 	initDOM() //dom
 
 	function netOps(){
-		socket = io.connect('http://169.237.123.19:5000')
+		// socket = io.connect('http://169.237.123.19:5000')
+		socket = io.connect('http://localhost:5000')
 		socket.once('connect', function(){
 			console.log('successfully connected')
 			socket.emit('ui request story')
@@ -405,7 +406,7 @@ function setup(){
 					x: 0, z: -14, icon: 'settings',
 					objs: [
 						{dims:{x:6,y:6}, pos:{x:-11, z:14, delay: 500}, origin: {x:-16, z:14}},
-						{dims:{x:6,y:6}, pos:{x:-11, z:22, delay: 100}, origin: {x:-14.5, z:22, delay: 100}, map: 'settings_persp', frames: 11, clicked: cameraPerspective},
+						{dims:{x:6,y:6}, pos:{x:-11, z:22, delay: 100}, origin: {x:-14.5, z:22, delay: 100}, map: 'settings_persp', frames: 11, clicked: cameraMode},
 						{dims:{x:6,y:6}, pos:{x:-11, z:29.5}, origin: {x:-13, z:29.5, delay: 200}, map: 'settings_data', frames: 10, clicked:collectDataMode},
 
 						{dims:{x:20,y:3}, pos:{x:4,z:14, delay: 500}, origin: {x:13,z:14}},

@@ -44,15 +44,15 @@
 	function check(){
 		const height = degs(camera.rotation.x)>thresholds.height[0]?'elevation': degs(camera.rotation.x)<thresholds.height[1]?'plan':'isometric';
 		var zoom
-		if(!cameraPerspective){ //orthographic camera can measure zoom
+		// if(!cameraPerspective){ //orthographic camera can measure zoom
 			zoom = camera.zoom>thresholds.zoom[1]? 'close' : camera.zoom<thresholds.zoom[0]? 'far' : 'normal'
-		}
-		if(cameraPerspective){ //get distance and calculate by different thresholds if it's perspective
-			var measure = camera.position.distanceTo(controls.center)
-			zoom = measure < thresholds.persZ[1]? 'close' : measure > thresholds.persZ[0]? 'far' : 'normal' //the distance to the focal point. 
-		}
+		// }
+		// if(cameraPerspective){ //get distance and calculate by different thresholds if it's perspective
+			// var measure = camera.position.distanceTo(controls.center)
+			// zoom = measure < thresholds.persZ[1]? 'close' : measure > thresholds.persZ[0]? 'far' : 'normal' //the distance to the focal point.
+		// }
 		//addzoom: how much more you're zoomed in than a really normal amount
-		const addzoom = !cameraPerspective? camera.zoom - 1 : Math.abs(camera.position.distanceTo(controls.center) - 28) / 8
+		const addzoom = camera.zoom - 1
 		controls.zoomSpeed = 0.7-(Math.abs(camera.zoom-1)/3)
 		controls.rotateSpeed = 0.1 - (Math.abs(camera.zoom-1)/20)
 		lights.rotation.set(-camera.rotation.x/2, camera.rotation.y + rads(45), -camera.rotation.z/2)
@@ -62,18 +62,18 @@
 		facingRotations.some(function(ele,i){
 			if(Math.abs(degs(camera.rotation.y)-ele)<45){
 				if(facing!==i){
-					if(!cameraPerspective && camera.zoom>1){
+					// if(!cameraPerspective && camera.zoom>1){
 						view.zoomswitch = true; controls.noZoom = true
 						var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+i].targetY) * 50
 						anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3.5),
 						spd: 300+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false; controls.noZoom = false }})
-					}
-					else if(cameraPerspective && camera.position.distanceTo(controls.center) < 28){
-						view.zoomswitch = true; controls.noZoom = true
-						var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+i].targetY) * 50
-						anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3.5),
-						spd: 300, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false; controls.noZoom = false }})
-					}
+					// }
+					// else if(cameraPerspective && camera.position.distanceTo(controls.center) < 28){
+					// 	view.zoomswitch = true; controls.noZoom = true
+					// 	var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+i].targetY) * 50
+					// 	anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3.5),
+					// 	spd: 300, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false; controls.noZoom = false }})
+					// }
 					if(((i>facing) || (i===0 && facing===3)) && !(i===3 && facing===0)) view.cycleDirection = true
 					else view.cycleDirection = false
 					facing = i
@@ -82,7 +82,7 @@
 			return true }
 		})
 		//zoom change
-		if(view.zoom!==zoom){ 
+		if(view.zoom!==zoom){
 			if((zoom==='close') || (zoom==='normal' && view.zoom==='far')) view.zoomDirection = true
 			else if((zoom === 'far') || (zoom === 'normal' && view.zoom === 'close')) view.zoomDirection = false
 			view.zoom = zoom
@@ -95,19 +95,20 @@
 			setView(false, true)
 		}
 		//zoom offseting -obj scaling and scene position
-		if(!cameraPerspective){
+		// if(!cameraPerspective){
 			if(camera.zoom > 1){
 				info.btn.scale.set(1-(addzoom/3.5),1-(addzoom/3.5),1-(addzoom/3.5))
 				if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5)
 			}
-		}else{
-			var measure = camera.position.distanceTo(controls.center)
-			if(measure < 28){
-				info.btn.scale.set(1-(addzoom/3.5),1-(addzoom/3.5),1-(addzoom/3.5))
-				if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5)				
-			}
-		}
-		
+		// }
+		// else{
+		// 	var measure = camera.position.distanceTo(controls.center)
+		// 	if(measure < 28){
+		// 		info.btn.scale.set(1-(addzoom/3.5),1-(addzoom/3.5),1-(addzoom/3.5))
+		// 		if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5)
+		// 	}
+		// }
+
 		if(init) init = false
 	}//end 'check'
 	//package function uses states to set displayed objects
@@ -679,12 +680,12 @@
 		if(!controls.enabled) return
 		if(view.zoom!=='far' || view.height !== 'plan'){
 			zoomspd = view.zoom === 'far'? 200: view.zoom === 'close'? 600: 250
-			anim3d(camera,'zoom',{zoom:0.5, spd: zoomspd})
+			 anim3d(camera,'zoom',{zoom:0.5, spd: zoomspd})
 			rotateTo('top')
 			rotateTo(0)
 		}
 		else{
-			anim3d(camera, 'zoom', {zoom: .875, spd: 350})
+			 anim3d(camera, 'zoom', {zoom: .875, spd: 350})
 			rotateTo('mid')
 			rotateTo(0)
 		}
@@ -1240,9 +1241,9 @@
 			update = function(){ obj.material.map.offset.x = Math.ceil(start.f)/ options.frames }
 		}
 		else if(property === 'scrollmap'){ //give a percentage value
-			start.x = obj.material.map.offset.x 
+			start.x = obj.material.map.offset.x
 			if(start.x === options.dest) return
-			destination.x = options.dest 
+			destination.x = options.dest
 			update = function(){ obj.material.map.offset.x = start.x}
 		}
 		else{ console.log('invalid tween type...'); return}
@@ -1312,7 +1313,7 @@
 		var allLevels = ['lo', 'med', 'hi', 'ultra']
 		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: allLevels[0]
 		// alert('performance is now ' + performance)
-		
+
 		if(performance === 'lo'){
 			//no orb geometry, no mock shadow, no 2d anims, no backlight or orb, half camlight, lambert materials
 			Velocity.mock = true
@@ -1350,12 +1351,6 @@
 			}
 		}
 	}
-	function cameraPerspective(){
-		var sprite = info.help.children[2].children[1].children[1]
-		var caption = info.help.children[2].children[1].children[4]
-		anim3d(sprite, 'sprite', {frames: 11, dest: 10, spd: 400})
-		anim3d(caption, 'scrollmap', {dest: 0.5})
-	}
 	function collectDataMode(){
 		var sprite = info.help.children[2].children[1].children[2]
 		var caption = info.help.children[2].children[1].children[5]
@@ -1365,7 +1360,7 @@
 			}})
 			anim3d(caption, 'scrollmap', {dest: 0.5})
 
-		}	
+		}
 		else{ // turn it on
 			anim3d(sprite, 'sprite',{frames:10,dest:0,spd:400, cb: function(){
 				userPermission = true
@@ -1374,25 +1369,36 @@
 		}
 	}
 	function cameraMode(){
-		var aspect = dom.containerSESEME.offsetWidth / dom.containerSESEME.offsetHeight; var d = 20
+		var aspect = dom.containerSESEME.offsetWidth / dom.containerSESEME.offsetHeight, d = 20,
+		sprite = info.help.children[2].children[1].children[1], caption = info.help.children[2].children[1].children[4],
+		savePos = camera.position, saveZoom = camera.zoom
+
 		if(cameraPerspective){ // change to ortho
 			camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 0, 100 )
-			camera.position.set( -d, 10, d ); camera.rotation.order = 'YXZ'
-			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 )); camera.zoom = .875
+			camera.position = savePos; camera.rotation.order = 'YXZ'
+			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 ));
+			camera.zoom = saveZoom
 			camera.updateProjectionMatrix()
 			controls = new THREE.OrbitControls(camera)
 			controls.addEventListener( 'change', check )
+			anim3d(sprite, 'sprite', {frames: 11, dest: 0, spd: 400})
+			anim3d(caption, 'scrollmap', {dest: 0})
 
 		} else { // change to perspective
+
 			camera = new THREE.PerspectiveCamera(70, aspect, 0.5, 100)
-			camera.position.set( -d, 8, d ); camera.rotation.order = 'YXZ'
-			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 )); camera.zoom = .875
+			camera.zoom = saveZoom
+			camera.position = savePos; camera.rotation.order = 'YXZ'
+			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 ))
 			camera.updateProjectionMatrix()
 			controls = new THREE.OrbitControls(camera)
 			controls.addEventListener( 'change', check )
+			anim3d(sprite, 'sprite', {frames: 11, dest: 10, spd: 400})
+			anim3d(caption, 'scrollmap', {dest: 0.5})
 		}
 		cameraPerspective = !cameraPerspective
 		console.log('camera is now perspective: '+cameraPerspective)
+		check()
 	}
 	function forceNext(){
 		part++; refill(true)
@@ -1400,21 +1406,21 @@
 	function forceStory(storynumber){
 		story = storynumber; refill(true)
 	}
-	function pctCalc(){		
-		//calc percentages for pillar change in offline mode		
-		var top = 100, bottom = 0		
-		if(!data.valueType || data.valueType === "moreIsTall"){		
-			top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi		
-			bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo		
-		}		
-		else if(data.valueType === 'lessIsTall'){		
-			top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi		
-			bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo		
-		}		
-		var range = Math.abs(bottom-top)		
-		var percentagesArray = []		
-		for(var i = 0; i < 4; i++){		
-			percentagesArray[i] = Math.abs(bottom-data.values[i])/range		
-		}		
+	function pctCalc(){
+		//calc percentages for pillar change in offline mode
+		var top = 100, bottom = 0
+		if(!data.valueType || data.valueType === "moreIsTall"){
+			top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
+			bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
+		}
+		else if(data.valueType === 'lessIsTall'){
+			top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
+			bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
+		}
+		var range = Math.abs(bottom-top)
+		var percentagesArray = []
+		for(var i = 0; i < 4; i++){
+			percentagesArray[i] = Math.abs(bottom-data.values[i])/range
+		}
 		percentages = percentagesArray
 	}
