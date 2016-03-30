@@ -103,6 +103,7 @@ function setup(){
 			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings','howto_swipe',
 			'howto_pinch','howto_tap',
 			'feedback_tw','feedback_email',
+			'settings_data','settings_datatext','settings_persp','settings_persptext',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
 
@@ -403,14 +404,22 @@ function setup(){
 				{name: 'options',
 					x: 0, z: -14, icon: 'settings',
 					objs: [
+						{dims:{x:6,y:6}, pos:{x:-11, z:14, delay: 500}, origin: {x:-16, z:14}},
+						{dims:{x:6,y:6}, pos:{x:-11, z:22, delay: 100}, origin: {x:-14.5, z:22, delay: 100}, map: 'settings_persp', frames: 11, clicked: cameraPerspective},
+						{dims:{x:6,y:6}, pos:{x:-11, z:29.5}, origin: {x:-13, z:29.5, delay: 200}, map: 'settings_data', frames: 10, clicked:collectDataMode},
+
+						{dims:{x:20,y:3}, pos:{x:4,z:14, delay: 500}, origin: {x:13,z:14}},
+						{dims:{x:20,y:3}, pos:{x:4,z:22, delay: 100}, origin: {x:11.5,z:22, delay: 100}, map: 'settings_persptext', frames: 2},
+						{dims:{x:20,y:3}, pos:{x:4,z:30}, origin: {x:10,z:30, delay: 200}, map: 'settings_datatext', frames: 2}
+
 						//settings: performance and collect usage data
-						{dims: {x:15,y:15}, pos: {x:-9, z:18}, origin: {x:0,z:0,delay:150},
-							clicked: performanceLevel},
-						{dims: {x:15,y:15}, pos: {x:9, z:18,delay:250}, origin:{x:-9,z:18,delay:50},
-							clicked: function(){ console.log('user data collection on/off') }},
-						//captions
-						{dims: {x:15,y:5}, pos: {x:-9, z:30, delay: 250,spd:250}, origin:{x:-9,z:25,spd:250}},
-						{dims: {x:15,y:5}, pos: {x:9, z:30, delay: 500,spd:250,}, origin:{x:9,z:25,spd:250,}}
+						// {dims: {x:15,y:15}, pos: {x:-9, z:18}, origin: {x:0,z:0,delay:150},
+						// 	clicked: performanceLevel},
+						// {dims: {x:15,y:15}, pos: {x:9, z:18,delay:250}, origin:{x:-9,z:18,delay:50},
+						// 	clicked: function(){ console.log('user data collection on/off') }},
+						// //captions
+						// {dims: {x:15,y:5}, pos: {x:-9, z:30, delay: 250,spd:250}, origin:{x:-9,z:25,spd:250}},
+						// {dims: {x:15,y:5}, pos: {x:9, z:30, delay: 500,spd:250,}, origin:{x:9,z:25,spd:250,}}
 					]
 				},
 				{name: 'feedback',
