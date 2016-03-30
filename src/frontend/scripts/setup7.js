@@ -18,15 +18,13 @@ init = true
 var controls, mouse = new THREE.Vector2(), raycast
 // 3d constants
 var plrmax = 12, constspd = 10000, spdcompensator = 400,
-// plrSlope = 638.5, plrConstant = 1112.2,
-thresholds = {zoom: [.675,1.15], height: [-3,-56]},
-// facingRotations = [-45,45,135,-135]
+thresholds = {zoom: [.675,1.15], height: [-3,-56], persZ: [46,28]},
 facingRotations = [-45,-135,135,45]
 //dom
 var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
-var performance = 'hi'
+var performance = 'hi', cameraPerspective = false
 
 function setup(){
 	//ready waits for data & 3d before filling the scene
@@ -156,6 +154,7 @@ function setup(){
 			//camera/renderer/dom
 			var aspect = dom.containerSESEME.offsetWidth / dom.containerSESEME.offsetHeight; var d = 20
 			camera = new THREE.OrthographicCamera( - d * aspect, d * aspect, d, - d, 0, 100 )
+			// camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000)
 			camera.position.set( -d, 10, d ); camera.rotation.order = 'YXZ'
 			camera.rotation.y = - Math.PI / 4 ; camera.rotation.x = Math.atan( - 1 / Math.sqrt( 2 )); camera.zoom = .875
 			camera.updateProjectionMatrix();
