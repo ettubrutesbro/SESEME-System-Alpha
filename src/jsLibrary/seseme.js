@@ -185,7 +185,7 @@ var self = module.exports = {
     },
 
     reset: function(stepper, motorName){
-    stepper[motorName].position=0;
+        stepper[motorName].position=0;
     },
 
     testCycle: function(stepper, state){

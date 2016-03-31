@@ -65,7 +65,7 @@ socket.on("seseme update position values", function(stepperPositionAr){
     for(var i = 0; i < 4; i++){
         stepper["m"+(i+1)].position = stepperPositionAr[i];
     }
-    stepperToPositionAr(stepper);
+    stepperToPositionAr(stepper); // just to make sure it updates stepper obj correctly
 });
 
 socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
@@ -92,12 +92,6 @@ socket.on('seseme move motors', function(targetPercentagesArray, plrmax) {
         });
     }
 });
-
-//TODO: what happens after monument's reset button was pressed
-socket.on('seseme reset button', function() {
-    
-});
-
 
 socket.on('moveMotor', function(targetStats){
     console.log(JSON.stringify(targetStats));
