@@ -60,6 +60,11 @@ socket.on('disconnect', function() {
     console.log('beagle 1 Off', socket.disconnected);
 });
 
+socket.on('seseme send plrmax', function(plrmax) {
+    console.log('seseme send plrmax ', plrmax);
+    seseme.setPlrmax(plrmax);
+});
+
 socket.on("seseme update position values", function(stepperPositionAr){
     console.log("seseme update position values after beagle down");
     for(var i = 0; i < 4; i++){

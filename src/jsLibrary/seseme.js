@@ -7,7 +7,7 @@ var self = module.exports = {
     rpm: 215,
     accel:1700,
     isRunning: false,
-    maxPosition: 5000,// motor runing at full stepping (1200*4),
+    maxPosition: 4800,// motor runing at full stepping (1200*4),
     buffer: 60,
     creepCounter: 0,
     creepRate: 200,
@@ -186,6 +186,10 @@ var self = module.exports = {
 
     reset: function(stepper, motorName){
         stepper[motorName].position=0;
+    },
+
+    setPlrmax: function(plrmax){
+        this.maxPosition = plrmax;
     },
 
     testCycle: function(stepper, state){

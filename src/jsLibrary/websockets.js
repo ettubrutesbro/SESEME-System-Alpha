@@ -97,7 +97,7 @@ var sesemeRunning = false;
 var updateFlag = false;
 var maxDistanceFlag = false;
 var beagleTime = -1;
-var plrmax = 5000; // lazy without sockets
+var plrmax = 4800; // lazy without sockets
 // this plrmax refers to steps (motors)
 
 ////////////////////////////////////////////////
@@ -851,6 +851,7 @@ beagleIO.on('connection', function(beagleSocket){
 	beagleSocket.on('checkin', function(data){
 		print('[BEAGLE: CHECKED IN]')
 		print(data)
+    beagleSocket.emit("seseme send plrmax", plrmax);
 	})
 
 	beagleSocket.on('seseme finished setup', function(){
