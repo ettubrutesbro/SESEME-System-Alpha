@@ -7,12 +7,6 @@ function setup(socket) {
     setInterval(readInput, 150);
   });
 
-  gpio.setup(8, gpio.DIR_OUT, function(){
-    console.log('setup output pin');
-    setInterval(readInput, 150);
-  });
-
-
   var coolDown = Date.now();
 
   function readInput() {
