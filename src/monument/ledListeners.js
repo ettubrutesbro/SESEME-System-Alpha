@@ -18,9 +18,9 @@ function listeners(socket, obj) {
 
   socket.on('monument lights update', function(targetColor){
     print("monument lights update");
-    var red = targetColor.red.toString(16);
-    var green = targetColor.blue.toString(16);
-    var blue = targetColor.blue.toString(16);
+    var red = (targetColor.red).toString(16);
+    var green = (targetColor.green).toString(16);
+    var blue = (targetColor.blue).toString(16);
     var colorString = red + green + blue;
     console.log(colorString);
     led.lightsUpdate(obj, colorString);
