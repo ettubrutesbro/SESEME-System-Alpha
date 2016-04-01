@@ -825,6 +825,8 @@ function bigRedButtonHelper(seedling){
 	}
 
 	if(beagleOnline) beagle.emit("seseme move motors", targetPercentages, plrmax);
+  // Add color to send for light update
+	//if(monumentLightsOnline) monumentLights.emit("monument lights update", targetColor);
 }
 
 ////////////////////////////////////////////////
