@@ -30,11 +30,12 @@ function setup(){
 	//ready waits for data & 3d before filling the scene
 	//though, using THREE's load manager here feels a bit disingenuous...
 	var ready = new THREE.LoadingManager()
-	// ready.itemStart('firstdata');  //commented out as part of 'assetsfirst'
+	ready.itemStart('firstdata');  //commented out as part of 'assetsfirst'
 	ready.itemStart('3d')
 	ready.onLoad = function(){ fill(); behaviors(); display() }
-	netOps() //data from server
+	// netOps() //data from server
 	initDOM() //dom
+	assets() //3d assets
 
 	function netOps(){
 		// socket = io.connect('http://169.237.123.19:5000')
@@ -55,7 +56,7 @@ function setup(){
             story = d.story; part = d.part; percentages = d.percentages
             console.log(story)
             data = stories[story].parts[part]
-			// ready.itemEnd('firstdata')
+			ready.itemEnd('firstdata')
 		})
 		socket.on('ui update', function(d){
 			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
@@ -94,7 +95,6 @@ function setup(){
 				dom.navfigures.push( dom.navitems[i].querySelector('figure') )
 			}
 			dom.leftarrow = $('leftarrow'); dom.rightarrow = $('rightarrow')
-			assets()
 	} //end initDOM
 	function assets(){
 		var allModels = ['quaped','pillar','outline3','outcap','orb_lo','templategeo'] //symbolgeos?
@@ -246,7 +246,54 @@ function setup(){
 			scene.add(seseme); scene.add(lights); scene.add(shadow)
 		}//build
 	}//assets
+	function init3d(){
+		
+		
+		makeOrbiter()
+		initQuads()
+		function loadingManagers(){
+			var quadMgr = new THREE.LoadingManager()
+			var plrMgr = new THREE.LoadingManager()
+			for(var i= 0; i<4; i++){
+				quadMgr.itemStart('quad')
+				plrMgr.itemStart('plr'+i)
+			}
+			quadMgr.onLoad = function(){
+				allMgr.itemEnd('quadMgr')
+				anim3d(shadow, 'opacity', {opacity: 1, spd: 800})
+				seseme.remove(seseme.getObjectByName('covercube'))
+			}
+			quadMgr.onProgress = function(item,loaded,total){ initPillar(loaded-1) }
+			plrMgr.onLoad = function(){
+				console.log('pillars in place'); allMgr.itemEnd('plrMgr')
+				anim3d(signifier,'position',{y:0})
+			}	
+		}//loadingManager
+		function makeOrbiter(){
+			console.log('make orbiter')
+			info.orbiter = new THREE.Group()
+			info.orbiter.name = 'orbiter'
+			info.orbiter.rotation.y = -rads(45)
+			seseme.add(info.orbiter)
+		}//makeOrbiter
+		function initQuads(){
+			anim3d(orb, 'position', {y: -2.2, delay: 600, spd: 600, easing: ['Cubic','Out']})
+			for(var i = 0; i<4; i++){
+				var q = seseme['quad'+i]
+				q.position.y = -31
+				if(startHash) { q.position.y = 0; quadMgr.itemEnd('quad') }
+				else anim3d(q, 'position', {y:0, delay: i*300, spd: 1000, cb:function(){ quadMgr.itemEnd('quad') } })
+			}
+		} //initQuads
+		function initPillar(which){
+			var tgt = seseme['plr'+which]
+			if(startHash) { tgt.position.y = tgt.targetY; plrMgr.itemEnd('plr'+which); return }
+			anim3d(tgt, 'position', {y:tgt.targetY, spd:1250, cb: function(){ plrMgr.itemEnd('plr'+which) }})
+		}//initPillar
+
+	}//end init3d
 	function fill(){
+		// 
 		var plrMgr, projectionMgr
 		// heightCalc();
 		pctsToHeights()
@@ -267,15 +314,15 @@ function setup(){
 
 		function loadingManagers(){
 			allMgr = new THREE.LoadingManager()
-			quadMgr = new THREE.LoadingManager()
-			plrMgr = new THREE.LoadingManager()
+			// quadMgr = new THREE.LoadingManager()
+			// plrMgr = new THREE.LoadingManager()
 			projectionMgr = new THREE.LoadingManager()
 			allMgr.itemStart('quadMgr'); allMgr.itemStart('plrMgr'); allMgr.itemStart('projectionMgr')
 			allMgr.itemStart('hyphenation')
 			projectionMgr.itemStart('titleblock'); projectionMgr.itemStart('mainbtn'); projectionMgr.itemStart('names')
 			for(var i= 0; i<4; i++){
-				quadMgr.itemStart('quad')
-				plrMgr.itemStart('plr'+i)
+				// quadMgr.itemStart('quad')
+				// plrMgr.itemStart('plr'+i)
 				projectionMgr.itemStart('helpSection'+i)
 			}
 			allMgr.onLoad = function(){
@@ -286,18 +333,8 @@ function setup(){
 				check()
 			}
 			allMgr.onProgress = function(item,loaded,total){ console.log(item,loaded,total) }
-			quadMgr.onLoad = function(){
-				console.log('quads in place'); allMgr.itemEnd('quadMgr')
-				anim3d(shadow, 'opacity', {opacity: 1, spd: 800})
-				seseme.remove(seseme.getObjectByName('covercube'))
-			}
-			quadMgr.onProgress = function(item,loaded,total){
-				initPillar(loaded-1)
-			}
-			plrMgr.onLoad = function(){
-				console.log('pillars in place'); allMgr.itemEnd('plrMgr')
-				anim3d(signifier,'position',{y:0})
-			}
+			
+			
 			// projectionMgr.onProgress = function(item,loaded,total){console.log(item,loaded,total)}
 			projectionMgr.onLoad = function(){
 				console.log('projections initialized'); allMgr.itemEnd('projectionMgr')
