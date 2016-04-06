@@ -55,7 +55,7 @@ function setup(){
             story = d.story; part = d.part; percentages = d.percentages
             console.log(story)
             data = stories[story].parts[part]
-			ready.itemEnd('firstdata')
+			// ready.itemEnd('firstdata')
 		})
 		socket.on('ui update', function(d){
 			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
