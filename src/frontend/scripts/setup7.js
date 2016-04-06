@@ -30,7 +30,8 @@ function setup(){
 	//ready waits for data & 3d before filling the scene
 	//though, using THREE's load manager here feels a bit disingenuous...
 	var ready = new THREE.LoadingManager()
-	ready.itemStart('firstdata'); ready.itemStart('3d')
+	// ready.itemStart('firstdata');  //commented out as part of 'assetsfirst'
+	ready.itemStart('3d')
 	ready.onLoad = function(){ fill(); behaviors(); display() }
 	netOps() //data from server
 	initDOM() //dom
