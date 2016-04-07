@@ -36,8 +36,8 @@ function setup(){
 	// initDOM() //dom
 
 	function netOps(){
-		// socket = io.connect('http://169.237.123.19:5000')
-		socket = io.connect('http://localhost:5000')
+		socket = io.connect('http://169.237.123.19:5000')
+		// socket = io.connect('http://localhost:5000')
 		socket.once('connect', function(){
 			console.log('successfully connected')
 			socket.emit('ui request story')
@@ -120,7 +120,9 @@ function setup(){
 
 
 		var resourceMgr = new THREE.LoadingManager()
-		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
+		resourceMgr.itemStart('mdlMgr'); 
+		resourceMgr.itemStart('mtlMgr'); 
+		resourceMgr.itemStart('fonts')
 		resourceMgr.onLoad = function(){
 			console.log('all resources done')
 			build()
@@ -161,7 +163,7 @@ function setup(){
 		window.WebFontConfig = {
 			google: {families: ['Droid Serif:400', 'Karla']},
 			classes: false,
-			active: function(){ console.log('fonts loaded'); resourceMgr.itemEnd('fonts') }
+			active: function(){ console.log('fonts done'); resourceMgr.itemEnd('fonts') }
 		}
 
 		function build(){
