@@ -382,7 +382,6 @@ io.on('connection', function (socket) {
 			story: lastActiveSeedling,
 			part: seedlings[lastActiveSeedling].currentPart,
 			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]),
-			stories: stories
 		});
 	});
 

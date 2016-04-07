@@ -2,7 +2,7 @@
 //global data
 var stories = null
 var socket
-var story=0, part=0, data = null, percentages
+var story=0, part=0, data = stories[story].parts[part], percentages
 var info = {name: []}
 //objects and resources
 var scene = new THREE.Scene(), camera, renderer
@@ -45,15 +45,9 @@ function setup(){
 		socket.once('ui acquire story', function(d){
 			console.log('ui acquired story')
 			console.log(d)
-            stories = [
-                d.stories.environment,
-                d.stories.society,
-                d.stories.anomalous
-            ]
             story = d.story; part = d.part; percentages = d.percentages
-            console.log(story)
             data = stories[story].parts[part]
-			ready.itemEnd('firstdata')
+            ready.itemEnd('firstdata')
 		})
 		socket.on('ui update', function(d){
 			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
