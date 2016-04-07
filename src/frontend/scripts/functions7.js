@@ -43,15 +43,8 @@
 {
 	function check(){
 		const height = degs(camera.rotation.x)>thresholds.height[0]?'elevation': degs(camera.rotation.x)<thresholds.height[1]?'plan':'isometric';
-		var zoom
-		// if(!cameraPerspective){ //orthographic camera can measure zoom
-			zoom = camera.zoom>thresholds.zoom[1]? 'close' : camera.zoom<thresholds.zoom[0]? 'far' : 'normal'
-		// }
-		// if(cameraPerspective){ //get distance and calculate by different thresholds if it's perspective
-			// var measure = camera.position.distanceTo(controls.center)
-			// zoom = measure < thresholds.persZ[1]? 'close' : measure > thresholds.persZ[0]? 'far' : 'normal' //the distance to the focal point.
-		// }
-		//addzoom: how much more you're zoomed in than a really normal amount
+		var zoom = camera.zoom>thresholds.zoom[1]? 'close' : camera.zoom<thresholds.zoom[0]? 'far' : 'normal'
+
 		const addzoom = camera.zoom - 1
 		controls.zoomSpeed = 0.7-(Math.abs(camera.zoom-1)/3)
 		controls.rotateSpeed = 0.1 - (Math.abs(camera.zoom-1)/20)
@@ -62,18 +55,12 @@
 		facingRotations.some(function(ele,i){
 			if(Math.abs(degs(camera.rotation.y)-ele)<45){
 				if(facing!==i){
-					// if(!cameraPerspective && camera.zoom>1){
+					if(camera.zoom>1){
 						view.zoomswitch = true; controls.noZoom = true
 						var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+i].targetY) * 50
 						anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3.5),
 						spd: 300+switchdist, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false; controls.noZoom = false }})
-					// }
-					// else if(cameraPerspective && camera.position.distanceTo(controls.center) < 28){
-					// 	view.zoomswitch = true; controls.noZoom = true
-					// 	var switchdist = Math.abs(seseme['plr'+facing].targetY - seseme['plr'+i].targetY) * 50
-					// 	anim3d(scene, 'position', {y: -(seseme['plr'+i].targetY)*(addzoom/1.5)-(addzoom*3.5),
-					// 	spd: 300, easing: ['Quadratic', 'InOut'], cb: function(){ view.zoomswitch = false; controls.noZoom = false }})
-					// }
+					}
 					if(((i>facing) || (i===0 && facing===3)) && !(i===3 && facing===0)) view.cycleDirection = true
 					else view.cycleDirection = false
 					facing = i
@@ -95,19 +82,10 @@
 			setView(false, true)
 		}
 		//zoom offseting -obj scaling and scene position
-		// if(!cameraPerspective){
 			if(camera.zoom > 1){
 				info.btn.scale.set(1-(addzoom/3.5),1-(addzoom/3.5),1-(addzoom/3.5))
 				if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5)
 			}
-		// }
-		// else{
-		// 	var measure = camera.position.distanceTo(controls.center)
-		// 	if(measure < 28){
-		// 		info.btn.scale.set(1-(addzoom/3.5),1-(addzoom/3.5),1-(addzoom/3.5))
-		// 		if(!view.zoomswitch) scene.position.y = -(seseme['plr'+facing].targetY)*(addzoom/1.5)-(addzoom*3.5)
-		// 	}
-		// }
 
 		if(init) init = false
 	}//end 'check'
