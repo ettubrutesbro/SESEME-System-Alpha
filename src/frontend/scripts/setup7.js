@@ -29,11 +29,11 @@ var performance = 'hi', cameraPerspective = false
 function setup(){
 	//ready waits for data & 3d before filling the scene
 	//though, using THREE's load manager here feels a bit disingenuous...
-	var ready = new THREE.LoadingManager()
-	ready.itemStart('firstdata'); ready.itemStart('3d')
-	ready.onLoad = function(){ fill(); behaviors(); display() }
+	// var ready = new THREE.LoadingManager()
+	// ready.itemStart('firstdata'); ready.itemStart('3d')
+	// ready.onLoad = function(){ fill(); behaviors(); display() }
 	netOps() //data from server
-	initDOM() //dom
+	// initDOM() //dom
 
 	function netOps(){
 		// socket = io.connect('http://169.237.123.19:5000')
@@ -54,7 +54,10 @@ function setup(){
             story = d.story; part = d.part; percentages = d.percentages
             console.log(story)
             data = stories[story].parts[part]
-			ready.itemEnd('firstdata')
+			// ready.itemEnd('firstdata')
+
+			dataIsReady()
+
 		})
 		socket.on('ui update', function(d){
 			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
@@ -74,7 +77,13 @@ function setup(){
 		// socket.on('receive something', function(d){ console.log(d) })
 		socket.on('status report', function(d){ console.log(d) })
 	} // end netOps
-	function initDOM(){ // defining global DOM items
+
+	function dataIsReady(){
+		assignDOM()
+		assets()
+	}
+
+	function assignDOM(){ // defining global DOM items
 			dom.containerSESEME = $('containerSESEME')
 			dom.bottom = $('bottom'); dom.closebutton = $('closebutton');
 			dom.bottomwrapper = $('bottomwrapper')
@@ -93,7 +102,7 @@ function setup(){
 				dom.navfigures.push( dom.navitems[i].querySelector('figure') )
 			}
 			dom.leftarrow = $('leftarrow'); dom.rightarrow = $('rightarrow')
-			assets()
+			// assets()
 	} //end initDOM
 	function assets(){
 		var allModels = ['quaped','pillar','outline3','outcap','orb_lo','templategeo'] //symbolgeos?
@@ -114,7 +123,11 @@ function setup(){
 		resourceMgr.itemStart('mdlMgr'); resourceMgr.itemStart('mtlMgr'); resourceMgr.itemStart('fonts')
 		resourceMgr.onLoad = function(){
 			console.log('all resources done')
-			build(); ready.itemEnd('3d')
+			build()
+			fill()
+			behaviors()
+			display() 
+			// ready.itemEnd('3d')
 		}
 		var mdlMgr = new THREE.LoadingManager()
 		mdlMgr.onProgress = function(item,loaded, total){console.log(item,loaded, total)}
