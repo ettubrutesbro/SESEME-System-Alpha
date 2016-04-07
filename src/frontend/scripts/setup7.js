@@ -35,8 +35,7 @@ function setup(){
 	initDOM() //dom
 
 	function netOps(){
-		// socket = io.connect('http://169.237.123.19:5000')
-		socket = io.connect('http://localhost:5000')
+		socket = io.connect('http://169.237.123.19:5000')
 		socket.once('connect', function(){
 			console.log('successfully connected')
 			socket.emit('ui request story')
