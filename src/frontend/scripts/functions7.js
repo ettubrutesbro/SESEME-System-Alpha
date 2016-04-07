@@ -695,7 +695,14 @@
 			console.log('clicked help sub button')
 			if(view.height==='plan'){
 				if(which === view.helpContent) view.helpContent = 'back'
-				else view.helpContent = which
+				else {
+					view.helpContent = which;
+					if(info.help[view.helpContent].btn.frames >1){
+						var f = info.help[view.helpContent].btn.frames
+						anim3d(info.help[view.helpContent].btn, 'sprite', {frames: f, dest: f-1,
+							spd: f*30})  
+					} 
+				}
 			}
 			setView(true)
 		}
@@ -712,6 +719,12 @@
 		}
 		function clickedHelpOutside(){
 			if(view.helpContent && view.helpContent!=='back'){
+				if(info.help[view.helpContent].btn.frames > 1){
+					var f = info.help[view.helpContent].btn.frames
+					anim3d(info.help[view.helpContent].btn, 'sprite', {frames: f, dest: 0,
+						spd: f*30})
+					
+				}
 				view.helpContent = 'back'
 				setView(true)
 			}
@@ -1310,15 +1323,18 @@
 }
 //9. ETC / other
 	function performanceLevel(){
+		var sprite = info.help.options.content.children[0], caption = info.help.options.content.children[3]
 		var allLevels = ['lo', 'med', 'hi', 'ultra']
 		performance = allLevels.indexOf(performance)<allLevels.length-1? allLevels[allLevels.indexOf(performance)+1]: allLevels[0]
 		// alert('performance is now ' + performance)
 
 		if(performance === 'lo'){
+			anim3d(sprite,'sprite',{frames:23,dest:22,spd:275,cb:function(){sprite.material.map.offset.x=0}})
+			anim3d(caption,'scrollmap',{y:0.75})
 			//no orb geometry, no mock shadow, no 2d anims, no backlight or orb, half camlight, lambert materials
 			Velocity.mock = true
 			shadow.visible = orb.visible = lights.children[0].castShadow = false
-			lights.children[0].intensity = orb.chlidren[0].intensity = 0
+			lights.children[0].intensity = orb.children[0].intensity = 0
 			lights.children[2].intensity = .5
 			for(var i = 0; i<4; i++){
 				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_lambert
@@ -1327,6 +1343,8 @@
 			}
 		}
 		else if(performance === 'med'){
+			anim3d(sprite, 'sprite', {frames: 23, dest: 5, spd:300})
+			anim3d(caption,'scrollmap',{y:0.5})
 			// normal lights on and full, 2d animations restored, visible mock shadow
 			Velocity.mock = false
 			shadow.visible = orb.visible = true
@@ -1334,6 +1352,8 @@
 			lights.children[2].intensity = lights.children[2].default
 		}
 		else if(performance === 'hi'){
+			anim3d(sprite, 'sprite', {frames: 23, dest: 10,spd:300})
+			anim3d(caption,'scrollmap',{y:0.25})
 			// + specular / phong material, orb light on
 			for(var i = 0; i<4; i++){
 				seseme['plr'+i].material = seseme['quad'+i].material = resources.mtls.seseme_phong
@@ -1341,6 +1361,8 @@
 			orb.children[0].intensity = orb.children[0].default
 		}
 		else if(performance === 'ultra'){
+			anim3d(sprite,'sprite',{frames:23,dest:17,spd:400})
+			anim3d(caption,'scrollmap',{y:0})
 			//+ realtime shadows
 			lights.children[0].castShadow = true
 			for(var i =0; i<4; i++){
@@ -1358,14 +1380,14 @@
 			anim3d(sprite, 'sprite', {frames: 10, dest: 9, spd: 400, cb: function(){
 				userPermission = false
 			}})
-			anim3d(caption, 'scrollmap', {y: 0.5})
+			anim3d(caption, 'scrollmap', {x: 0.5})
 
 		}
 		else{ // turn it on
 			anim3d(sprite, 'sprite',{frames:10,dest:0,spd:400, cb: function(){
 				userPermission = true
 			}})
-			anim3d(caption, 'scrollmap', {y: 0})
+			anim3d(caption, 'scrollmap', {x: 0})
 		}
 	}
 	function cameraMode(){
