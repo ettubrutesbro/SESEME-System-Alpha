@@ -27,13 +27,8 @@ var userPermission = true
 var performance = 'hi', cameraPerspective = false
 
 function setup(){
-	//ready waits for data & 3d before filling the scene
-	//though, using THREE's load manager here feels a bit disingenuous...
-	// var ready = new THREE.LoadingManager()
-	// ready.itemStart('firstdata'); ready.itemStart('3d')
-	// ready.onLoad = function(){ fill(); behaviors(); display() }
+
 	netOps() //data from server
-	// initDOM() //dom
 
 	function netOps(){
 		socket = io.connect('http://169.237.123.19:5000')
@@ -41,7 +36,6 @@ function setup(){
 		socket.once('connect', function(){
 			console.log('successfully connected')
 			socket.emit('ui request story')
-			// socket.on('debug status report', function(d){console.log(d)})
 	 	})
 		socket.once('ui acquire story', function(d){
 			console.log('ui acquired story')
@@ -54,13 +48,10 @@ function setup(){
             story = d.story; part = d.part; percentages = d.percentages
             console.log(story)
             data = stories[story].parts[part]
-			// ready.itemEnd('firstdata')
 
 			dataIsReady()
-
 		})
 		socket.on('ui update', function(d){
-			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
 			console.log('ui updating')
 			console.log(d)
 			story = d.story
@@ -74,7 +65,6 @@ function setup(){
 		})
 		socket.on('disconnect',function(){ console.log('disconnected')})
 		socket.on('reconnect', function(){ console.log('reconnected') })
-		// socket.on('receive something', function(d){ console.log(d) })
 		socket.on('status report', function(d){ console.log(d) })
 	} // end netOps
 
@@ -619,7 +609,7 @@ function setup(){
 
 	}//behaviors
 	function display(){
-    requestAnimationFrame( display ); renderer.render( scene, camera )
-    controls.update(); TWEEN.update();
+	    requestAnimationFrame( display ); renderer.render( scene, camera )
+	    controls.update(); TWEEN.update();
 	}
 }//end setup
