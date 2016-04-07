@@ -70,8 +70,19 @@
 <script src="frontend/libs/velocity.min.js"></script>
 <script src="frontend/libs/Hyphenator.js"></script>
 
+
+
 <script src = "frontend/scripts/functions7.js"></script>
 <script src = "frontend/scripts/setup7.js"></script>
-<script>setup()</script>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+<script>
+	WebFont.load({
+	  google: {families: ['Droid Serif:400', 'Karla']},
+	  active: function(){ setup() },
+	  inactive: function(){ document.location.reload(false) },
+	  timeout: 5000
+	})
+   
+</script>
 
-<script src="frontend/libs/webfontloader.js"></script>
+
