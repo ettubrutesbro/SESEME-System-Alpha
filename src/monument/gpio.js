@@ -1,22 +1,17 @@
 // Module to set up the gpio
 function setup(socket) {
   var gpio = require('rpi-gpio');
+  var pinNumber = 11;
 
-  gpio.setup(7, gpio.DIR_IN, function(){
+  gpio.setup(pinNumber, gpio.DIR_IN, function(){
     console.log('setup :)');
     setInterval(readInput, 150);
   });
 
-  gpio.setup(8, gpio.DIR_OUT, function(){
-    console.log('setup output pin');
-    setInterval(readInput, 150);
-  });
-
-
   var coolDown = Date.now();
 
   function readInput() {
-    gpio.read(7, function(err, value) {
+    gpio.read(pinNumber, function(err, value) {
       if (err) throw err;
       //console.log(value)
       if(value == true){
