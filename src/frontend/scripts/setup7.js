@@ -35,7 +35,8 @@ function setup(){
 	initDOM() //dom
 
 	function netOps(){
-		socket = io.connect('http://169.237.123.19:5000')
+		// socket = io.connect('http://169.237.123.19:5000')
+		socket = io.connect('http://localhost:5000')
 		socket.once('connect', function(){
 			console.log('successfully connected')
 			socket.emit('ui request story')
@@ -96,9 +97,10 @@ function setup(){
 			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings','howto_swipe',
 			'howto_pinch','howto_tap',
 			'feedback_tw','feedback_email',
+			'settings_data','settings_datatext','settings_persp','settings_persptext',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
-		
+
 
 
 		var resourceMgr = new THREE.LoadingManager()
@@ -203,7 +205,7 @@ function setup(){
 				var backlight = new THREE.SpotLight(0xeaddb9, 1.2); var camlight = new THREE.PointLight(0xffffff, .35)
 			  	backlight.position.set(-7,25,-4); camlight.position.set(-40,-7,-24)
 				backlight.default = 1.2, camlight.default = .35
-			  	lights.add(backlight); lights.add(amblight); lights.add(camlight); 
+			  	lights.add(backlight); lights.add(amblight); lights.add(camlight);
 				lights.rotation.set(-camera.rotation.x/2, camera.rotation.y + rads(45), -camera.rotation.z/2)
 
 				backlight.shadow.mapSize.width = 512
@@ -355,7 +357,7 @@ function setup(){
 					objs: [
 						//app animations
 						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24,delay:100},map:'howto_swipe',
-							frames:11, 
+							frames:11,
 							sequence: function(){
 								anim3d(this, 'sprite', {dest: 10, frames:11, delay: 1000, loop:true})
 							}
@@ -370,7 +372,7 @@ function setup(){
 									else if(whichFrame===10) anim3d(pinch, 'sprite', {dest: 19, frames: 20, spd: 300})
 									else if(whichFrame===19) anim3d(pinch, 'sprite', {dest: 0, frames: 20, spd: 550})
 								}, 1400)
-								
+
 							}
 						}, //tween A....B....C
 						{dims: {x:12,y:16},pos:{x:16,z:-20.75},origin:{x:16,z:-26,delay:100},map:'howto_tap',
@@ -396,14 +398,22 @@ function setup(){
 				{name: 'options',
 					x: 0, z: -14, icon: 'settings',
 					objs: [
+						{dims:{x:6,y:6}, pos:{x:-11, z:14, delay: 500}, origin: {x:-16, z:14}},
+						{dims:{x:6,y:6}, pos:{x:-11, z:22, delay: 100}, origin: {x:-14.5, z:22, delay: 100}, map: 'settings_persp', frames: 11, clicked: cameraMode},
+						{dims:{x:6,y:6}, pos:{x:-11, z:29.5}, origin: {x:-13, z:29.5, delay: 200}, map: 'settings_data', frames: 10, clicked:collectDataMode},
+
+						{dims:{x:20,y:3}, pos:{x:4,z:14, delay: 500}, origin: {x:13,z:14}},
+						{dims:{x:20,y:3}, pos:{x:4,z:22, delay: 100}, origin: {x:11.5,z:22, delay: 100}, map: 'settings_persptext', frames: 2,clicked:cameraMode},
+						{dims:{x:20,y:3}, pos:{x:4,z:30}, origin: {x:10,z:30, delay: 200}, map: 'settings_datatext', rows: 2, clicked:collectDataMode}
+
 						//settings: performance and collect usage data
-						{dims: {x:15,y:15}, pos: {x:-9, z:18}, origin: {x:0,z:0,delay:150},
-							clicked: performanceLevel},
-						{dims: {x:15,y:15}, pos: {x:9, z:18,delay:250}, origin:{x:-9,z:18,delay:50},
-							clicked: function(){ console.log('user data collection on/off') }},
-						//captions
-						{dims: {x:15,y:5}, pos: {x:-9, z:30, delay: 250,spd:250}, origin:{x:-9,z:25,spd:250}},
-						{dims: {x:15,y:5}, pos: {x:9, z:30, delay: 500,spd:250,}, origin:{x:9,z:25,spd:250,}}
+						// {dims: {x:15,y:15}, pos: {x:-9, z:18}, origin: {x:0,z:0,delay:150},
+						// 	clicked: performanceLevel},
+						// {dims: {x:15,y:15}, pos: {x:9, z:18,delay:250}, origin:{x:-9,z:18,delay:50},
+						// 	clicked: function(){ console.log('user data collection on/off') }},
+						// //captions
+						// {dims: {x:15,y:5}, pos: {x:-9, z:30, delay: 250,spd:250}, origin:{x:-9,z:25,spd:250}},
+						// {dims: {x:15,y:5}, pos: {x:9, z:30, delay: 500,spd:250,}, origin:{x:9,z:25,spd:250,}}
 					]
 				},
 				{name: 'feedback',
@@ -449,6 +459,7 @@ function setup(){
 					helpObj.visible = false
 					helpcontent.add(helpObj)
 					if(objInfo.frames) helpObj.material.map.repeat.set(1/objInfo.frames, 1)
+					if(objInfo.rows) helpObj.material.map.repeat.set(1, 1/objInfo.rows)
 					if(objInfo.sequence) {helpObj.sequence = objInfo.sequence; helpObj.sequence()}
 
 				}

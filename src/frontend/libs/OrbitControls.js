@@ -215,8 +215,9 @@ THREE.OrbitControls = function ( object, domElement ) {
 		}
 
 		if ( scope.object instanceof THREE.PerspectiveCamera ) {
-
-			scale /= dollyScale;
+			scope.object.zoom = Math.max( this.minZoom, Math.min( this.maxZoom, this.object.zoom * dollyScale ) );
+			scope.object.updateProjectionMatrix();
+			// scale /= dollyScale;
 
 		} else if ( scope.object instanceof THREE.OrthographicCamera ) {
 
@@ -242,7 +243,10 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		if ( scope.object instanceof THREE.PerspectiveCamera ) {
 
-			scale *= dollyScale;
+			// scale *= dollyScale;
+			scope.object.zoom = Math.max( this.minZoom, Math.min( this.maxZoom, this.object.zoom / dollyScale ) );
+			scope.object.updateProjectionMatrix();
+			scope.dispatchEvent( changeEvent );
 
 		} else if ( scope.object instanceof THREE.OrthographicCamera ) {
 
