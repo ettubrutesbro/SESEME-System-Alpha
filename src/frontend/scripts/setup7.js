@@ -350,7 +350,7 @@ function setup(){
 			info.help = new THREE.Group()
 			var sections = [
 				{name: 'about',
-					x: 0, z: 14, icon: 'about',
+					x: 0, z: 14, icon: 'about', btnframes: 6,
 					objs: [
 						//team rows
 						{dims: {x:40,y:7}, pos: {x:0, z:-22, delay: 0}, origin: {x:-5,z:-22,delay:75}, map: 'about_team1'},
@@ -360,7 +360,7 @@ function setup(){
 					]
 				},
 				{name: 'howto',
-					x: 14, z: 0, icon: 'howto',
+					x: 14, z: 0, icon: 'howto', btnframes: 1,
 					objs: [
 						//app animations
 						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24,delay:100},map:'howto_swipe',
@@ -403,7 +403,7 @@ function setup(){
 					]
 				},
 				{name: 'options',
-					x: 0, z: -14, icon: 'settings',
+					x: 0, z: -14, icon: 'settings', btnframes: 10,
 					objs: [
 						{dims:{x:6,y:6}, pos:{x:-11, z:14, delay: 500}, origin: {x:-16, z:14}, map: 'settings_performance', frames: 23, clicked: performanceLevel,
 							sequence: function(){ info.help.options.content.children[0].material.map.offset.x = 10/23 }},
@@ -418,7 +418,7 @@ function setup(){
 					]
 				},
 				{name: 'feedback',
-					x: -14, z: 0, icon: 'feedback',
+					x: -14, z: 0, icon: 'feedback', btnframes: 6,
 					objs: [
 						{dims: {x:40,y:18 }, pos: {x:1,z:-20},origin:{x:9,z:-20,delay:100,},
 						clicked:function(){ window.location = "http://twitter.com/hi_datalith"},
@@ -444,6 +444,8 @@ function setup(){
 				helpbtn.rotation.x = rads(-90)
 				helpbtn.expand = {x: sections[i].x, z: sections[i].z, delay:50+i*35 }
 				helpbtn.name=sections[i].name; helpbtn.class= 'btn'
+				helpbtn.frames = sections[i].btnframes
+				if(helpbtn.frames>1) helpbtn.material.map.repeat.set(1/sections[i].btnframes,1)
 				helpbtn.visible = false
 				helpsection.btn = helpbtn
 				helpsection.add(helpsection.btn)

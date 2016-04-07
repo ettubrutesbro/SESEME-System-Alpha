@@ -695,7 +695,14 @@
 			console.log('clicked help sub button')
 			if(view.height==='plan'){
 				if(which === view.helpContent) view.helpContent = 'back'
-				else view.helpContent = which
+				else {
+					view.helpContent = which;
+					if(info.help[view.helpContent].btn.frames >1){
+						var f = info.help[view.helpContent].btn.frames
+						anim3d(info.help[view.helpContent].btn, 'sprite', {frames: f, dest: f-1,
+							spd: f*30})  
+					} 
+				}
 			}
 			setView(true)
 		}
@@ -712,6 +719,12 @@
 		}
 		function clickedHelpOutside(){
 			if(view.helpContent && view.helpContent!=='back'){
+				if(info.help[view.helpContent].btn.frames > 1){
+					var f = info.help[view.helpContent].btn.frames
+					anim3d(info.help[view.helpContent].btn, 'sprite', {frames: f, dest: 0,
+						spd: f*30})
+					
+				}
 				view.helpContent = 'back'
 				setView(true)
 			}
