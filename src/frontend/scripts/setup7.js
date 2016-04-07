@@ -1,6 +1,5 @@
 
 //global data
-var stories = null
 var socket
 var story=0, part=0, data = stories[story].parts[part], percentages
 var info = {name: []}
