@@ -122,14 +122,12 @@ function setup(){
 		var resourceMgr = new THREE.LoadingManager()
 		resourceMgr.itemStart('mdlMgr'); 
 		resourceMgr.itemStart('mtlMgr'); 
-		resourceMgr.itemStart('fonts')
 		resourceMgr.onLoad = function(){
 			console.log('all resources done')
 			build()
 			fill()
 			behaviors()
 			display() 
-			// ready.itemEnd('3d')
 		}
 		var mdlMgr = new THREE.LoadingManager()
 		mdlMgr.onProgress = function(item,loaded, total){console.log(item,loaded, total)}
@@ -160,11 +158,7 @@ function setup(){
 		{
 			resources.mtls.testbox = new THREE.MeshNormalMaterial()
 		}
-		window.WebFontConfig = {
-			google: {families: ['Droid Serif:400', 'Karla']},
-			classes: false,
-			active: function(){ console.log('fonts done'); resourceMgr.itemEnd('fonts') }
-		}
+	
 
 		function build(){
 			//camera/renderer/dom
