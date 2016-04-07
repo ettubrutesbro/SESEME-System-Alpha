@@ -1361,7 +1361,7 @@
 			orb.children[0].intensity = orb.children[0].default
 		}
 		else if(performance === 'ultra'){
-			anim3d(sprite,'sprite',{frames:23,dest:17,spd:400})
+			anim3d(sprite,'sprite',{frames:23,dest:17,spd:425})
 			anim3d(caption,'scrollmap',{y:0})
 			//+ realtime shadows
 			lights.children[0].castShadow = true
