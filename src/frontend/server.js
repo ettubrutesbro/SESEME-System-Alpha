@@ -23,7 +23,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/stories', function (req, res) {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'webform', 'webForm.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'webform', 'index.html'));
 });
 
 io.on('connection', function (socket) {
