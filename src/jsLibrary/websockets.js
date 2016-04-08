@@ -877,7 +877,7 @@ beagleIO.on('connection', function(beagleSocket){
 	beagleSocket.on('seseme reset button', function(){
 		print("Seseme Reset Button");
 		stepperPositionAr = [0,0,0,0]; // update stepperPositionAr to bottom
-    beagleSocket.emit("seseme update position values", stepperPositionAr); // update position values on beagle
+    beagle.emit("seseme update position values", stepperPositionAr); // update position values on beagle
 	}) // update position arrays on server and monument pi to be [0,0,0,0]
 
 	beagleSocket.on('checkSesemeRunning', function(data){
