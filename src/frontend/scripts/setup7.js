@@ -1,8 +1,7 @@
 
 //global data
-var stories = null
 var socket
-var story=0, part=0, data = null, percentages
+var story=0, part=0, data = stories[story].parts[part], percentages
 var info = {name: []}
 //objects and resources
 var scene = new THREE.Scene(), camera, renderer
@@ -45,15 +44,9 @@ function setup(){
 		socket.once('ui acquire story', function(d){
 			console.log('ui acquired story')
 			console.log(d)
-            stories = [
-                d.stories.environment,
-                d.stories.society,
-                d.stories.anomalous
-            ]
             story = d.story; part = d.part; percentages = d.percentages
-            console.log(story)
             data = stories[story].parts[part]
-			ready.itemEnd('firstdata')
+            ready.itemEnd('firstdata')
 		})
 		socket.on('ui update', function(d){
 			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
@@ -103,9 +96,10 @@ function setup(){
 			'about_team0','about_team1','about_team2','about_about','howto_ui','howto_seedlings','howto_swipe',
 			'howto_pinch','howto_tap',
 			'feedback_tw','feedback_email',
+			'settings_data','settings_datatext','settings_persp','settings_persptext','settings_performance','settings_performancetext',
 			'whiteman','whitewoman','blackman','blackwoman','hispman','hispwoman','asianman','asianwoman'] //names of external imgs (PNG)
 		// stories.forEach(function(ele){ allModels.push(ele.geo); allTextures.push(ele.geo) })
-		
+
 
 
 		var resourceMgr = new THREE.LoadingManager()
@@ -210,7 +204,7 @@ function setup(){
 				var backlight = new THREE.SpotLight(0xeaddb9, 1.2); var camlight = new THREE.PointLight(0xffffff, .35)
 			  	backlight.position.set(-7,25,-4); camlight.position.set(-40,-7,-24)
 				backlight.default = 1.2, camlight.default = .35
-			  	lights.add(backlight); lights.add(amblight); lights.add(camlight); 
+			  	lights.add(backlight); lights.add(amblight); lights.add(camlight);
 				lights.rotation.set(-camera.rotation.x/2, camera.rotation.y + rads(45), -camera.rotation.z/2)
 
 				backlight.shadow.mapSize.width = 512
@@ -348,7 +342,7 @@ function setup(){
 			info.help = new THREE.Group()
 			var sections = [
 				{name: 'about',
-					x: 0, z: 14, icon: 'about',
+					x: 0, z: 14, icon: 'about', btnframes: 6,
 					objs: [
 						//team rows
 						{dims: {x:40,y:7}, pos: {x:0, z:-22, delay: 0}, origin: {x:-5,z:-22,delay:75}, map: 'about_team1'},
@@ -358,11 +352,11 @@ function setup(){
 					]
 				},
 				{name: 'howto',
-					x: 14, z: 0, icon: 'howto',
+					x: 14, z: 0, icon: 'howto', btnframes: 1,
 					objs: [
 						//app animations
 						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24,delay:100},map:'howto_swipe',
-							frames:11, 
+							frames:11,
 							sequence: function(){
 								anim3d(this, 'sprite', {dest: 10, frames:11, delay: 1000, loop:true})
 							}
@@ -371,20 +365,20 @@ function setup(){
 							frames: 20,
 							sequence: function(){
 								setInterval(function(){
-									var pinch = info.help.children[1].children[1].children[1]
+									var pinch = info.help.howto.content.children[1]
 									var whichFrame = pinch.material.map.offset.x * 20
 									if(whichFrame===0) anim3d(pinch, 'sprite', {dest: 10, frames: 20, spd: 300})
 									else if(whichFrame===10) anim3d(pinch, 'sprite', {dest: 19, frames: 20, spd: 300})
 									else if(whichFrame===19) anim3d(pinch, 'sprite', {dest: 0, frames: 20, spd: 550})
 								}, 1400)
-								
+
 							}
 						}, //tween A....B....C
 						{dims: {x:12,y:16},pos:{x:16,z:-20.75},origin:{x:16,z:-26,delay:100},map:'howto_tap',
 							frames:42,
 							sequence: function(){
 								setInterval(function(){
-									var tap = info.help.children[1].children[1].children[2]
+									var tap = info.help.howto.content.children[2]
 									var whichFrame = tap.material.map.offset.x * 42
 									if(whichFrame===20) anim3d(tap, 'sprite', {dest: 41, frames: 42, spd: 800})
 									else{
@@ -401,20 +395,22 @@ function setup(){
 					]
 				},
 				{name: 'options',
-					x: 0, z: -14, icon: 'settings',
+					x: 0, z: -14, icon: 'settings', btnframes: 10,
 					objs: [
-						//settings: performance and collect usage data
-						{dims: {x:15,y:15}, pos: {x:-9, z:18}, origin: {x:0,z:0,delay:150},
-							clicked: performanceLevel},
-						{dims: {x:15,y:15}, pos: {x:9, z:18,delay:250}, origin:{x:-9,z:18,delay:50},
-							clicked: function(){ console.log('user data collection on/off') }},
-						//captions
-						{dims: {x:15,y:5}, pos: {x:-9, z:30, delay: 250,spd:250}, origin:{x:-9,z:25,spd:250}},
-						{dims: {x:15,y:5}, pos: {x:9, z:30, delay: 500,spd:250,}, origin:{x:9,z:25,spd:250,}}
+						{dims:{x:6,y:6}, pos:{x:-11, z:14, delay: 500}, origin: {x:-16, z:14}, map: 'settings_performance', frames: 23, clicked: performanceLevel,
+							sequence: function(){ info.help.options.content.children[0].material.map.offset.x = 10/23 }},
+						{dims:{x:6,y:6}, pos:{x:-11, z:22, delay: 100}, origin: {x:-14.5, z:22, delay: 100}, map: 'settings_persp', frames: 11, clicked: cameraMode},
+						{dims:{x:6,y:6}, pos:{x:-11, z:29.5}, origin: {x:-13, z:29.5, delay: 200}, map: 'settings_data', frames: 10, clicked:collectDataMode},
+
+						{dims:{x:20,y:3}, pos:{x:4,z:14, delay: 500}, origin: {x:13,z:14}, map: 'settings_performancetext', rows: 4, clicked: performanceLevel,
+							sequence: function(){ info.help.options.content.children[3].material.map.offset.y = .25 }},
+						{dims:{x:20,y:3}, pos:{x:4,z:22, delay: 100}, origin: {x:11.5,z:22, delay: 100}, map: 'settings_persptext', frames: 2,clicked:cameraMode},
+						{dims:{x:20,y:3}, pos:{x:4,z:30}, origin: {x:10,z:30, delay: 200}, map: 'settings_datatext', frames: 2, clicked:collectDataMode}
+
 					]
 				},
 				{name: 'feedback',
-					x: -14, z: 0, icon: 'feedback',
+					x: -14, z: 0, icon: 'feedback', btnframes: 6,
 					objs: [
 						{dims: {x:40,y:18 }, pos: {x:1,z:-20},origin:{x:9,z:-20,delay:100,},
 						clicked:function(){ window.location = "http://twitter.com/hi_datalith"},
@@ -429,6 +425,8 @@ function setup(){
 
 			for(var i = 0; i<4; i++){
 				var helpsection = new THREE.Group()
+				info.help[sections[i].name] = helpsection
+				info.help.add(info.help[sections[i].name])
 				helpsection.name = sections[i].name
 				//button placement & color
 				var helpbtn = new THREE.Mesh(new THREE.PlaneBufferGeometry(8,8),
@@ -438,11 +436,15 @@ function setup(){
 				helpbtn.rotation.x = rads(-90)
 				helpbtn.expand = {x: sections[i].x, z: sections[i].z, delay:50+i*35 }
 				helpbtn.name=sections[i].name; helpbtn.class= 'btn'
+				helpbtn.frames = sections[i].btnframes
+				if(helpbtn.frames>1) helpbtn.material.map.repeat.set(1/sections[i].btnframes,1)
 				helpbtn.visible = false
 				helpsection.btn = helpbtn
 				helpsection.add(helpsection.btn)
 
 				var helpcontent = new THREE.Group()
+				helpsection.content = helpcontent
+				helpsection.add(helpsection.content)
 				for(var it = 0; it<sections[i].objs.length; it++){
 					var objInfo = sections[i].objs[it]
 					var helpObj = new THREE.Mesh(new THREE.PlaneBufferGeometry(objInfo.dims.x,objInfo.dims.y), new THREE.MeshBasicMaterial({transparent: true, opacity: 0, depthWrite: false}))
@@ -456,14 +458,13 @@ function setup(){
 					helpObj.visible = false
 					helpcontent.add(helpObj)
 					if(objInfo.frames) helpObj.material.map.repeat.set(1/objInfo.frames, 1)
+					if(objInfo.rows) helpObj.material.map.repeat.set(1, 1/objInfo.rows)
 					if(objInfo.sequence) {helpObj.sequence = objInfo.sequence; helpObj.sequence()}
 
 				}
-				helpsection.content = helpcontent
-				helpsection.add(helpsection.content)
+				
 
-				info.help[sections[i].name] = helpsection
-				info.help.add(info.help[sections[i].name])
+				
 				projectionMgr.itemEnd('helpSection'+i)
 
 				//specific stuff
