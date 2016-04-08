@@ -30,6 +30,8 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
+<<<<<<< HEAD
 # OS X
 .DS_Store
-
+# Webstorm IDE 
+.idea
