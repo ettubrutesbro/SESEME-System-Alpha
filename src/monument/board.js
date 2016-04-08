@@ -95,7 +95,7 @@ function setup(socket, callback){
         }); 
 
         strip[3] = new pixel.Strip({
-          data: 9,
+          data: 10,
           length: pixelNum,
           board: this,
           controller: "FIRMATA" // for Johnny Five with just Arduino
