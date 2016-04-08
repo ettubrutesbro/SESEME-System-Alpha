@@ -22,6 +22,10 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/stories', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'webform', 'index.html'));
+});
+
 io.on('connection', function (socket) {
 	socket.on('error', function (err) {
 		console.log("Socket Error! "+err);
