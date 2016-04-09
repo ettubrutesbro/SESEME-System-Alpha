@@ -215,15 +215,16 @@ function setup(){
 		  	shadow = new THREE.Mesh(new THREE.PlaneBufferGeometry(16,16), resources.mtls.shadow)
 		  	shadow.rotation.x = rads(-90); shadow.position.set(-0.1,-17.99,0.1)
 			shadow.material.opacity = 0
-			signifier = new THREE.Group()
-				sigfaceA = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
-				sigfaceA.position.set(-2.55,-.3,4)
-				sigfaceB = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
-				sigfaceB.position.set(-4,-.3,2.55); sigfaceB.rotation.y = rads(-90)
-				sigfaceC = new THREE.Mesh(new THREE.PlaneBufferGeometry(4.4,2), resources.mtls.signifier)
-				sigfaceC.position.set(-2.5,-.3,2.5); sigfaceC.rotation.y = rads(135)
-				signifier.add(sigfaceA); signifier.add(sigfaceB); signifier.add(sigfaceC)
-			signifier.position.set(-1.5,-2,-1)
+			signifier = new THREE.Mesh(new THREE.PlaneBufferGeometry(13,13), resources.mtls.signifier)
+
+				// sigfaceA = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
+				// sigfaceA.position.set(-2.55,-.3,4)
+				// sigfaceB = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
+				// sigfaceB.position.set(-4,-.3,2.55); sigfaceB.rotation.y = rads(-90)
+				// sigfaceC = new THREE.Mesh(new THREE.PlaneBufferGeometry(4.4,2), resources.mtls.signifier)
+				// sigfaceC.position.set(-2.5,-.3,2.5); sigfaceC.rotation.y = rads(135)
+				// signifier.add(sigfaceA); signifier.add(sigfaceB); signifier.add(sigfaceC)
+			// signifier.position.set(-1.5,-2,-1)
 			orb = new THREE.Mesh(resources.geos.orb_lo, resources.mtls.orb)
 			orb.scale.set(0.45,0.45,0.45); orb.position.y = -20.25 //final position in initQuads, line 511
 			var orblight = new THREE.PointLight(0xff0000, 0.7); orblight.position.y = -1
@@ -287,7 +288,7 @@ function setup(){
 			}
 			plrMgr.onLoad = function(){
 				console.log('pillars in place'); allMgr.itemEnd('plrMgr')
-				anim3d(signifier,'position',{y:0})
+				// anim3d(signifier,'position',{y:0})
 			}
 			// projectionMgr.onProgress = function(item,loaded,total){console.log(item,loaded,total)}
 			projectionMgr.onLoad = function(){
@@ -301,9 +302,11 @@ function setup(){
 					seseme['plr'+i].outline.material.color = rgb
 					seseme['plr'+i].outcap.material.color = rgb
 				}
-				for(var i = 0; i<3; i++){
-					signifier.children[i].material.color = rgb
-				}
+				resources.mtls.signifier.color = rgb
+
+				// for(var i = 0; i<3; i++){
+				// 	signifier.children[i].material.color = rgb
+				// }
 					resources.mtls.orb.color = {r: rgb.r/2, g: rgb.g/2, b:rgb.b/2}
 					resources.mtls.orb.emissive = {r: rgb.r*1.25, g: rgb.g*1.25, b: rgb.b*1.25}
 					orb.children[0].color = rgb
