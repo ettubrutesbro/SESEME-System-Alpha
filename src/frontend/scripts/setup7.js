@@ -167,7 +167,7 @@ function setup(){
 			resources.mtls.seseme = resources.mtls.seseme_phong
 			resources.mtls.orb = new THREE.MeshPhongMaterial({color:0xff6666,emissive:0x771100,shininess:1,specular:0x272727})
 			resources.mtls.ground = new THREE.MeshBasicMaterial({color:0xededed})
-			resources.mtls.signifier = new THREE.MeshBasicMaterial({color: 0xff0000,transparent: true, needsUpdate: true, alphaMap: resources.mtls.signifieralpha.map})
+			resources.mtls.signifier = new THREE.MeshBasicMaterial({color: 0xff0000,transparent: true, needsUpdate: true, alphaMap: resources.mtls.signifieralpha.map, opacity: 0})
 			//meshes
 			ground = new THREE.Mesh(new THREE.PlaneBufferGeometry( 30, 30 ), resources.mtls.ground)
 			ground.rotation.x = rads(-90); ground.position.set(0,-18,0)
@@ -215,16 +215,8 @@ function setup(){
 		  	shadow = new THREE.Mesh(new THREE.PlaneBufferGeometry(16,16), resources.mtls.shadow)
 		  	shadow.rotation.x = rads(-90); shadow.position.set(-0.1,-17.99,0.1)
 			shadow.material.opacity = 0
-			signifier = new THREE.Mesh(new THREE.PlaneBufferGeometry(13,13), resources.mtls.signifier)
-
-				// sigfaceA = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
-				// sigfaceA.position.set(-2.55,-.3,4)
-				// sigfaceB = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
-				// sigfaceB.position.set(-4,-.3,2.55); sigfaceB.rotation.y = rads(-90)
-				// sigfaceC = new THREE.Mesh(new THREE.PlaneBufferGeometry(4.4,2), resources.mtls.signifier)
-				// sigfaceC.position.set(-2.5,-.3,2.5); sigfaceC.rotation.y = rads(135)
-				// signifier.add(sigfaceA); signifier.add(sigfaceB); signifier.add(sigfaceC)
-			// signifier.position.set(-1.5,-2,-1)
+			signifier = new THREE.Mesh(new THREE.PlaneBufferGeometry(6.75,6.75), resources.mtls.signifier)
+				signifier.rotation.x = rads(-90); signifier.position.set(-6,-17.9,3.75)
 			orb = new THREE.Mesh(resources.geos.orb_lo, resources.mtls.orb)
 			orb.scale.set(0.45,0.45,0.45); orb.position.y = -20.25 //final position in initQuads, line 511
 			var orblight = new THREE.PointLight(0xff0000, 0.7); orblight.position.y = -1
@@ -288,7 +280,7 @@ function setup(){
 			}
 			plrMgr.onLoad = function(){
 				console.log('pillars in place'); allMgr.itemEnd('plrMgr')
-				// anim3d(signifier,'position',{y:0})
+				anim3d(signifier,'opacity',{opacity:1})
 			}
 			// projectionMgr.onProgress = function(item,loaded,total){console.log(item,loaded,total)}
 			projectionMgr.onLoad = function(){
@@ -304,9 +296,6 @@ function setup(){
 				}
 				resources.mtls.signifier.color = rgb
 
-				// for(var i = 0; i<3; i++){
-				// 	signifier.children[i].material.color = rgb
-				// }
 					resources.mtls.orb.color = {r: rgb.r/2, g: rgb.g/2, b:rgb.b/2}
 					resources.mtls.orb.emissive = {r: rgb.r*1.25, g: rgb.g*1.25, b: rgb.b*1.25}
 					orb.children[0].color = rgb
