@@ -556,8 +556,13 @@ function setup(){
 		dom.containerSESEME.addEventListener('click', function(event){
 			console.log('clicked container seseme')
 			event.preventDefault()
-			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
-			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+			var containerWidth = dom.containerSESEME.offsetWidth,
+			containerHeight = dom.containerSESEME.offsetHeight
+			offsetX = (window.innerWidth - containerWidth) / 2,
+			offsetY = (window.innerHeight - containerHeight) / 2
+			
+			mouse.x = ( (event.clientX - offsetX) / containerWidth ) * 2 - 1
+			mouse.y = - ( (event.clientY - offsetY) / containerHeight ) * 2 + 1
 			raycast.setFromCamera(mouse, camera)
 			var intersects
 			if(view.zoom === 'close' && view.text){ //links
