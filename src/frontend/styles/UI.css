@@ -1,18 +1,16 @@
 
 /*phone portrait*/
-@media (max-device-width: 600px) {
-		html{ font-size: 21px;}
+@media (max-width: 600px) {
+		html{ font-size: 21px; }
 		body{ margin: 0; }
-		#ui{position: absolute; 	width: 100%; height: 100%; left:0; right:0; margin: 0 auto; bottom: 0.05rem;}
+		#ui{position: absolute; width: 100%; height: 100%; left:0; right:0; margin: 0 auto; bottom: 0.05rem;}
 		#containerSESEME{ position: absolute; top:0; width:100%; height: 100%;
 			margin: 0 auto; left: 0; right: 0;}
 }
 
-/*tablet portrait, phone landscape*/
-@media (min-device-width: 600px)
-  and (max-device-width: 1280px) {
+@media (min-width: 601px) and (max-width: 1280px) {
 		html{ font-size: 32px; }
-		body{ margin: 0; }
+		body{ margin: 0; width: 0;}
     span, div { line-height: .95rem; }
 		#containerSESEME{ position: absolute; top:0; width:100%; height: 100%;
 			margin: 0 auto; left: 0; right: 0;}
@@ -23,9 +21,8 @@
     #nav_title::before{ top: -.8rem; }
 }
 
-/*probably a computer*/
-@media (min-device-width: 1281px)
-  and (max-device-width: 4860px) {
+/*probably a computer, the ui occurs within a smaller width space*/
+@media (min-width: 1281px) and (max-width: 4860px) {
 		html{ font-size: 18px; }
 		body {width: 1000px; height: 90%; position: absolute; top: 0; bottom: 0;
 			margin: auto auto; left: 0; right: 0;}
@@ -40,7 +37,7 @@
     #nav_title::before{ top: -.8rem; }
 }
 
-html { background-color: #676767; overflow: hidden;}
+html {  overflow: hidden; background-color: #676767;}
 body { font-family: 'Karla', sans-serif; background-color: #ededed;} /* apply univ. text styles here? */
 
 section { position: absolute; }
