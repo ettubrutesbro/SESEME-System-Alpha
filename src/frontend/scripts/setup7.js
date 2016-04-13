@@ -335,10 +335,10 @@ function setup(){
 			info.help = new THREE.Group()
 			var sections = [
 				{name: 'about',
-					x: 0, z: 14, icon: 'about', btnframes: 6,
+					x: 0, z: 14, icon: 'about', btnframes: 15,
 					objs: [
 						//team rows
-						{dims: {x:40,y:7}, pos: {x:0, z:-22, delay: 0}, origin: {x:-5,z:-22,delay:75}, map: 'about_team1'},
+						{dims: {x:40,y:7}, pos: {x:0, z:-22, delay: 0}, origin: {x:-5,z:-22}, map: 'about_team1'},
 						{dims: {x:40,y:7}, pos: {x:0, z:-14, delay: 150}, origin: {x:-3,z:-14}, map: 'about_team2'},
 						// paragraph
 						{dims: {x:40,y:18}, pos: {x:0,z:28.5}, origin:{x:0,z:36}, map: 'about_about'}
@@ -348,7 +348,7 @@ function setup(){
 					x: 14, z: 0, icon: 'howto', btnframes: 1,
 					objs: [
 						//app animations
-						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24,delay:100},map:'howto_swipe',
+						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24},map:'howto_swipe',
 							frames:11,
 							sequence: function(){
 								anim3d(this, 'sprite', {dest: 10, frames:11, delay: 1000, loop:true})
@@ -364,10 +364,9 @@ function setup(){
 									else if(whichFrame===10) anim3d(pinch, 'sprite', {dest: 19, frames: 20, spd: 300})
 									else if(whichFrame===19) anim3d(pinch, 'sprite', {dest: 0, frames: 20, spd: 550})
 								}, 1400)
-
 							}
 						}, //tween A....B....C
-						{dims: {x:12,y:16},pos:{x:16,z:-20.75},origin:{x:16,z:-26,delay:100},map:'howto_tap',
+						{dims: {x:12,y:16},pos:{x:16,z:-20.75},origin:{x:16,z:-26},map:'howto_tap',
 							frames:42,
 							sequence: function(){
 								setInterval(function(){
@@ -388,22 +387,22 @@ function setup(){
 					]
 				},
 				{name: 'options',
-					x: 0, z: -14, icon: 'settings', btnframes: 10,
+					x: 0, z: -14, icon: 'settings', btnframes: 15,
 					objs: [
 						{dims:{x:6,y:6}, pos:{x:-11, z:14, delay: 500}, origin: {x:-16, z:14}, map: 'settings_performance', frames: 23, clicked: performanceLevel,
 							sequence: function(){ info.help.options.content.children[0].material.map.offset.x = 10/23 }},
-						{dims:{x:6,y:6}, pos:{x:-11, z:22, delay: 100}, origin: {x:-14.5, z:22, delay: 100}, map: 'settings_persp', frames: 11, clicked: cameraMode},
-						{dims:{x:6,y:6}, pos:{x:-11, z:29.5}, origin: {x:-13, z:29.5, delay: 200}, map: 'settings_data', frames: 10, clicked:collectDataMode},
+						{dims:{x:6,y:6}, pos:{x:-11, z:22, delay: 100}, origin: {x:-14.5, z:22}, map: 'settings_persp', frames: 11, clicked: cameraMode},
+						{dims:{x:6,y:6}, pos:{x:-11, z:29.5}, origin: {x:-13, z:29.5}, map: 'settings_data', frames: 10, clicked:collectDataMode},
 
 						{dims:{x:20,y:3}, pos:{x:4,z:14, delay: 500}, origin: {x:13,z:14}, map: 'settings_performancetext', rows: 4, clicked: performanceLevel,
 							sequence: function(){ info.help.options.content.children[3].material.map.offset.y = .25 }},
-						{dims:{x:20,y:3}, pos:{x:4,z:22, delay: 100}, origin: {x:11.5,z:22, delay: 100}, map: 'settings_persptext', frames: 2,clicked:cameraMode},
-						{dims:{x:20,y:3}, pos:{x:4,z:30}, origin: {x:10,z:30, delay: 200}, map: 'settings_datatext', frames: 2, clicked:collectDataMode}
+						{dims:{x:20,y:3}, pos:{x:4,z:22, delay: 100}, origin: {x:11.5,z:22}, map: 'settings_persptext', frames: 2,clicked:cameraMode},
+						{dims:{x:20,y:3}, pos:{x:4,z:30}, origin: {x:10,z:30}, map: 'settings_datatext', frames: 2, clicked:collectDataMode}
 
 					]
 				},
 				{name: 'feedback',
-					x: -14, z: 0, icon: 'feedback', btnframes: 6,
+					x: -14, z: 0, icon: 'feedback', btnframes: 15,
 					objs: [
 						{dims: {x:40,y:18 }, pos: {x:1,z:-20},origin:{x:9,z:-20,delay:100,},
 						clicked:function(){ window.location = "http://twitter.com/hi_datalith"},
@@ -424,7 +423,7 @@ function setup(){
 				//button placement & color
 				var helpbtn = new THREE.Mesh(new THREE.PlaneBufferGeometry(8,8),
 				new THREE.MeshBasicMaterial({map: resources.mtls['btn_'+sections[i].icon].map,
-					transparent: true, opacity: 0, depthWrite: false}))
+					transparent: true, opacity: 0, depthWrite: false, needsUpdate: true}))
 				helpbtn.position.y = -17.5
 				helpbtn.rotation.x = rads(-90)
 				helpbtn.expand = {x: sections[i].x, z: sections[i].z, delay:50+i*35 }
