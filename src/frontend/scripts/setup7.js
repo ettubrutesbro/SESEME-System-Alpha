@@ -14,7 +14,7 @@ view = {text: false, content: '', lastTextHeight: 0, filling: false,
 	height: '', zoom: '', zoomswitch: false,
 	cycleDirection: false, zoomDirection: false},
 init = true
-var controls, mouse = new THREE.Vector2(), raycast
+var controls, mouse = new THREE.Vector2(), raycast, resizeTimer
 // 3d constants
 var plrmax = 12, constspd = 10000, spdcompensator = 400,
 thresholds = {zoom: [.675,1.15], height: [-3,-56], persZ: [46,28]},
@@ -153,10 +153,11 @@ function setup(){
 			camera.updateProjectionMatrix();
 
 			renderer = new THREE.WebGLRenderer({antialias: true, alpha: true})
-			// renderer.setClearColor(0xbbbbbb)
+			renderer.setClearColor(0xededed)
 			renderer.setSize( dom.containerSESEME.offsetWidth, dom.containerSESEME.offsetHeight)
 			dom.containerSESEME.appendChild( renderer.domElement )
 			controls = new THREE.OrbitControls(camera)
+			if(window.innerWidth > 1280) controls.scalar = 4
 			raycast = new THREE.Raycaster()
 			renderer.shadowMap.enabled = true
 		    renderer.shadowMap.type = THREE.PCFSoftShadowMap
@@ -547,8 +548,13 @@ function setup(){
 		dom.containerSESEME.addEventListener('click', function(event){
 			console.log('clicked container seseme')
 			event.preventDefault()
-			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
-			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+			var containerWidth = dom.containerSESEME.offsetWidth,
+			containerHeight = dom.containerSESEME.offsetHeight
+			offsetX = (window.innerWidth - containerWidth) / 2,
+			offsetY = (window.innerHeight - containerHeight) / 2
+			
+			mouse.x = ( (event.clientX - offsetX) / containerWidth ) * 2 - 1
+			mouse.y = - ( (event.clientY - offsetY) / containerHeight ) * 2 + 1
 			raycast.setFromCamera(mouse, camera)
 			var intersects
 			if(view.zoom === 'close' && view.text){ //links
@@ -585,9 +591,16 @@ function setup(){
 
 		//WINDOW RESIZING
 		window.addEventListener('resize', function(){
-			var aspect = window.innerWidth / window.innerHeight; var d = 20
-			camera.left = -d*aspect; camera.right = d*aspect; camera.top = d; camera.bottom = -d
-				renderer.setSize( window.innerWidth, window.innerHeight); camera.updateProjectionMatrix()
+			clearTimeout(resizeTimer)
+			resizeTimer = setTimeout(function(){
+				if(window.innerWidth > 1280) controls.scalar = 4
+				else controls.scalar = 1
+				var aspect = dom.containerSESEME.offsetWidth / dom.containerSESEME.offsetHeight; var d = 20
+				console.log('running resize code')
+				renderer.setSize(dom.containerSESEME.offsetWidth, dom.containerSESEME.offsetHeight)
+				camera.left = -d*aspect; camera.right = d*aspect; camera.top = d; camera.bottom = -d
+				camera.updateProjectionMatrix()
+			},75)
 		}, false)
 
 	}//behaviors

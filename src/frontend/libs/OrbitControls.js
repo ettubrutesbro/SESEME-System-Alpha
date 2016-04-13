@@ -9,6 +9,9 @@
 
 THREE.OrbitControls = function ( object, domElement ) {
 
+	this.scalar = 1; //number for multiplying clientX; used in responsive 16:9 layout, where UI
+	//entire width but mapping X makes for a really tedious rotate
+
 	this.object = object;
 	this.domElement = ( domElement !== undefined ) ? domElement : document;
 
@@ -429,7 +432,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 			rotateDelta.subVectors( rotateEnd, rotateStart );
 
 			// rotating across whole screen goes 360 degrees around
-			scope.rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
+			scope.rotateLeft( 2 * Math.PI * rotateDelta.x / (element.clientWidth/controls.scalar) * scope.rotateSpeed );
 
 			// rotating up and down along whole screen attempts to go 360, but limited to 180
 			scope.rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
