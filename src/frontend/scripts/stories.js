@@ -374,7 +374,6 @@ var stories = [
                     76,
                     272
                 ],
-                "valueType": "lessIsTall",
                 "title": {
                     "pre": {
                         "c": "",
@@ -485,7 +484,6 @@ var stories = [
                     18,
                     80
                 ],
-                "valueType": "lessIsTall",
                 "title": {
                     "pre": {
                         "c": "",
@@ -596,7 +594,6 @@ var stories = [
                     41,
                     88
                 ],
-                "valueType": "lessIsTall",
                 "title": {
                     "pre": {
                         "c": "",
@@ -707,7 +704,6 @@ var stories = [
                     17,
                     104
                 ],
-                "valueType": "lessIsTall",
                 "title": {
                     "pre": {
                         "c": "",
