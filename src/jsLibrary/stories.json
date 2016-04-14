@@ -397,12 +397,12 @@
                 },
                 "maintext": "You're looking at the energy use intensity of various buildings on campus. To further explore how these buildings use energy, press the red button on the seedling again. To learn more, visit ceed.ucdavis.edu.",
                 "color": {
-                    "ui": "#84FF08",
+                    "ui": "#6ad400",
                     "monument": {
-                        "hex": "#84FF08",
+                        "hex": "#6ad400",
                         "bri": 0.65
                     },
-                    "ring": "84FF08"
+                    "ring": "6ad400"
                 },
                 "sound": [
                     "cheer1",
