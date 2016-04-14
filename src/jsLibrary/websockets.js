@@ -824,6 +824,12 @@ function bigRedButtonHelper(seedling){
 	}
 
 	if(beagleOnline) beagle.emit("seseme move motors", targetPercentages, plrmax);
+  setTimeout(function(){
+    if(lockButtonPress){
+      lockButtonPress = false;
+      randomSoundWeight(soundObj, 'ready', seedlings[lastActiveSeedling].socket);
+    }
+  }, 10000);
   // Add color to send for light update
 	//if(monumentLightsOnline) monumentLights.emit("monument lights update", targetColor);
 }
