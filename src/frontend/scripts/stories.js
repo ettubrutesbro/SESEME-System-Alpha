@@ -398,12 +398,12 @@ var stories = [
                 },
                 "maintext": "You're looking at the energy use intensity of various buildings on campus. To further explore how these buildings use energy, press the red button on the seedling again. To learn more, visit ceed.ucdavis.edu.",
                 "color": {
-                    "ui": "#d0ffa1",
+                    "ui": "#84FF08",
                     "monument": {
-                        "hex": "#d0ffa1",
+                        "hex": "#84FF08",
                         "bri": 0.65
                     },
-                    "ring": "dbd109"
+                    "ring": "84FF08"
                 },
                 "sound": [
                     "cheer1",
@@ -435,19 +435,19 @@ var stories = [
                 ],
                 "pStatboxes": [
                     {
-                        "c": "138",
+                        "c": "138 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "72",
+                        "c": "72 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "76",
+                        "c": "76 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "272",
+                        "c": "272 kBtu/ft²",
                         "size": 18
                     }
                 ],
@@ -509,9 +509,9 @@ var stories = [
                 },
                 "maintext": "Here's electricity use for each building. Electricity is only one source of energy use on campus. Press the button again to learn about other sources.",
                 "color": {
-                    "ui": "#ffffa1",
+                    "ui": "#CCCC80",
                     "monument": {
-                        "hex": "#ffffa1",
+                        "hex": "#CCCC80",
                         "bri": 0.65
                     },
                     "ring": "dbd109"
@@ -528,9 +528,9 @@ var stories = [
                 ],
                 "pTexts": [
                     "About 50% of the ARC's energy use is electricity use. Have you counted the number of machines that are plugged in?",
-                    "About 50% of the ARC's energy use is electricity use. Have you counted the number of machines that are plugged in?",
-                    "About 50% of the ARC's energy use is electricity use. Have you counted the number of machines that are plugged in?",
-                    "About 50% of the ARC's energy use is electricity use. Have you counted the number of machines that are plugged in?"
+                    "",
+                    "",
+                    ""
                 ],
                 "pSymbols": [
                     "",
@@ -546,19 +546,19 @@ var stories = [
                 ],
                 "pStatboxes": [
                     {
-                        "c": "44",
+                        "c": "44 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "28",
+                        "c": "28 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "18",
+                        "c": "18 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "80",
+                        "c": "80 kBtu/ft²",
                         "size": 18
                     }
                 ],
@@ -620,12 +620,12 @@ var stories = [
                 },
                 "maintext": "This is the chilled water use for each building. Chilled water is used to cool the buildings on campus. Water is chilled at the campus central plant and then cools the air that circulates through the buildings.",
                 "color": {
-                    "ui": "#ADD8E6",
+                    "ui": "#72bcd4",
                     "monument": {
-                        "hex": "#ADD8E6",
+                        "hex": "#72bcd4",
                         "bri": 0.65
                     },
-                    "ring": "ADD8E6"
+                    "ring": "72bcd4"
                 },
                 "sound": [
                     "cheer1",
@@ -639,9 +639,9 @@ var stories = [
                 ],
                 "pTexts": [
                     "Chilled water use in the ARC is relatively high because of the building's need for cooling. In addition to cooling the building, fans are also used to ciriculate air and keep a nice temperature.",
-                    "Chilled water use in the ARC is relatively high because of the building's need for cooling. In addition to cooling the building, fans are also used to ciriculate air and keep a nice temperature.",
-                    "Chilled water use in the ARC is relatively high because of the building's need for cooling. In addition to cooling the building, fans are also used to ciriculate air and keep a nice temperature.",
-                    "Chilled water use in the ARC is relatively high because of the building's need for cooling. In addition to cooling the building, fans are also used to ciriculate air and keep a nice temperature."
+                    "",
+                    "",
+                    ""
                 ],
                 "pSymbols": [
                     "",
@@ -657,19 +657,19 @@ var stories = [
                 ],
                 "pStatboxes": [
                     {
-                        "c": "60",
+                        "c": "60 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "16",
+                        "c": "16 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "41",
+                        "c": "41 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "88",
+                        "c": "88 kBtu/ft²",
                         "size": 18
                     }
                 ],
@@ -750,9 +750,9 @@ var stories = [
                 ],
                 "pTexts": [
                     "Steam use in the ARC peaks in the winter due to the increase need for heating, and is lowest in the summer.",
-                    "Steam use in the ARC peaks in the winter due to the increase need for heating, and is lowest in the summer.",
-                    "Steam use in the ARC peaks in the winter due to the increase need for heating, and is lowest in the summer.",
-                    "Steam use in the ARC peaks in the winter due to the increase need for heating, and is lowest in the summer."
+                    "",
+                    "",
+                    ""
                 ],
                 "pSymbols": [
                     "",
@@ -768,19 +768,19 @@ var stories = [
                 ],
                 "pStatboxes": [
                     {
-                        "c": "34",
+                        "c": "34 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "28",
+                        "c": "28 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "17",
+                        "c": "17 kBtu/ft²",
                         "size": 18
                     },
                     {
-                        "c": "104",
+                        "c": "104 kBtu/ft²",
                         "size": 18
                     }
                 ],
