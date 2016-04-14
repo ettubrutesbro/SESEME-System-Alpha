@@ -14,7 +14,7 @@ view = {text: false, content: '', lastTextHeight: 0, filling: false,
 	height: '', zoom: '', zoomswitch: false,
 	cycleDirection: false, zoomDirection: false},
 init = true
-var controls, mouse = new THREE.Vector2(), raycast
+var controls, mouse = new THREE.Vector2(), raycast, resizeTimer
 // 3d constants
 var plrmax = 12, constspd = 10000, spdcompensator = 400,
 thresholds = {zoom: [.675,1.15], height: [-3,-56], persZ: [46,28]},
@@ -153,10 +153,11 @@ function setup(){
 			camera.updateProjectionMatrix();
 
 			renderer = new THREE.WebGLRenderer({antialias: true, alpha: true})
-			// renderer.setClearColor(0xbbbbbb)
+			renderer.setClearColor(0xededed)
 			renderer.setSize( dom.containerSESEME.offsetWidth, dom.containerSESEME.offsetHeight)
 			dom.containerSESEME.appendChild( renderer.domElement )
 			controls = new THREE.OrbitControls(camera)
+			if(window.innerWidth > 1280) controls.scalar = 4
 			raycast = new THREE.Raycaster()
 			renderer.shadowMap.enabled = true
 		    renderer.shadowMap.type = THREE.PCFSoftShadowMap
@@ -167,7 +168,7 @@ function setup(){
 			resources.mtls.seseme = resources.mtls.seseme_phong
 			resources.mtls.orb = new THREE.MeshPhongMaterial({color:0xff6666,emissive:0x771100,shininess:1,specular:0x272727})
 			resources.mtls.ground = new THREE.MeshBasicMaterial({color:0xededed})
-			resources.mtls.signifier = new THREE.MeshBasicMaterial({color: 0xff0000,transparent: true, needsUpdate: true, alphaMap: resources.mtls.signifieralpha.map})
+			resources.mtls.signifier = new THREE.MeshBasicMaterial({color: 0xff0000,transparent: true, needsUpdate: true, alphaMap: resources.mtls.signifieralpha.map, opacity: 0})
 			//meshes
 			ground = new THREE.Mesh(new THREE.PlaneBufferGeometry( 30, 30 ), resources.mtls.ground)
 			ground.rotation.x = rads(-90); ground.position.set(0,-18,0)
@@ -215,15 +216,8 @@ function setup(){
 		  	shadow = new THREE.Mesh(new THREE.PlaneBufferGeometry(16,16), resources.mtls.shadow)
 		  	shadow.rotation.x = rads(-90); shadow.position.set(-0.1,-17.99,0.1)
 			shadow.material.opacity = 0
-			signifier = new THREE.Group()
-				sigfaceA = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
-				sigfaceA.position.set(-2.55,-.3,4)
-				sigfaceB = new THREE.Mesh(new THREE.PlaneBufferGeometry(2.95,2), resources.mtls.signifier)
-				sigfaceB.position.set(-4,-.3,2.55); sigfaceB.rotation.y = rads(-90)
-				sigfaceC = new THREE.Mesh(new THREE.PlaneBufferGeometry(4.4,2), resources.mtls.signifier)
-				sigfaceC.position.set(-2.5,-.3,2.5); sigfaceC.rotation.y = rads(135)
-				signifier.add(sigfaceA); signifier.add(sigfaceB); signifier.add(sigfaceC)
-			signifier.position.set(-1.5,-2,-1)
+			signifier = new THREE.Mesh(new THREE.PlaneBufferGeometry(6.75,6.75), resources.mtls.signifier)
+				signifier.rotation.x = rads(-90); signifier.position.set(-6,-17.9,3.75)
 			orb = new THREE.Mesh(resources.geos.orb_lo, resources.mtls.orb)
 			orb.scale.set(0.45,0.45,0.45); orb.position.y = -20.25 //final position in initQuads, line 511
 			var orblight = new THREE.PointLight(0xff0000, 0.7); orblight.position.y = -1
@@ -287,7 +281,7 @@ function setup(){
 			}
 			plrMgr.onLoad = function(){
 				console.log('pillars in place'); allMgr.itemEnd('plrMgr')
-				anim3d(signifier,'position',{y:0})
+				anim3d(signifier,'opacity',{opacity:1})
 			}
 			// projectionMgr.onProgress = function(item,loaded,total){console.log(item,loaded,total)}
 			projectionMgr.onLoad = function(){
@@ -301,9 +295,8 @@ function setup(){
 					seseme['plr'+i].outline.material.color = rgb
 					seseme['plr'+i].outcap.material.color = rgb
 				}
-				for(var i = 0; i<3; i++){
-					signifier.children[i].material.color = rgb
-				}
+				resources.mtls.signifier.color = rgb
+
 					resources.mtls.orb.color = {r: rgb.r/2, g: rgb.g/2, b:rgb.b/2}
 					resources.mtls.orb.emissive = {r: rgb.r*1.25, g: rgb.g*1.25, b: rgb.b*1.25}
 					orb.children[0].color = rgb
@@ -342,10 +335,10 @@ function setup(){
 			info.help = new THREE.Group()
 			var sections = [
 				{name: 'about',
-					x: 0, z: 14, icon: 'about', btnframes: 6,
+					x: 0, z: 14, icon: 'about', btnframes: 15,
 					objs: [
 						//team rows
-						{dims: {x:40,y:7}, pos: {x:0, z:-22, delay: 0}, origin: {x:-5,z:-22,delay:75}, map: 'about_team1'},
+						{dims: {x:40,y:7}, pos: {x:0, z:-22, delay: 0}, origin: {x:-5,z:-22}, map: 'about_team1'},
 						{dims: {x:40,y:7}, pos: {x:0, z:-14, delay: 150}, origin: {x:-3,z:-14}, map: 'about_team2'},
 						// paragraph
 						{dims: {x:40,y:18}, pos: {x:0,z:28.5}, origin:{x:0,z:36}, map: 'about_about'}
@@ -355,7 +348,7 @@ function setup(){
 					x: 14, z: 0, icon: 'howto', btnframes: 1,
 					objs: [
 						//app animations
-						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24,delay:100},map:'howto_swipe',
+						{dims: {x:11.25,y:16},pos:{x:-16,z:-22},origin:{x:-16,z:-24},map:'howto_swipe',
 							frames:11,
 							sequence: function(){
 								anim3d(this, 'sprite', {dest: 10, frames:11, delay: 1000, loop:true})
@@ -371,10 +364,9 @@ function setup(){
 									else if(whichFrame===10) anim3d(pinch, 'sprite', {dest: 19, frames: 20, spd: 300})
 									else if(whichFrame===19) anim3d(pinch, 'sprite', {dest: 0, frames: 20, spd: 550})
 								}, 1400)
-
 							}
 						}, //tween A....B....C
-						{dims: {x:12,y:16},pos:{x:16,z:-20.75},origin:{x:16,z:-26,delay:100},map:'howto_tap',
+						{dims: {x:12,y:16},pos:{x:16,z:-20.75},origin:{x:16,z:-26},map:'howto_tap',
 							frames:42,
 							sequence: function(){
 								setInterval(function(){
@@ -395,22 +387,22 @@ function setup(){
 					]
 				},
 				{name: 'options',
-					x: 0, z: -14, icon: 'settings', btnframes: 10,
+					x: 0, z: -14, icon: 'settings', btnframes: 15,
 					objs: [
 						{dims:{x:6,y:6}, pos:{x:-11, z:14, delay: 500}, origin: {x:-16, z:14}, map: 'settings_performance', frames: 23, clicked: performanceLevel,
 							sequence: function(){ info.help.options.content.children[0].material.map.offset.x = 10/23 }},
-						{dims:{x:6,y:6}, pos:{x:-11, z:22, delay: 100}, origin: {x:-14.5, z:22, delay: 100}, map: 'settings_persp', frames: 11, clicked: cameraMode},
-						{dims:{x:6,y:6}, pos:{x:-11, z:29.5}, origin: {x:-13, z:29.5, delay: 200}, map: 'settings_data', frames: 10, clicked:collectDataMode},
+						{dims:{x:6,y:6}, pos:{x:-11, z:22, delay: 100}, origin: {x:-14.5, z:22}, map: 'settings_persp', frames: 11, clicked: cameraMode},
+						{dims:{x:6,y:6}, pos:{x:-11, z:29.5}, origin: {x:-13, z:29.5}, map: 'settings_data', frames: 10, clicked:collectDataMode},
 
 						{dims:{x:20,y:3}, pos:{x:4,z:14, delay: 500}, origin: {x:13,z:14}, map: 'settings_performancetext', rows: 4, clicked: performanceLevel,
 							sequence: function(){ info.help.options.content.children[3].material.map.offset.y = .25 }},
-						{dims:{x:20,y:3}, pos:{x:4,z:22, delay: 100}, origin: {x:11.5,z:22, delay: 100}, map: 'settings_persptext', frames: 2,clicked:cameraMode},
-						{dims:{x:20,y:3}, pos:{x:4,z:30}, origin: {x:10,z:30, delay: 200}, map: 'settings_datatext', frames: 2, clicked:collectDataMode}
+						{dims:{x:20,y:3}, pos:{x:4,z:22, delay: 100}, origin: {x:11.5,z:22}, map: 'settings_persptext', frames: 2,clicked:cameraMode},
+						{dims:{x:20,y:3}, pos:{x:4,z:30}, origin: {x:10,z:30}, map: 'settings_datatext', frames: 2, clicked:collectDataMode}
 
 					]
 				},
 				{name: 'feedback',
-					x: -14, z: 0, icon: 'feedback', btnframes: 6,
+					x: -14, z: 0, icon: 'feedback', btnframes: 15,
 					objs: [
 						{dims: {x:40,y:18 }, pos: {x:1,z:-20},origin:{x:9,z:-20,delay:100,},
 						clicked:function(){ window.location = "http://twitter.com/hi_datalith"},
@@ -431,7 +423,7 @@ function setup(){
 				//button placement & color
 				var helpbtn = new THREE.Mesh(new THREE.PlaneBufferGeometry(8,8),
 				new THREE.MeshBasicMaterial({map: resources.mtls['btn_'+sections[i].icon].map,
-					transparent: true, opacity: 0, depthWrite: false}))
+					transparent: true, opacity: 0, depthWrite: false, needsUpdate: true}))
 				helpbtn.position.y = -17.5
 				helpbtn.rotation.x = rads(-90)
 				helpbtn.expand = {x: sections[i].x, z: sections[i].z, delay:50+i*35 }
@@ -555,8 +547,13 @@ function setup(){
 		dom.containerSESEME.addEventListener('click', function(event){
 			console.log('clicked container seseme')
 			event.preventDefault()
-			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1
-			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1
+			var containerWidth = dom.containerSESEME.offsetWidth,
+			containerHeight = dom.containerSESEME.offsetHeight
+			offsetX = (window.innerWidth - containerWidth) / 2,
+			offsetY = (window.innerHeight - containerHeight) / 2
+			
+			mouse.x = ( (event.clientX - offsetX) / containerWidth ) * 2 - 1
+			mouse.y = - ( (event.clientY - offsetY) / containerHeight ) * 2 + 1
 			raycast.setFromCamera(mouse, camera)
 			var intersects
 			if(view.zoom === 'close' && view.text){ //links
@@ -593,9 +590,16 @@ function setup(){
 
 		//WINDOW RESIZING
 		window.addEventListener('resize', function(){
-			var aspect = window.innerWidth / window.innerHeight; var d = 20
-			camera.left = -d*aspect; camera.right = d*aspect; camera.top = d; camera.bottom = -d
-				renderer.setSize( window.innerWidth, window.innerHeight); camera.updateProjectionMatrix()
+			clearTimeout(resizeTimer)
+			resizeTimer = setTimeout(function(){
+				if(window.innerWidth > 1280) controls.scalar = 4
+				else controls.scalar = 1
+				var aspect = dom.containerSESEME.offsetWidth / dom.containerSESEME.offsetHeight; var d = 20
+				console.log('running resize code')
+				renderer.setSize(dom.containerSESEME.offsetWidth, dom.containerSESEME.offsetHeight)
+				camera.left = -d*aspect; camera.right = d*aspect; camera.top = d; camera.bottom = -d
+				camera.updateProjectionMatrix()
+			},75)
 		}, false)
 
 	}//behaviors

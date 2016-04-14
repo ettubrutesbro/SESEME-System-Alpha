@@ -590,6 +590,7 @@
 				section.btn.visible = true
 				anim3d(section.btn, 'opacity', {opacity: 1, delay: i*20})
 				anim3d(section.btn, 'scale', {x:1,y:1})
+				anim3d(section.btn, 'sprite', {frames:section.btn.frames, dest:0, spd:section.btn.frames*30})
 			}
 		}
 		//making a selection within view calls content and hides other buttons
@@ -663,7 +664,10 @@
 			rotateTo(0)
 		}
 		else{
-			 anim3d(camera, 'zoom', {zoom: .875, spd: 350})
+			for(var i = 0; i<4; i++){
+				anim3d(info.help.children[i].btn, 'sprite', {frames: info.help.children[i].btn.frames, dest: 0})
+			}
+			anim3d(camera, 'zoom', {zoom: .875, spd: 350})
 			rotateTo('mid')
 			rotateTo(0)
 		}
@@ -672,7 +676,12 @@
 		function clickedHelpButton(which){
 			console.log('clicked help sub button')
 			if(view.height==='plan'){
-				if(which === view.helpContent) view.helpContent = 'back'
+				if(which === view.helpContent){
+					var f = info.help[view.helpContent].btn.frames 
+					anim3d(info.help[view.helpContent].btn, 'sprite', {frames: f, dest: 0,
+							spd: f*30})  
+					view.helpContent = 'back'
+				}
 				else {
 					view.helpContent = which;
 					if(info.help[view.helpContent].btn.frames >1){
