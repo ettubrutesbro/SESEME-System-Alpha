@@ -113,7 +113,7 @@ var stories = [
             {type: 'img', src:'asianman'},
             {type: 'img', src:'hispman'}
           ],
-          pZoomLabels: ['','','',''],
+          pZoomLabels: ['fark','','',''],
           pStatboxes: [
             {c:['$1300','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$950','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
@@ -148,7 +148,7 @@ var stories = [
             {type: 'img', src:'asianwoman'},
             {type: 'img', src:'hispwoman'}
           ],
-          pZoomLabels: ['','','',''],
+          pZoomLabels: ['bean','','',''],
           pStatboxes: [
             {c:['$950','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$870','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
