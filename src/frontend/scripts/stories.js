@@ -1,7 +1,7 @@
 var stories = [
   {
     id: 0, seedling: 'environment',
-    description: 'This series of stories and data discusses sustainability and our impact as a society on the natural environment.',
+    description: 'This series discusses sustainability and our impact as a society on the natural environment.',
     parts: [
       {
         values: [1,3,9,20], valueType: 'lessIsTall', customLo: 48,
@@ -91,7 +91,7 @@ var stories = [
 
   {
     id: 1, seedling: 'society',
-    description: 'The stories and data in this series deal with issues of social justice and inequity on a large scale.',
+    description: 'The stories and data in this series deal with social justice and inequity in the US.',
     parts: [
         {
           values: [1300,950,1325,1050], customLo: 300,
@@ -197,7 +197,7 @@ var stories = [
 
   {
     id: 2, seedling: 'anomalous',
-    description: 'These stories can be about anything - from silly to sobering - that didn\'t fit in the other two categories.',
+    description: 'These stories can be about anything - silly or sobering - that (mostly) didn\'t fit in the other two categories.',
     parts: [
       {
         values: [15,15.7,12,13.7], customLo: 10,
