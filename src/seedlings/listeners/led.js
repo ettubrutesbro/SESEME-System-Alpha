@@ -152,6 +152,10 @@ function listeners(socket, obj, soundObj) {
     // // ************************************************************************
     // // ************************************************************************
 
+    socket.on('seedling idle behavior', function(seedlingNum){
+      print("seedling idle behavior");
+      led.lightIdle(seedlingNum, obj);
+    })
 
     socket.on('ledColor', function(data){
       print("update color socket");

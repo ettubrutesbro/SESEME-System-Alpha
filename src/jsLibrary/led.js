@@ -1,6 +1,8 @@
 var seedlingHue = require('./lifx.js');
 var print = require('./print.js');
 
+var intervalID = null;
+
 var self = module.exports = {
     r: 0,
     g: 0,
@@ -144,6 +146,7 @@ var self = module.exports = {
 
     lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){ // time = time for each rev
         print("in lightTrail function");
+        clearInterval(intervalID);
         var that = this;
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
@@ -213,6 +216,7 @@ var self = module.exports = {
 
     fadeCircle: function(previousColor, targetColor, totalDuration, diodePct, obj, callback){
         print("in fadeCircle function");
+        clearInterval(intervalID);
         var prevTime = Date.now();
         var that = this; // for callback
         var strip = obj.strip;
@@ -357,6 +361,7 @@ var self = module.exports = {
 
     fillCircle: function(previousColor, targetColor, duration, obj, callback){
         print("in fillCircle function");
+        clearInterval(intervalID);
         var prevTime = Date.now();
         var that = this;
         var strip = obj.strip;
@@ -498,43 +503,39 @@ var self = module.exports = {
         }, intervalTime)
     },
 
-/*
-
-    nameOn: function(hexColor, time, obj){
-        var name = obj;
-
-        var percentage = 0;
-        var intervalTime = time * 10;
-        name.on();
-        name.intensity(percentage);
-        name.color(hexColor);
-        var timer = setInterval(function(){
-            percentage += 1;
-            name.intensity(percentage);
-            if(percentage == 100){
-                clearInterval(timer);
-            }
-        }, intervalTime);
+    lightIdle: function(seedlingNum, obj){
+      print("In lightIdle() function");
+      intervalID = setInterval(function(){
+        if(obj.seedlingNum === 0){
+            // turn on hue
+            print("turn lights on for seedling1");
+            seedlingHue.turnOn(1, 'white');
+            this.lightOn(1, obj.urlLight, "FFFFFF")
+            setTimeout(function(){
+              seedlingHue.turnOff(1);
+              this.lightOff(1, obj.urlLight, "FFFFFF")
+            }, 1000);
+        } // seedling 1
+        else if(obj.seedlingNum === 1){
+            print("turn lights on for seedling2");
+            this.lightOn(1, obj.iconLight, null);
+            this.lightOn(1, obj.urlLight, null);
+            this.lightOn(1, obj.lmLight, null);
+            setTimeout(function(){
+              this.lightOff(1, obj.iconLight, null);
+              this.lightOff(1, obj.urlLight, null);
+              this.lightOff(1, obj.lmLight, null);
+            }, 1000);
+        } // seedling 2
+        else if(obj.seedlingNum === 2){
+            print("turn lights on for seedling3");
+            this.lightOn(1, obj.iconLight, null);
+            setTimeout(function(){
+              this.lightOff(1, obj.iconLight, null);
+            }, 1000);
+        }
+      }, 10000);
     },
-
-    nameOff: function(time, obj){
-        var name = obj;
-
-        var percentage = 100;
-        var intervalTime = time * 10;
-        name.intensity(percentage);
-        var timer = setInterval(function(){
-            percentage -= 1;
-            name.intensity(percentage);
-            if(percentage == 0){
-                name.off();
-                name.color("000000");
-                clearInterval(timer);
-            }
-        }, intervalTime);
-
-    },
-    */
 
     lightsOn: function(obj, callback){
         if(obj.seedlingNum === 0){

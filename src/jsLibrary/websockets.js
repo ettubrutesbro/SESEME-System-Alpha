@@ -205,10 +205,13 @@ function countdown() {
 		for(var i = 0; i < 3; i++) {
 			// Check if the seedlings are connected first to emit to them
 			if(seedlings[i].socket) {
+			  seedlings[i].socket.emit('seedling idle behavior', seedlings[i].number);
+/*
 				// For the seedling that was active last, set the interval to 6s
 				if(lastActiveSeedling === i)	// Set interval for 12s for the others
 					seedlings[i].socket.emit('seedling start breathing', 6, seedlings[i].number);
 				else seedlings[i].socket.emit('seedling start breathing', 12, seedlings[i].number);
+*/
 			}
 		}
 		// Stop decrementing counting down and return
@@ -761,28 +764,12 @@ function bigRedButtonHelper(seedling){
 	}
 	print("Monument Max Distance: " + maxDistance);
 	var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance * motorMoveSlope + motorMoveConstant); // simple motion get time(sec) rounded up
-	//var duration = maxDistance <= 60 ? 0 : Math.ceil(maxDistance / plrmax * 10 + 0.6); // simple motion get time(sec) rounded up
 	print("Monument Expected Duration:" + duration);
 	circleData = new circleObj(previousColor, targetColor, duration, diodePct);
-
-	/*
-	if(seedling.currentPart === 0) circleData = new circleObj(previousColor, targetColor, duration, diodePct); // will run fill circle so subtract 3 sec from fade to compensate for fill
-	else circleData = new circleObj(previousColor, targetColor, duration, diodePct);
-	*/
 
 	if(seedling.currentPart === 0 && diodePct === 100){
 		duration += 3;
 	} // go back to first part of same story (fade then fill) so add 3 sec to duration of lightTrail
-/*
-	if(duration === 0){
-		setTimeout(function(){
-			for(var i = 0; i < 3; i++){
-				seedlings[i].buttonPressed = false;
-			}
-			lockButtonPress = false;
-		}, 1000); // 1 sec delay to release locks for safety
-	} // clear all locks if duration is 0
-*/
 
   var revolutions = Math.ceil(duration/1.5); // timePerRev set to 2 for revolutions calc
 	var timePerRev = duration / Math.ceil(duration/1.5);
@@ -831,7 +818,7 @@ function bigRedButtonHelper(seedling){
     }
   }, 10000);
   // Add color to send for light update
-	//if(monumentLightsOnline) monumentLights.emit("monument lights update", targetColor);
+	if(monumentLightsOnline) monumentLights.emit("monument lights update", targetColor);
 }
 
 ////////////////////////////////////////////////
@@ -927,7 +914,7 @@ monumentLightsIO.on('connection', function(monumentSocket){
   monumentSocket.on('monumentLights 1 On', function(){
     monumentLightsOnline = true;
     print('Monument Lights Pi Online');
-    monumentSocket.emit('monument lights on');
+    //monumentSocket.emit('monument lights on');
   });  
 
 	monumentSocket.on('disconnect', function(){
