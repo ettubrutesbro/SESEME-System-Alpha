@@ -19,7 +19,7 @@ var stories = [
         'Then the closest-ranked UC behind Davis, Irvine was noted for its many extracurricular environmental groups and recycling efforts.',
         'A distant 20th place in 2012, The Sierra Club didn\'t have special anything to say about Cal.'],
         pSymbols: ['','','',''],
-        pLabels: ['','','',''],
+        pZoomLabels: ['','','',''],
         pStatboxes: [
           {c:'1st Place', size: 18 }, {c: '3rd', size: 18 },
           {c:'9th', size: 18 }, {c: '20th, lol', size: 18 },
@@ -49,7 +49,7 @@ var stories = [
         'Supplanting our first place spot in 2014, Irvine wowed the Sierra Club with its extensive solar power and water-recycling programs.',
         'In our year of ignominy, Berkeley scored far ahead in co-curricular activities, investments, and planning.'],
         pSymbols: ['','','',''],
-        pLabels: ['','','',''],
+        pZoomLabels: ['','','',''],
         pStatboxes: [{c: '55th :(', size: 18},{c:'6th',size:18},{c:'1st',size:18},{c:'33rd',size:18}],
         pLinks: [
           [{type: 'list',c:'http://www.sierraclub.org/sierra/2014-5-september-october/cool-schools-2014/full-ranking'}],
@@ -77,7 +77,7 @@ var stories = [
           'Designed by BAR Architects and certified LEED Platinum in 2013, the SCC, while deservedly popular, is a chronic underperformer on its energy goals.'
         ],
         pSymbols: ['','','',''],
-        pLabels: ['','','',''],
+        pZoomLabels: ['','','',''],
         pStatboxes: [{c:['$311,000','/year']},{c:'$1.45 million'},{c:'$16,700'},{c:'$89,000'}],
         pLinks: [
           [{type: 'site', c: 'https://cru.ucdavis.edu/content/531-history-of-the-arc.htm'}, {type: 'www', c: 'http://eco.ucdavis.edu'}],
@@ -113,7 +113,7 @@ var stories = [
             {type: 'img', src:'asianman'},
             {type: 'img', src:'hispman'}
           ],
-          pLabels: ['','','',''],
+          pZoomLabels: ['','','',''],
           pStatboxes: [
             {c:['$1300','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$950','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
@@ -148,7 +148,7 @@ var stories = [
             {type: 'img', src:'asianwoman'},
             {type: 'img', src:'hispwoman'}
           ],
-          pLabels: ['','','',''],
+          pZoomLabels: ['','','',''],
           pStatboxes: [
             {c:['$950','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
             {c:['$870','weekly'], size: [24,14], font: ['Droid Serif','Karla']},
@@ -178,7 +178,7 @@ var stories = [
             ''
           ],
           pSymbols: ['','','',''],
-          pLabels: ['','','',''],
+          pZoomLabels: ['','','',''],
           pStatboxes: [
             {c: '2,200,000'},
             {c: '1,658,000'},
@@ -218,7 +218,7 @@ var stories = [
           {type: 'img', src: 'nyu'},
           {type: 'img', src: 'aau'}
         ],
-        pLabels: ['','','',''],
+        pZoomLabels: ['','','',''],
         pStatboxes: [
           {c:'$15k'}, {c: '$15.7k'}, {c:'$12k'}, {c: '$13.7k' }
         ],
@@ -237,7 +237,7 @@ var stories = [
         pNames: ['UC Davis', 'Stanford', 'UC Irvine', 'UC Berkeley'],
         pTexts: ['','','',''],
         pSymbols: ['','','',''],
-        pLabels: ['','','',''],
+        pZoomLabels: ['','','',''],
         pStatboxes: [
           {c:'$57k / year'}, {c: '$80.9k / year'}, {c:'$55.8k / year'}, {c: '$62k / year' }
         ],
