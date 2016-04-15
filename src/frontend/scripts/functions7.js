@@ -402,7 +402,7 @@
 		}
 		else{
 			if(!seseme['plr'+facing].label){ if(loadcb){ makeZoomLabels([false,false,false,false]); return } else return }
-			if(loadcb) seseme['plr'+facing].label.traverse(function(){ allgone.itemStart('labelsub') })
+			if(loadcb) seseme['plr'+facing].label.traverse(function(){ if(child.material)allgone.itemStart('labelsub') })
 			seseme['plr'+facing].label.traverse(function(child){
 				if(child.material) anim3d(child, 'opacity', {opacity: 0,
 					cb: loadcb?function(){ allgone.itemEnd('labelsub')}: '' })
@@ -412,8 +412,10 @@
 	function viewStatBoxes(){
 		var loadcb = false
 		if(view.filling && !controls.enabled){
+			console.log('starting to try to make statboxes')
 			loadcb = true
 			var allgone = new THREE.LoadingManager()
+			allgone.onProgress = function(i,l,t){ console.log(i,l,t) }
 			allgone.onLoad = function(){ makeStatboxes(); return }
 			if(view.zoom!=='close' || view.text || !data.pStatboxes){ makeStatboxes(); return }
 		}
@@ -437,8 +439,13 @@
 				})
 			}
 		}else{
-			if(!seseme['plr'+facing].statbox){ if(loadcb){ makeStatboxes(); return } else return  }
-			if(loadcb) seseme['plr'+facing].statbox.traverse(function(){ allgone.itemStart('statboxsub') })
+			if(!seseme['plr'+facing].statbox){ 
+				if(loadcb){ makeStatboxes(); return }
+				else return  
+			}
+			if(loadcb){
+				seseme['plr'+facing].statbox.traverse(function(child){ if(child.material) allgone.itemStart('statboxsub') })
+			}
 			anim3d(seseme['plr'+facing].statbox, 'position', {y: 4})
 			anim3d(seseme['plr'+facing].statbox, 'scale', {x:.5,y:.5,z:.5})
 			seseme['plr'+facing].statbox.traverse(function(child){
@@ -590,7 +597,6 @@
 				section.btn.visible = true
 				anim3d(section.btn, 'opacity', {opacity: 1, delay: i*20})
 				anim3d(section.btn, 'scale', {x:1,y:1})
-				anim3d(section.btn, 'sprite', {frames:section.btn.frames, dest:0, spd:section.btn.frames*30})
 			}
 		}
 		//making a selection within view calls content and hides other buttons
@@ -664,10 +670,7 @@
 			rotateTo(0)
 		}
 		else{
-			for(var i = 0; i<4; i++){
-				anim3d(info.help.children[i].btn, 'sprite', {frames: info.help.children[i].btn.frames, dest: 0})
-			}
-			anim3d(camera, 'zoom', {zoom: .875, spd: 350})
+			 anim3d(camera, 'zoom', {zoom: .875, spd: 350})
 			rotateTo('mid')
 			rotateTo(0)
 		}
@@ -676,12 +679,7 @@
 		function clickedHelpButton(which){
 			console.log('clicked help sub button')
 			if(view.height==='plan'){
-				if(which === view.helpContent){
-					var f = info.help[view.helpContent].btn.frames 
-					anim3d(info.help[view.helpContent].btn, 'sprite', {frames: f, dest: 0,
-							spd: f*30})  
-					view.helpContent = 'back'
-				}
+				if(which === view.helpContent) view.helpContent = 'back'
 				else {
 					view.helpContent = which;
 					if(info.help[view.helpContent].btn.frames >1){
@@ -735,6 +733,7 @@
 		var retainMainText = false, retainDetailText = [false,false,false,false],
 		retainName = [false,false,false,false], retainSymbol = [false,false,false,false],
 		retainLabel = [false,false,false,false]
+
 		if(data.maintext === stories[story].parts[part].maintext) retainMainText = true
 		for(var i = 0; i<4; i++){ //per-pillar data
 			if(data.pTexts && stories[story].parts[part].pTexts){//detail text in the DOM
@@ -1093,6 +1092,7 @@
 	}
 	function makeStatboxes(){
 		if(!data.pStatboxes) return
+		console.log('making statboxes')
 		for(var i = 0; i<4; i++){
 			if(!init){
 				if(seseme['plr'+i].statbox) seseme['plr'+i].remove(seseme['plr'+i].statbox);
