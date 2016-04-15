@@ -135,9 +135,10 @@ hr {
 
 
 #leftarrow, #rightarrow {
-	width: 1.75rem; height: 3.5rem;
+	width: 3.5rem; height: 6rem;
 	top: 0; bottom: 0; margin: auto 0;
-	background-size: contain; background-repeat: no-repeat;
+	background-size: 2rem; background-repeat: no-repeat;
+	background-position: center;
 	opacity: 0; visibility: hidden;
 	transform-origin: 50% 50%;
 	-webkit-transform-origin: 50% 50%;
