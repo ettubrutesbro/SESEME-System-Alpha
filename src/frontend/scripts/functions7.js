@@ -402,7 +402,7 @@
 		}
 		else{
 			if(!seseme['plr'+facing].label){ if(loadcb){ makeZoomLabels([false,false,false,false]); return } else return }
-			if(loadcb) seseme['plr'+facing].label.traverse(function(){ if(child.material)allgone.itemStart('labelsub') })
+			if(loadcb) seseme['plr'+facing].label.traverse(function(child){ if(child.material)allgone.itemStart('labelsub') })
 			seseme['plr'+facing].label.traverse(function(child){
 				if(child.material) anim3d(child, 'opacity', {opacity: 0,
 					cb: loadcb?function(){ allgone.itemEnd('labelsub')}: '' })
