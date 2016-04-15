@@ -412,10 +412,8 @@
 	function viewStatBoxes(){
 		var loadcb = false
 		if(view.filling && !controls.enabled){
-			console.log('starting to try to make statboxes')
 			loadcb = true
 			var allgone = new THREE.LoadingManager()
-			allgone.onProgress = function(i,l,t){ console.log(i,l,t) }
 			allgone.onLoad = function(){ makeStatboxes(); return }
 			if(view.zoom!=='close' || view.text || !data.pStatboxes){ makeStatboxes(); return }
 		}
@@ -1092,7 +1090,6 @@
 	}
 	function makeStatboxes(){
 		if(!data.pStatboxes) return
-		console.log('making statboxes')
 		for(var i = 0; i<4; i++){
 			if(!init){
 				if(seseme['plr'+i].statbox) seseme['plr'+i].remove(seseme['plr'+i].statbox);
