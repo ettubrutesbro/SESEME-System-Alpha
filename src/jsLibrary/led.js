@@ -505,33 +505,34 @@ var self = module.exports = {
 
     lightIdle: function(seedlingNum, obj){
       print("In lightIdle() function");
+      var temp = this;
       intervalID = setInterval(function(){
         if(obj.seedlingNum === 0){
             // turn on hue
             print("turn lights on for seedling1");
             seedlingHue.turnOn(1, 'white');
-            this.lightOn(1, obj.urlLight, "FFFFFF")
+            temp.lightOn(1, obj.urlLight, "FFFFFF")
             setTimeout(function(){
               seedlingHue.turnOff(1);
-              this.lightOff(1, obj.urlLight, "FFFFFF")
+              temp.lightOff(1, obj.urlLight, "FFFFFF")
             }, 1000);
         } // seedling 1
         else if(obj.seedlingNum === 1){
             print("turn lights on for seedling2");
-            this.lightOn(1, obj.iconLight, null);
-            this.lightOn(1, obj.urlLight, null);
-            this.lightOn(1, obj.lmLight, null);
+            temp.lightOn(1, obj.iconLight, null);
+            temp.lightOn(1, obj.urlLight, null);
+            temp.lightOn(1, obj.lmLight, null);
             setTimeout(function(){
-              this.lightOff(1, obj.iconLight, null);
-              this.lightOff(1, obj.urlLight, null);
-              this.lightOff(1, obj.lmLight, null);
+              temp.lightOff(1, obj.iconLight, null);
+              temp.lightOff(1, obj.urlLight, null);
+              temp.lightOff(1, obj.lmLight, null);
             }, 1000);
         } // seedling 2
         else if(obj.seedlingNum === 2){
             print("turn lights on for seedling3");
-            this.lightOn(1, obj.iconLight, null);
+            temp.lightOn(1, obj.iconLight, null);
             setTimeout(function(){
-              this.lightOff(1, obj.iconLight, null);
+              temp.lightOff(1, obj.iconLight, null);
             }, 1000);
         }
       }, 10000);
