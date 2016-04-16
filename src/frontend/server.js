@@ -26,19 +26,24 @@ app.get('/stories', function (req, res) {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'webform', 'index.html'));
 });
 
+app.get('/stories-data', function (req, res) {
+    res.json(stories);
+});
+
 io.on('connection', function (socket) {
 	socket.on('error', function (err) {
 		console.log("Socket Error! "+err);
 		error(err);
 	});
 
-	socket.on('ui request story', function() {
-		console.log("Frontend Requested Story: Sending Current Story Data");
-        io.sockets.emit('ui acquire story', {
-            story: story,
-            part: part,
-            percentages: [Math.random(), Math.random(), Math.random(), Math.random()],
-            stories: stories
-        });
-	});
+	// socket.on('ui request story', function() {
+	// 	console.log("Frontend Requested Story: Sending Current Story Data");
+        // io.sockets.emit('ui acquire story', {
+            // story: story,
+            // part: part,
+            // percentages: [Math.random(), Math.random(), Math.random(), Math.random()],
+            // stories: stories
+        // });
+	// });
+
 });

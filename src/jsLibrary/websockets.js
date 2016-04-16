@@ -381,11 +381,12 @@ io.on('connection', function (socket) {
 	socket.on('ui request story', function() {
 		print("Frontend Requested Story: Sending Current Story Data")
 		// Have the frontend acquire the story data
-		socket.emit('ui acquire story', {
+        var clientData = {
 			story: lastActiveSeedling,
 			part: seedlings[lastActiveSeedling].currentPart,
 			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]),
-		});
+        };
+		socket.emit('ui acquire story', clientData);
 	});
 
 	socket.on('sim lifx', function(data, stripColor) {
@@ -468,14 +469,6 @@ io.on('connection', function (socket) {
 				seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
 			} // currently in animation
 		}); // end of checkSesemeRunning
-	});
-
-	socket.on('sim button2', function(seedlingNum) {
-		if(!seedlings[seedlingNum].buttonPressed){
-			print("Sim button2 Pressed");
-			var result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
-			socket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
-		} else { print('Wrong'); }
 	});
 
 	socket.on('reset position', function(){
