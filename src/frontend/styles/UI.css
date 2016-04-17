@@ -145,3 +145,28 @@ hr {
 }
 #leftarrow { left: 5.5%; background-image: url(../assets/arrow_left.svg);}
 #rightarrow { right: 5.5%; background-image: url(../assets/arrow_right.svg);}
+
+#loading {
+	position: absolute; top: 0; bottom: 0; left:0; right:0;
+	margin: auto auto; width: 100px; height: 100px;
+	background-image: url(../assets/loading.png);
+	animation: spin .5s linear infinite;
+	-moz-animation: spin .5s linear infinite;
+	-webkit-animation: spin .5s linear infinite;
+	transform-origin: 50% 50%;
+	-moz-transform-origin: 50% 50%;
+	-webkit-transform-origin: 50% 50%;
+}
+
+@keyframes spin{
+	from{ transform: rotate(0deg);}
+	to{ transform: rotate(360deg);}
+}	
+@-moz-keyframes spin{
+	from{ -moz-transform: rotate(0deg);}
+	to{ -moz-transform: rotate(360deg);}
+}	
+@-webkit-keyframes spin{
+	from{ -webkit-transform: rotate(0deg);}
+	to{ -webkit-transform: rotate(360deg);}
+}	
