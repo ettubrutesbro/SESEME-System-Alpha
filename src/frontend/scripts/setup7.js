@@ -35,6 +35,7 @@ function setup(){
 	netOps() //data from server
 	initDOM() //dom
 
+    // Retrieve the stories.json using an http request
     function getStory(){
         var http = new XMLHttpRequest()
         var topicMap = { 0: 'environment', 1: 'society', 2: 'anomalous' }
@@ -42,13 +43,13 @@ function setup(){
             if (http.readyState == 4 && http.status == 200) {
                 var serverdata = JSON.parse(http.responseText)
                 stories = [
-                    serverdata.environment,
-                    serverdata.society,
-                    serverdata.anomalous
+                    serverdata.stories.environment,
+                    serverdata.stories.society,
+                    serverdata.stories.anomalous
                 ]
-                story = 0; part = 0
+                story = serverdata.story; part = serverdata.part
                 data = stories[story].parts[part]
-                percentages = [Math.random(), Math.random(), Math.random(), Math.random()],
+                percentages = serverdata.percentages
                 ready.itemEnd('firstdata')
             }
         }
@@ -57,19 +58,11 @@ function setup(){
     }
 
 	function netOps(){
-		socket = io.connect('http://localhost:5000')
+		socket = io.connect('http://169.237.123.19:5000')
 		socket.once('connect', function(){
 			console.log('successfully connected')
 			socket.emit('ui request story')
 	 	})
-		// socket.once('ui acquire story', function(d){
-		// 	console.log('ui acquired story :)')
-		// 	console.log(d)
-            // story = d.story; part = d.part; percentages = d.percentages
-            // var topicMap = { 0: 'environment', 1: 'society', 2: 'anomalous' }
-            // data = d.stories[topicMap[story]].parts[part]
-            // ready.itemEnd('firstdata')
-		// })
 		socket.on('ui update', function(d){
 			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
 			console.log('ui updating')

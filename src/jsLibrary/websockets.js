@@ -127,6 +127,13 @@ for(var i = 0; i < 3; i++){
 	seedlings[i] = new seedlingObj(story[i], 0, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, readyState);
 }
 
+////////////////////////////////////////////////
+// Initialize GLOBAL story variables
+////////////////////////////////////////////////
+GLOBAL.part = 0;
+GLOBAL.story = 0;
+GLOBAL.stories = stories;
+GLOBAL.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
 
 ////////////////////////////////////////////////
 //	MONUMENT Pi Vars
@@ -379,13 +386,16 @@ io.on('connection', function (socket) {
 	});
 
 	socket.on('ui request story', function() {
-		print("Frontend Requested Story: Sending Current Story Data")
-		// Have the frontend acquire the story data
+		print("Frontend Requested Story")
+        GLOBAL.part = seedlings[lastActiveSeedling].currentPart;
+        GLOBAL.story = lastActiveSeedling;
+        GLOBAL.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
         var clientData = {
-			story: lastActiveSeedling,
-			part: seedlings[lastActiveSeedling].currentPart,
-			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]),
+			part: GLOBAL.part,
+			story: GLOBAL.story,
+			percentages: GLOBAL.percentages
         };
+        console.log(`Sending data: ${clientData}`);
 		socket.emit('ui acquire story', clientData);
 	});
 

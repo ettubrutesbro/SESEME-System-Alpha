@@ -17,6 +17,11 @@ var socket = require('socket.io');
 var io = new socket.listen(5000);
 var stories = require(path.join(__dirname, '..', 'jsLibrary', 'stories.json'));
 
+GLOBAL.part = 0; 
+GLOBAL.story = 0;
+GLOBAL.stories = stories;
+GLOBAL.percentages = [Math.random(), Math.random(), Math.random(), Math.random()];
+
 // MAIN index loader
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -27,7 +32,19 @@ app.get('/stories', function (req, res) {
 });
 
 app.get('/stories-data', function (req, res) {
-    res.json(stories);
+    console.log("Sending this to the client");
+    console.log({
+        part: GLOBAL.part,
+        story: GLOBAL.story,
+        stories: GLOBAL.stories,
+        percentages: GLOBAL.percentages
+    });
+    res.json({
+        part: GLOBAL.part,
+        story: GLOBAL.story,
+        stories: GLOBAL.stories,
+        percentages: GLOBAL.percentages
+    });
 });
 
 io.on('connection', function (socket) {
@@ -35,15 +52,4 @@ io.on('connection', function (socket) {
 		console.log("Socket Error! "+err);
 		error(err);
 	});
-
-	// socket.on('ui request story', function() {
-	// 	console.log("Frontend Requested Story: Sending Current Story Data");
-        // io.sockets.emit('ui acquire story', {
-            // story: story,
-            // part: part,
-            // percentages: [Math.random(), Math.random(), Math.random(), Math.random()],
-            // stories: stories
-        // });
-	// });
-
 });

@@ -5,6 +5,7 @@
 // Socket on port 5000
 // Server on port 8000
 
+'use strict'
 var print = require('../jsLibrary/print.js');
 var sockets = require('../jsLibrary/websockets.js')
 var express = require('express');
@@ -20,7 +21,7 @@ var check = require(path.join("..", "jsLibrary", "websockets.js"));
 var pinger = require(path.join("..", "xps", "ping.js"));
 
 server.listen(8080);
-print('listening on port 8080  !!!');
+print('🌏 Listening on port 8080')
 
 // app.use('/static', express.static(__dirname + '/web'));
 app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
@@ -33,6 +34,22 @@ app.get('/', function (req, res) {
 
 app.get('/stories', function (req, res) {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'webform', 'index.html'));
+});
+
+app.get('/stories-data', function (req, res) {
+    console.log('- - - - - - - - - - - - - - - - - -');
+    console.log('Sending stories data to the client');
+    const data = {
+        part: GLOBAL.part,
+        story: GLOBAL.story,
+        stories: GLOBAL.stories,
+        percentages: GLOBAL.percentages
+    };
+    console.log(`GLOBAL.part: ${GLOBAL.part}`);
+    console.log(`GLOBAL.story: ${GLOBAL.story}`);
+    console.log(`GLOBAL.percentages: ${GLOBAL.percentages}`);
+    console.log('- - - - - - - - - - - - - - - - - -');
+    res.json(data);
 });
 
 app.get('/control-center', function (req, res) {
