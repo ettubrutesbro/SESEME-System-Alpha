@@ -1,8 +1,8 @@
 {
 	"id": 0,
-	"storyName": "Cool Schools",
+	"storyName": "Cool Schools: Sierra Club Rankings",
 	"seedling": "environment",
-    "description": "Stories in this series deal with local and global environmental issues.",
+    "description": "This series of stories and data discusses sustainability and our impact as a society on the natural environment.",
 	"parts": [
 	    {
 	    "values": [
@@ -27,7 +27,7 @@
 	    ],
 	    "title": {
 	      "pre": {
-	        "c": "Cool Schools",
+	        "c": "\"COOL\" SCHOOLS",
 	        "size": 18
 	      },
 	      "main": {
@@ -46,7 +46,7 @@
 	        "margin": 0.5
 	      }
 	    },
-	    "maintext": "In 2012, UC Davis was named the \"coolest school\" in the US by the Sierra Club. The award celebrates environmental responsibility in categories like energy use, waste management, food sources, and education.",
+	    "maintext": "In 2012, UC Davis was named the \"coolest school\" in the US by the Sierra Club. The award celebrates campus environmental responsibility in categories like energy use, waste management, food sources, and education.",
 	    "pNames": [
 	      "UC Davis",
 	      "Stanford",
@@ -73,7 +73,7 @@
 	    ],
 	    "pStatboxes": [
 	      {
-	        "c": "1st :)",
+	        "c": "1st Place",
 	        "size": 18
 	      },
 	      {
@@ -93,35 +93,35 @@
 	      [
 	        {
 	          "type": "yt",
-	          "c": "sierraclubvideo"
+	          "c": "https://youtu.be/s_aYTip3jK0"
 	        },
 	        {
 	          "type": "article",
-	          "c": "sierraclubslideshow"
+	          "c": "http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-uc-davis-1.aspx"
 	        },
 	        {
-	          "type": "article",
-	          "c": "ucdpress"
+	          "type": "www",
+	          "c": "http://ucdavis.edu/ucdavis-today/2012/august/14-cool-school.html"
 	        }
 	      ],
 	      [
 	        {
 	          "type": "article",
-	          "c": "sierraclubslideshow"
+	          "c": "http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-stanford-university-3.aspx"
 	        },
 	        {
 	          "type": "list",
-	          "c": "sierraclublist"
+	          "c": "http://vault.sierraclub.org/sierra/201209/coolschools/complete-rankings-cool-schools.aspx"
 	        }
 	      ],
 	      [
 	        {
 	          "type": "article",
-	          "c": "sierraclubslideshow"
+	          "c": "http://vault.sierraclub.org/sierra/201209/coolschools/slideshow/top-ten-cool-schools-uc-irvine-9.aspx"
 	        },
 	        {
 	          "type": "list",
-	          "c": "sierraclublist"
+	          "c": "http://vault.sierraclub.org/sierra/201209/coolschools/complete-rankings-cool-schools.aspx"
 	        }
 	      ],
 	      [
@@ -140,9 +140,10 @@
 	      33
 	    ],
 	    "valueType": "lessIsTall",
+        "customLo": 65,
 	    "title": {
 	      "pre": {
-	        "c": "",
+	        "c": "Two Years Later",
 	        "size": 18
 	      },
 	      "main": {
@@ -220,33 +221,29 @@
 	      [
 	        {
 	          "type": "list",
-	          "c": "2014list"
+	          "c": "http://www.sierraclub.org/sierra/2014-5-september-october/cool-schools-2014/full-ranking"
 	        }
 	      ],
 	      [
 	        {
 	          "type": "article",
-	          "c": "sierraclubslideshow"
+	          "c": "http://www.sierraclub.org/sierra/slideshow/top-ten-coolest-schools-2014#7"
 	        }
 	      ],
 	      [
 	        {
 	          "type": "article",
-	          "c": "sierraclubslideshow"
+	          "c": "http://www.sierraclub.org/sierra/slideshow/top-ten-coolest-schools-2014#12"
 	        },
 	        {
-	          "type": "article",
-	          "c": "ucipressrelease"
-	        },
-	        {
-	          "type": "yt",
-	          "c": "video?"
+	          "type": "www",
+	          "c": "http://news.uci.edu/campus-life/uci-were-the-coolest/"
 	        }
 	      ],
 	      [
 	        {
 	          "type": "list",
-	          "c": "2014list"
+	          "c": "http://www.sierraclub.org/sierra/2014-5-september-october/cool-schools-2014/full-ranking"
 	        }
 	      ]
 	    ]

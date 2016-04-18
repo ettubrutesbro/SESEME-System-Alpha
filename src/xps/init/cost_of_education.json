@@ -1,6 +1,6 @@
 {
     "id": 2,
-    "storyName": "College Tuition and Salaries",
+    "storyName": "The Cost of Education",
     "seedling": "misc",
     "description": "These stories can be about anything. Hope you like surprises!",
     "parts": [
@@ -142,16 +142,16 @@
         ],
         "pStatboxes": [
           {
-            "c": "$57,000"
+            "c": "$57k/year"
           },
           {
-            "c": "$80,900"
+            "c": "$80.9k/year"
           },
           {
-            "c": "$55,800"
+            "c": "$55.8k/year"
           },
           {
-            "c": "$62,000"
+            "c": "$62k/year"
           }
         ],
         "pLinks": [

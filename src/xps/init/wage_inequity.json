@@ -1,270 +1,358 @@
 {
-    "id": 1,
-    "storyName": "Wage Inequity",
-    "seedling": "society",
-	"description": "The stories in this series deal with issues of social justice",
-	"parts": [
-        {
-            "values": [
-              1300,
-              950,
-              1325,
-              1050
-            ],
-            "customLo": 300,
-            "color": {
-              "ui": "#628976",
-              "monument": {
-                "hex": "#628976",
-                "bri": 1
-              },
-              "ring": "337946"
-            },
-            "sound": [
-              "schmoney1",
-              "schmoney2"
-            ],
-            "title": {
-              "pre": {
-                "c": "Wage Gaps",
-                "size": 18
-              },
-              "main": {
-                "c": [
-                  "Men's Weekly",
-                  "Median Earnings"
-                ],
-                "size": 24,
-                "font": "Droid Serif",
-                "weight": 400,
-                "margin": -0.2
-              },
-              "post": {
-                "c": "(Bachelor's, Full-Time)",
-                "size": 14
-              }
-            },
-            "maintext": "The Bureau of Labor Statistics reveals how race and ethnicity factor into income. Here you see average weekly earnings for men with a Bachelor's degree.",
-            "pNames": [
-              "White Men",
-              "Black Men",
-              "Asian Men",
-              "Hispanic Men"
-            ],
-            "pTexts": [
-              "",
-              "",
-              "",
-              ""
-            ],
-            "pSymbols": [
-              "",
-              "",
-              "",
-              ""
-            ],
-            "pLabels": [
-              "",
-              "",
-              "",
-              ""
-            ],
-            "pStatboxes": [
-              {
-                "c": [
-                  "$1,300",
-                  "weekly"
-                ],
-                "size": [
-                  24,
-                  14
-                ],
-                "font": [
-                  "Droid Serif",
-                  "Karla"
-                ]
-              },
-              {
-                "c": [
-                  "$950",
-                  "weekly"
-                ],
-                "size": [
-                  24,
-                  14
-                ],
-                "font": [
-                  "Droid Serif",
-                  "Karla"
-                ]
-              },
-              {
-                "c": [
-                  "$1,325",
-                  "weekly"
-                ],
-                "size": [
-                  24,
-                  14
-                ],
-                "font": [
-                  "Droid Serif",
-                  "Karla"
-                ]
-              },
-              {
-                "c": [
-                  "$1,050",
-                  "weekly"
-                ],
-                "size": [
-                  24,
-                  14
-                ],
-                "font": [
-                  "Droid Serif",
-                  "Karla"
-                ]
-              }
-            ],
-            "pLinks": [
-              "",
-              "",
-              "",
-              ""
-            ]
-
+  "id": 1,
+  "storyName": "Wage Inequity",
+  "seedling": "society",
+  "description": "The stories in this series deal with issues of social justice",
+  "parts": [
+    {
+      "values": [
+        1300,
+        950,
+        1325,
+        1050
+      ],
+      "customLo": 300,
+      "color": {
+        "ui": "#628976",
+        "monument": {
+          "hex": "#628976",
+          "bri": 1
         },
-        {
-        "values": [
-          950,
-          870,
-          1040,
-          815
-        ],
-        "customHi": 1325,
-        "customLo": 300,
-        "title": {
-          "pre": {
-            "c": "Wage Gaps",
-            "size": 18
-          },
-          "main": {
-            "c": [
-              "Women's Weekly",
-              "Median Earnings"
-            ],
-            "size": 24,
-            "font": "Droid Serif",
-            "weight": 400,
-            "margin": -0.2
-          },
-          "post": {
-            "c": "(Bachelor's, Full-Time)",
-            "size": 14
-          }
+        "ring": "337946"
+      },
+      "sound": [
+        "schmoney1",
+        "schmoney2"
+      ],
+      "title": {
+        "pre": {
+          "c": "U.S. WAGE INEQUITY",
+          "size": 18,
+          "margin": -0.75
         },
-        "maintext": "Women in the US are still earning less than men, and their incomes are further affected by race and ethnicity.",
-        "color": {
-          "ui": "#626b66",
-          "monument": {
-            "hex": "#628976",
-            "bri": 0.5
-          },
-          "ring": "152821"
+        "main": {
+          "c": [
+            "Men's Weekly",
+            "Earnings"
+          ],
+          "size": 28,
+          "font": "Droid Serif",
+          "weight": 400,
+          "margin": -0.2
         },
-        "sound": [
-          "schmoney1",
-          "schmoney2"
-        ],
-        "pNames": [
-          "White Women",
-          "Black Women",
-          "Asian Women",
-          "Hispanic Women"
-        ],
-        "pTexts": [
-          "",
-          "",
-          "",
-          ""
-        ],
-        "pSymbols": [
-          "",
-          "",
-          "",
-          ""
-        ],
-        "pLabels": [
-          "",
-          "",
-          "",
-          ""
-        ],
-        "pStatboxes": [
-          {
-            "c": [
-              "$950",
-              "weekly"
-            ],
-            "size": [
-              24,
-              14
-            ],
-            "font": [
-              "Droid Serif",
-              "Karla"
-            ]
-          },
-          {
-            "c": [
-              "$870",
-              "weekly"
-            ],
-            "size": [
-              24,
-              14
-            ],
-            "font": [
-              "Droid Serif",
-              "Karla"
-            ]
-          },
-          {
-            "c": [
-              "$1,040",
-              "weekly"
-            ],
-            "size": [
-              24,
-              14
-            ],
-            "font": [
-              "Droid Serif",
-              "Karla"
-            ]
-          },
-          {
-            "c": [
-              "$815",
-              "weekly"
-            ],
-            "size": [
-              24,
-              14
-            ],
-            "font": [
-              "Droid Serif",
-              "Karla"
-            ]
-          }
-        ],
-        "pLinks": [
-          "",
-          "",
-          "",
-          ""
-        ]
+        "post": {
+          "c": [
+            "w/ Bachelor's degree,",
+            "working full-time",
+            "(median)"
+          ],
+          "size": 14,
+          "margin": 0.85
+        },
+        "fuckers": {
+          "c": "",
+          "margin": -2.5
         }
-    ]
+      },
+      "maintext": "The Bureau of Labor Statistics reveals how race and ethnicity factor into income. Here you see average weekly earnings for men with a Bachelor's degree.",
+      "pNames": [
+        "White Men",
+        "Black Men",
+        "Asian Men",
+        "Hispanic Men"
+      ],
+      "pTexts": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pSymbols": [
+        {
+          "type": "img",
+          "src": "whiteman"
+        },
+        {
+          "type": "img",
+          "src": "blackman"
+        },
+        {
+          "type": "img",
+          "src": "asianman"
+        },
+        {
+          "type": "img",
+          "src": "hispman"
+        }
+      ],
+      "pZoomLabels": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pStatboxes": [
+        {
+          "c": [
+            "$1,300",
+            "weekly"
+          ],
+          "size": [
+            24,
+            14
+          ],
+          "font": [
+            "Droid Serif",
+            "Karla"
+          ]
+        },
+        {
+          "c": [
+            "$950",
+            "weekly"
+          ],
+          "size": [
+            24,
+            14
+          ],
+          "font": [
+            "Droid Serif",
+            "Karla"
+          ]
+        },
+        {
+          "c": [
+            "$1,325",
+            "weekly"
+          ],
+          "size": [
+            24,
+            14
+          ],
+          "font": [
+            "Droid Serif",
+            "Karla"
+          ]
+        },
+        {
+          "c": [
+            "$1,050",
+            "weekly"
+          ],
+          "size": [
+            24,
+            14
+          ],
+          "font": [
+            "Droid Serif",
+            "Karla"
+          ]
+        }
+      ],
+      "pLinks": [
+        [
+          {
+            "type": "data",
+            "c": "http://www.infoplease.com/ipa/A0882775.html"
+          }
+        ],
+        [
+          {
+            "type": "tw2",
+            "c": "https://twitter.com/eveewing/status/648282820079693824"
+          }
+        ],
+        "",
+        ""
+      ]
+    },
+    {
+      "values": [
+        950,
+        870,
+        1040,
+        815
+      ],
+      "customHi": 1325,
+      "customLo": 300,
+      "title": {
+        "pre": {
+          "c": "U.S. WAGE INEQUITY",
+          "size": 18,
+          "margin": -0.75
+        },
+        "main": {
+          "c": [
+            "Women's Weekly",
+            "Earnings"
+          ],
+          "size": 23,
+          "font": "Droid Serif",
+          "weight": 400
+        },
+        "post": {
+          "c": [
+            "w/ Bachelor's degree,",
+            "working full-time",
+            "(median)"
+          ],
+          "size": 14,
+          "margin": 0.7
+        },
+        "fuckers": {
+          "c": "",
+          "margin": -2.5
+        }
+      },
+      "maintext": "Women in the US are still earning less than men, and their incomes are further affected by race and ethnicity.",
+      "color": {
+        "ui": "#626b66",
+        "monument": {
+          "hex": "#628976",
+          "bri": 0.5
+        },
+        "ring": "152821"
+      },
+      "sound": [
+        "schmoney1",
+        "schmoney2"
+      ],
+      "pNames": [
+        "White Women",
+        "Black Women",
+        "Asian Women",
+        "Hispanic Women"
+      ],
+      "pTexts": [
+        "",
+        "Examining the data, Deborah Ashton of Harvard Business Review notes that black and Hispanic women \"vie for last place on the earnings pyramid at every level of education\".",
+        "The gap between Asian women/men is the largest; Asian women earn 78 cents to every dollar their male counterparts earn (81% for whites).",
+        "Examining the data, Deborah Ashton of Harvard Business Review notes that black and Hispanic women r\"vie for last place on the earnings pyramid at every level of education\"."
+      ],
+      "pSymbols": [
+        {
+          "type": "img",
+          "src": "whitewoman"
+        },
+        {
+          "type": "img",
+          "src": "blackwoman"
+        },
+        {
+          "type": "img",
+          "src": "asianwoman"
+        },
+        {
+          "type": "img",
+          "src": "hispwoman"
+        }
+      ],
+      "pZoomLabels": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pStatboxes": [
+        {
+          "c": [
+            "$950",
+            "weekly"
+          ],
+          "size": [
+            24,
+            14
+          ],
+          "font": [
+            "Droid Serif",
+            "Karla"
+          ]
+        },
+        {
+          "c": [
+            "$870",
+            "weekly"
+          ],
+          "size": [
+            24,
+            14
+          ],
+          "font": [
+            "Droid Serif",
+            "Karla"
+          ]
+        },
+        {
+          "c": [
+            "$1,040",
+            "weekly"
+          ],
+          "size": [
+            24,
+            14
+          ],
+          "font": [
+            "Droid Serif",
+            "Karla"
+          ]
+        },
+        {
+          "c": [
+            "$815",
+            "weekly"
+          ],
+          "size": [
+            24,
+            14
+          ],
+          "font": [
+            "Droid Serif",
+            "Karla"
+          ]
+        }
+      ],
+      "pLinks": [
+        [
+          {
+            "type": "data",
+            "c": "https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg"
+          },
+          {
+            "type": "article",
+            "c": "https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/"
+          }
+        ],
+        [
+          {
+            "type": "data",
+            "c": "https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg"
+          },
+          {
+            "type": "article",
+            "c": "https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/"
+          }
+        ],
+        [
+          {
+            "type": "data",
+            "c": "https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg"
+          },
+          {
+            "type": "article",
+            "c": "https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/"
+          }
+        ],
+        [
+          {
+            "type": "data",
+            "c": "https://hbr.org/resources/images/article_assets/2014/06/paygap2.jpg"
+          },
+          {
+            "type": "article",
+            "c": "https://hbr.org/2014/06/does-race-or-gender-matter-more-to-your-paycheck/"
+          }
+        ]
+      ]
+    }
+  ]
 }

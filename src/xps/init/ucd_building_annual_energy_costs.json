@@ -1,0 +1,128 @@
+{
+  "id": 0,
+  "storyName": "UCD Building Annual Energy Costs",
+  "seedling": "environment",
+  "description": "Stories in this series deal with local and global environmental issues.",
+  "parts": [
+    {
+      "values": [
+        311,
+        1450,
+        16.7,
+        89
+      ],
+      "title": {
+        "main": {
+          "c": [
+            "Annual Energy",
+            "Expenditures"
+          ],
+          "size": 26,
+          "font": "Droid Serif",
+          "weight": 400,
+          "margin": -0.25
+        },
+        "pre": {
+          "c": "(campus buildings)",
+          "size": 21
+        },
+        "pregame": {
+          "c": "POWERING UC DAVIS",
+          "size": 21
+        }
+      },
+      "maintext": "The energy expenditures data shown here was sourced from the Energy Feedback Team (eco.ucdavis.edu)'s awesome tool, CEED (ceed.ucdavis.edu).",
+      "color": {
+        "ui": "3a3a3a",
+        "monument": {
+          "hex": "#ffffff",
+          "bri": 0.5
+        },
+        "ring": "284444"
+      },
+      "sound": [
+        "schmoney1",
+        "schmoney2"
+      ],
+      "pNames": [
+        "The ARC",
+        "Meyer Hall",
+        "Giedt Hall",
+        "The SCC"
+      ],
+      "pTexts": [
+        "Long hours of operation in a large space haven't impacted the ARC's efficiency too adversely - it's only a little more expensive than the average 'community' building.",
+        "Constructed in 1987, this hall houses a great many departments, but its energy footprint is scarcely excusable; even accounting for size, its energy use intensity is nearly double the average lab.",
+        "Comfy but a little energy-expensive, Giedt's energy use intensity of 75 is notably above the classroom average - perhaps surprising considering it was built in 2007.",
+        "Designed by BAR Architects and certified LEED Platinum in 2013, the SCC, while deservedly popular, is a chronic underperformer on its energy goals."
+      ],
+      "pSymbols": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pLabels": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pStatboxes": [
+        {
+          "c": "$311,000"
+        },
+        {
+          "c": "$1.45 million"
+        },
+        {
+          "c": "$16,700"
+        },
+        {
+          "c": "$89,000"
+        }
+      ],
+      "pLinks": [
+        [
+          {
+            "type": "site",
+            "c": "https://cru.ucdavis.edu/content/531-history-of-the-arc.htm"
+          },
+          {
+            "type": "www",
+            "c": "http://eco.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "https://localwiki.org/davis/Meyer_Hall"
+          },
+          {
+            "type": "data",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "https://localwiki.org/davis/Warren_and_Leta_Giedt_Hall"
+          },
+          {
+            "type": "data",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "site",
+            "c": "http://www.bararch.com/work/academic-institutional/project/uc-davis-student-community-center"
+          }
+        ]
+      ]
+    },
+    {
+
+    }
+  ]
+}

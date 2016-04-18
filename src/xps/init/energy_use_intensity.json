@@ -1,0 +1,448 @@
+{
+  "id": 0,
+  "storyName": "Energy Use Intensity",
+  "seedling": "environment",
+  "description": "Stories in this series deal with local and global environmental issues.",
+  "parts": [
+    {
+      "values": [
+        138,
+        72,
+        76,
+        272
+      ],
+      "title": {
+        "pre": {
+          "c": "",
+          "size": 18
+        },
+        "main": {
+          "c": [
+            "Energy Use",
+            "Intensity"
+          ],
+          "size": 30,
+          "font": "Droid Serif",
+          "weight": 400,
+          "margin": -0.2
+        },
+        "post": {
+          "c": "EUI",
+          "size": 18,
+          "margin": 0.5
+        }
+      },
+      "maintext": "You're looking at the energy use intensity of various buildings on campus. To further explore how these buildings use energy, press the red button on the seedling again. To learn more, visit ceed.ucdavis.edu.",
+      "color": {
+        "ui": "#6ad400",
+        "monument": {
+          "hex": "#6ad400",
+          "bri": 0.65
+        },
+        "ring": "6ad400"
+      },
+      "sound": [
+        "cheer1",
+        "cheer2"
+      ],
+      "pNames": [
+        "ARC",
+        "Mrak Hall",
+        "Giedt Hall",
+        "Mondavi Center"
+      ],
+      "pTexts": [
+        "The ARC was built in 2002, occupies 158,120 square feet, and its annual energy costs total about $250,000.",
+        "The ARC was built in 2002, occupies 158,120 square feet, and its annual energy costs total about $250,000.",
+        "The ARC was built in 2002, occupies 158,120 square feet, and its annual energy costs total about $250,000.",
+        "The ARC was built in 2002, occupies 158,120 square feet, and its annual energy costs total about $250,000."
+      ],
+      "pSymbols": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pLabels": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pStatboxes": [
+        {
+          "c": "138 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "72 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "76 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "272 kBtu/ft²",
+          "size": 18
+        }
+      ],
+      "pLinks": [
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ]
+      ]
+    },
+    {
+      "values": [
+        44,
+        28,
+        18,
+        80
+      ],
+      "title": {
+        "pre": {
+          "c": "",
+          "size": 18
+        },
+        "main": {
+          "c": [
+            "Energy Use",
+            "Intensity"
+          ],
+          "size": 30,
+          "font": "Droid Serif",
+          "weight": 400,
+          "margin": -0.2
+        },
+        "post": {
+          "c": "Electricity",
+          "size": 18,
+          "margin": 0.5
+        }
+      },
+      "maintext": "Here's electricity use for each building. Electricity is only one source of energy use on campus. Press the button again to learn about other sources.",
+      "color": {
+        "ui": "#CCCC80",
+        "monument": {
+          "hex": "#CCCC80",
+          "bri": 0.65
+        },
+        "ring": "dbd109"
+      },
+      "sound": [
+        "cheer1",
+        "cheer2"
+      ],
+      "pNames": [
+        "ARC",
+        "Mrak Hall",
+        "Giedt Hall",
+        "Mondavi Center"
+      ],
+      "pTexts": [
+        "About 50% of the ARC's energy use is electricity use. Have you counted the number of machines that are plugged in?",
+        "",
+        "",
+        ""
+      ],
+      "pSymbols": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pLabels": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pStatboxes": [
+        {
+          "c": "44 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "28 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "18 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "80 kBtu/ft²",
+          "size": 18
+        }
+      ],
+      "pLinks": [
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ]
+      ]
+    },
+    {
+      "values": [
+        60,
+        16,
+        41,
+        88
+      ],
+      "title": {
+        "pre": {
+          "c": "",
+          "size": 18
+        },
+        "main": {
+          "c": [
+            "Energy Use",
+            "Intensity"
+          ],
+          "size": 30,
+          "font": "Droid Serif",
+          "weight": 400,
+          "margin": -0.2
+        },
+        "post": {
+          "c": "Chilled Water Use",
+          "size": 18,
+          "margin": 0.5
+        }
+      },
+      "maintext": "This is the chilled water use for each building. Chilled water is used to cool the buildings on campus. Water is chilled at the campus central plant and then cools the air that circulates through the buildings.",
+      "color": {
+        "ui": "#72bcd4",
+        "monument": {
+          "hex": "#72bcd4",
+          "bri": 0.65
+        },
+        "ring": "72bcd4"
+      },
+      "sound": [
+        "cheer1",
+        "cheer2"
+      ],
+      "pNames": [
+        "ARC",
+        "Mrak Hall",
+        "Giedt Hall",
+        "Mondavi Center"
+      ],
+      "pTexts": [
+        "Chilled water use in the ARC is relatively high because of the building's need for cooling. In addition to cooling the building, fans are also used to ciriculate air and keep a nice temperature.",
+        "",
+        "",
+        ""
+      ],
+      "pSymbols": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pLabels": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pStatboxes": [
+        {
+          "c": "60 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "16 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "41 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "88 kBtu/ft²",
+          "size": 18
+        }
+      ],
+      "pLinks": [
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ]
+      ]
+    },
+    {
+      "values": [
+        34,
+        28,
+        17,
+        104
+      ],
+      "title": {
+        "pre": {
+          "c": "",
+          "size": 18
+        },
+        "main": {
+          "c": [
+            "Energy Use",
+            "Intensity"
+          ],
+          "size": 30,
+          "font": "Droid Serif",
+          "weight": 400,
+          "margin": -0.2
+        },
+        "post": {
+          "c": "Steam Use",
+          "size": 18,
+          "margin": 0.5
+        }
+      },
+      "maintext": "This is steam use for each building. Steam is used for heating the buildings on campus. The steam is generated at the campus central plant and then delivered to the buildings, where the steam is used to heat the air that circulates throug the buildngs.",
+      "color": {
+        "ui": "#a8a8a8",
+        "monument": {
+          "hex": "#a8a8a8",
+          "bri": 0.65
+        },
+        "ring": "ADD8E6"
+      },
+      "sound": [
+        "cheer1",
+        "cheer2"
+      ],
+      "pNames": [
+        "ARC",
+        "Mrak Hall",
+        "Giedt Hall",
+        "Mondavi Center"
+      ],
+      "pTexts": [
+        "Steam use in the ARC peaks in the winter due to the increase need for heating, and is lowest in the summer.",
+        "",
+        "",
+        ""
+      ],
+      "pSymbols": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pLabels": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "pStatboxes": [
+        {
+          "c": "34 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "28 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "17 kBtu/ft²",
+          "size": 18
+        },
+        {
+          "c": "104 kBtu/ft²",
+          "size": 18
+        }
+      ],
+      "pLinks": [
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ],
+        [
+          {
+            "type": "article",
+            "c": "http://ceed.ucdavis.edu"
+          }
+        ]
+      ]
+    }
+  ]
+}
