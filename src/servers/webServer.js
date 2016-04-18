@@ -1,129 +1,82 @@
 // *********************************************************************
 //     WEB SERVER HOSTING /web dir
 // *********************************************************************
-
 // Socket on port 5000
 // Server on port 8000
-
 'use strict'
-var print = require('../jsLibrary/print.js');
-var sockets = require('../jsLibrary/websockets.js')
-var express = require('express');
-var app = express();
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
-var moment = require('moment');
-var path = require('path');
 
-// Slack slash commands
-var claptron = require(path.join("..", "xps", "slackbot.js"));
-var check = require(path.join("..", "jsLibrary", "websockets.js"));
-var pinger = require(path.join("..", "xps", "ping.js"));
+const mongo = require(path.join("..", "xps", "stories.js"));
 
-server.listen(8080);
-print('🌏 Listening on port 8080')
+// Retrieve all stories from the database
+mongo.connect().then(db => {
+    const p1 = mongo.retrieveAllStories(db, 'environment');
+    const p2 = mongo.retrieveAllStories(db, 'society');
+    const p3 = mongo.retrieveAllStories(db, 'misc');
+    Promise.all([p1, p2, p3]).then(result => {
+        console.log('Completed all promises!');
+        const stories = {
+            environment: mongo.construct(result[0]) || result[0][0],
+            society: mongo.construct(result[1]) || result[1][0],
+            misc: mongo.construct(result[2]) || result[2][0],
+        };
+        GLOBAL.stories = stories;
+        initServer();
+    }).catch(reason => {
+        throw reason;
+    });
+})
 
-// app.use('/static', express.static(__dirname + '/web'));
-app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
-app.use('/assets', express.static(path.join(__dirname, '..', 'frontend/assets')));
-app.use('/bower_components', express.static(__dirname + '/web/bower_components'));
+function initServer() {
+    var sockets = require(path.join("..", "jsLibrary", "websockets.js"));
+    var print = require('../jsLibrary/print.js');
 
-app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
-});
+    var express = require('express');
+    var app = express();
+    var server = require('http').Server(app);
+    var io = require('socket.io')(server);
+    var moment = require('moment');
+    var path = require('path');
 
-app.get('/stories', function (req, res) {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'webform', 'index.html'));
-});
+    // Slack slash commands
+    var claptron = require(path.join("..", "xps", "slackbot.js"));
+    var pinger = require(path.join("..", "xps", "ping.js"));
 
-app.get('/stories-data', function (req, res) {
-    console.log('- - - - - - - - - - - - - - - - - -');
-    console.log('Sending stories data to the client');
-    const data = {
-        part: GLOBAL.part,
-        story: GLOBAL.story,
-        stories: GLOBAL.stories,
-        percentages: GLOBAL.percentages
-    };
-    console.log(`GLOBAL.part: ${GLOBAL.part}`);
-    console.log(`GLOBAL.story: ${GLOBAL.story}`);
-    console.log(`GLOBAL.percentages: ${GLOBAL.percentages}`);
-    console.log('- - - - - - - - - - - - - - - - - -');
-    res.json(data);
-});
+    server.listen(8080);
+    print('Listening on port 8080')
 
-app.get('/control-center', function (req, res) {
-    res.sendFile(__dirname + '/web/index.html');
-});
+    app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
+    app.use('/assets', express.static(path.join(__dirname, '..', 'frontend/assets')));
+    app.use('/bower_components', express.static(__dirname + '/web/bower_components'));
 
-app.get('/master', function (req, res) {
-    res.sendFile(__dirname + '/master/index.html');
-});
+    app.get('/', function (req, res) {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+    });
 
-// Check slash command
-app.get('/check', function(req, res) {
-    print("- - - - - - - - - - - - - - - - - - - - - - ");
-    print("RECEIVED A GET REQUEST: ")
-    print("Request token: ");
-    print(JSON.stringify(req.query,null,2))
+    app.get('/stories', function (req, res) {
+        res.sendFile(path.join(__dirname, '..', 'frontend', 'webform', 'index.html'));
+    });
 
-    if(req.query.token == process.env.SLACK_CHECK_TOKEN) {
-        print("Slack token verified!");
-	    // Determine the slash command
-	    switch(req.query.text) {
-	        case "system":
-                print("Checking system...");
-	            check.reportSystemStatus();
-	            break;
-	        case "pi1":
-	            break;
-	        case "pi2":
-	            break;
-	        case "pi3":
-	            break;
-	        case "monument":
-	            break;
-            default:
-                print("Incorrect slash command!");
-	    }
-    } else {
-        print("Incorrect slack token!");
-        print("Given slack token: "+req.query.token);
-        print("Correct slack token: "+process.env.SLACK_CHECK_TOKEN);
-    }
+    app.get('/control-center', function (req, res) {
+        res.sendFile(__dirname + '/web/index.html');
+    });
 
-});
+    app.get('/stories-data', function (req, res) {
+        console.log('- - - - - - - - - - - - - - - - - -');
+        console.log('Sending stories data to the client');
+        const data = {
+            part: GLOBAL.part,
+            story: GLOBAL.story,
+            stories: GLOBAL.stories,
+            percentages: GLOBAL.percentages
+        };
+        console.log(`GLOBAL.part: ${GLOBAL.part}`);
+        console.log(`GLOBAL.story: ${GLOBAL.story}`);
+        console.log(`GLOBAL.percentages: ${GLOBAL.percentages}`);
+        console.log('- - - - - - - - - - - - - - - - - -');
+        res.json(data);
+    });
 
-// Ping slash command
-app.get('/ping', function(req, res) {
-    if(req.query.token == process.env.SLACK_PING_TOKEN) {
-        // Determine the slash command
-	    switch(req.query.text) {
-	        case "system":
-                print("Pinging system...");
-	            break;
-	        case "pi1":
-                print("Pinging pi1...");
-                pinger.pingPi1();
-	            break;
-	        case "pi2":
-                print("Pinging pi2...");
-                pinger.pingPi2();
-	            break;
-	        case "pi3":
-                print("Pinging pi3...");
-                pinger.pingPi3();
-	            break;
-	        case "monument":
-                print("Pinging monument...");
-                pinger.pingMonument();
-	            break;
-            default:
-                print("Incorrect slash command!");
-	    }
-    } else {
-        print("Incorrect slack token!");
-        print("Given slack token: "+req.query.token);
-        print("Correct slack token: "+process.env.SLACK_PING_TOKEN);
-    }
-});
+    app.get('/master', function (req, res) {
+        res.sendFile(__dirname + '/master/index.html');
+    });
+}

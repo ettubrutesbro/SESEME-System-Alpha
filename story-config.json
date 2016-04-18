@@ -1,0 +1,21 @@
+{
+    "all": [
+        "UCD Building Energy",
+        "Cool Schools",
+        "Wage Inequity",
+        "Mass Incarceration",
+        "College Tuition and Salaries"
+    ],
+    "env": [
+        "UCD Building Energy",
+        "Cool Schools"
+    ],
+    "soc": [
+        "Wage Inequity",
+        "Mass Incarceration"
+    ],
+    "misc": [
+        "College Tuition and Salaries"
+    ]
+}
+

@@ -75,7 +75,7 @@ function seedlingsReady() {
 //	Constants
 ////////////////////////////////////////////////
 
-var stories = require(path.join(__dirname, 'stories.json'));
+var stories = GLOBAL.stories;
 var led = require(path.join(__dirname, 'led.js'));
 var soundObj = require(path.join(__dirname, 'soundObj.js'));
 var lifx = require(path.join(__dirname, 'lifx.js'));
@@ -145,7 +145,6 @@ var idleCountdown;
 ////////////////////////////////////////////////
 GLOBAL.part = 0;
 GLOBAL.story = 0;
-GLOBAL.stories = stories;
 GLOBAL.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
 
 // Globals related to representing the idle state

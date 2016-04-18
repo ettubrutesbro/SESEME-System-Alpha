@@ -1,0 +1,265 @@
+{
+    "id": 1,
+    "storyName": "Mass Incarceration",
+    "seedling": "society",
+    "description": "The stories in this series deal with issues of social justice",
+    "parts": [
+        {
+        "values": [
+          2217,
+          1657,
+          644,
+        607 
+        ],
+        "customLo": 300,
+        "title": {
+          "pre": {
+            "c": "Mass Incarceration",
+            "size": 14
+          },
+          "main": {
+            "c": [
+              "World Prison",
+              "Population"
+            ],
+            "size": 25,
+            "font": "Droid Serif",
+            "weight": 400,
+            "margin": -0.2
+          }
+        },
+        "maintext": "According to ACLU, \"America, 'land of the free', has earned the disturbing distinction of being the world's leading jailer\", holding 25% of the world's prisoners, though it contains just 5% of the world's population. Here are the number of prisoners in some of the world's largest countries.",
+        "color": {
+          "ui": "#db6719",
+          "monument": {
+            "hex": "#db6719",
+            "bri": 1
+          },
+          "ring": "ff6619"
+        },
+        "sound": [
+          "jail"
+        ],
+        "pNames": [
+          "United States",
+          "China",
+          "Russia",
+          "Brazil"
+        ],
+        "pTexts": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pSymbols": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pLabels": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pStatboxes": [
+          {
+            "c": "2,200,000"
+          },
+          {
+            "c": "1,658,000"
+          },
+          {
+            "c": "645,000"
+          },
+          {
+            "c": "608,000"
+          }
+        ],
+        "pLinks": [
+          [
+            {
+              "type": "site",
+              "c": "aclumassinca"
+            },
+            {
+              "type": "yt",
+              "c": "viceshit"
+            }
+          ],
+          [
+            {
+              "type": "data",
+              "c": "#list"
+            }
+          ],
+          "",
+          ""
+        ]
+        },
+        {
+        "values": [
+          41,
+          15.3,
+          52,
+          20
+        ],
+        "customLo": 12,
+        "title": {
+          "pre": {
+            "c": "Mass Incarceration",
+            "size": 14
+          },
+          "main": {
+            "c": [
+              "State Spending",
+              "per Inmate"
+            ],
+            "size": 24,
+            "font": "Droid Serif",
+            "weight": 400,
+            "margin": -0.2
+          }
+        },
+        "maintext": "The US spends over $80 billion on prisons and related expenses every year. Mass incarceration is the 2nd fastest growing type of state government spending. Here are some annual state expenditures per inmate.",
+        "color": {
+          "ui": "#ad360c",
+          "monument": {
+            "hex": "#ad360c",
+            "bri": 1
+          },
+          "ring": "ff2200"
+        },
+        "sound": [
+          "jail"
+        ],
+        "pNames": [
+          "California",
+          "Louisiana",
+          "New York",
+          "Texas"
+        ],
+        "pTexts": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pSymbols": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pLabels": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pStatboxes": [
+          {
+            "c": "$41,000"
+          },
+          {
+            "c": "$15,000"
+          },
+          {
+            "c": "$52,000"
+          },
+          {
+            "c": "$20,000"
+          }
+        ],
+        "pLinks": [
+          "",
+          "",
+          "",
+          ""
+        ]
+        },
+        {
+        "values": [
+          8.2,
+          9.3,
+          12.6,
+          7.6
+        ],
+        "customLo": 5.3,
+        "title": {
+          "pre": {
+            "c": "Mass Incarceration",
+            "size": 14
+          },
+          "main": {
+            "c": [
+              "State Spending",
+              "per Student"
+            ],
+            "size": 24,
+            "font": "Droid Serif",
+            "weight": 400,
+            "margin": -0.2
+          }
+        },
+        "maintext": "Compare those stats with these annual state expenditures per K-12 student.",
+        "color": {
+          "ui": "#ad360c",
+          "monument": {
+            "hex": "#ad360c",
+            "bri": 1
+          },
+          "ring": "ff2200"
+        },
+        "sound": [
+          "jail"
+        ],
+        "pNames": [
+          "California",
+          "Louisiana",
+          "New York",
+          "Texas"
+        ],
+        "pTexts": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pSymbols": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pLabels": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pStatboxes": [
+          {
+            "c": "$8,200"
+          },
+          {
+            "c": "$9,300"
+          },
+          {
+            "c": "$12,600"
+          },
+          {
+            "c": "$7,600"
+          }
+        ],
+        "pLinks": [
+          "",
+          "",
+          "",
+          ""
+        ]
+        }
+    ]
+}

@@ -1,0 +1,165 @@
+{
+    "id": 2,
+    "storyName": "College Tuition and Salaries",
+    "seedling": "anomalous",
+    "description": "These stories can be about anything. Hope you like surprises!",
+    "parts": [
+        {
+        "values": [
+          15,
+          15.7,
+          12,
+          13.7
+        ],
+        "customLo": 10,
+        "color": {
+          "ui": "#339167",
+          "monument": {
+            "hex": "#339167",
+            "bri": 1
+          },
+          "ring": "24BB48"
+        },
+        "sound": [
+          "cheer1",
+          "cheer2"
+        ],
+        "title": {
+          "pre": {
+            "c": "College tuition and salary",
+            "size": 12
+          },
+          "main": {
+            "c": "Average Annual Cost",
+            "size": 24,
+            "font": "Droid Serif"
+          }
+        },
+        "maintext": "Check out the average annual college tuition here at Davis compared to other California schools.",
+        "pNames": [
+          "UC Davis",
+          "Stanford",
+          "UC Irvine",
+          "UC Berkeley"
+        ],
+        "pTexts": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pSymbols": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pLabels": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pStatboxes": [
+          {
+            "c": "$15,000"
+          },
+          {
+            "c": "$15,700"
+          },
+          {
+            "c": "$12,000"
+          },
+          {
+            "c": "$13,700"
+          }
+        ],
+        "pLinks": [
+          "",
+          "",
+          "",
+          ""
+        ]
+        },
+        {
+        "values": [
+          57,
+          80.9,
+          55.8,
+          62
+        ],
+        "customLo": 50,
+        "color": {
+          "ui": "#000000",
+          "monument": {
+            "hex": "#339167",
+            "bri": 0.25
+          },
+          "ring": "050510"
+        },
+        "sound": [
+          "cheer1",
+          "cheer2"
+        ],
+        "title": {
+          "pre": {
+            "c": "College tuition and salary",
+            "size": 12
+          },
+          "main": {
+            "c": [
+              "Salary After",
+              "Attending"
+            ],
+            "size": 24,
+            "font": "Droid Serif"
+          }
+        },
+        "maintext": "And here's the average salary of students after graduating from these universities.",
+        "pNames": [
+          "UC Davis",
+          "Stanford",
+          "UC Irvine",
+          "UC Berkeley"
+        ],
+        "pTexts": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pSymbols": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pLabels": [
+          "",
+          "",
+          "",
+          ""
+        ],
+        "pStatboxes": [
+          {
+            "c": "$57,000"
+          },
+          {
+            "c": "$80,900"
+          },
+          {
+            "c": "$55,800"
+          },
+          {
+            "c": "$62,000"
+          }
+        ],
+        "pLinks": [
+          "",
+          "",
+          "",
+          ""
+        ]
+        }
+    ]
+}
