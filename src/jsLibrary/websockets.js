@@ -743,9 +743,17 @@ function bigRedButtonHelper(seedling){
 	seconds = 120;
 	countdown();
 
-	targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    // Update globals and send new values to the frontend
 	print("Emitting Story To The Frontend")
-	io.sockets.emit('ui update', {story: seedling.number, part: seedling.currentPart, percentages: targetPercentages} );
+	targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    io.sockets.emit('ui update', {
+        part: seedling.currentPart,
+        story: seedling.number,
+        percentages: targetPercentages
+    });
+    GLOBAL.part = seedling.currentPart;
+    GLOBAL.story = seedling.number;
+    GLOBAL.percentages = targetPercentages;
 
 	targetColor = getRingColor(seedling, seedling.currentPart);
 
