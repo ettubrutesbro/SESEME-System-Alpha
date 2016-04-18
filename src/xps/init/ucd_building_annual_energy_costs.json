@@ -24,11 +24,11 @@
         },
         "pre": {
           "c": "(campus buildings)",
-          "size": 21
+          "size": 12
         },
         "pregame": {
           "c": "POWERING UC DAVIS",
-          "size": 21
+          "size": 12
         }
       },
       "maintext": "The energy expenditures data shown here was sourced from the Energy Feedback Team (eco.ucdavis.edu)'s awesome tool, CEED (ceed.ucdavis.edu).",
@@ -120,9 +120,6 @@
           }
         ]
       ]
-    },
-    {
-
     }
   ]
 }

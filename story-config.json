@@ -8,9 +8,9 @@
         "The Cost of Education"
     ],
     "env": [
-        "UCD Building Annual Energy Costs",
         "Cool Schools: Sierra Club Rankings",
-        "Energy Use Intensity"
+        "Energy Use Intensity",
+        "UCD Building Annual Energy Costs"
     ],
     "soc": [
         "Wage Inequity",

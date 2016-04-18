@@ -30,7 +30,10 @@
             "size": 12
           },
           "main": {
-            "c": "Average Annual Cost",
+            "c": [
+                "Average",
+                "Annual Cost"
+            ],
             "size": 24,
             "font": "Droid Serif"
           }
