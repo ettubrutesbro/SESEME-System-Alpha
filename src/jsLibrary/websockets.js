@@ -384,20 +384,6 @@ io.on('connection', function (socket) {
 		io.sockets.emit('receive something', data);
 	});
 
-	socket.on('ui request story', function() {
-		print("Frontend Requested Story")
-        GLOBAL.part = seedlings[lastActiveSeedling].currentPart;
-        GLOBAL.story = lastActiveSeedling;
-        GLOBAL.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
-        var clientData = {
-			part: GLOBAL.part,
-			story: GLOBAL.story,
-			percentages: GLOBAL.percentages
-        };
-        console.log(`Sending data: ${clientData}`);
-		socket.emit('ui acquire story', clientData);
-	});
-
 	socket.on('sim lifx', function(data, stripColor) {
 		lifx.validButtonPress(data.hex, data.bri);
 		lifxState.color = data.hex; lifxState.brightness = 0.5 * data.bri;

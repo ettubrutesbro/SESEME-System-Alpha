@@ -45,7 +45,7 @@ function setup(){
                 stories = [
                     serverdata.stories.environment,
                     serverdata.stories.society,
-                    serverdata.stories.anomalous
+                    serverdata.stories.misc
                 ]
                 story = serverdata.story; part = serverdata.part
                 data = stories[story].parts[part]
@@ -61,7 +61,6 @@ function setup(){
 		socket = io.connect('http://169.237.123.19:5000')
 		socket.once('connect', function(){
 			console.log('successfully connected')
-			socket.emit('ui request story')
 	 	})
 		socket.on('ui update', function(d){
 			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
