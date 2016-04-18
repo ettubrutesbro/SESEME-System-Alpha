@@ -5,9 +5,14 @@
 // Server on port 8000
 'use strict'
 
-const mongo = require(path.join("..", "xps", "stories.js"));
+const path = require('path');
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 // Retrieve all stories from the database
+const mongo = require(path.join("..", "xps", "stories.js"));
 mongo.connect().then(db => {
     const p1 = mongo.retrieveAllStories(db, 'environment');
     const p2 = mongo.retrieveAllStories(db, 'society');
@@ -28,21 +33,13 @@ mongo.connect().then(db => {
 
 function initServer() {
     var sockets = require(path.join("..", "jsLibrary", "websockets.js"));
-    var print = require('../jsLibrary/print.js');
-
-    var express = require('express');
-    var app = express();
-    var server = require('http').Server(app);
-    var io = require('socket.io')(server);
-    var moment = require('moment');
-    var path = require('path');
 
     // Slack slash commands
     var claptron = require(path.join("..", "xps", "slackbot.js"));
     var pinger = require(path.join("..", "xps", "ping.js"));
 
     server.listen(8080);
-    print('Listening on port 8080')
+    console.log('Listening on port 8080')
 
     app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
     app.use('/assets', express.static(path.join(__dirname, '..', 'frontend/assets')));
