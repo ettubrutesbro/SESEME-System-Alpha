@@ -80,12 +80,12 @@ function construct(stories) {
             seedling: 'society',
             description: 'The stories in this series deal with issues of social justice'
         };
-    } else if(stories[0].seedling === 'anomalous') {
+    } else if(stories[0].seedling === 'misc') {
         topic = config.misc;
         result = {
             id: 2,
             parts: [],
-            seedling: 'anomalous',
+            seedling: 'misc',
             description: 'These stories can be about anything. Hope you like surprises!'
         };
     } else {

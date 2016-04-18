@@ -38,7 +38,7 @@ function setup(){
     // Retrieve the stories.json using an http request
     function getStory(){
         var http = new XMLHttpRequest()
-        var topicMap = { 0: 'environment', 1: 'society', 2: 'anomalous' }
+        var topicMap = { 0: 'environment', 1: 'society', 2: 'misc' }
         http.onreadystatechange = function() {
             if (http.readyState == 4 && http.status == 200) {
                 var serverdata = JSON.parse(http.responseText)

@@ -196,7 +196,7 @@ var stories = [
   },
 
   {
-    id: 2, seedling: 'anomalous',
+    id: 2, seedling: 'misc',
     description: 'These stories can be about anything - from silly to sobering - that didn\'t fit in the other two categories.',
     parts: [
       {
