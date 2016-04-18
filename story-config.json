@@ -1,21 +1,23 @@
 {
     "all": [
-        "UCD Building Energy",
-        "Cool Schools",
+        "UCD Building Annual Energy Costs",
+        "Cool Schools: Sierra Club Rankings",
+        "Energy Use Intensity",
         "Wage Inequity",
         "Mass Incarceration",
-        "College Tuition and Salaries"
+        "The Cost of Education"
     ],
     "env": [
-        "UCD Building Energy",
-        "Cool Schools"
+        "UCD Building Annual Energy Costs",
+        "Cool Schools: Sierra Club Rankings",
+        "Energy Use Intensity"
     ],
     "soc": [
         "Wage Inequity",
         "Mass Incarceration"
     ],
     "misc": [
-        "College Tuition and Salaries"
+        "The Cost of Education"
     ]
 }
 
