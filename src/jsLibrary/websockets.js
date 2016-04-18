@@ -863,8 +863,11 @@ beagleIO.on('connection', function(beagleSocket){
     }, 2000);
 	})
 
+  // Socket call received when pillars have been moved down and button pressed
+  // Tell monument pi the pillars are at the bottom and move the motors
 	beagleSocket.on('seseme reset button', function(){
 		print("Seseme Reset Button");
+		beagle.emit("seseme update position values", [0,0,0,0]);
 	  targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
 		var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
 		var targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
