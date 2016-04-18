@@ -111,7 +111,7 @@ var story = new Array(3);
 
 story[0] = stories["environment"];
 story[1] = stories["society"];
-story[2] = stories["anomalous"];
+story[2] = stories["misc"];
 
 for(var i = 0; i < 3; i++){
 	seedlingIO[i] = new socket.listen(6000+i);
