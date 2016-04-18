@@ -869,8 +869,16 @@ beagleIO.on('connection', function(beagleSocket){
 
 	beagleSocket.on('seseme reset button', function(){
 		print("Seseme Reset Button");
+	  targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+		var seedling = seedlings[lastActiveSeedling]; // set seedling to last active seedling (initialized as 0)
+		var targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+		print("Seseme move motors");
+		beagle.emit("seseme move motors", targetPercentages, plrmax); // initialize pillars for first time
+
+/*
 		stepperPositionAr = [0,0,0,0]; // update stepperPositionAr to bottom
     beagle.emit("seseme update position values", stepperPositionAr); // update position values on beagle
+*/
 	}) // update position arrays on server and monument pi to be [0,0,0,0]
 
 	beagleSocket.on('checkSesemeRunning', function(data){
