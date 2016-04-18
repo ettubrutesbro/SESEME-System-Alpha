@@ -1,7 +1,7 @@
 
 //global data
 var socket
-var story=0, part=0, data = stories[story].parts[part], percentages
+var story=0, part=0, data=null, stories=null, percentages
 var info = {name: []}
 //objects and resources
 var scene = new THREE.Scene(), camera, renderer
@@ -26,6 +26,7 @@ var userPermission = true
 var performance = 'hi', cameraPerspective = false
 
 function setup(){
+    getStory();
 	//ready waits for data & 3d before filling the scene
 	//though, using THREE's load manager here feels a bit disingenuous...
 	var ready = new THREE.LoadingManager()
@@ -34,20 +35,34 @@ function setup(){
 	netOps() //data from server
 	initDOM() //dom
 
+    // Retrieve the stories.json using an http request
+    function getStory(){
+        var http = new XMLHttpRequest()
+        var topicMap = { 0: 'environment', 1: 'society', 2: 'anomalous' }
+        http.onreadystatechange = function() {
+            if (http.readyState == 4 && http.status == 200) {
+                var serverdata = JSON.parse(http.responseText)
+                stories = [
+                    serverdata.stories.environment,
+                    serverdata.stories.society,
+                    serverdata.stories.anomalous
+                ]
+                story = serverdata.story; part = serverdata.part
+                data = stories[story].parts[part]
+                percentages = serverdata.percentages
+                ready.itemEnd('firstdata')
+            }
+        }
+        http.open('GET', '/stories-data', true)
+        http.send()
+    }
+
 	function netOps(){
 		socket = io.connect('http://169.237.123.19:5000')
 		socket.once('connect', function(){
 			console.log('successfully connected')
 			socket.emit('ui request story')
-			// socket.on('debug status report', function(d){console.log(d)})
 	 	})
-		socket.once('ui acquire story', function(d){
-			console.log('ui acquired story')
-			console.log(d)
-            story = d.story; part = d.part; percentages = d.percentages
-            data = stories[story].parts[part]
-            ready.itemEnd('firstdata')
-		})
 		socket.on('ui update', function(d){
 			// if(d.story.id === story.id && d.part === part) {console.log('updated to same shit') ; return}
 			console.log('ui updating')

@@ -127,7 +127,6 @@ for(var i = 0; i < 3; i++){
 	seedlings[i] = new seedlingObj(story[i], 0, totalStoryParts[i], seedlingOnline, seedlingSocket, buttonPressed, i, readyState);
 }
 
-
 ////////////////////////////////////////////////
 //	MONUMENT Pi Vars
 ////////////////////////////////////////////////
@@ -140,6 +139,14 @@ var monumentLightsOnline = false;
 var seconds = 120; // Global seconds variable
 var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
 var idleCountdown;
+
+////////////////////////////////////////////////
+// Initialize GLOBAL story variables
+////////////////////////////////////////////////
+GLOBAL.part = 0;
+GLOBAL.story = 0;
+GLOBAL.stories = stories;
+GLOBAL.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
 
 // Globals related to representing the idle state
 var startDesperation;
@@ -379,13 +386,17 @@ io.on('connection', function (socket) {
 	});
 
 	socket.on('ui request story', function() {
-		print("Frontend Requested Story: Sending Current Story Data")
-		// Have the frontend acquire the story data
-		socket.emit('ui acquire story', {
-			story: lastActiveSeedling,
-			part: seedlings[lastActiveSeedling].currentPart,
-			percentages: heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]),
-		});
+		print("Frontend Requested Story")
+        GLOBAL.part = seedlings[lastActiveSeedling].currentPart;
+        GLOBAL.story = lastActiveSeedling;
+        GLOBAL.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
+        var clientData = {
+			part: GLOBAL.part,
+			story: GLOBAL.story,
+			percentages: GLOBAL.percentages
+        };
+        console.log(`Sending data: ${clientData}`);
+		socket.emit('ui acquire story', clientData);
 	});
 
 	socket.on('sim lifx', function(data, stripColor) {
@@ -468,14 +479,6 @@ io.on('connection', function (socket) {
 				seedling.socket.emit('seedling add lights duration', lastActiveSeedling);
 			} // currently in animation
 		}); // end of checkSesemeRunning
-	});
-
-	socket.on('sim button2', function(seedlingNum) {
-		if(!seedlings[seedlingNum].buttonPressed){
-			print("Sim button2 Pressed");
-			var result = heightCalcGeneric(seedlings[seedlingNum].story.parts[seedlings[seedlingNum].currentPart]);
-			socket.emit('ui update part', {part: seedlings[seedlingNum].currentPart, percentages: result} );
-		} else { print('Wrong'); }
 	});
 
 	socket.on('reset position', function(){
@@ -740,9 +743,17 @@ function bigRedButtonHelper(seedling){
 	seconds = 120;
 	countdown();
 
-	targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    // Update globals and send new values to the frontend
 	print("Emitting Story To The Frontend")
-	io.sockets.emit('ui update', {story: seedling.number, part: seedling.currentPart, percentages: targetPercentages} );
+	targetPercentages = heightCalcGeneric(seedling.story.parts[seedling.currentPart]);
+    io.sockets.emit('ui update', {
+        part: seedling.currentPart,
+        story: seedling.number,
+        percentages: targetPercentages
+    });
+    GLOBAL.part = seedling.currentPart;
+    GLOBAL.story = seedling.number;
+    GLOBAL.percentages = targetPercentages;
 
 	targetColor = getRingColor(seedling, seedling.currentPart);
 
