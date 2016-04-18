@@ -128,14 +128,6 @@ for(var i = 0; i < 3; i++){
 }
 
 ////////////////////////////////////////////////
-// Initialize GLOBAL story variables
-////////////////////////////////////////////////
-GLOBAL.part = 0;
-GLOBAL.story = 0;
-GLOBAL.stories = stories;
-GLOBAL.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
-
-////////////////////////////////////////////////
 //	MONUMENT Pi Vars
 ////////////////////////////////////////////////
 var monumentLightsIO = new socket.listen(7000);
@@ -147,6 +139,14 @@ var monumentLightsOnline = false;
 var seconds = 120; // Global seconds variable
 var lastActiveSeedling = 0; // Global variable to store the seedling pressed last
 var idleCountdown;
+
+////////////////////////////////////////////////
+// Initialize GLOBAL story variables
+////////////////////////////////////////////////
+GLOBAL.part = 0;
+GLOBAL.story = 0;
+GLOBAL.stories = stories;
+GLOBAL.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
 
 // Globals related to representing the idle state
 var startDesperation;
