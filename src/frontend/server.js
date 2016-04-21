@@ -5,6 +5,7 @@ var server = require('http').Server(app);
 var story = 0;
 var part = 0;
 
+console.log('Serving @ localhost:8080');
 server.listen(8080);
 
 // SERVE UP STATIC FILES FROM the /web folder
@@ -15,7 +16,31 @@ app.use('/bower_components', express.static(__dirname + '/web/bower_components')
 
 var socket = require('socket.io');
 var io = new socket.listen(5000);
-var stories = require(path.join(__dirname, '..', 'jsLibrary', 'stories.json'));
+const mongo = require('../xps/stories.js');
+
+const result = [
+    [
+        require("../xps/init/cool_schools.json"),
+        require("../xps/init/energy_use_intensity.json"),
+        require("../xps/init/ucd_building_annual_energy_costs.json"),
+    ],
+    [
+        require("../xps/init/wage_inequity.json"),
+        require("../xps/init/mass_incarceration.json"),
+    ],
+    [
+        require("../xps/init/cost_of_education.json"),
+    ]
+];
+
+const stories = {
+    environment: mongo.construct(result[0]) ||
+        (() => {throw new Error("Invalid story config: [env]")})(),
+    society: mongo.construct(result[1]) ||
+        (() => {throw new Error("Invalid story config: [soc]")})(),
+    misc: mongo.construct(result[2]) ||
+        (() => {throw new Error("Invalid story config: [misc]")})()
+};
 
 GLOBAL.part = 0; 
 GLOBAL.story = 0;
@@ -33,12 +58,6 @@ app.get('/stories', function (req, res) {
 
 app.get('/stories-data', function (req, res) {
     console.log("Sending this to the client");
-    console.log({
-        part: GLOBAL.part,
-        story: GLOBAL.story,
-        stories: GLOBAL.stories,
-        percentages: GLOBAL.percentages
-    });
     res.json({
         part: GLOBAL.part,
         story: GLOBAL.story,
