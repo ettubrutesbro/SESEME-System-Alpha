@@ -112,8 +112,8 @@ function breathe() {
 
     // PUT http request to fade on
     request(options, function(error, response, body) {
-        if(response.statusCode.toString().charAt(0) != 2)
-            print("Lifx Breathe Error: " + JSON.stringify(error,null,2));
+        // if(response.statusCode.toString().charAt(0) != 2)
+        //     print("Lifx Breathe Error: " + JSON.stringify(error,null,2));
     }); // end of request
 }
 
