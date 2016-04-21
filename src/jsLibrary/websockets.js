@@ -132,6 +132,7 @@ for(var i = 0; i < 3; i++){
 ////////////////////////////////////////////////
 var monumentLightsIO = new socket.listen(7000);
 var monumentLightsOnline = false;
+var monument = null;
 
 ////////////////////////////////////////////////
 // COUNTDOWN 'TIL IDLE STATE
@@ -220,6 +221,7 @@ function countdown() {
 */
 			}
 		}
+		monument.emit('monumentLights idle behavior');
 		// Stop decrementing counting down and return
 		return;
 	}
@@ -814,7 +816,7 @@ function bigRedButtonHelper(seedling){
     }
   }, 10000);
   // Add color to send for light update
-	if(monumentLightsOnline) monumentLights.emit("monument lights update", targetColor);
+	if(monumentLightsOnline) monumentLights.emit("monumentLights update", targetColor);
 }
 
 ////////////////////////////////////////////////
@@ -914,6 +916,7 @@ beagleIO.on('connection', function(beagleSocket){
 ////////////////////////////////////////////////
 
 monumentLightsIO.on('connection', function(monumentSocket){
+  monument = monumentSocket;
   monumentSocket.on('checkin', function(){
     print('Monument Lights Pi checkin');
   });  
@@ -932,6 +935,15 @@ monumentLightsIO.on('connection', function(monumentSocket){
 		var slackTitle = 'Monument (.31) Disconnected!';
 		claptron.reportDisconnect(slackTitle);
 	})
+
+	monumentSocket.on('monumentLights finished inits', function() {
+		print("Monument Lights Finished Initializing Socket");
+		var seedling = seedlings[lastActiveSeedling];
+		var targetColor = getRingColor(seedling, seedling.currentPart);
+		print("Initializing Monument Lights to Illuminate Corner");
+		monumentSocket.emit('monumentLights update', targetColor); // turn on corner light
+
+	});
 
 });
 

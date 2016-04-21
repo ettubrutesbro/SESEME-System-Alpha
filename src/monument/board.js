@@ -1,5 +1,6 @@
 function setup(socket, callback){
   var five = require("johnny-five");
+  var print = require(path.join(__dirname, '..', 'jsLibrary', 'print.js'));
   var ports = [
     { id: "A", port: "/dev/ttyusb0" },
     { id: "B", port: "/dev/ttyusb1" }
@@ -7,9 +8,9 @@ function setup(socket, callback){
   ];
   var boards = new five.Boards(ports);
   var led = new Array(4); // store 4 dumb strip leds into this array
-  var strip = new Array(4); // store 4 smart strip leds into this array
   var color = new Array(4); // store colors for dumb strip in initialization array
   var pixelNum = 30; // number of pixels in strip
+  var strip = null; // number of pixels in strip
   var obj = null;
 
   function Board(ledAr, stripAr, pixelNum, colorAr){
@@ -72,41 +73,15 @@ function setup(socket, callback){
       }
 
       else if(board.id === "C"){
-
-        strip[0] = new pixel.Strip({
-          data: 3,
-          length: pixelNum,
+        strip = new pixel.Strip({
           board: this,
-          controller: "FIRMATA" // for Johnny Five with just Arduino
-        }); 
+          controller: "FIRMATA", // for Johnny Five with just Arduino
+          strips: [ {pin: 3, length: pixelNum}, {pin: 9, length: pixelNum}, {pin: 11, length: pixelNum}, {pin: 5, length: pixelNum}, ],
+        });
 
-        strip[1] = new pixel.Strip({
-          data: 5,
-          length: pixelNum,
-          board: this,
-          controller: "FIRMATA" // for Johnny Five with just Arduino
-        }); 
-
-        strip[2] = new pixel.Strip({
-          data: 6,
-          length: pixelNum,
-          board: this,
-          controller: "FIRMATA" // for Johnny Five with just Arduino
-        }); 
-
-        strip[3] = new pixel.Strip({
-          data: 10,
-          length: pixelNum,
-          board: this,
-          controller: "FIRMATA" // for Johnny Five with just Arduino
-        }); 
-
-        // check if strips are all initialized
-        for(var i = 0; i < strip.length; i++){
-          strip[i].on("ready", function() {
-            console.log("Strip " + (i+1) + " initialized");
-          }); 
-        }
+        strip.on("ready", function(){
+          print("Strip initialized");
+        });
 
       }
 
@@ -121,6 +96,8 @@ function setup(socket, callback){
       // Init listeners for monument strips
       var initLED = require(path.join(__dirname, 'ledListeners.js'));
       initLED.listeners(socket, obj);
+
+      socket.emit("monumentLights finished inits");
 
       callback(obj);
     });

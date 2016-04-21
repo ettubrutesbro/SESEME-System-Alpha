@@ -84,9 +84,16 @@ var self = module.exports = {
     light.off();
   },
 
-  lightUpdate: function(obj, color){
+  lightsUpdate: function(obj, color){
+    print("lightsUpdate");
     var light = obj.ledAr[0]; // choose which light that needs to glow
     light.color(color);
     light.on();
+  }
+
+  lightsIdle: function(obj){
+    print("lightsIdle");
+    var led = obj.ledAr; 
+    var strip = obj.stripAr;
   }
 }

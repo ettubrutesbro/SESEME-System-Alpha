@@ -18,10 +18,6 @@ initBoard.setup(socket, function(data){
 	obj = data;
 });
 
-// Init GPIO setup and socket emits
-//var initGPIO = require(path.join(__dirname, 'setup', 'gpio.js'));
-//initGPIO.setup(socket);
-
 socket.on('connect', function() {
   console.log('monumentLights On', socket.connected);
   socket.emit('monumentLights 1 On');
