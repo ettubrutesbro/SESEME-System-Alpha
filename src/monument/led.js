@@ -1,4 +1,5 @@
-var print = require('./print.js');
+var path = require('path');
+var print = require(path.join(__dirname, '..', 'jsLibrary', 'print.js'));
 
 var self = module.exports = {
   percentage: 0,
