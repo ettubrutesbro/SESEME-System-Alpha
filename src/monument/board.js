@@ -1,6 +1,6 @@
 function setup(socket, callback){
   var five = require("johnny-five");
-  var five = require("path");
+  var path = require("path");
   var print = require(path.join(__dirname, '..', 'jsLibrary', 'print.js'));
   var ports = [
     { id: "A", port: "/dev/ttyusb0" },
