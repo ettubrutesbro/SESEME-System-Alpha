@@ -3,7 +3,7 @@ function setup(socket, callback){
   var print = require(path.join(__dirname, '..', 'jsLibrary', 'print.js'));
   var ports = [
     { id: "A", port: "/dev/ttyusb0" },
-    { id: "B", port: "/dev/ttyusb1" }
+    { id: "B", port: "/dev/ttyusb1" },
     { id: "C", port: "/dev/ttyusb2" }
   ];
   var boards = new five.Boards(ports);
