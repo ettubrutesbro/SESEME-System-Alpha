@@ -95,5 +95,28 @@ var self = module.exports = {
     print("lightsIdle");
     var led = obj.ledAr; 
     var strip = obj.stripAr;
+    // simple test to check for configuration of lights
+    led[0].color("FF0000");
+    led[1].color("00FF00");
+    led[2].color("0000FF");
+    led[3].color("FFFFFF");
+
+    // Also control smart strips
+    var fps = 50; 
+    console.log("Strip ready");
+    var colors = ["red", "green", "blue"];
+    var current_colors = [0,1,2];
+    var current_pos = [0,1,2];
+    var blinker = setInterval(function() {
+      strip.color("#000"); // blanks it out
+      for(var i=0; i< current_pos.length; i++){
+        if(++current_pos[i] >= strip.stripLength()){
+          current_pos[i] = 0;
+          if (++current_colors[i] >= colors.length) current_colors[i] = 0;
+        }   
+        strip.pixel(current_pos[i]).color(colors[current_colors[i]]);
+      }   
+      strip.show();
+    }, 1000/fps);
   }
 }
