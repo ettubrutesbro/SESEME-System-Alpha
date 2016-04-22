@@ -89,7 +89,7 @@ var self = module.exports = {
     var light = obj.ledAr[0]; // choose which light that needs to glow
     light.color(color);
     light.on();
-  }
+  },
 
   lightsIdle: function(obj){
     print("lightsIdle");
