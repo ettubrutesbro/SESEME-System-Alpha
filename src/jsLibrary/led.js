@@ -506,6 +506,7 @@ var self = module.exports = {
     lightIdle: function(seedlingNum, obj){
       print("In lightIdle() function");
       var temp = this;
+      var timeOn = 2000; // in msec
       intervalID = setInterval(function(){
         if(obj.seedlingNum === 0){
             // turn on hue
@@ -515,7 +516,7 @@ var self = module.exports = {
             setTimeout(function(){
               seedlingHue.turnOff(1);
               temp.lightOff(1, obj.urlLight, "FFFFFF")
-            }, 1000);
+            }, timeOn);
         } // seedling 1
         else if(obj.seedlingNum === 1){
             print("turn lights on for seedling2");
@@ -526,14 +527,14 @@ var self = module.exports = {
               temp.lightOff(1, obj.iconLight, null);
               temp.lightOff(1, obj.urlLight, null);
               temp.lightOff(1, obj.lmLight, null);
-            }, 1000);
+            }, timeOn);
         } // seedling 2
         else if(obj.seedlingNum === 2){
             print("turn lights on for seedling3");
             temp.lightOn(1, obj.iconLight, null);
             setTimeout(function(){
               temp.lightOff(1, obj.iconLight, null);
-            }, 1000);
+            }, timeOn);
         }
       }, 10000);
     },
