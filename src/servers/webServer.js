@@ -33,10 +33,7 @@ mongo.connect().then(db => {
 
 function initServer() {
     var sockets = require(path.join("..", "jsLibrary", "websockets.js"));
-
-    // Slack slash commands
     var claptron = require(path.join("..", "xps", "slackbot.js"));
-    var pinger = require(path.join("..", "xps", "ping.js"));
 
     server.listen(8080);
     console.log('Listening on port 8080')
@@ -76,4 +73,8 @@ function initServer() {
     app.get('/master', function (req, res) {
         res.sendFile(__dirname + '/master/index.html');
     });
+
+    app.get('/check', claptron.checkCommand);
+
+    // app.get('/ping', claptron.pingCommand);
 }

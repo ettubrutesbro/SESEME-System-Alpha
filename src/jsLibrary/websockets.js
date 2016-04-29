@@ -54,7 +54,7 @@ function reportSystemStatus() {
 		}
 	}
 
-	var slackColor = (allGood) ?	"#00ff00" : "#f30020";
+	var slackColor = (allGood) ? "#00ff00" : "#f30020";
 	pretext = pretext || ((allGood) ? "it's lit" : "fuckin' garbage");
 	claptron.reportSysCheck(systemStatus, pretext);
 }
