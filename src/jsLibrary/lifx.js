@@ -193,7 +193,7 @@ function turnOn(duration, color) {
     options.method = 'PUT';
     options.body = JSON.stringify({
         'power'            : 'on',
-        'brightness'    : 0.8,
+        'brightness'    : 1.0,
         'color'            : color,
         'duration'        : duration,
     });
