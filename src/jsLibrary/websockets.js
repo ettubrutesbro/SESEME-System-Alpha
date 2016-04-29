@@ -221,7 +221,7 @@ function countdown() {
 */
 			}
 		}
-		monument.emit('monumentLights idle behavior');
+		if(monumentLightsOnline) monument.emit('monumentLights idle behavior');
 		// Stop decrementing counting down and return
 		return;
 	}
