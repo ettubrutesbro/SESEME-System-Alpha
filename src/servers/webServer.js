@@ -82,6 +82,7 @@ function initServer() {
                 case 'system':
                     console.log('Checking SESEME system...');
                     sockets.checkSystem();
+                    break;
                 case "pi1":
                     console.log('Checking Seedling 1...');
                     break;

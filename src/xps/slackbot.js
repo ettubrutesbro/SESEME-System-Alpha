@@ -145,10 +145,10 @@ function reportSystemCheck(systemStatus, pretext) {
         }) // end of body
     };
 
-    // // PUT http request to update the hue color
-    // request(options, function(error, response, body) {
-    //     if(error) print("Claptron Error: " + error);
-    // }); // end of request
+    // PUT http request to update the hue color
+    request(options, function(error, response, body) {
+        if(error) print("Claptron Error: " + error);
+    }); // end of request
 }
 
 function reportPing(title, error) {
