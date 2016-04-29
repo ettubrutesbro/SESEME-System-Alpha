@@ -36,9 +36,9 @@ function setup(socket, callback){
       if(board.id === "A"){
         led[0] = new five.Led.RGB({
           pins: {
-            red: 6,
+            red: 3,
             green: 5,
-            blue: 3
+            blue: 6
           },
           board: board
         });
@@ -65,9 +65,9 @@ function setup(socket, callback){
 
         led[3] = new five.Led.RGB({
           pins: {
-            red: 11,
+            red: 9,
             green: 10,
-            blue: 9
+            blue: 11 
           },
           board: board
         });
