@@ -3,9 +3,9 @@ function setup(socket, callback){
   var path = require("path");
   var print = require(path.join(__dirname, '..', 'jsLibrary', 'print.js'));
   var ports = [
-    { id: "A", port: "/dev/ttyusb0", timeout: 20 },
-    { id: "B", port: "/dev/ttyusb1", timeout: 20 },
-    { id: "C", port: "/dev/ttyusb2", timeout: 20 }
+    { id: "A", port: "/dev/ttyUSB0", timeout: 20 },
+    { id: "B", port: "/dev/ttyUSB1", timeout: 20 },
+    { id: "C", port: "/dev/ttyUSB2", timeout: 20 }
   ];
   var boards = new five.Boards(ports);
   var led = new Array(4); // store 4 dumb strip leds into this array
