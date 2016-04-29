@@ -1,6 +1,7 @@
 function setup(socket, callback){
   var five = require("johnny-five");
   var path = require("path");
+  var pixel = require(path.join(__dirname, '..', '..', 'node_modules', 'node-pixel', 'lib', 'pixel.js'));
   var print = require(path.join(__dirname, '..', 'jsLibrary', 'print.js'));
   var ports = [
     { id: "A", port: "/dev/ttyUSB0", timeout: 20 },
