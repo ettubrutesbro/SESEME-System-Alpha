@@ -78,30 +78,12 @@ function initServer() {
         console.log('Received a slack command to check the system');
         if(req.query.token === process.env.SLACK_CHECK_TOKEN) {
             console.log('Slack check token verified');
-            switch(req.query.text) {
-                case 'system':
-                    console.log('Checking SESEME system...');
-                    sockets.checkSystem();
-                    break;
-                case "pi1":
-                    console.log('Checking Seedling 1...');
-                    break;
-                case "pi2":
-                    console.log('Checking Seedling 2...');
-                    break;
-                case "pi3":
-                    console.log('Checking Seedling 3...');
-                    break;
-                case "monument":
-                    console.log('Checking Monument...');
-                    break;
-                default:
-                    console.log('Incorrect slash comand!');
-            }
+            sockets.checkSystem(req.query.text);
         } else {
             console.log('Incorrect slack token!');
             console.log("Given slack token: "+req.query.token);
             console.log("Correct slack token: "+process.env.SLACK_CHECK_TOKEN);
+            console.log("Provided query text: "+req.query.text);
         }
     });
 

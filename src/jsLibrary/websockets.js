@@ -28,9 +28,9 @@ function lightTrailObj(trailColor, nodes, time, revolutions){
 var claptron = require(path.join(__dirname, '..', 'xps', 'slackbot.js'));
 
 // System check function to send a report to the slack diagnostics channel
-function checkSystem() {
-    var systemStatus = {};
-	var allGood = true;
+function checkSystem(queryText) {
+    let systemStatus = {};
+	let allGood = true;
 
     // Check the status of the beagle
 	if(beagleOnline) {
@@ -41,7 +41,7 @@ function checkSystem() {
 	}
 
 	// Check if all seedlings are connected
-	for(var i = 0; i < 3; i++) {
+	for(let i = 0; i < 3; i++) {
 		if(seedlings[i].online) {
 			systemStatus['pi'+(i+1)] = 'online';
         } else {
@@ -50,7 +50,8 @@ function checkSystem() {
 		}
 	}
 
-    claptron.reportSystemCheck(systemStatus, ((allGood) ? "it's lit" : "fuckin' garbage"));
+    const pretext = ((allGood) ? "it's lit" : "fuckin' garbage");
+    claptron.reportSystemCheck(systemStatus, pretext, queryText);
 }
 
 exports.checkSystem = checkSystem;

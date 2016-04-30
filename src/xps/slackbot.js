@@ -65,7 +65,8 @@ function reportDisconnect(title) {
 }
 
 
-function reportSystemCheck(systemStatus, pretext) {
+function reportSystemCheck(systemStatus, pretext, queryText) {
+    let attachments = [];
 
     const pi1 = {
         ip: 'pi@169.237.123.19:2000',
@@ -92,57 +93,70 @@ function reportSystemCheck(systemStatus, pretext) {
         emoji: (systemStatus.monument === 'online') ? ':tada:' : ':trueunclephil:'
     };
 
-    var options = {
+    const pi1Attachment = {
+        "title" :  `Seedling 1 Pi ${pi1.emoji}`,
+        "title_link"    : "http://www.seseme.net",
+        "mrkdwn_in": ["text", "pretext", "fields"],
+        "color"         : pi1.color,
+        "fields"        : [
+            { "value" :  `_${pi1.ip}_`, "short" : true },
+            { "value" :  `*[${pi1.status}]*`, "short" : true }
+        ]
+    };
+    const pi2Attachment = {
+        "title" :  `Seedling 2 Pi ${pi2.emoji}`,
+        "title_link"    : "http://www.seseme.net",
+        "mrkdwn_in": ["text", "pretext", "fields"],
+        "color"         : pi2.color,
+        "fields"        : [
+            { "value" :  `_${pi2.ip}_`, "short" : true },
+            { "value" :  `*[${pi2.status}]*`, "short" : true }
+        ]
+    };
+    const pi3Attachment = {
+        "title" :  `Seedling 3 Pi ${pi3.emoji}`,
+        "title_link"    : "http://www.seseme.net",
+        "mrkdwn_in": ["text", "pretext", "fields"],
+        "color"         : pi3.color,
+        "fields"        : [
+            { "value" :  `_${pi3.ip}_`, "short" : true },
+            { "value" :  `*[${pi3.status}]*`, "short" : true }
+        ]
+    };
+    const monumentAttachment = {
+        "title" :  `SESEME Monument Pi ${monument.emoji}`,
+        "title_link"    : "http://www.seseme.net",
+        "mrkdwn_in": ["text", "pretext", "fields"],
+        "color"         : monument.color,
+        "fields"        : [
+            { "value" :  `_${monument.ip}_`, "short" : true },
+            { "value" :  `*[${monument.status}]*`, "short" : true }
+        ]
+    };
+
+    // Construct the final attachments
+    if(queryText === 'monument') {
+        attachments.push(monumentAttachment);
+    } else if(queryText === 'pi1') {
+        attachments.push(pi1Attachment);
+    } else if(queryText === 'pi2') {
+        attachments.push(pi2Attachment);
+    } else if(queryText === 'pi3') {
+        attachments.push(pi3Attachment);
+    } else {
+        attachments.push(pi1Attachment, pi2Attachment, pi3Attachment, monumentAttachment);
+    }
+
+    const options = {
         // URI to send a message to the #slack-test channel
         uri: 'https://hooks.slack.com/services/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',
         method: 'POST',
         body: JSON.stringify({
             "channel"       : "#slack-test",
             "username"      : "claptron",
-            "text": `Claptron reporting in: _${pretext}_!`,
-            "attachments"   : [
-                {
-                    "title" :  `SESEME Monument Pi ${monument.emoji}`,
-                    "title_link"    : "http://www.seseme.net",
-                    "mrkdwn_in": ["text", "pretext", "fields"],
-                    "color"         : monument.color,
-                    "fields"        : [
-                        { "value" :  `_${monument.ip}_`, "short" : true },
-                        { "value" :  `*[${monument.status}]*`, "short" : true }
-                    ]
-                },
-                {
-                    "title" :  `Seedling 1 Pi ${pi1.emoji}`,
-                    "title_link"    : "http://www.seseme.net",
-                    "mrkdwn_in": ["text", "pretext", "fields"],
-                    "color"         : pi1.color,
-                    "fields"        : [
-                        { "value" :  `_${pi1.ip}_`, "short" : true },
-                        { "value" :  `*[${pi1.status}]*`, "short" : true }
-                    ]
-                },
-                {
-                    "title" :  `Seedling 2 Pi ${pi2.emoji}`,
-                    "title_link"    : "http://www.seseme.net",
-                    "mrkdwn_in": ["text", "pretext", "fields"],
-                    "color"         : pi2.color,
-                    "fields"        : [
-                        { "value" :  `_${pi2.ip}_`, "short" : true },
-                        { "value" :  `*[${pi2.status}]*`, "short" : true }
-                    ]
-                },
-                {
-                    "title" :  `Seedling 3 Pi ${pi3.emoji}`,
-                    "title_link"    : "http://www.seseme.net",
-                    "mrkdwn_in": ["text", "pretext", "fields"],
-                    "color"         : pi3.color,
-                    "fields"        : [
-                        { "value" :  `_${pi3.ip}_`, "short" : true },
-                        { "value" :  `*[${pi3.status}]*`, "short" : true }
-                    ]
-                }
-            ] // end of attachments
-        }) // end of body
+            "text": `Claptron reporting in for a *system check*:!`,
+            "attachments"   : attachments
+        })
     };
 
     request(options, function(error, response, body) {
