@@ -68,18 +68,26 @@ function reportDisconnect(title) {
 function reportSystemCheck(systemStatus, pretext) {
 
     const pi1 = {
+        ip: 'pi@169.237.123.19:2000',
+        status: systemStatus.pi1.toUpperCase(),
         color: (systemStatus.pi1 === 'online') ? '#00ff00' : '#f30020',
         emoji: (systemStatus.pi1 === 'online') ? ':tada:' : ':trueunclephil:'
     };
     const pi2 = {
+        ip: 'pi@169.237.123.19:2001',
+        status: systemStatus.pi2.toUpperCase(),
         color: (systemStatus.pi2 === 'online') ? '#00ff00' : '#f30020',
         emoji: (systemStatus.pi2 === 'online') ? ':tada:' : ':trueunclephil:'
     };
     const pi3 = {
+        ip: 'pi@169.237.123.19:2002',
+        status: systemStatus.pi3.toUpperCase(),
         color: (systemStatus.pi3 === 'online') ? '#00ff00' : '#f30020',
         emoji: (systemStatus.pi3 === 'online') ? ':tada:' : ':trueunclephil:'
     };
     const monument = {
+        ip: 'pi@169.237.123.19:2003',
+        status: systemStatus.monument.toUpperCase(),
         color: (systemStatus.monument === 'online') ? '#00ff00' : '#f30020',
         emoji: (systemStatus.monument === 'online') ? ':tada:' : ':trueunclephil:'
     };
@@ -91,45 +99,46 @@ function reportSystemCheck(systemStatus, pretext) {
         body: JSON.stringify({
             "channel"       : "#slack-test",
             "username"      : "claptron",
+            "text": `Claptron reporting in: _${pretext}_!`,
             "attachments"   : [
                 {
-                    "title"         : "Periodic System Check",
+                    "title" :  `SESEME Monument Pi ${monument.emoji}`,
                     "title_link"    : "http://www.seseme.net",
-                    "fallback"      : `Claptron reporting in: _${pretext}_!`,
-                    "pretext"      : `Claptron reporting in: _${pretext}_!`,
-                    "color"         : "#47515b",
-                    "mrkdwn_in": ["text", "pretext"],
-                },
-                {
+                    "mrkdwn_in": ["text", "pretext", "fields"],
                     "color"         : monument.color,
-                    "fields"        : [ 
-                        { "value" :  "SESEME Monument", "short" : true },
-                        { "value" :  `[${systemStatus.monument}]`, "short" : true },
-                        { "value" :  monument.emoji, "short" : true }
+                    "fields"        : [
+                        { "value" :  `_${monument.ip}_`, "short" : true },
+                        { "value" :  `*[${monument.status}]*`, "short" : true }
                     ]
                 },
                 {
+                    "title" :  `Seedling 1 Pi ${pi1.emoji}`,
+                    "title_link"    : "http://www.seseme.net",
+                    "mrkdwn_in": ["text", "pretext", "fields"],
                     "color"         : pi1.color,
                     "fields"        : [
-                        { "value" : "Seedling 1", "short" : true },
-                        { "value" :  `[${systemStatus.pi1}]`, "short" : true },
-                        { "value" :  pi1.emoji, "short" : true }
+                        { "value" :  `_${pi1.ip}_`, "short" : true },
+                        { "value" :  `*[${pi1.status}]*`, "short" : true }
                     ]
                 },
                 {
+                    "title" :  `Seedling 2 Pi ${pi2.emoji}`,
+                    "title_link"    : "http://www.seseme.net",
+                    "mrkdwn_in": ["text", "pretext", "fields"],
                     "color"         : pi2.color,
                     "fields"        : [
-                        { "value" : "Seedling 2", "short" : true },
-                        { "value" :  `[${systemStatus.pi2}]`, "short" : true },
-                        { "value" :  pi2.emoji, "short" : true }
+                        { "value" :  `_${pi2.ip}_`, "short" : true },
+                        { "value" :  `*[${pi2.status}]*`, "short" : true }
                     ]
                 },
                 {
+                    "title" :  `Seedling 3 Pi ${pi3.emoji}`,
+                    "title_link"    : "http://www.seseme.net",
+                    "mrkdwn_in": ["text", "pretext", "fields"],
                     "color"         : pi3.color,
                     "fields"        : [
-                        { "value" : "Seedling 3", "short" : true },
-                        { "value" :  `[${systemStatus.pi3}]`, "short" : true },
-                        { "value" :  pi3.emoji, "short" : true }
+                        { "value" :  `_${pi3.ip}_`, "short" : true },
+                        { "value" :  `*[${pi3.status}]*`, "short" : true }
                     ]
                 }
             ] // end of attachments
