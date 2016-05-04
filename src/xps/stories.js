@@ -89,16 +89,28 @@ function construct(stories) {
             description: 'These stories can be about anything. Hope you like surprises!'
         };
     } else {
-        throw `Invalid seedling value in database story`;
+        console.error(`ERROR: Invalid seedling value (${stories[0].seedling}) in database story.`);
+        process.exit(0);
     }
 
+    const total = [];
+    const matched = [];
     for(let i = 0; i < stories.length; i++) {
         let story = stories[i];
+        total.push(story.storyName);
         for(let j = 0; j < topic.length; j++) {
             if(topic[j] === story.storyName) {
                 result.parts = result.parts.concat(story.parts);
+                matched.push(story.storyName);
             }
         }
+    }
+
+    if(!result.parts.length) {
+        const unmatched = total.filter(function(x) { return matched.indexOf(x) < 0 })
+        console.log(`ERROR: Invalid [${result.seedling}] stories!`);
+        console.log('Unmatched stories: ' + JSON.stringify(unmatched,null,2));
+        process.exit(0);
     }
 
     return result.parts.length ? result : null;

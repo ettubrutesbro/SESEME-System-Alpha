@@ -2,7 +2,6 @@
 const request = require('request');
 const moment = require('moment');
 const print = require('../jsLibrary/print.js');
-const pinger = require('../xps/ping.js');
 
 function reportConnection(title) {
     var timestamp = moment().format("h:mm a* on ddd, M/D");
@@ -164,40 +163,6 @@ function reportSystemCheck(systemStatus, pretext, queryText) {
     });
 }
 
-function reportPing(title, error) {
-    var title;
-    var message = error || "hella WET";
-    var color = error ? "red" : "green";
-    var timestamp = moment().format("h:mm a* on ddd, M/D");
-    var options = {
-        // URI to send a message to the #slack-test channel
-        uri: 'https://hooks.slack.com/services/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',
-        method: 'POST',
-        body: JSON.stringify({
-            "channel"       : "#slack-test",
-            "username"      : "claptron",
-            "attachments"   : [
-                {
-                    "title"         : title, 
-                    "title_link"    : "http://www.seseme.net",
-                    "fallback"      : "*["+timestamp+"] Claptron reporting in: "
-                                      + message,
-                    "pretext"       : "*["+timestamp+"] Claptron reporting in: " 
-                                      + message,
-                    "color"         : color,
-                    "mrkdwn_in": ["text", "pretext"]
-                }
-            ] // end of attachments
-        }) // end of body
-    };
-
-    // // PUT http request to update the hue color
-    // request(options, function(error, response, body) {
-    //     if(error) print("Claptron Error: " + error);
-    // }); // end of request
-}
-
-exports.reportPing          = reportPing;
 exports.reportSystemCheck   = reportSystemCheck;
 exports.reportDisconnect    = reportDisconnect;
 exports.reportConnection    = reportConnection;

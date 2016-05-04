@@ -20,11 +20,11 @@ mongo.connect().then(db => {
     Promise.all([p1, p2, p3]).then(result => {
         console.log('Completed all promises!');
         const stories = {
-            environment: mongo.construct(result[0]) || result[0][0],
-            society: mongo.construct(result[1]) || result[1][0],
-            misc: mongo.construct(result[2]) || result[2][0],
+            environment: mongo.construct(result[0]),
+            society: mongo.construct(result[1]),
+            misc: mongo.construct(result[2])
         };
-        GLOBAL.stories = stories;
+        global.stories = stories;
         initServer();
     }).catch(reason => {
         throw reason;
@@ -36,7 +36,7 @@ function initServer() {
     var claptron = require(path.join("..", "xps", "slackbot.js"));
 
     server.listen(8080);
-    console.log('Listening on port 8080')
+    console.log('Started server! Listening on port 8080')
 
     app.use('/frontend', express.static(path.join(__dirname, '..', 'frontend')));
     app.use('/assets', express.static(path.join(__dirname, '..', 'frontend/assets')));
@@ -58,14 +58,14 @@ function initServer() {
         console.log('- - - - - - - - - - - - - - - - - -');
         console.log('Sending stories data to the client');
         const data = {
-            part: GLOBAL.part,
-            story: GLOBAL.story,
-            stories: GLOBAL.stories,
-            percentages: GLOBAL.percentages
+            part: global.part,
+            story: global.story,
+            stories: global.stories,
+            percentages: global.percentages
         };
-        console.log(`GLOBAL.part: ${GLOBAL.part}`);
-        console.log(`GLOBAL.story: ${GLOBAL.story}`);
-        console.log(`GLOBAL.percentages: ${GLOBAL.percentages}`);
+        console.log(`global.part: ${global.part}`);
+        console.log(`global.story: ${global.story}`);
+        console.log(`global.percentages: ${global.percentages}`);
         console.log('- - - - - - - - - - - - - - - - - -');
         res.json(data);
     });

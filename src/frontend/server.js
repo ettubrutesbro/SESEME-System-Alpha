@@ -42,10 +42,10 @@ const stories = {
         (() => {throw new Error("Invalid story config: [misc]")})()
 };
 
-GLOBAL.part = 0; 
-GLOBAL.story = 0;
-GLOBAL.stories = stories;
-GLOBAL.percentages = [Math.random(), Math.random(), Math.random(), Math.random()];
+global.part = 0; 
+global.story = 0;
+global.stories = stories;
+global.percentages = [Math.random(), Math.random(), Math.random(), Math.random()];
 
 // MAIN index loader
 app.get('/', function (req, res) {
@@ -59,10 +59,10 @@ app.get('/stories', function (req, res) {
 app.get('/stories-data', function (req, res) {
     console.log("Sending this to the client");
     res.json({
-        part: GLOBAL.part,
-        story: GLOBAL.story,
-        stories: GLOBAL.stories,
-        percentages: GLOBAL.percentages
+        part: global.part,
+        story: global.story,
+        stories: global.stories,
+        percentages: global.percentages
     });
 });
 

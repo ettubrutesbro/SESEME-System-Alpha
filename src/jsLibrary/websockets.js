@@ -70,7 +70,7 @@ function seedlingsReady() {
 //	Constants
 ////////////////////////////////////////////////
 
-var stories = GLOBAL.stories;
+var stories = global.stories;
 var led = require(path.join(__dirname, 'led.js'));
 var soundObj = require(path.join(__dirname, 'soundObj.js'));
 var lifx = require(path.join(__dirname, 'lifx.js'));
@@ -137,11 +137,11 @@ var lastActiveSeedling = 0; // Global variable to store the seedling pressed las
 var idleCountdown;
 
 ////////////////////////////////////////////////
-// Initialize GLOBAL story variables
+// Initialize global story variables
 ////////////////////////////////////////////////
-GLOBAL.part = 0;
-GLOBAL.story = 0;
-GLOBAL.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
+global.part = 0;
+global.story = 0;
+global.percentages = heightCalcGeneric(story[lastActiveSeedling].parts[seedlings[lastActiveSeedling].currentPart]);
 
 // Globals related to representing the idle state
 var startDesperation;
@@ -733,9 +733,9 @@ function bigRedButtonHelper(seedling){
         story: seedling.number,
         percentages: targetPercentages
     });
-    GLOBAL.part = seedling.currentPart;
-    GLOBAL.story = seedling.number;
-    GLOBAL.percentages = targetPercentages;
+    global.part = seedling.currentPart;
+    global.story = seedling.number;
+    global.percentages = targetPercentages;
 
 	targetColor = getRingColor(seedling, seedling.currentPart);
 
