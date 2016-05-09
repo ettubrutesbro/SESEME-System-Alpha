@@ -31,7 +31,7 @@ function reportDisconnect(ip, title) {
         // URI to send a message to the #slack-test channel
         uri: 'https://hooks.slack.com/services/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',
         method: 'POST',
-        body: body
+        body: JSON.stringify(body)
     };
 
     // POST http request to report a component disconnect
