@@ -14,8 +14,8 @@ function reportDisconnect(ip, title) {
     const body = {
         "channel"       : "#slack-test",
         "username"      : "claptron",
-        "text": `Something disconnected! :realpancakecat:`,
-        "attachments"   : {
+        "text": `:realpancakecat: Something disconnected!`,
+        "attachments"   : [{
             "title" :  `${title} ${component.emoji}`,
             "title_link"    : "http://www.seseme.net",
             "mrkdwn_in": ["text", "pretext", "fields"],
@@ -24,7 +24,7 @@ function reportDisconnect(ip, title) {
                 { "value" :  `_${ip}_`, "short" : true },
                 { "value" :  `*[${component.status}]*`, "short" : true }
             ]
-        }
+        }]
     }
 
     const options = {
