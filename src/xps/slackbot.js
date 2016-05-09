@@ -12,9 +12,9 @@ function reportDisconnect(ip, title) {
     };
 
     const body = {
-        "channel"       : "#slack-test",
+        "channel"       : "#diagnostic",
         "username"      : "claptron",
-        "text": `Uh oh :realpancakecat: Something went wrong.`,
+        "text": `:robot_face: Uh oh... Something went wrong. :realpancakecat: `,
         "attachments"   : [{
             "title" :  `${title}`,
             "title_link"    : "http://www.seseme.net",
@@ -28,7 +28,7 @@ function reportDisconnect(ip, title) {
     }
 
     const options = {
-        // URI to send a message to the #slack-test channel
+        // URI to send a message to the #diagnostic channel
         uri: 'https://hooks.slack.com/services/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',
         method: 'POST',
         body: JSON.stringify(body)
@@ -124,13 +124,13 @@ function reportSystemCheck(systemStatus, pretext, queryText) {
     }
 
     const options = {
-        // URI to send a message to the #slack-test channel
+        // URI to send a message to the #diagnostic channel
         uri: 'https://hooks.slack.com/services/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',
         method: 'POST',
         body: JSON.stringify({
-            "channel"       : "#slack-test",
+            "channel"       : "#diagnostic",
             "username"      : "claptron",
-            "text": `Claptron reporting in for a *system check*!`,
+            "text": `:robot_face: Claptron reporting in for a *system check*!`,
             "attachments"   : attachments
         })
     };
