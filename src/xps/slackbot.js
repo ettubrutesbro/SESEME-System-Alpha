@@ -21,7 +21,7 @@ function reportDisconnect(ip, title) {
             "mrkdwn_in": ["text", "pretext", "fields"],
             "color"         : component.color,
             "fields"        : [
-                { "value" :  `_${component.ip}_`, "short" : true },
+                { "value" :  `_${ip}_`, "short" : true },
                 { "value" :  `*[${component.status}]*`, "short" : true }
             ]
         }
@@ -142,4 +142,3 @@ function reportSystemCheck(systemStatus, pretext, queryText) {
 
 exports.reportSystemCheck   = reportSystemCheck;
 exports.reportDisconnect    = reportDisconnect;
-exports.reportConnection    = reportConnection;
