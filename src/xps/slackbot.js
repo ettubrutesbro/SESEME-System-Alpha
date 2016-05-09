@@ -3,64 +3,41 @@ const request = require('request');
 const moment = require('moment');
 const print = require('../jsLibrary/print.js');
 
-function reportConnection(title) {
-    var timestamp = moment().format("h:mm a* on ddd, M/D");
-    var options = {
+function reportDisconnect(ip, title) {
+    const component = {
+        ip: ip,
+        status: '[OFFLINE]',
+        color: '#f30020',
+        emoji: ':trueunclephil:'
+    };
+
+    const body = {
+        "channel"       : "#slack-test",
+        "username"      : "claptron",
+        "text": `Something disconnected! :realpancakecat:`,
+        "attachments"   : {
+            "title" :  `${title} ${component.emoji}`,
+            "title_link"    : "http://www.seseme.net",
+            "mrkdwn_in": ["text", "pretext", "fields"],
+            "color"         : component.color,
+            "fields"        : [
+                { "value" :  `_${component.ip}_`, "short" : true },
+                { "value" :  `*[${component.status}]*`, "short" : true }
+            ]
+        }
+    }
+
+    const options = {
         // URI to send a message to the #slack-test channel
         uri: 'https://hooks.slack.com/services/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',
         method: 'POST',
-        body: JSON.stringify({
-            "channel"       : "#slack-test",
-            "username"      : "claptron",
-            "attachments"   : [
-                {
-                    "title"         : ":cubimal_chick: "+title+" :cubimal_chick:",
-                    "title_link"    : "http://www.seseme.net",
-                    "fallback"      : "*["+timestamp+"] Claptron reporting in: "
-                                      + "_hella WET",
-                    "pretext"       : "*["+timestamp+"] Claptron reporting in: " 
-                                      + "_hella WET",
-                    "color"         : "green",
-                    "mrkdwn_in"     : ["text", "pretext"]
-                }
-            ] // end of attachments
-        }) // end of body
+        body: body
     };
 
-    // // PUT http request to update the hue color
-    // request(options, function(error, response, body) {
-    //     if(error) print("Claptron Error: " + error);
-    // }); // end of request
-}
-
-function reportDisconnect(title) {
-    var timestamp = moment().format("h:mm a* on ddd, M/D");
-    var options = {
-        // URI to send a message to the #slack-test channel
-        uri: 'https://hooks.slack.com/services/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',
-        method: 'POST',
-        body: JSON.stringify({
-            "channel"       : "#slack-test",
-            "username"      : "claptron",
-            "attachments"   : [
-                {
-                    "title"         : ":hurtrealbad: "+title+" :hurtrealbad:",
-                    "title_link"    : "http://www.seseme.net",
-                    "fallback"      : "*["+timestamp+"] Claptron reporting in: "
-                                      + "_fuckin garbage_",
-                    "pretext"       : "*["+timestamp+"] Claptron reporting in: " 
-                                      + "_fuckin garbage_",
-                    "color"         : "#f30020",
-                    "mrkdwn_in": ["text", "pretext"]
-                }
-            ] // end of attachments
-        }) // end of body
-    };
-
-    // // PUT http request to update the hue color
-    // request(options, function(error, response, body) {
-    //     if(error) print("Claptron Error: " + error);
-    // }); // end of request
+    // POST http request to report a component disconnect
+    request(options, function(error, response, body) {
+        if(error) print("Claptron Error: " + error);
+    });
 }
 
 
@@ -153,7 +130,7 @@ function reportSystemCheck(systemStatus, pretext, queryText) {
         body: JSON.stringify({
             "channel"       : "#slack-test",
             "username"      : "claptron",
-            "text": `Claptron reporting in for a *system check*:!`,
+            "text": `Claptron reporting in for a *system check*!`,
             "attachments"   : attachments
         })
     };

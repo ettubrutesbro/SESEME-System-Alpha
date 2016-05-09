@@ -668,8 +668,9 @@ function seedlingConnected(seedSocket, seedlingNum){
 		print('[SEEDLING ' + (seedlingNum+1) + ': DISCONNECTED]')
 
 		// Report to the diagnostics channel that the seedling went down
-		var slackTitle = 'Seedling (.3'+(seedling.number+2)+') Disconnected!';
-		claptron.reportDisconnect(slackTitle);
+		const slackTitle = `Seedling ${seedlingNum + 1} Disconnected!`;
+		const seedlingIP = `pi@169.237.123.19:200${seedlingNum}`;
+		claptron.reportDisconnect(seedlingIP, slackTitle);
 	});
 }
 
@@ -897,9 +898,10 @@ beagleIO.on('connection', function(beagleSocket){
 		beagleOnline = false;
 		print('[BEAGLE: DISCONNECTED]')
 
-		// Report to the diagnostics channel that the monument went down
-		var slackTitle = 'Monument (.210) Disconnected!';
-		claptron.reportDisconnect(slackTitle);
+		// Report to the diagnostics channel that the seedling went down
+		const slackTitle = `Monument Motor Pi Disconnected!`;
+		const monumentIP = `pi@169.237.123.19:2003`;
+		claptron.reportDisconnect(monumentIP, slackTitle);
 	})
 
 });
@@ -925,9 +927,10 @@ monumentLightsIO.on('connection', function(monumentSocket){
 		monumentLightsOnline = false;
 		print('[MONUMENT LIGHTS: DISCONNECTED]')
 
-		// Report to the diagnostics channel that the monument went down
-		var slackTitle = 'Monument (.31) Disconnected!';
-		claptron.reportDisconnect(slackTitle);
+		// Report to the diagnostics channel that the seedling went down
+		const slackTitle = `Monument Lights Pi Disconnected!`;
+		const lightsIP = `pi@169.237.123.19:2004`;
+		claptron.reportDisconnect(lightsIP, slackTitle);
 	})
 
 	monumentSocket.on('monumentLights finished inits', function() {
