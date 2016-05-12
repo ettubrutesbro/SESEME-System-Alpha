@@ -14,6 +14,8 @@ function setup(socket, callback){
   var pixelNum = 30; // number of pixels in strip
   var strip = null; // number of pixels in strip
   var obj = null;
+  var setupCheck = new Array(3);
+  for (var a in setupCheck) a = false; // initialize setupCheck array
 
   function Board(ledAr, stripAr, pixelNum, colorAr){
     this.ledAr = ledAr;
@@ -52,6 +54,7 @@ function setup(socket, callback){
           },
           board: board
         });
+        setupCheck[0] = true;
       }
 
       else if(board.id === "B"){
@@ -72,6 +75,7 @@ function setup(socket, callback){
           },
           board: board
         });
+        setupCheck[1] = true;
       }
 
       else if(board.id === "C"){
@@ -85,6 +89,7 @@ function setup(socket, callback){
           print("Strip initialized");
         });
 
+        setupCheck[2] = true;
       }
 
       // init color array to strings representing hex colors
@@ -93,15 +98,19 @@ function setup(socket, callback){
       color[2] = "0000FF";
       color[3] = "FFFFFF";
 
-      obj = new Board(led, strip, pixelNum, color);
+      // check if all three Arduino boards have been implemented
+      if(setupCheck[0] && setupCheck[1] && setupCheck[2]){
+        obj = new Board(led, strip, pixelNum, color);
 
-      // Init listeners for monument strips
-      var initLED = require(path.join(__dirname, 'ledListeners.js'));
-      initLED.listeners(socket, obj);
+        // Init listeners for monument strips
+        var initLED = require(path.join(__dirname, 'ledListeners.js'));
+        initLED.listeners(socket, obj);
 
-      socket.emit("monumentLights finished inits");
+        print("about to emit monumentLights finished inits");
+        socket.emit("monumentLights finished inits");
 
-      callback(obj);
+        callback(obj);
+      }
     });
 
   });

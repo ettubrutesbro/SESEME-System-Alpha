@@ -24,6 +24,6 @@ socket.on('connect', function() {
 });
 
 socket.on('disconnect', function() {
-  console.log('seedling ' + (num+1) + ' Off', socket.disconnected);
+  console.log('monumentLights Off', socket.disconnected);
   //if(obj) led.reset(obj);
 });

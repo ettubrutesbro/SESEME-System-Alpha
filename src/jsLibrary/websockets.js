@@ -912,16 +912,16 @@ beagleIO.on('connection', function(beagleSocket){
 ////////////////////////////////////////////////
 
 monumentLightsIO.on('connection', function(monumentSocket){
-  monument = monumentSocket;
-  monumentSocket.on('checkin', function(){
-    print('Monument Lights Pi checkin');
-  });  
+    monument = monumentSocket;
+    monumentSocket.on('checkin', function(){
+        print('Monument Lights Pi checkin');
+    });  
 
-  monumentSocket.on('monumentLights 1 On', function(){
-    monumentLightsOnline = true;
-    print('Monument Lights Pi Online');
-    //monumentSocket.emit('monument lights on');
-  });  
+    monumentSocket.on('monumentLights 1 On', function(){
+        monumentLightsOnline = true;
+        print('Monument Lights Pi Online');
+        //monumentSocket.emit('monument lights on');
+    });  
 
 	monumentSocket.on('disconnect', function(){
 		monumentLightsOnline = false;
