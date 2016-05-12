@@ -2,6 +2,7 @@
 const request = require('request');
 const moment = require('moment');
 const print = require('../jsLibrary/print.js');
+const ENABLE_DISCONNECT_REPORTING = false;
 
 function reportDisconnect(ip, title) {
     const component = {
@@ -34,14 +35,20 @@ function reportDisconnect(ip, title) {
         body: JSON.stringify(body)
     };
 
-    // POST http request to report a component disconnect
-    request(options, function(error, response, body) {
-        if(error) print("Claptron Error: " + error);
-    });
+    if(ENABLE_DISCONNECT_REPORTING) {
+        // POST http request to report a component disconnect
+        request(options, function(error, response, body) {
+            if(error) print("Claptron Error: " + error);
+        });
+    }
 }
 
 
-function reportSystemCheck(systemStatus, pretext, queryText) {
+function reportSystemCheck(systemStatus, pretext, query) {
+    if(query.channel_name === 'directmessage') {
+        return;
+    }
+
     let attachments = [];
 
     const pi1 = {
@@ -111,13 +118,13 @@ function reportSystemCheck(systemStatus, pretext, queryText) {
     };
 
     // Construct the final attachments
-    if(queryText === 'monument') {
+    if(query.text === 'monument') {
         attachments.push(monumentAttachment);
-    } else if(queryText === 'pi1') {
+    } else if(query.text === 'pi1') {
         attachments.push(pi1Attachment);
-    } else if(queryText === 'pi2') {
+    } else if(query.text === 'pi2') {
         attachments.push(pi2Attachment);
-    } else if(queryText === 'pi3') {
+    } else if(query.text === 'pi3') {
         attachments.push(pi3Attachment);
     } else {
         attachments.push(pi1Attachment, pi2Attachment, pi3Attachment, monumentAttachment);
@@ -128,7 +135,7 @@ function reportSystemCheck(systemStatus, pretext, queryText) {
         uri: 'https://hooks.slack.com/services/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',
         method: 'POST',
         body: JSON.stringify({
-            "channel"       : "#diagnostic",
+            "channel"       : `#${query.channel_name}`,
             "username"      : "claptron",
             "text": `:robot_face: Claptron reporting in for a *system check*!`,
             "attachments"   : attachments

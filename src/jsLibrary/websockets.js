@@ -28,7 +28,7 @@ function lightTrailObj(trailColor, nodes, time, revolutions){
 var claptron = require(path.join(__dirname, '..', 'xps', 'slackbot.js'));
 
 // System check function to send a report to the slack diagnostics channel
-function checkSystem(queryText) {
+function checkSystem(query) {
     let systemStatus = {};
 	let allGood = true;
 
@@ -51,7 +51,7 @@ function checkSystem(queryText) {
 	}
 
     const pretext = ((allGood) ? "it's lit" : "fuckin' garbage");
-    claptron.reportSystemCheck(systemStatus, pretext, queryText);
+    claptron.reportSystemCheck(systemStatus, pretext, query);
 }
 
 exports.checkSystem = checkSystem;

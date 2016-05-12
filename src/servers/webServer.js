@@ -78,7 +78,7 @@ function initServer() {
         console.log('Received a slack command to check the system');
         if(req.query.token === process.env.SLACK_CHECK_TOKEN) {
             console.log('Slack check token verified');
-            sockets.checkSystem(req.query.text);
+            sockets.checkSystem(req.query);
         } else {
             console.log('Incorrect slack token!');
             console.log("Given slack token: "+req.query.token);
