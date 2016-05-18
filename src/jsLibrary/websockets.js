@@ -812,7 +812,7 @@ function bigRedButtonHelper(seedling){
     }
   }, 10000);
   // Add color to send for light update
-	if(monumentLightsOnline) monumentLights.emit("monumentLights update", targetColor);
+	if(monumentLightsOnline) monument.emit("monumentLights update", targetColor);
 }
 
 ////////////////////////////////////////////////
