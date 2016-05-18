@@ -37,7 +37,7 @@ function setup(socket, callback){
 
     this.each(function(board) {
       if(board.id === "A"){
-        led[0] = new five.Led.RGB({
+        led[3] = new five.Led.RGB({
           pins: {
             red: 3,
             green: 5,
@@ -46,7 +46,7 @@ function setup(socket, callback){
           board: board
         });
 
-        led[1] = new five.Led.RGB({
+        led[0] = new five.Led.RGB({
           pins: {
             red: 11,
             green: 10,
@@ -67,7 +67,7 @@ function setup(socket, callback){
           board: board
         });
 
-        led[3] = new five.Led.RGB({
+        led[1] = new five.Led.RGB({
           pins: {
             red: 9,
             green: 10,
@@ -87,9 +87,8 @@ function setup(socket, callback){
 
         strip.on("ready", function(){
           print("Strip initialized");
+          setupCheck[2] = true;
         });
-
-        setupCheck[2] = true;
       }
 
       // init color array to strings representing hex colors

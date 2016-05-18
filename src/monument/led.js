@@ -1,5 +1,7 @@
 var path = require('path');
 var print = require(path.join(__dirname, '..', 'jsLibrary', 'print.js'));
+var stripInterval = null;
+var colorInterval = null;
 
 var self = module.exports = {
   percentage: 0,
@@ -87,7 +89,17 @@ var self = module.exports = {
 
   lightsUpdate: function(obj, color){
     print("lightsUpdate");
-    var light = obj.ledAr[1]; // choose which light that needs to glow
+    var light = obj.ledAr[0]; // choose which light that needs to glow
+    var strip = obj.stripAr;
+    if(stripInterval){
+      clearInterval(stripInterval);
+      stripInterval = false;
+    }
+    if(colorInterval){
+      clearInterval(colorInterval);
+      colorInterval = false;
+    }
+    strip.color("#000"); // blanks it out
     light.color(color);
     light.on();
   },
@@ -96,11 +108,20 @@ var self = module.exports = {
     print("lightsIdle");
     var led = obj.ledAr; 
     var strip = obj.stripAr;
-    // simple test to check for configuration of lights
-    led[0].color("FF0000");
-    led[1].color("00FF00");
-    led[2].color("0000FF");
-    led[3].color("FFFFFF");
+    var colorAr = new Array(4);
+    var index = 0;
+    colorAr[0] = "FF0000";
+    colorAr[1] = "00FF00";
+    colorAr[2] = "0000FF";
+    colorAr[3] = "FFFFFF";
+
+    // Control dumb strips
+    colorInterval = setInterval(function() {
+       for(var i = 0; i < led.length; i++){
+         led[i].color(colorAr[ (index+i)%led.length ]);
+       }
+       index = (index+1) % led.length; // increment index
+    }, 1000);
 
     // Also control smart strips
     var fps = 50; 
@@ -108,7 +129,7 @@ var self = module.exports = {
     var colors = ["red", "green", "blue"];
     var current_colors = [0,1,2];
     var current_pos = [0,1,2];
-    var blinker = setInterval(function() {
+    stripInterval = setInterval(function() {
       strip.color("#000"); // blanks it out
       for(var i=0; i< current_pos.length; i++){
         if(++current_pos[i] >= strip.stripLength()){
