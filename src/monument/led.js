@@ -124,6 +124,7 @@ var self = module.exports = {
     }, 1000);
 
     // Also control smart strips
+/*
     var fps = 50; 
     console.log("Strip ready");
     var colors = ["red", "green", "blue"];
@@ -140,5 +141,6 @@ var self = module.exports = {
       }   
       strip.show();
     }, 1000/fps);
+*/
   }
 }
