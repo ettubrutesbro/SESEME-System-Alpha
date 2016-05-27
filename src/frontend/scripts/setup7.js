@@ -623,3 +623,56 @@ function setup(){
     controls.update(); TWEEN.update();
 	}
 }//end setup
+
+function sidebar() {
+	// stories
+	openNav();
+
+}
+
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNav() {
+	document.getElementById("mySidenav").style.width = "250px";
+	document.getElementById("nav").style.marginLeft = "250px";
+	document.getElementById("containerSESEME").style.marginLeft = "150px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+	document.getElementById("mySidenav").style.width = "0";
+	document.getElementById("nav").style.marginLeft = "0";
+	document.getElementById("containerSESEME").style.marginLeft = "0";
+}
+
+function expand(row) {
+
+	console.log("inside expand: " + row);
+	var environmentMT = document.getElementById("environment").style.marginTop;
+	console.log("environmentMT: " + environmentMT);
+	var societyMT = document.getElementById("society").style.marginTop;
+	console.log("societyMT: " + societyMT);
+
+
+	switch(row) {
+		case "environment":
+			if(environmentMT == "30") {
+				document.getElementById("society").style.marginTop = 0;
+			}
+			else {
+				document.getElementById("society").style.marginTop = "30";
+			}
+			break;
+		case "society":
+			if(societyMT == "30") {
+				document.getElementById("misc").style.marginTop = 0;
+			}
+			else {
+				document.getElementById("misc").style.marginTop = "30";
+			}
+			break;
+		case "misc":
+			break;
+		default:
+			break;
+	}
+}

@@ -13,7 +13,7 @@
 
 html {  overflow: hidden; background-color: #676767;}
 body { font-family: 'Karla', sans-serif; background-color: #ededed;} /* apply univ. text styles here? */
-#containerSESEME{ position: absolute; top:0; width:100%; height: 100%; margin: 0 auto; left: 0; right: 0;}
+#containerSESEME{ position: absolute; top:0; width:100%; height: 100%; margin: 0 auto; left: 0; right: 0; transition: .5s}
 
 section { position: absolute; }
 #nav { top: 1rem; left: 1rem; }
@@ -169,4 +169,61 @@ hr {
 @-webkit-keyframes spin{
 	from{ -webkit-transform: rotate(0deg);}
 	to{ -webkit-transform: rotate(360deg);}
-}	
+}
+
+.nav {
+	transition: .5s;
+}
+
+.sidenav {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	background-color: #111;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	transition: 0.5s;
+	padding-top: 60px;
+}
+
+.sidenav a {
+	padding: 8px 8px 8px 32px;
+	text-decoration: none;
+	font-size: 25px;
+	color: #818181;
+	display: block;
+	transition: 0.3s
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+	color: #f1f1f1;
+}
+
+.sidenav-row {
+	border-bottom: #818181 1px solid;
+}
+
+#sidenav-first {
+	border-top: #818181 thin solid;
+}
+
+.closebtn {
+	position: absolute;
+	top: 0;
+	right: 25px;
+	font-size: 36px !important;
+	margin-left: 50px;
+}
+
+#main {
+	transition: margin-left .5s;
+	padding: 16px;
+}
+
+@media screen and (max-height: 450px) {
+	.sidenav {padding-top: 15px;}
+	.sidenav a {font-size: 18px;}
+}

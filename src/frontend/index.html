@@ -10,8 +10,14 @@
 </head>
 
 <body>
+<div id="mySidenav" class="sidenav">
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+	<a class="sidenav-row" id="environment" onclick="expand('environment')">Environment</a>
+	<a class="sidenav-row" id="society" onclick="expand('society')">Society</a>
+	<a class="sidenav-row" id="misc" onclick="expand('misc')">Miscellaneous</a>
+</div>
 <div id = "containerSESEME"></div>
-<section id = "nav">
+<section class="nav" id = "nav">
 	<ul>
 		<li class = "navitem"><figure> </figure> <span>PROJECT INFO</span></li>
 		<li class = "navitem"><figure> </figure> <span></span></li>
@@ -61,7 +67,6 @@
 <div id = "closebuttoncropper"></div>
 
 <div id = "loading"></div>
-
 </body>
 
 <script src="frontend/libs/socket.io.js"></script>
