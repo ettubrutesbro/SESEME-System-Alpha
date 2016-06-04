@@ -8,7 +8,20 @@ function generateForm(){
 		//pillar value (values[i])
 		//pillar text (pText[i])
 
+		var plr = document.createElement('div')
+		var pName = document.createElement('input')
 
+		pName.className = 'pName'
+		plr.appendChild(pName)
+		// var pName = plr.appendChild(document.createElement('input')
+
+
+		// <div class = 'pillar'>
+		// 	<input class = "nameinput"></input>
+		// </div>
+
+		document.getElementById('formeditor').appendChild(plr)
+		plr.className = 'plr'
 	}
 }
 

@@ -1446,3 +1446,12 @@
 		}
 		percentages = percentagesArray
 	}
+
+	function startRecord(){
+		setTimeout(function(){
+			forceStory(1)
+		}, 8000)
+		setTimeout(function(){
+			forceNext()
+		},15000)
+	}
