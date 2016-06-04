@@ -547,10 +547,13 @@ function setup(){
 	} //END FILL --------------------
 	function behaviors(){
 		//UTILITY
-		Origami.fastclick(document.body) //attaches fastclick for iOs
+		Origami.fastclick(document.body) //attaches fastclick for iOS
 		//3D CONTROL REACTIONS
 		controls.addEventListener( 'change', check )//end controls 'change' event
 		//CLICKS
+		document.getElementById('formeditor').addEventListener('click',function(){
+			console.log('stfu')
+		})
 		dom.nav.addEventListener('click',clickedNav)
 		dom.help.addEventListener('click', clickedGoToHelp)
 		dom.rightarrow.addEventListener('click',function(){clickedLR(false)})
