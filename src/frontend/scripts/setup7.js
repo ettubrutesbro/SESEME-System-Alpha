@@ -19,6 +19,14 @@ var controls, mouse = new THREE.Vector2(), raycast, resizeTimer
 var plrmax = 12, constspd = 10000, spdcompensator = 400,
 thresholds = {zoom: [.675,1.15], height: [-3,-56], persZ: [46,28]},
 facingRotations = [-45,-135,135,45]
+
+//lists for assets that might need updating
+//TODO: recursively load assets in the loading mgrs through these lists, instead of 
+//making long-ass arrays in the body of the loading mgr functions. 
+var linkTypes = ['chain','list','data','www','yt','pix',
+		'article','book','site','convo','tw','tw2','tw3','ig',
+		'ig2','fb','podcast']
+
 //dom
 var dom = {}
 // DEBUG / user / data collecting variables
