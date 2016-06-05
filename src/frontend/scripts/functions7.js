@@ -384,18 +384,18 @@
 			loadcb = true
 			var allgone = new THREE.LoadingManager()
 			allgone.onLoad = function(){ makeZoomLabels(rtn); return }
-			if(view.zoom !== 'close' || !view.text || !data.pZoomLabels){ makeZoomLabels(rtn); return }
+			if(view.zoom !== 'close' || !view.text || !data.pLabels){ makeZoomLabels(rtn); return }
 		}
 		if(view.text && view.zoom === 'close' && !view.filling){
 			var previous
 			if(view.cycleDirection) previous = facing===0?3:facing-1
 			else previous = facing ===3?0:facing+1
-			if(data.pZoomLabels[previous] || data.pNames[previous]){
+			if(data.pLabels[previous] || data.pNames[previous]){
 				seseme['plr'+previous].label.traverse(function(child){
 					if(child.material) anim3d(child, 'opacity', {opacity:0})
 				})
 			}
-			if(data.pZoomLabels[facing] || data.pNames[facing]){
+			if(data.pLabels[facing] || data.pNames[facing]){
 				seseme['plr'+facing].label.traverse(function(child){
 					if(child.material) anim3d(child, 'opacity', {opacity: 1})
 				})
@@ -756,14 +756,14 @@
 					if(!data.pSymbols[i] || !stories[story].parts[part].pSymbols[i]) retainSymbol[i] = false
 					else if(data.pSymbols[i].src === stories[story].parts[part].pSymbols[i].src) retainSymbol[i] = true
 				}
-				if(data.pZoomLabels && stories[story].parts[part].pZoomLabels){
-					if(!data.pZoomLabels[i] || !stories[story].parts[part].pZoomLabels[i]) retainLabel[i] = false
-					else if(typeof data.pZoomLabels[i] !== typeof stories[story].parts[part].pZoomLabels[i]) retainLabel[i] = false
-					else if(typeof data.pZoomLabels[i] === 'string'){
-						if(data.pZoomLabels[i] === stories[story].parts[part].pZoomLabels[i]) retainLabel[i] = true
+				if(data.pLabels && stories[story].parts[part].pLabels){
+					if(!data.pLabels[i] || !stories[story].parts[part].pLabels[i]) retainLabel[i] = false
+					else if(typeof data.pLabels[i] !== typeof stories[story].parts[part].pLabels[i]) retainLabel[i] = false
+					else if(typeof data.pLabels[i] === 'string'){
+						if(data.pLabels[i] === stories[story].parts[part].pLabels[i]) retainLabel[i] = true
 					}
-					else if(data.pZoomLabels[i] instanceof Array){
-						if(data.pZoomLabels[i] === stories[story].parts[part].pNames[i]) retainLabel[i] = true
+					else if(data.pLabels[i] instanceof Array){
+						if(data.pLabels[i] === stories[story].parts[part].pNames[i]) retainLabel[i] = true
 					}
 				}else retainLabel[i] = false
 			}
@@ -1052,18 +1052,18 @@
 		}
 	}
 	function makeZoomLabels(rtn){
-		if(!data.pZoomLabels) {console.log('no labels in dataset');return}
+		if(!data.pLabels) {console.log('no labels in dataset');return}
 		for(var i = 0; i<4; i++){
-			if((rtn[i]) || (!data.pZoomLabels[i] && !data.pNames[i])) {console.log('no label at slot '+i) ;continue}
+			if((rtn[i]) || (!data.pLabels[i] && !data.pNames[i])) {console.log('no label at slot '+i) ;continue}
 			if(!init) {
 				if(seseme['plr'+i].label) seseme['plr'+i].remove(seseme['plr'+i].label)
 				delete seseme['plr'+i].label
 			}
-			var txt = data.pZoomLabels[i].c || data.pNames[i] || '',
-			font = data.pZoomLabels[i].font || 'Karla',
-			fontsize = data.pZoomLabels[i].size || 13,
-			fontweight = data.pZoomLabels[i].weight || 600,
-			txtalign = data.pZoomLabels[i].align || 'center',
+			var txt = data.pLabels[i].c || data.pNames[i] || '',
+			font = data.pLabels[i].font || 'Karla',
+			fontsize = data.pLabels[i].size || 13,
+			fontweight = data.pLabels[i].weight || 600,
+			txtalign = data.pLabels[i].align || 'center',
 			label
 
 			if(typeof txt === 'string'){

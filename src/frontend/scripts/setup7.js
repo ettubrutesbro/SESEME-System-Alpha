@@ -551,13 +551,6 @@ function setup(){
 		//3D CONTROL REACTIONS
 		controls.addEventListener( 'change', check )//end controls 'change' event
 		//CLICKS
-
-		
-		
-		// document.getElementById('formeditor').addEventListener('click',function(){
-		// 	console.log('stfu')
-		// 	// document.getElementById('formeditor')
-		// })
 		dom.nav.addEventListener('click',clickedNav)
 		dom.help.addEventListener('click', clickedGoToHelp)
 		dom.rightarrow.addEventListener('click',function(){clickedLR(false)})
@@ -567,7 +560,7 @@ function setup(){
 		})
 		dom.closebutton.addEventListener('click',clickedToClose)
 		dom.containerSESEME.addEventListener('click', function(event){
-			console.log('clicked container seseme')
+			console.log('clicked seseme container')
 			event.preventDefault()
 			var containerWidth = dom.containerSESEME.offsetWidth,
 			containerHeight = dom.containerSESEME.offsetHeight

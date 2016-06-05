@@ -1,6 +1,9 @@
 
 
 function generateForm(){
+	var linkTypes = ['chain','list','data','www','yt','pix',
+			'article','book','site','convo','tw','tw2','tw3','ig',
+			'ig2','fb','podcast']
 	// document.getElementById('formeditor')
 	for(var i = 0; i<4; i++){ //recursively create fields for pillars here
 		//create variables that are createElements for inputs
@@ -13,11 +16,42 @@ function generateForm(){
 
 		var pName = document.createElement('div')
 			// pName.className 
-			pName.innerHTML = '<span class = "form label"> name </span> <input class = "form pNames"> <span class = "form label">value </span> <input class = "form values">'
+			labeler('name',pName)
+			pName.innerHTML += '<input class = "form pNames" value = "'+data.pNames[i]+'">'
+			labeler('value',pName)
+			pName.innerHTML += '<input class = "form values" value = "'+data.values[i]+'">'
 
 		var pText = document.createElement('div')
 			// pText.className
-			pText.innerHTML = '<span class = "form label"> text </span><textarea class = "form pTexts">'
+			labeler('text',pText)
+			pText.innerHTML += '<textarea class = "form pTexts">'+data.pTexts[i]+'</textarea>'
+
+		var pLinks = document.createElement('div')
+			labeler('links',pLinks)
+
+
+
+			
+				//for every link, add in an input for type and one for c
+				for(var it = 0; it<data.pLinks[i].length; it++){
+					pLinks.appendChild(document.createElement('div'))
+
+					pLinks.innerHTML += '<select class = "form pLinks nested type" value="'+data.pLinks[i][it].type+'" data-nest="'+it+'">'
+					var dropdown = pLinks.getElementsByTagName('select')[it]
+						dropdown.innerHTML += '<option value = "'+data.pLinks[i][it].type+'">'+data.pLinks[i][it].type+'</option>'
+						for(var ite = 0; ite<linkTypes.length; ite++){
+							if(linkTypes[ite] === data.pLinks[i][it].type) continue
+							dropdown.innerHTML+= '<option value = "' + linkTypes[ite] + '">'+linkTypes[ite]+'</option>'
+						}
+					dropdown.nestedIndex = it
+					
+					pLinks.innerHTML += '<input class = "form pLinks nested c" value="' + data.pLinks[i][it].c + '">'
+					// pLinks.innerHTML += '</div>'
+				}
+				//UNLESS the length was 3, add in the + button 
+				pLinks.innerHTML += '<span class = "form linkbtn"> + Add a Link </span>'
+
+
 
 		// pName.className = 'pName'
 		// pName.index = i
@@ -28,27 +62,28 @@ function generateForm(){
 			
 		plr.appendChild(pName)
 		plr.appendChild(pText)
+		plr.appendChild(pLinks)
 		
 		//populating the fields from the data
 
 
 		//event listeners on every input, per pillar
 		// var allInputs = plr.getElementsByTagName('input')
-		var allInputs = plr.querySelectorAll('input,textarea')
-		console.log(allInputs)
+		var allInputs = plr.querySelectorAll('input,textarea,select')
 
 		for(var it = 0; it<allInputs.length; it++){
 
-
 			allInputs[it].index = i
-
-			allInputs[it].value = data[allInputs[it].classList[1]][i]
-
-
-			// var tgtField = allInputs[it].classList[1]
 			allInputs[it].addEventListener('click',function(){this.focus()})
 			allInputs[it].addEventListener('change', function(){
-				var tgtField = this.classList[1]
+				var tgtField = this.classList[1] 
+				if(this.classList.contains('nested')){
+					var tgtNest = this.classList[3]
+					data[tgtField][this.index][Number(this.dataset.nest)][tgtNest] = this.value
+					refill(true,true)
+					return
+				} 
+				 
 				console.log(tgtField + this.index + ' is due for a change')
 				data[tgtField][this.index] = tgtField === 'values' ? Number(this.value) : this.value
 				refill(true,true)
@@ -66,6 +101,14 @@ function generateForm(){
 		document.getElementById('editor').appendChild(plr)
 		
 	}
+}
+
+function labeler(text,parentElement){
+	var label = document.createElement('span')
+	label.classList.add('form','label')
+	label.textContent = text
+
+	parentElement.appendChild(label)
 }
 
 function createForm(){
