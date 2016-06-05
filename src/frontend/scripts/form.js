@@ -45,7 +45,7 @@ function generateForm(){
 						}
 					dropdown.nestedIndex = it
 					
-					pLinks.innerHTML += '<input class = "form pLinks nested c" value="' + data.pLinks[i][it].c + '">'
+					pLinks.innerHTML += '<input class = "form pLinks nested c" value="' + data.pLinks[i][it].c + '" data-nest="'+it+'">'
 					// pLinks.innerHTML += '</div>'
 				}
 				//UNLESS the length was 3, add in the + button 

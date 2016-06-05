@@ -251,7 +251,7 @@ function setup(){
 		pctsToHeights()
 		loadingManagers();
 
-		Velocity(document.getElementById('loading'), {opacity: 0})
+		Velocity(document.getElementById('loading'), {opacity: 0}, {display:'none'})
 		initQuads() //completion of each also runs initPillar
 		makeOrbiter()
 		colorObjects()
