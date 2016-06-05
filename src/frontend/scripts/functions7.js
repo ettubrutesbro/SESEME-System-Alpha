@@ -643,6 +643,7 @@
 //3. CLICK RESPONSES
 {
 	function clickedMainButton(){ //clicked big button
+		console.log('clicked main button')
 		if(!controls.enabled) return
 		view.text = true
 		if(view.zoom==='normal' && view.content==='maintext') anim3d(camera, 'zoom', {zoom: 2.35, spd: 1000, easing: ['Quadratic','InOut']})
