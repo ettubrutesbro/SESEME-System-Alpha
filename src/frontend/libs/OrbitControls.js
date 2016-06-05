@@ -382,6 +382,9 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	function onMouseDown( event ) {
 
+		var mouseIsOver = document.elementFromPoint(event.clientX, event.clientY)
+		if (mouseIsOver.classList.contains('form')) return
+
 		if ( scope.enabled === false ) return;
 		event.preventDefault();
 
@@ -487,6 +490,13 @@ THREE.OrbitControls = function ( object, domElement ) {
 	}
 
 	function onMouseWheel( event ) {
+
+
+		//if mouse position is over either form dom object, ignore this
+		// if(event.clientX)
+		// console.log(document.elementFromPoint(event.clientX, event.clientY))
+		var mouseIsOver = document.elementFromPoint(event.clientX, event.clientY)
+		if (mouseIsOver.classList.contains('form')) return
 
 		if ( scope.enabled === false || scope.noZoom === true || state !== STATE.NONE ) return;
 

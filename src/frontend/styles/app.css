@@ -2,17 +2,18 @@
 /*phone portrait*/
 @media (max-width: 1280px) {
 		html{ font-size: 21px; }
-		body{ margin: 0; }
+		#app{ margin: 0; }
 }
 /*probably a computer, the ui occurs within a smaller width space*/
 @media (min-width: 1281px) and (max-width: 4860px) {
 		html{ font-size: 14px; }
-		body {width: 1000px; height: 90%; position: absolute; top: 0; bottom: 0;
+		#app {width: 1000px; height: 90%; position: absolute; top: 0; bottom: 0;
 			margin: auto auto; left: 0; right: 0;}
 }
 
-html {  overflow: hidden; background-color: #676767;}
-body { font-family: 'Karla', sans-serif; background-color: #ededed;} /* apply univ. text styles here? */
+html {  overflow: hidden; background-color: #ededed;}
+body { font-family: 'Karla', sans-serif; }
+#app {  background-color: #ededed;} /* apply univ. text styles here? */
 #containerSESEME{ position: absolute; top:0; width:100%; height: 100%; margin: 0 auto; left: 0; right: 0;}
 
 section { position: absolute; }

@@ -1,10 +1,42 @@
 
 
-#formeditor {
-	width: 300px;
-	background-color: white;
-	border: 2px black solid;
+#editor {
 	position: absolute;
 	right: 0;
-	z-index: 10;
+	width: 300px; 
+	background-color: white;
+	overflow: scroll;
+}
+
+#editor div {
+	margin-top: 0.5rem;
+}
+
+#editor input {
+	font-size: 16px;
+	margin-left: 0.5rem;
+}
+
+#editor div.plr {
+	margin-top: 2.5rem;
+}
+
+.form.label {
+	margin-left: 0.5rem;
+	font-size: 12px; text-transform: uppercase; font-weight: 600; letter-spacing: 0.05rem;
+	color: #898989;
+}
+
+.pNames {
+	width: 36%;
+}
+
+.values {
+	width: 13%;
+}
+
+.pTexts {
+	width: 200px;
+	height: 100px;
+	margin-top: .25rem;
 }

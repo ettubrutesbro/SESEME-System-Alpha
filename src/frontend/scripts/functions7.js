@@ -726,7 +726,7 @@
 }
 //4. REFILLING AND GLOBAL CONTENT POPULATION (shared b/w setup and refill)
 {
-	function refill(debug){
+	function refill(debug,newdata){
 		console.log('refilling')
 		//CHECKING FOR RETENTION
 		var retainMainText = false, retainDetailText = [false,false,false,false],
@@ -734,39 +734,42 @@
 		retainLabel = [false,false,false,false]
 
 		if(data.maintext === stories[story].parts[part].maintext) retainMainText = true
-		for(var i = 0; i<4; i++){ //per-pillar data
-			if(data.pTexts && stories[story].parts[part].pTexts){//detail text in the DOM
-				if(!data.pTexts[i] || !stories[story].parts[part].pTexts[i]) retainDetailText[i] = false
-				else if(data.pTexts[i] === stories[story].parts[part].pTexts[i]) retainDetailText[i] = true
-			}else retainDetailText[i] = false
+		if(!newdata){
+			for(var i = 0; i<4; i++){ //per-pillar data
+				if(data.pTexts && stories[story].parts[part].pTexts){//detail text in the DOM
+					if(!data.pTexts[i] || !stories[story].parts[part].pTexts[i]) retainDetailText[i] = false
+					else if(data.pTexts[i] === stories[story].parts[part].pTexts[i]) retainDetailText[i] = true
+				}else retainDetailText[i] = false
 
-			if(data.pNames && stories[story].parts[part].pNames){//pillar names in 3d and DOM
-				if(!data.pNames[i] || !stories[story].parts[part].pNames[i]) retainName[i] = false
-				else if(typeof data.pNames[i] !== typeof stories[story].parts[part].pNames[i]) retainName[i] = false
-				else if(typeof data.pNames[i] === 'string') {
-					if(data.pNames[i] === stories[story].parts[part].pNames[i]) retainName[i] = true
-				}
-				else if(data.pNames[i] instanceof Array){
-					if(data.pNames[i].equals(stories[story].parts[part].pNames[i])) retainName[i] = true
-				}
-			}else retainName[i] = false
+				if(data.pNames && stories[story].parts[part].pNames){//pillar names in 3d and DOM
+					if(!data.pNames[i] || !stories[story].parts[part].pNames[i]) retainName[i] = false
+					else if(typeof data.pNames[i] !== typeof stories[story].parts[part].pNames[i]) retainName[i] = false
+					else if(typeof data.pNames[i] === 'string') {
+						if(data.pNames[i] === stories[story].parts[part].pNames[i]) retainName[i] = true
+					}
+					else if(data.pNames[i] instanceof Array){
+						if(data.pNames[i].equals(stories[story].parts[part].pNames[i])) retainName[i] = true
+					}
+				}else retainName[i] = false
 
-			if(data.pSymbols && stories[story].parts[part].pSymbols){//pillar symbols in 3d
-				if(!data.pSymbols[i] || !stories[story].parts[part].pSymbols[i]) retainSymbol[i] = false
-				else if(data.pSymbols[i].src === stories[story].parts[part].pSymbols[i].src) retainSymbol[i] = true
+				if(data.pSymbols && stories[story].parts[part].pSymbols){//pillar symbols in 3d
+					if(!data.pSymbols[i] || !stories[story].parts[part].pSymbols[i]) retainSymbol[i] = false
+					else if(data.pSymbols[i].src === stories[story].parts[part].pSymbols[i].src) retainSymbol[i] = true
+				}
+				if(data.pZoomLabels && stories[story].parts[part].pZoomLabels){
+					if(!data.pZoomLabels[i] || !stories[story].parts[part].pZoomLabels[i]) retainLabel[i] = false
+					else if(typeof data.pZoomLabels[i] !== typeof stories[story].parts[part].pZoomLabels[i]) retainLabel[i] = false
+					else if(typeof data.pZoomLabels[i] === 'string'){
+						if(data.pZoomLabels[i] === stories[story].parts[part].pZoomLabels[i]) retainLabel[i] = true
+					}
+					else if(data.pZoomLabels[i] instanceof Array){
+						if(data.pZoomLabels[i] === stories[story].parts[part].pNames[i]) retainLabel[i] = true
+					}
+				}else retainLabel[i] = false
 			}
-			if(data.pZoomLabels && stories[story].parts[part].pZoomLabels){
-				if(!data.pZoomLabels[i] || !stories[story].parts[part].pZoomLabels[i]) retainLabel[i] = false
-				else if(typeof data.pZoomLabels[i] !== typeof stories[story].parts[part].pZoomLabels[i]) retainLabel[i] = false
-				else if(typeof data.pZoomLabels[i] === 'string'){
-					if(data.pZoomLabels[i] === stories[story].parts[part].pZoomLabels[i]) retainLabel[i] = true
-				}
-				else if(data.pZoomLabels[i] instanceof Array){
-					if(data.pZoomLabels[i] === stories[story].parts[part].pNames[i]) retainLabel[i] = true
-				}
-			}else retainLabel[i] = false
 		}
 		console.log('retention check complete')
+		console.log(retainName)
 		//ESTABLISHING DATA, DISABLING CONTROLS, AND 'WAITING' FOR CONTENT FILLING
 		data = stories[story].parts[part]
 		var refillMgr = new THREE.LoadingManager()
