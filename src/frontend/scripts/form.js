@@ -18,7 +18,7 @@ function generateForm(){
 
 		var namesvalues = document.createElement('div')
 			namesvalues.classList.add('form','namesvalues')
-			
+
 
 
 		var pName = document.createElement('div')
@@ -41,7 +41,11 @@ function generateForm(){
 		var pLinks = document.createElement('div')
 			pLinks.classList.add('form','links')
 			labeler('links',pLinks)
-		
+			var linklabelrow = document.createElement('div')
+			linklabelrow.classList.add('form','linklabelrow')
+			linklabelrow.innerHTML += '<div class = "form linklabelrow icon label">icon</div> <div class = "form linklabelrow url label">url</div>'
+			pLinks.appendChild(linklabelrow)
+
 			//for every link, add in an input for type and one for c
 			for(var it = 0; it<data.pLinks[i].length; it++){
 				formAddLink(pLinks,i,it)
@@ -51,7 +55,7 @@ function generateForm(){
 			addlinkbtn.addEventListener('click', function(){
 				
 				var plrIndex = [].indexOf.call(this.parentNode.parentNode.getElementsByClassName('plr'), this.parentNode)
-				var iteration = (this.previousSibling.childNodes.length - 1) / 2
+				var iteration = (this.previousSibling.childNodes.length - 1)
 				if(iteration===2) this.style.display = 'none'
 				data.pLinks[plrIndex].push({c: 'url here', type: linkTypes[Math.floor(Math.random()*linkTypes.length)]})
 				console.log('pushing new object to data pLinks#' + plrIndex)
@@ -106,6 +110,10 @@ function labeler(text,parentElement){
 
 function formAddLink(DOMelement,whichPlr,iter,needsEventListener){ //formAddLink(pLinks,i,it) ||
 	var link = data.pLinks[whichPlr][iter]
+	var row = document.createElement('div')
+	row.classList.add('form','linkrow')
+
+	
 	var dropdown = document.createElement('select')
 	dropdown.classList.add('form','pLinks','nested','type')
 	dropdown.index = whichPlr
@@ -115,13 +123,17 @@ function formAddLink(DOMelement,whichPlr,iter,needsEventListener){ //formAddLink
 		if(linkTypes[ite] === link.type) continue
 		dropdown.innerHTML+= '<option value = "' + linkTypes[ite] + '">'+linkTypes[ite]+'</option>'
 	}
-	DOMelement.appendChild(dropdown)
+	
+	
 	var urlinput = document.createElement('input')
 	urlinput.classList.add('form','pLinks','nested','c')
 	urlinput.value = link.c
 	urlinput.index = whichPlr
 	urlinput.dataset.nest = iter 
-	DOMelement.appendChild(urlinput)
+
+	row.appendChild(dropdown)
+	row.appendChild(urlinput)
+	DOMelement.appendChild(row)
 	
 	if(needsEventListener){
 		dropdown.addEventListener('change',function(){

@@ -6,10 +6,10 @@
 	width: 300px; 
 	background-color: white;
 	overflow: scroll;
+	padding: 1rem;
 }
 
 #editor div {
-	margin-top: 0.5rem;
 }
 
 #editor input {
@@ -33,11 +33,40 @@
 	.namesvalues .value{
 		margin-left: 1rem;
 		flex-grow: 1;
-		flex-basis: 30%;
+		flex-basis: 20%;
 	}
 		.namesvalues .value input{ width: 100%; }
 
+.linkrow {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+}
+	.linklabelrow {
+		margin: 0;
+		display: flex;
+		width: 100%;
+		flex-direction: row;
+	}
+		.linklabelrow .icon{
+			width: 20%;
+		}
+		.linklabelrow .url{
+			width: 80%;
+		}
+	.linkrow .type{
+		flex-grow: 1;
+		flex-basis: 20%;
+	}
+		select.type{
+			height: 36px;
+			line-height: 36px;
+		}
+	.linkrow .c{
+		flex-grow: 4;
+		flex-basis: 80%;
 
+	}
 
 .form.label {
 	display: block;
