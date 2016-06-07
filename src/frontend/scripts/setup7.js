@@ -26,12 +26,13 @@ facingRotations = [-45,-135,135,45]
 var linkTypes = ['chain','list','data','www','yt','pix',
 		'article','book','site','convo','tw','tw2','tw3','ig',
 		'ig2','fb','podcast']
-
 //dom
 var dom = {}
 // DEBUG / user / data collecting variables
 var userPermission = true
 var performance = 'hi', cameraPerspective = false
+// form-related
+var formActive = false
 
 function setup(){
     getStory();

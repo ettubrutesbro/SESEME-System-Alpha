@@ -805,7 +805,10 @@
 		sceneHeightTransition()
 		//DOM shit
 		refillDOM()
-		//REAPPEAR AND REENABLE
+		//form? 
+		// if(formActive) generateForm()
+
+
 		function movePillars(){
 			//get distance, multiply/add, anim3d
 			//future: flags and queueing?
@@ -1432,6 +1435,30 @@
 		story = storynumber; refill(true)
 	}
 	function pctCalc(){
+		//catch shit that exceeds customHi or customLo
+		if(data.customHi){
+			for(var i = 0; i<4;i++){
+				if(data.valueType === 'moreIsTall'){
+					if(data.values[i] > data.customHi ) data.customHi = data.values[i]
+				}
+				else if(data.valueType === 'lessIsTall'){
+					if(data.values[i] < data.customHi) data.customHi = data.values[i]
+				}
+				
+			}
+		}
+		if(data.customLo){
+			for(var i = 0; i<4; i++){
+				if(data.valueType === 'moreIsTall'){
+					if(data.values[i] < data.customLo) data.customLo = data.values[i]
+				}
+				else if(data.valueType === 'lessIsTall'){
+					if(data.values[i] > data.customLo) data.customLo = data.values[i]
+				}
+				
+			}
+		}
+
 		//calc percentages for pillar change in offline mode
 		var top = 100, bottom = 0
 		if(!data.valueType || data.valueType === "moreIsTall"){
