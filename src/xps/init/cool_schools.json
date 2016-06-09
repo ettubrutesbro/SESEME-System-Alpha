@@ -16,7 +16,7 @@
 	    "color": {
 	      "ui": "#339167",
 	      "monument": {
-	        "hex": "#339188",
+	        "hex": "#00AF00",
 	        "bri": 1
 	      },
 	      "ring": "14BB35"
@@ -166,7 +166,7 @@
 	    "color": {
 	      "ui": "#777035",
 	      "monument": {
-	        "hex": "#dbd109",
+	        "hex": "#70744F",
 	        "bri": 0.65
 	      },
 	      "ring": "dbd109"
