@@ -26,7 +26,7 @@
         ],
         "title": {
           "pre": {
-            "c": "College tuition and salary",
+            "c": "COLLEGE TUITION",
             "size": 12
           },
           "main": {
@@ -106,13 +106,13 @@
         ],
         "title": {
           "pre": {
-            "c": "College tuition and salary",
+            "c": "",
             "size": 12
           },
           "main": {
             "c": [
-              "Salary After",
-              "Attending"
+              "Salary after",
+              "College"
             ],
             "size": 24,
             "font": "Droid Serif"

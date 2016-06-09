@@ -22,7 +22,7 @@ const result = [
     [
         require("../xps/init/cool_schools.json"),
         require("../xps/init/energy_use_intensity.json"),
-        require("../xps/init/ucd_building_annual_energy_costs.json"),
+        require("../xps/init/thermoostat.json")
     ],
     [
         require("../xps/init/wage_inequity.json"),

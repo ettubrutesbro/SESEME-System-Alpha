@@ -53,9 +53,9 @@
       ],
       "pTexts": [
         "The ARC was built in 2002, occupies 158,120 square feet, and its annual energy costs total about $250,000.",
-        "The ARC was built in 2002, occupies 158,120 square feet, and its annual energy costs total about $250,000.",
-        "The ARC was built in 2002, occupies 158,120 square feet, and its annual energy costs total about $250,000.",
-        "The ARC was built in 2002, occupies 158,120 square feet, and its annual energy costs total about $250,000."
+        "Mrak Hall was build in 1966, occupies 99,151 square feet, and its annual energy costs total about $91,063.",
+        "Giedt Hall was build in 2007, occupies 15,540 square feet, and its annual energy costs total about $12,340.",
+        "Mondavi Center was build in 2008, occupies 147,315 square feet, and its annual energy costs total about $475,631."
       ],
       "pSymbols": [
         "",
@@ -364,12 +364,12 @@
       },
       "maintext": "This is steam use for each building. Steam is used for heating the buildings on campus. The steam is generated at the campus central plant and then delivered to the buildings, where the steam is used to heat the air that circulates throug the buildngs.",
       "color": {
-        "ui": "#a8a8a8",
+        "ui": "#B13D28",
         "monument": {
-          "hex": "#a8a8a8",
+          "hex": "#B13D28",
           "bri": 0.65
         },
-        "ring": "ADD8E6"
+        "ring": "#B13D28"
       },
       "sound": [
         "cheer1",

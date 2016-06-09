@@ -1,0 +1,368 @@
+{
+	"id": 0,
+	"storyName": "TherMOOstat",
+	"seedling": "environment",
+    "description": "This series of stories and data discusses sustainability and our impact as a society on the natural environment.",
+	"parts": [
+        {
+	    "values": [
+	      37,
+	      16,
+	      5,
+          16
+	    ],
+	    "customLo": 0,
+	    "color": {
+	      "ui": "#9E423B",
+	      "monument": {
+	        "hex": "#9E423B",
+	        "bri": 1
+	      },
+	      "ring": "#9E423B"
+	    },
+	    "sound": [
+	      "cheer1",
+	      "cheer2"
+	    ],
+	    "title": {
+	      "pre": {
+	        "c": "ARC",
+	        "size": 18
+	      },
+	      "main": {
+	        "c": [
+	          "TherMOOstat"
+	        ],
+	        "size": 27,
+	        "font": "Droid Serif",
+	        "weight": 400,
+	        "margin": -0.2
+	      },
+	      "post": {
+	        "c": "UCD Thermal Feedback",
+	        "size": 14,
+	        "margin": 0.5
+	      }
+	    },
+	    "maintext": "Votes from the ARC have been few and far between. How does it feel right now? Hot? Perfect? Chilly? Cast your vote at thermoostat.ucdavis.edu!",
+	    "pNames": [
+	      "Total Votes",
+	      "Hot & Warm",
+	      "Perfect",
+	      "Chilly & Cold"
+	    ],
+	    "pTexts": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pSymbols": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pLabels": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pStatboxes": [
+	      {
+	        "c": "37 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "16 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "5 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "16 votes",
+	        "size": 18
+	      }
+	    ],
+        "pLinks": [
+            "",
+            "",
+            "",
+            ""
+         ]
+        },
+	    {
+	    "values": [
+	      10626,
+	      2931,
+	      1874,
+          5819
+	    ],
+	    "customLo": 1500,
+	    "color": {
+	      "ui": "#05487D",
+	      "monument": {
+	        "hex": "#05487D",
+	        "bri": 1
+	      },
+	      "ring": "339188"
+	    },
+	    "sound": [
+	      "cheer1",
+	      "cheer2"
+	    ],
+	    "title": {
+	      "pre": {
+	        "c": "How you doin'?",
+	        "size": 18
+	      },
+	      "main": {
+	        "c": [
+	          "TherMOOstat"
+	        ],
+	        "size": 27,
+	        "font": "Droid Serif",
+	        "weight": 400,
+	        "margin": -0.2
+	      },
+	      "post": {
+	        "c": "UCD Thermal Feedback",
+	        "size": 14,
+	        "margin": 0.5
+	      }
+	    },
+	    "maintext": "Have you checked out TherMOOstat.ucdavis.edu? This app allows you to vote on whether a room on campus is \"Hot\", \"Warm\", \"Perfect\", \"Chilly\", or \"Cold\". Facilities Management use the data to improve comfort and energy efficiency! Here you see total votes and vote breakdown by hot/warm, perfect, and chilly/cold. Looks like we are a \"COOL\" campus!!",
+	    "pNames": [
+	      "Total Votes",
+	      "Hot & Warm",
+	      "Perfect",
+	      "Chilly & Cold"
+	    ],
+	    "pTexts": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pSymbols": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pLabels": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pStatboxes": [
+	      {
+	        "c": "10,626 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "2,931 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "1,874 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "5,819 votes",
+	        "size": 18
+	      }
+	    ],
+        "pLinks": [
+            "",
+            "",
+            "",
+            ""
+         ]
+        },
+        {
+	    "values": [
+	      913,
+	      345,
+	      118,
+          450
+	    ],
+	    "customLo": 100,
+	    "color": {
+	      "ui": "#816F5D",
+	      "monument": {
+	        "hex": "#816F5D",
+	        "bri": 1
+	      },
+	      "ring": "816F5D"
+	    },
+	    "sound": [
+	      "cheer1",
+	      "cheer2"
+	    ],
+	    "title": {
+	      "pre": {
+	        "c": "Wellman Hall",
+	        "size": 18
+	      },
+	      "main": {
+	        "c": [
+	          "TherMOOstat"
+	        ],
+	        "size": 27,
+	        "font": "Droid Serif",
+	        "weight": 400,
+	        "margin": -0.2
+	      },
+	      "post": {
+	        "c": "UCD Thermal Feedback",
+	        "size": 14,
+	        "margin": 0.5
+	      }
+	    },
+	    "maintext": "Wellman Hall receives the most votes compared to all the other buildings on campus. Have you ever submitted feedback while in class in Wellman?",
+	    "pNames": [
+	      "Total Votes",
+	      "Hot & Warm",
+	      "Perfect",
+	      "Chilly & Cold"
+	    ],
+	    "pTexts": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pSymbols": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pLabels": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pStatboxes": [
+	      {
+	        "c": "913 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "345 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "118 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "450 votes",
+	        "size": 18
+	      }
+	    ],
+        "pLinks": [
+            "",
+            "",
+            "",
+            ""
+         ]
+        },
+        {
+	    "values": [
+	      773,
+	      117,
+	      165,
+          491
+	    ],
+	    "customLo": 100,
+	    "color": {
+	      "ui": "#BBD594",
+	      "monument": {
+	        "hex": "#BBD594",
+	        "bri": 1
+	      },
+	      "ring": "BBD594"
+	    },
+	    "sound": [
+	      "cheer1",
+	      "cheer2"
+	    ],
+	    "title": {
+	      "pre": {
+	        "c": "Shields Library",
+	        "size": 18
+	      },
+	      "main": {
+	        "c": [
+	          "TherMOOstat"
+	        ],
+	        "size": 27,
+	        "font": "Droid Serif",
+	        "weight": 400,
+	        "margin": -0.2
+	      },
+	      "post": {
+	        "c": "UCD Thermal Feedback",
+	        "size": 14,
+	        "margin": 0.5
+	      }
+	    },
+	    "maintext": "Shields Library is mostly cold, and most of TherMOOstat feedback comes from hard working students in the Main Reading Room.",
+	    "pNames": [
+	      "Total Votes",
+	      "Hot & Warm",
+	      "Perfect",
+	      "Chilly & Cold"
+	    ],
+	    "pTexts": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pSymbols": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pLabels": [
+	      "",
+	      "",
+	      "",
+	      ""
+	    ],
+	    "pStatboxes": [
+	      {
+	        "c": "773 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "117 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "165 votes",
+	        "size": 18
+	      },
+	      {
+	        "c": "491 votes",
+	        "size": 18
+	      }
+	    ],
+        "pLinks": [
+            "",
+            "",
+            "",
+            ""
+         ]
+        }
+	]
+}
