@@ -85,7 +85,7 @@
           "src": "hispman"
         }
       ],
-      "pZoomLabels": [
+      "pLabels": [
         "",
         "",
         "",
@@ -247,7 +247,7 @@
           "src": "hispwoman"
         }
       ],
-      "pZoomLabels": [
+      "pLabels": [
         "",
         "",
         "",
