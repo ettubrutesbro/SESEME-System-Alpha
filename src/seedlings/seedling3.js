@@ -2,10 +2,10 @@
 // ******************* SOCKET.IO SHIT **************
 //
 var seedlingNum = 2;
-console.log('----CONNECTING ON PORT 600' + seedlingNum + '----   IP:169.237.123.19:600' + seedlingNum)
+console.log('----CONNECTING ON PORT 600' + seedlingNum + '----   IP:seseme.net:600' + seedlingNum)
 
 // log into XPS server in the office
-var IP = 'http://169.237.123.19:600' + seedlingNum;
+var IP = 'http://seseme.net:600' + seedlingNum;
 var socket = require('socket.io-client')(IP);
 var path = require('path');
 var obj = null;
