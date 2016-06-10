@@ -55,6 +55,7 @@ function setup(socket, callback){
           board: board
         });
         setupCheck[0] = true;
+        print("Setup Board A");
       }
 
       else if(board.id === "B"){
@@ -76,6 +77,7 @@ function setup(socket, callback){
           board: board
         });
         setupCheck[1] = true;
+        print("Setup Board B");
       }
 
       else if(board.id === "C"){
@@ -88,6 +90,19 @@ function setup(socket, callback){
         strip.on("ready", function(){
           print("Strip initialized");
           setupCheck[2] = true;
+          print("Setup Board C");
+          if(setupCheck[0] && setupCheck[1] && setupCheck[2]){
+            obj = new Board(led, strip, pixelNum, color);
+
+            // Init listeners for monument strips
+            var initLED = require(path.join(__dirname, 'ledListeners.js'));
+            initLED.listeners(socket, obj);
+
+            print("about to emit monumentLights finished inits");
+            socket.emit("monumentLights finished inits");
+
+            callback(obj);
+          }
         });
       }
 
