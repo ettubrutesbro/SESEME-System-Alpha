@@ -99,6 +99,7 @@ var plrmax = 4800; // lazy without sockets
 //	SEEDLING Vars
 ////////////////////////////////////////////////
 var lockButtonPress = false;
+var lockTimer = null;
 var seedlings = new Array(3); // 3 seedling objects
 var totalStoryParts = new Array(3);
 var seedlingIO = new Array(3);
@@ -805,13 +806,17 @@ function bigRedButtonHelper(seedling){
 	}
 
 	if(beagleOnline) beagle.emit("seseme move motors", targetPercentages, plrmax);
-  setTimeout(function(){
-    if(lockButtonPress){
-      print("Set lockButtonPress to false (UNLOCK)");
-      lockButtonPress = false;
-      randomSoundWeight(soundObj, 'ready', seedlings[lastActiveSeedling].socket);
-    }
-  }, 10000);
+	  // Check if previously set to clear before updating timer
+	  if(lockTimer !== null && !lockTimer._called){
+	    clearTimeout(lockTimer);
+	  }
+      lockTimer = setTimeout(function(){
+        if(lockButtonPress){
+          print("Set lockButtonPress to false (UNLOCK)");
+          lockButtonPress = false;
+          randomSoundWeight(soundObj, 'ready', seedlings[lastActiveSeedling].socket);
+        }
+      }, 10000);
   // Add color to send for light update
 	if(monumentLightsOnline) monument.emit("monumentLights update", targetColor);
 }
