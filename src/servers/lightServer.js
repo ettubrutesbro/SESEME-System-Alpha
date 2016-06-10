@@ -1,10 +1,10 @@
 //***************************************************
 // ******************* SOCKET.IO SHIT **************
 //
-console.log('----CONNECTING ON PORT 7000 ----   IP:169.237.123.19:7000');
+console.log('----CONNECTING ON PORT 7000 ----   IP:seseme.net:7000');
 
 // log into XPS server in the office
-var IP = 'http://169.237.123.19:7000';
+var IP = 'http://seseme.net:7000';
 var socket = require('socket.io-client')(IP);
 var path = require('path');
 var obj = null;

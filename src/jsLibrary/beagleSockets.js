@@ -33,9 +33,9 @@ function stepperToPositionAr(obj){
     else return null;
 }
 
-console.log('----CONNECTING ON PORT 4000----     IP:169.237.123.19:4000')
+console.log('----CONNECTING ON PORT 4000----     IP:seseme.net:4000')
 
-var IP = 'http://169.237.123.19:4000';
+var IP = 'http://seseme.net:4000';
 var socket = require('socket.io-client')(IP);
 
 var initGPIO = require(path.join(__dirname, '..', 'monument', 'gpio.js'));

@@ -807,6 +807,7 @@ function bigRedButtonHelper(seedling){
 	if(beagleOnline) beagle.emit("seseme move motors", targetPercentages, plrmax);
   setTimeout(function(){
     if(lockButtonPress){
+      print("Set lockButtonPress to false (UNLOCK)");
       lockButtonPress = false;
       randomSoundWeight(soundObj, 'ready', seedlings[lastActiveSeedling].socket);
     }
