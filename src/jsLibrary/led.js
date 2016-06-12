@@ -2,6 +2,7 @@ var seedlingHue = require('./lifx.js');
 var print = require('./print.js');
 
 var intervalID = null;
+var idleTimer = null;
 
 var self = module.exports = {
     r: 0,
@@ -147,6 +148,7 @@ var self = module.exports = {
     lightTrail: function(trailColor, nodes, time, revolutions, obj, callback){ // time = time for each rev
         print("in lightTrail function");
         clearInterval(intervalID);
+        clearTimeout(idleTimer);
         var that = this;
         var strip = obj.strip;
         var pixelNum = obj.pixelNum;
@@ -217,6 +219,7 @@ var self = module.exports = {
     fadeCircle: function(previousColor, targetColor, totalDuration, diodePct, obj, callback){
         print("in fadeCircle function");
         clearInterval(intervalID);
+        clearTimeout(idleTimer);
         var prevTime = Date.now();
         var that = this; // for callback
         var strip = obj.strip;
@@ -362,6 +365,7 @@ var self = module.exports = {
     fillCircle: function(previousColor, targetColor, duration, obj, callback){
         print("in fillCircle function");
         clearInterval(intervalID);
+        clearTimeout(idleTimer);
         var prevTime = Date.now();
         var that = this;
         var strip = obj.strip;
@@ -513,7 +517,7 @@ var self = module.exports = {
             print("turn lights on for seedling1");
             seedlingHue.turnOn(1, 'white');
             temp.lightOn(1, obj.urlLight, "FFFFFF")
-            setTimeout(function(){
+            idleTimer = setTimeout(function(){
               seedlingHue.turnOff(1);
               temp.lightOff(1, obj.urlLight, "FFFFFF")
             }, timeOn);
@@ -523,7 +527,7 @@ var self = module.exports = {
             temp.lightOn(1, obj.iconLight, null);
             temp.lightOn(1, obj.urlLight, null);
             temp.lightOn(1, obj.lmLight, null);
-            setTimeout(function(){
+            idleTimer = setTimeout(function(){
               temp.lightOff(1, obj.iconLight, null);
               temp.lightOff(1, obj.urlLight, null);
               temp.lightOff(1, obj.lmLight, null);
@@ -532,7 +536,7 @@ var self = module.exports = {
         else if(obj.seedlingNum === 2){
             print("turn lights on for seedling3");
             temp.lightOn(1, obj.iconLight, null);
-            setTimeout(function(){
+            idleTimer = setTimeout(function(){
               temp.lightOff(1, obj.iconLight, null);
             }, timeOn);
         }
