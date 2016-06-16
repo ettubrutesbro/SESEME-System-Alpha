@@ -32,7 +32,7 @@ var dom = {}
 var userPermission = true
 var performance = 'hi', cameraPerspective = false
 // form-related
-var formActive = false
+var form = {active: false}
 
 function setup(){
     getStory();
