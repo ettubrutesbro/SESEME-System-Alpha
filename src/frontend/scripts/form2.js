@@ -39,7 +39,8 @@ function generateFormPlrs(){
 			name: new FormPlrInput('input','pNames',i,data.pNames[i]),
 			val: new FormPlrInput('input','values',i,data.values[i]),
 			text: new FormPlrInput('textarea','pTexts',i,data.pTexts[i]),
-			links: document.createElement('div')
+			links: document.createElement('div'),
+			addbtn: new FormPlrInput('input','addbtn',i,'+ Add a Link')
 		}
 
 		plr.inputs.links.plr = i
@@ -50,21 +51,20 @@ function generateFormPlrs(){
 			for(var it = 0; it<allrows.length; it++){
 				allrows[it].type.nest = allrows[it].url.nest = allrows[it].delbtn.nest = it
 			}
+			editor.plr[this.plr].inputs.addbtn.style.display = 'block'
 		}
-		plr.inputs.links.addbtn = new FormPlrInput('input','addbtn',i,'+ Add a Link')
-		plr.inputs.links.addbtn.type = 'submit'
-		plr.inputs.links.addbtn.addEventListener('click',function(){
-			console.log(this.plr, data.pLinks[this.plr].length)
-			var newdata = {c: 'url here', type: 'www'}
+		if(data.pLinks[i].length===3) plr.inputs.addbtn.style.display = 'none'
+		plr.inputs.addbtn.type = 'submit'
+		plr.inputs.addbtn.addEventListener('click',function(){
+			var newdata = {c: 'url here', type: linkTypes[Math.floor(Math.random()*linkTypes.length)]}
 			data.pLinks[this.plr].push(newdata)
-			this.parentElement.appendChild(addLinkRow(this.plr,data.pLinks[this.plr].length-1))
-			this.parentElement.appendChild(this)
+			editor.plr[this.plr].inputs.links.appendChild(addLinkRow(this.plr,data.pLinks[this.plr].length-1))
+			if(data.pLinks[this.plr].length===3) this.style.display = 'none'
 		})
 
 		for(var it = 0; it<data.pLinks[i].length; it++){
 			plr.inputs.links.appendChild(addLinkRow(i,it))
 		}
-		plr.inputs.links.appendChild(plr.inputs.links.addbtn)
 
 		
 
