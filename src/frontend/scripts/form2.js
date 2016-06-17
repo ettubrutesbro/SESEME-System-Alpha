@@ -51,14 +51,38 @@ function generateFormPlrs(){
 				allrows[it].type.nest = allrows[it].url.nest = allrows[it].delbtn.nest = it
 			}
 		}
-		plr.inputs.links.type = []
-		plr.inputs.links.url = []
+		plr.inputs.links.addbtn = new FormPlrInput('input','addbtn',i,'+ Add a Link')
+		plr.inputs.links.addbtn.type = 'submit'
+		plr.inputs.links.addbtn.addEventListener('click',function(){
+			console.log(this.plr, data.pLinks[this.plr].length)
+			var newdata = {c: 'url here', type: 'www'}
+			data.pLinks[this.plr].push(newdata)
+			this.parentElement.appendChild(addLinkRow(this.plr,data.pLinks[this.plr].length-1))
+			this.parentElement.appendChild(this)
+		})
 
 		for(var it = 0; it<data.pLinks[i].length; it++){
+			plr.inputs.links.appendChild(addLinkRow(i,it))
+		}
+		plr.inputs.links.appendChild(plr.inputs.links.addbtn)
 
-			var row = document.createElement('div')
+		
+
+
+		var allinputs = Object.keys(plr.inputs)
+		for(var it = 0; it<allinputs.length; it++){
+			plr.appendChild(plr.inputs[allinputs[it]])
+		}
+
+		editor.plr[i] = plr
+		editor.appendChild(plr)
+
+	}//end pillar loop
+
+	function addLinkRow(i,it){
+		var row = document.createElement('div')
 			row.classList.add('form','linkrow')
-
+			console.log(data.pLinks[i])
 			row.type = new FormPlrInput('select','pLinks',i,data.pLinks[i][it].type,true,it,'type')
 			for(var ite = 0; ite<linkTypes.length; ite++){
 				row.type.appendChild(new Option(linkTypes[ite],linkTypes[ite],true,
@@ -76,17 +100,7 @@ function generateFormPlrs(){
 			row.appendChild(row.type)
 			row.appendChild(row.url)
 			row.appendChild(row.delbtn)
-			plr.inputs.links.appendChild(row)
-		}
 
-
-		var allinputs = Object.keys(plr.inputs)
-		for(var it = 0; it<allinputs.length; it++){
-			plr.appendChild(plr.inputs[allinputs[it]])
-		}
-
-		editor.plr[i] = plr
-		editor.appendChild(plr)
-
-	}//end pillar loop
+			return row
+	}
 }
