@@ -22,25 +22,25 @@ Run the command on the terminal:
 <a name="deploy-server"></a>
 ## Deploying the Main Server
 Run the following commands on the terminal:
-1. `cd deploy-scripts`
-2. `chmod +x deploy-server.sh`
-3. `./deploy-server.sh`
+* `cd deploy-scripts`
+* `chmod +x deploy-server.sh`
+* `./deploy-server.sh`
 > This logs into the XPS machine and deploys the server.
 
 <a name="deploy-seedlings"></a>
 ## Deploying the Seedlings
 Run the following commands on the terminal:
-1. `cd deploy-scripts`
-2. `chmod +x deploy-seedlings.sh`
-3. `./deploy-server.sh`
+* `cd deploy-scripts`
+* `chmod +x deploy-seedlings.sh`
+* `./deploy-server.sh`
 > This logs into all of the seedling Raspberry Pis and each individual seedling server.
 
 <a name="deploy-monument"></a>
 ## Deploying the Monument
 Run the following commands on the terminal:
-1. `cd deploy-scripts`
-2. `chmod +x deploy-monument.sh`
-3. `./deploy-server.sh`
+* `cd deploy-scripts`
+* `chmod +x deploy-monument.sh`
+* `./deploy-server.sh`
 > This logs into the monument motors & monument lights Raspberry Pis and starts their individual server.
 
 <a name="Linux"></a>
