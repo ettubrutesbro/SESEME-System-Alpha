@@ -101,6 +101,9 @@ var self = module.exports = {
     }
     strip.color("#000"); // blanks it out
     light.color(color);
+    for(var i = 1; i < 4; i++){
+      obj.ledAr[i].color("000000");
+    }
     light.on();
   },
 

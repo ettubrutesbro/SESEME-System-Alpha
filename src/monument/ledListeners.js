@@ -21,8 +21,17 @@ function listeners(socket, obj) {
     var red = (targetColor.red).toString(16);
     var green = (targetColor.green).toString(16);
     var blue = (targetColor.blue).toString(16);
+    if(red.length < 2){
+        red = "0" + red;
+    }
+    if(green.length < 2){
+        green = "0" + green;
+    }
+    if(blue.length < 2){
+        blue = "0" + blue;
+    }
     var colorString = red + green + blue;
-    console.log(colorString);
+    print("Hex Color: " + colorString);
     led.lightsUpdate(obj, colorString);
   });
 
