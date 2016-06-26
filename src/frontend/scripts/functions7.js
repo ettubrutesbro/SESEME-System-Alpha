@@ -982,22 +982,21 @@
 		else if(!init) info.titleblock.children = []
 		info.titleblock.ht = 0
 		var t = data.title
-		var titlekeys = Object.keys(data.title)
-		for(var i = 0; i<titlekeys.length; i++){
-			if(t[titlekeys[i]].margin) info.titleblock.ht+=t[titlekeys[i]].margin
+		for(var i = 0; i<t.length; i++){
+			if(t[i].margin) info.titleblock.ht+=t[i].margin
 			var width = 750,
-			height = t[titlekeys[i]].size?t[titlekeys[i]].size*5:110,
-			font = t[titlekeys[i]].font?t[titlekeys[i]].font:'Karla',
-			fontsize = t[titlekeys[i]].size?t[titlekeys[i]].size:21,
-			weight = t[titlekeys[i]].weight?t[titlekeys[i]].weight:600,
-			align = t[titlekeys[i]].align?t[titlekeys[i]].align:'center'
+			height = t[i].size?t[i].size*5:110,
+			font = t[i].font?t[i].font:'Karla',
+			fontsize = t[i].size?t[i].size:21,
+			weight = t[i].weight?t[i].weight:600,
+			align = t[i].align?t[i].align:'center'
 			//arrayed title (multi-line)
-			if(t[titlekeys[i]].c instanceof Array){
+			if(t[i].c instanceof Array){
 				var txt = new THREE.Group()
 				info.titleblock.add(txt)
-				for(var it = 0; it<t[titlekeys[i]].c.length; it++){
-					var arrtxt = meshify(new Text(t[titlekeys[i]].c[it], width, height, 'white', font, fontsize, weight, align))
-					if(t[titlekeys[i]].size) info.titleblock.ht += t[titlekeys[i]].size/12.5
+				for(var it = 0; it<t[i].c.length; it++){
+					var arrtxt = meshify(new Text(t[i].c[it], width, height, 'white', font, fontsize, weight, align))
+					if(t[i].size) info.titleblock.ht += t[i].size/12.5
 					else if(i>0) info.titleblock.ht += 1.65
 					arrtxt.position.y = arrtxt.origin = -info.titleblock.ht
 					arrtxt.expand = -info.titleblock.ht
@@ -1005,8 +1004,8 @@
 				}
 			//single string
 			}else{
-				var txt = meshify(new Text(t[titlekeys[i]].c, width, height, 'white', font, fontsize, weight, align))
-				if(t[titlekeys[i]].size) info.titleblock.ht += t[titlekeys[i]].size/12.5
+				var txt = meshify(new Text(t[i].c, width, height, 'white', font, fontsize, weight, align))
+				if(t[i].size) info.titleblock.ht += t[i].size/12.5
 				else if(i>0) info.titleblock.ht += 1.65
 				txt.position.y = txt.origin = -info.titleblock.ht
 				txt.expand = -info.titleblock.ht

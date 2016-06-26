@@ -24,12 +24,12 @@
           "cheer1",
           "cheer2"
         ],
-        "title": {
-          "pre": {
+        "title": [
+          {
             "c": "Cool Schools",
             "size": 18
           },
-          "main": {
+          {
             "c": [
               "Sierra Club",
               "Rankings"
@@ -39,12 +39,12 @@
             "weight": 400,
             "margin": -0.2
           },
-          "post": {
+          {
             "c": "2012",
             "size": 18,
             "margin": 0.5
           }
-        },
+        ],
         "maintext": "In 2012, UC Davis was named the \"coolest school\" in the US by the Sierra Club. The award celebrates environmental responsibility in categories like energy use, waste management, food sources, and education.",
         "pNames": [
           "UC Davis",
@@ -139,12 +139,12 @@
           33
         ],
         "valueType": "lessIsTall",
-        "title": {
-          "pre": {
+        "title": [
+          {
             "c": "",
             "size": 18
           },
-          "main": {
+          {
             "c": [
               "Sierra Club",
               "Rankings"
@@ -154,12 +154,12 @@
             "weight": 400,
             "margin": -0.2
           },
-          "post": {
+          {
             "c": "2014",
             "size": 18,
             "margin": 0.5
           }
-        },
+        ],
         "maintext": "By 2014, our rank had plummeted to a lowly 55th. Nearly the worst UC in that year's report.",
         "color": {
           "ui": "#777035",
@@ -258,12 +258,12 @@
           13
         ],
         "valueType": "lessIsTall",
-        "title": {
-          "pre": {
+        "title": [
+          {
             "c": "Cool Schools",
             "size": 18
           },
-          "main": {
+          {
             "c": [
               "Sierra Club",
               "Rankings"
@@ -273,12 +273,12 @@
             "weight": 400,
             "margin": -0.2
           },
-          "post": {
+          {
             "c": "2014",
             "size": 18,
             "margin": 0.5
           }
-        },
+        ],
         "maintext": "Redeemed! We climbed back up to 2nd place in 2015.",
         "color": {
           "ui": "#88d5b2",
@@ -376,18 +376,18 @@
           16.7,
           89
         ],
-        "title": {
-          "main": {
+        "title": [
+          {
             "c": "Annual Energy Costs",
             "size": 25,
             "font": "Droid Serif",
             "weight": 400
           },
-          "pre": {
+          {
             "c": "@ UC DAVIS",
             "size": 21
           }
-        },
+        ],
         "maintext": "The energy expenditures data shown here was sourced from the Energy Feedback Team (eco.ucdavis.edu)'s awesome tool, CEED (ceed.ucdavis.edu).",
         "color": {
           "ui": "3a3a3a",
