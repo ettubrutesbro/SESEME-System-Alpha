@@ -30,7 +30,12 @@ function FormPlrInput(style,addclass,plrindex,val,nested,nestInd,nestTgt){
 	return fi
 }
 
-
+function generateForm(){
+	// TODO: rewrite fromplrinput to work for non-plr specific inputs like
+	// maintext etc. , learn about checkbox pattern 
+	editor.appendChild(new FormPlrInput('textarea','maintext'))
+	generateFormPlrs()
+}
 function generateFormPlrs(){
 	editor.plr = []
 	for(var i=0; i<4; i++){
