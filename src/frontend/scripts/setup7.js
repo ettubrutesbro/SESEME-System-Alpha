@@ -1,7 +1,7 @@
 
 //global data
 var socket
-var story=1, part=0, data=null, stories=null, percentages
+var story=1, part=0, data=null, percentages
 var info = {name: []}
 //objects and resources
 var scene = new THREE.Scene(), camera, renderer
@@ -35,7 +35,7 @@ var performance = 'hi', cameraPerspective = false
 var form = {active: false}
 
 function setup(){
-    getStory();
+    // getStory();
     //ready waits for data & 3d before filling the scene
     //though, using THREE's load manager here feels a bit disingenuous...
     var ready = new THREE.LoadingManager()
@@ -44,26 +44,27 @@ function setup(){
     netOps() //data from server
     initDOM() //dom
 
-    // Retrieve the stories.json using an http request
-    function getStory(){
-        var http = new XMLHttpRequest()
-        var topicMap = { 0: 'environment', 1: 'society', 2: 'misc' }
-        http.onreadystatechange = function() {
-            if (http.readyState == 4 && http.status == 200) {
-                var serverdata = JSON.parse(http.responseText)
-                stories = [
-                    serverdata.stories.environment,
-                    serverdata.stories.society,
-                    serverdata.stories.misc
-                ]
-                story = serverdata.story; part = serverdata.part
-                data = stories[story].parts[part]
-                percentages = serverdata.percentages
-                ready.itemEnd('firstdata')
+    story = 0; part = 0
+        data = stories[story].parts[part]
+        percentages = heightCalc(data)
+        ready.itemEnd('firstdata')
+        function heightCalc(data){
+            //pass in story[i].parts[part].values, get percentages
+            var top = 100, bottom = 0
+            if(!data.valueType || data.valueType === "moreIsTall"){
+                top = !data.customHi ? Math.max.apply(null, data.values) : data.customHi
+                bottom = !data.customLo ? Math.min.apply(null, data.values) : data.customLo
             }
-        }
-        http.open('GET', '/stories-data', true)
-        http.send()
+            else if(data.valueType === 'lessIsTall'){
+                top = !data.customHi ? Math.min.apply(null, data.values) : data.customHi
+                bottom = !data.customLo ? Math.max.apply(null, data.values) : data.customLo
+            }
+            var range = Math.abs(bottom-top)
+            var percentagesArray = []
+            for(var i = 0; i < 4; i++){
+                percentagesArray[i] = Math.abs(bottom-data.values[i])/range
+            }
+            return percentagesArray
     }
 
     function netOps(){
