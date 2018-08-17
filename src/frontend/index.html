@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#000000">
     <title>SESEME</title>
     <link rel = "stylesheet" type = "text/css" href = "frontend/styles/UI.css" />
+    <link rel = "stylesheet" type = "text/css" href = "frontend/styles/new.css" />
 </head>
 
 <body>
@@ -62,6 +63,19 @@
 
 <div id = "loading"></div>
 
+<div id = "debug">
+    <div id = "debuglabel"> Debug </div>
+    <div id = "debugclose"> Close </div>
+    <div id = "debugactions">
+        <div id = "initform" class = "debugbtn" > initialize form </div>
+        <div id = "seedlings">
+            <div class = "debugbtn" id = "forces1" > s1 </div>
+            <div class = "debugbtn" id = "forces2" > s2 </div>
+            <div class = "debugbtn" id = "forces3" > s3 </div>
+        </div>
+    </div>
+</div>
+
 </body>
 
 <script src="frontend/libs/socket.io.js"></script>
@@ -75,6 +89,7 @@
 <script src = "frontend/scripts/stories2.js"></script>
 <script src = "frontend/scripts/functions7.js"></script>
 <script src = "frontend/scripts/setup7.js"></script>
+<script src = "frontend/scripts/debug.js"></script>
 <script>setup()</script>
 
 <script src="frontend/libs/webfontloader.js"></script>

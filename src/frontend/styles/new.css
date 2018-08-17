@@ -1,0 +1,46 @@
+#debug{
+    display: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 20px;
+    font-size: 36px;
+    text-align: right;
+}
+
+#debug.open #debugactions{
+    display: block;
+}
+#debug.open #debuglabel{
+    display: none;
+}
+#debug.open #debugclose{
+    display: block;
+}
+#debugclose{
+    display: none;
+}
+
+
+
+#debugactions{
+    display: none;
+    margin-top: 10px;
+}
+
+#initform{
+
+}
+
+#seedlings{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.debugbtn{
+    margin: 5px;
+    padding: 15px 25px;
+    border: 1px solid black;
+    background: white;
+}
