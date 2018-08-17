@@ -597,6 +597,7 @@
 				anim3d(section.btn, 'opacity', {opacity: 1, delay: i*20})
 				anim3d(section.btn, 'scale', {x:1,y:1})
 			}
+			document.getElementById('debug').style.display = 'block'
 		}
 		//making a selection within view calls content and hides other buttons
 		else if(view.height === 'plan' && view.zoom === 'far'){
@@ -622,6 +623,10 @@
 				anim3d(section.btn, 'position', {x: 0, z:0})
 				section.btn.fadeOut() // anim3d(section.btn, 'opacity', {opacity: 0})
 				anim3d(section.btn, 'scale', {x: 0.75, y: 0.75})
+			}
+
+			if(!document.getElementById('debug').classList.contains('open')){
+				document.getElementById('debug').style.display = 'none'
 			}
 		}
 		function contentTraversal(target, on){
@@ -982,21 +987,28 @@
 		else if(!init) info.titleblock.children = []
 		info.titleblock.ht = 0
 		var t = data.title
-		for(var i = 0; i<t.length; i++){
-			if(t[i].margin) info.titleblock.ht+=t[i].margin
+
+			console.log('titleblock',t)
+		for(var i = 0; i<Object.keys(t).length; i++){
+
+			var currentTitleKey = t[Object.keys(t)[i]]
+			console.log(currentTitleKey)
+
+			if(currentTitleKey.margin) info.titleblock.ht+=currentTitleKey.margin
 			var width = 750,
-			height = t[i].size?t[i].size*5:110,
-			font = t[i].font?t[i].font:'Karla',
-			fontsize = t[i].size?t[i].size:21,
-			weight = t[i].weight?t[i].weight:600,
-			align = t[i].align?t[i].align:'center'
+			height = currentTitleKey.size?currentTitleKey.size*5:110,
+			font = currentTitleKey.font?currentTitleKey.font:'Karla',
+			fontsize = currentTitleKey.size?currentTitleKey.size:21,
+			weight = currentTitleKey.weight?currentTitleKey.weight:600,
+			align = currentTitleKey.align?currentTitleKey.align:'center'
 			//arrayed title (multi-line)
-			if(t[i].c instanceof Array){
+			if(currentTitleKey.c instanceof Array){
+				console.log('multiline title section')
 				var txt = new THREE.Group()
 				info.titleblock.add(txt)
-				for(var it = 0; it<t[i].c.length; it++){
-					var arrtxt = meshify(new Text(t[i].c[it], width, height, 'white', font, fontsize, weight, align))
-					if(t[i].size) info.titleblock.ht += t[i].size/12.5
+				for(var it = 0; it<currentTitleKey.c.length; it++){
+					var arrtxt = meshify(new Text(currentTitleKey.c[it], width, height, 'white', font, fontsize, weight, align))
+					if(currentTitleKey.size) info.titleblock.ht += currentTitleKey.size/12.5
 					else if(i>0) info.titleblock.ht += 1.65
 					arrtxt.position.y = arrtxt.origin = -info.titleblock.ht
 					arrtxt.expand = -info.titleblock.ht
@@ -1004,8 +1016,10 @@
 				}
 			//single string
 			}else{
-				var txt = meshify(new Text(t[i].c, width, height, 'white', font, fontsize, weight, align))
-				if(t[i].size) info.titleblock.ht += t[i].size/12.5
+				console.log('not multiline title')
+				var txt = meshify(new Text(currentTitleKey.c, width, height, 'white', font, fontsize, weight, align))
+				console.log(currentTitleKey)
+				if(currentTitleKey.size) info.titleblock.ht += currentTitleKey.size/12.5
 				else if(i>0) info.titleblock.ht += 1.65
 				txt.position.y = txt.origin = -info.titleblock.ht
 				txt.expand = -info.titleblock.ht
@@ -1429,6 +1443,9 @@
 	}
 	function forceNext(){
 		part++; refill(true)
+	}
+	function forceToPart(which){
+		part = which; refill(true)
 	}
 	function forceStory(storynumber){
 		story = storynumber; refill(true)
