@@ -257,6 +257,7 @@ var stories = [
                     13
                 ],
                 "valueType": "lessIsTall",
+                "customLo": 65,
                 "title": {
                     "pre": {
                         "c": "Cool Schools",
@@ -273,7 +274,7 @@ var stories = [
                         "margin": -0.2
                     },
                     "post": {
-                        "c": "2014",
+                        "c": "2015",
                         "size": 18,
                         "margin": 0.5
                     }
