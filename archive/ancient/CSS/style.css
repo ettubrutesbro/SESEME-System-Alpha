@@ -1,0 +1,560 @@
+
+/* ANIMATION TRANSITIONS FOR 3D VISUALIZATION AT CENTER */
+
+@-webkit-keyframes dimensionalToPlanar{
+	from{
+	-webkit-transform: rotateX(-55deg) rotateY(45deg) scale3d(1,1,1);
+	} to {
+	-webkit-transform: rotateX(-90deg) rotateY(0) scale3d(2.5,2.5,2.5) translateX(3px) translateZ(-40px);
+	}}
+@-webkit-keyframes planarToDimensional {
+	from{
+	-webkit-transform: rotateX(-90deg) rotateY(0) scale3d(2.5,2.5,2.5) translateY(3px) translateZ(-40px);
+	} to {
+	-webkit-transform: rotateX(-55deg) rotateY(45deg) scale3d(1,1,1);	
+}}
+@-webkit-keyframes dimensionalToBar { 
+	from{
+	-webkit-transform: rotateX(-55deg) rotateY(45deg) scale3d(1,1,1);
+	} to {
+	-webkit-transform: rotateX(0deg) rotateY(0deg) scale3d(1.25,1.25,1.25) translateX(-24px) translateY(235px);
+}}
+@-webkit-keyframes barToDimensional{
+	from{
+	-webkit-transform: rotateX(0deg) rotateY(0deg) scale3d(1.25,1.25,1.25) translateX(-24px) translateY(235px);
+	} to {
+	-webkit-transform: rotateX(-55deg) rotateY(45deg) scale3d(1,1,1);
+	}}
+@-webkit-keyframes backLeft{
+	from{
+	-webkit-transform: translateX(0px) translateZ(-115px);
+	}to{
+	-webkit-transform: translateX(-115px) translateZ(-115px);
+	}}
+@-webkit-keyframes backBackLeft{
+	from{
+	-webkit-transform: translateX(-115px) translateZ(-115px);
+	}to{
+	-webkit-transform: translateX(0px) translateZ(-115px);
+	}}
+@-webkit-keyframes backRight{
+	from{
+	-webkit-transform: translateX:(115px) translateZ(-115px);
+	}to{
+	-webkit-transform: translateX(230px) translateZ(-115px);
+	}}
+@-webkit-keyframes backBackRight{
+	from{
+	-webkit-transform: translateX(230px) translateZ(-115px);
+	}to{
+	-webkit-transform: translateX(115px) translateZ(-115px);
+	}}
+
+/* ANIMATION DEFINITIONS END HERE */
+/* FONT FAMILY DEFINITIONS - LANDMARK, VERLAG CONDENSED, VERLAG (various weights) USED (sorry H&FJ)*/
+@font-face{
+font-family: vbc;
+src: url('fonts/vcondensedbold.ttf');
+}@font-face{
+font-family: vbk;
+src: url('fonts/vbook.ttf');
+}@font-face{
+font-family: vlt;
+src: url('fonts/vlite.ttf');
+}@font-face{
+font-family: vli;
+src: url('fonts/vliteitalic.ttf');
+}@font-face{
+font-family: vbi;
+src: url('fonts/vbolditalic.ttf');
+}@font-face{
+font-family: vbd;
+src: url('fonts/vbold.ttf');
+}@font-face{
+font-family: Landmark;
+src: url('fonts/Landmark-Regular.ttf');
+}
+
+/* FONT DEFINITIONS END HERE*/
+/* HTML element styles BEGIN HERE*/
+html{
+background-color: black;
+color: white;
+}
+
+#timeSlider{
+z-index:60;
+margin-top: 20px;
+}
+
+body {
+
+
+width: 640px;
+height: 1136px;
+border: 2px black solid;
+margin-left: auto;
+margin-right: auto;
+z-index: 0;
+-webkit-font-smoothing: antialiased;
+font-smooth: always;
+
+}
+
+embed{
+z-index: -1;
+display: inline;
+position: absolute;
+}
+
+#selectionmask {
+display: block;
+
+width: 600px;
+height: 570px;
+position: absolute;
+z-index: -1; /* this needs to be variable via JQuery so that it doesn't interfere with actually important shit */
+margin-top: -5px;
+margin-left: 10px;
+
+}
+
+#selectionlayer1, #selectionlayer2{
+margin-left: 10px;
+display: block;
+position: absolute;
+width: 100%;
+height: 100%;
+}
+
+.planarQuads{
+display: block;
+float: left;
+position: relative;
+width: 45%;
+height: 45%;
+
+margin-left: 17px;
+margin-top: 17px;
+}
+
+.barQuads{
+position: relative;
+margin-top: 10px;
+padding-left: 3px;
+display: block;
+float: left;
+
+margin-left: 15px;
+width: 21%;
+height: 80%;
+}
+
+	
+#container {
+	width: 410px;
+	height: 400px;
+	position: absolute;
+	margin-top: 80px;
+	margin-left: 205px;
+	-webkit-transform-origin: 44% 115%;
+	z-index: 1;
+	-webkit-perspective: 0;
+	-webkit-perspecitve-origin: center center;
+
+	}
+	
+.planar {
+-webkit-transform-style: preserve-3d;
+-webkit-animation: dimensionalToPlanar 1.7s;
+-webkit-animation-fill-mode: forwards;
+}
+
+.dimensional {
+-webkit-transform: rotateX(-55deg) rotateY(45deg) scale3d(1,1,1);
+-webkit-animation-fill-mode: forwards;
+-webkit-transform-style: preserve-3d;	
+}
+
+.fromPlanar{ /*jquery-subbed animation class */
+-webkit-transform-style: preserve-3d;
+-webkit-animation: planarToDimensional 1.7s;
+
+}
+.fromBar { /*jquery-subbed animation class */
+-webkit-transform-style: preserve-3d;
+-webkit-animation: barToDimensional 1.7s;
+}
+
+.bar {
+-webkit-transform-style: preserve-3d;
+-webkit-animation: dimensionalToBar 1.7s;
+-webkit-animation-fill-mode: forwards;
+}	
+	
+
+.box {
+	width: 25%;
+	height: 50%;
+	position: absolute;
+	-webkit-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+
+	}
+	
+
+
+.box figure {
+	width: 100px;
+	height: 100px;
+	display: block;
+	position: absolute;
+	bottom: 0;
+	border-color: rgba(255,255,255,0.5);
+	border-style: solid;
+	border-width: 3px;
+	text-align: center;
+	background-color: rgba(0,0,0,0.9);
+	
+	}
+	
+
+.box .sides{
+	height: 100px;
+	}
+
+.box #front { 
+transform: rotateY(0deg) translateZ(50px);
+-webkit-transform: rotateY(0deg) translateZ(52px);
+-ms-transform: rotateY(0deg) translateZ(52px);}
+.box #back { 
+transform: rotateY(-180deg) translateZ(50px);
+-webkit-transform: rotateX( -180deg ) translateZ( 52px );
+-ms-transform: rotateX( -180deg ) translateZ( 52px );
+}
+.box #left { 
+transform: rotateY(-90deg) translateZ(50px);
+-webkit-transform: rotateY(-90deg) translateZ(52px);
+-ms-transform: rotateY(-90deg) translateZ(52px);}
+.box #right { 
+transform: rotateY(90deg) translateZ(50px);
+-webkit-transform: rotateY(90deg) translateZ(52px);
+-ms-transform: rotateY(90deg) translateZ(52px);
+}
+
+.box #top  { 
+transform: rotateY(90deg) translateZ(50px);
+-webkit-transform: rotateX(90deg) translateZ(52px);
+-ms-transform: rotateX(90deg) translateZ(52px);
+
+}
+.box #bottom { 
+transform: rotateY(-90deg) translateZ(50px);
+-webkit-transform: rotateX(-90deg) translateZ(52px);
+-ms-transform: rotateX(-90deg) translateZ(52px);
+}
+
+#box2{
+transform: translateX(115px);
+-webkit-transform: translateX(115px);
+}
+
+#box3{
+transform: translateZ(-115px);
+-webkit-transform: translateZ(-115px);
+}
+
+#box3 figure{
+border-color: rgba(255,255,255,1);
+}
+
+.backLeft{ /*jquery-subbed animation class */
+-webkit-animation: backLeft 1.7s;
+-webkit-animation-fill-mode: forwards;
+}
+
+.backBackLeft{ /*jquery-subbed animation class */
+-webkit-animation: backBackLeft 1.7s;
+-webkit-animation-fill-mode: forwards;
+}
+
+#box4{
+transform: translateX(115px) translateZ(-115px);
+-webkit-transform: translateX(115px) translateZ(-115px);
+-ms-transform: translateX(115px) translateZ(-115px);
+}
+
+.backRight{ /*jquery-subbed animation class */
+-webkit-animation: backRight 1.7s;
+-webkit-animation-fill-mode: forwards;
+}
+
+.backBackRight{ /*jquery-subbed animation class */
+-webkit-animation: backBackRight 1.7s;
+-webkit-animation-fill-mode: forwards;
+}
+
+#tempinputs{
+border: 2px black solid;
+position: absolute;
+
+z-index: 2;
+display: block;
+margin-top: 890px;
+}
+
+.above {
+margin-left: auto;
+margin-right: auto;
+z-index: 5;
+width: 500px;
+padding-top: 30px;
+
+}
+
+input[type="range"]{
+width: 100%;
+}
+
+
+
+#clock{
+font-family: vbk;
+font-size: 28px;
+letter-spacing: 1px;
+margin-left: auto;
+margin-top: 50px;
+margin-right: auto;
+text-align: center;
+line-height: 0px;
+padding-bottom: 10px;
+
+}
+
+#buildingTitle {
+padding-top: 15px;
+font-family: Landmark;
+font-size: 54px;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+line-height: 0px;
+}
+#dataSet{
+font-family: vbd;
+font-size: 32px;
+letter-spacing: 3px;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+line-height: 5px;
+}
+
+.below{
+position: absolute;
+width: 640px;
+margin-top: 600px;
+
+}
+
+#intro{
+font-family: vlt;
+font-size: 32px;
+text-align: center;
+}
+#intro span {
+padding-top: 20px;
+margin-left: 13px;
+font-family: vbd;
+font-size: 36px;
+letter-spacing: 3px;
+margin-right: 13px;
+}
+#dimensionalInfo{
+display: none;
+width: 430px;
+margin-top: -40px;
+margin-left: auto;
+margin-right: auto;
+
+font-family: vlt;
+}
+#dimensionalInfo p {
+display: inline;
+}
+
+#selected{
+font-family: vbd;
+font-size: 21px;
+letter-spacing: 1px;
+
+margin-top: -40px;
+}
+
+#dimensionalInfo #locationSelect {
+text-transform:uppercase;
+font-family: vbd;
+font-size: 24px;
+float: right;
+
+display: inline;
+margin-top: -1px;
+text-align: left;
+
+}
+#dimensionalInfo #unitStatisticTime{
+text-transform:uppercase;
+margin-left: auto;
+margin-right: auto;
+width: 480px;
+font-size: 27px;
+letter-spacing: 1px;
+float: left;
+margin-top: -20px;
+}
+#dimensionalInfo #dimInfoToggle{
+font-family: vbi;
+font-size: 18px;
+letter-spacing: 0.1em;
+float: right;
+margin-top: -25px;
+
+
+}
+#dimensionalInfo #data{
+font-family: vbc;
+font-size: 150px;
+float: left;
+margin-top: -20px;
+line-height: 150px;
+
+}
+
+
+#dimensionalInfo #dataUnit{
+text-transform:uppercase;
+float: left;
+font-family: vbc;
+font-size: 72px;
+margin-top: 30px;
+text-align: left;
+padding-left: 20px;
+line-height: 72px;
+}
+#dimensionalInfo #dataUnit span{
+bottom: 0;
+}
+#planarInfo{
+
+display: none;
+margin-top: 50px;
+}
+
+#planarInfo #selected{
+margin-left: 70px;
+padding-bottom: 20px;
+}
+
+#planarInfo #locationSelect, #planarInfo #statistic, #planarInfo #time{
+text-transform:uppercase;
+font-family: vlt;
+font-size: 36px;
+line-height: 0px;
+margin-top: -40px;
+margin-left: 40px;
+padding-top: 30px;
+padding-left: 30px;
+padding-bottom: 30px;
+
+}
+
+
+#barInfo{
+display: none;
+margin-top: -60px;
+width: 535px;
+height: 350px;
+
+margin-left: auto;
+margin-right: auto;
+}
+
+#barInfo div{
+width: 100%;
+left:0;
+margin-top: 4px;
+height: 80px;
+z-index: 32;
+}
+#barInfo p{
+margin-top: 0px;
+padding-top: 0px;
+display: block;
+
+}
+
+#barInfo #data {
+font-family: vbc;
+font-size: 70px;
+float: left;
+
+line-height: 0px;
+padding-top: 0px;
+margin-top:5px;
+
+}
+
+#barInfo #dataUnit {
+padding-left: 10px;
+margin-top: -6px;
+font-family: vbc;
+font-size: 24px;
+float: left;
+line-height: 0px;
+}
+
+#barInfo #time{
+margin-top: -5px;
+font-family: vbd;
+font-size: 32px;
+float: right;
+line-height: 0px;
+}
+#barInfo #locationStatistic{
+margin-top: 0px;
+font-family: vbk;
+font-size: 18px;
+text-align: right;
+float: right;
+width: 400px;
+line-height: 0px;
+
+}
+
+.ui-widget-content {
+background: rgba(255,255,255,0.2);
+height: 4px;
+border: none;
+width: 440px;
+margin-left: 30px;
+}
+
+.ui-slider-range {
+height: 2px;
+opacity: 0.25;
+border: none;
+
+}
+.ui-slider-horizontal .ui-slider-handle {
+top: -10px;
+-webkit-transform: scale(2);
+background: url('svg/morning.svg') no-repeat 50% 50%;
+border: 0px;
+
+}
+
+:focus{
+outline:none;
+}
+
+

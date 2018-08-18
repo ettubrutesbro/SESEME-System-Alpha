@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: adobe Illustrator 16.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0" y="00" viewBox = "0 0 100% 100%"
+>
+
+<style>
+	#a, #b, #c, #d, #d_ghost {
+	cursor: pointer;
+	}
+</style>
+
+<defs>
+<linearGradient id="D_body_1_" gradientUnits="userSpaceOnUse" x1="540" y1="492" x2="540" y2="1019">
+	<stop  offset="0" style="stop-color:#999999"/>
+	<stop  offset="1" style="stop-color:#1a1a1a"/>
+</linearGradient>
+<linearGradient id="a_body_1_" gradientUnits="userSpaceOnUse" x1="386" y1="581" x2="386" y2="1323">
+	<stop  offset="0" style="stop-color:#808080"/>
+	<stop  offset="1" style="stop-color:#333333"/>
+</linearGradient>
+<linearGradient id="sidepillar" gradientUnits="userSpaceOnUse" x1="693" y1="582" x2="693" y2="1330">
+	<stop  offset="0" style="stop-color:#808080"/>
+	<stop  offset="1" style="stop-color:#333333"/>
+</linearGradient>
+<linearGradient id="strokemaskgradient" gradientUnits = "userSpaceOnUse" x1="434" y1="351" x2="434" y2="970">
+	<stop  offset="0" style="stop-color:#FFFFFF"/>
+	<stop  offset="0.5" style="stop-color:#FFFFFF"/>
+	<stop  offset="1" style="stop-color:#4F4F4F"/>
+</linearGradient>
+
+<linearGradient id="bggradient" gradientUnits="userSpaceOnUse" x1="540" y1="0" x2="540" y2="1911">
+	<stop  offset="0" style="stop-color:#525252"/>
+	<stop  offset="0.53" style="stop-color:#1A1A1A"/>
+</linearGradient>
+
+<pattern id="nrg" x="0" y="-40" patternUnits="userSpaceOnUse" height="150" width="120">
+      <image x="0" y="0" height="150" width="120" xlink:href="img/nrg.svg"></image>
+</pattern>
+
+<pattern id="plug" x="80" y="50" patternUnits="userSpaceOnUse" height="150" width="125">
+      <image x="0" y="0" height="150" width="120" xlink:href="img/plug.svg"></image>
+</pattern>
+
+<pattern id="temp" x="-20" y="00" patternUnits="userSpaceOnUse" height="150" width="125">
+      <image x="0" y="0" height="150" width="120" xlink:href="img/temp.svg"></image>
+</pattern>
+
+<pattern id="h20" x="10" y="50" patternUnits="userSpaceOnUse" height="150" width="125">
+      <image x="0" y="0" height="150" width="120" xlink:href="img/h20.svg"></image>
+</pattern>
+
+</defs>
+
+
+<g id = "velowrapper">
+<g id = "all">
+<g id = "dwrapper">
+	<g id = "d">
+
+	<polygon id="d_body" fill="url(#D_body_1_)" points="656,519 540,453 424,519 424,1052 
+		540,986 655,1052" clip-path = "url(#maskd)"/>
+	<polygon id="d_top" opacity="0.4" fill="#FFFFFF" points="424,519 540,453 655,519 540,586 "/>
+	<polygon id="d_stroker" fill = "none" points="656,519 540,453 424,519 424,1052 
+		540,986 655,1052 " stroke = "#FFFFFF" stroke-width = "20" stroke-dasharray = "1600" stroke-dashoffset = "1600" clip-path = "url(#maskd)"/>
+
+	<rect id = "d_marker" x = "480" y = "532" fill = "url(#nrg)" width="120" height="150" clip-path = "url(#d_markclip)" />
+	<clipPath id = "d_markclip">
+		<rect id = "d_mc" x = "470" y = "372" fill = "none" width="140" height="150"/>
+	</clipPath>
+	</g>
+</g>
+
+ <g id = "awrapper">
+	<g id = "a">
+
+	<polygon id="a_body" fill="url(#a_body_1_)" points="220,643 336,577 451,643 336,710
+		336.288,1243 220,1176 "  clip-path = "url(#maska)"/>
+	<polygon id="a_top" opacity="0.3" fill="#FFFFFF" points="220,643 336,577 451,643 336,710
+		"/>
+	<polygon id="a_stroker" opacity = "100" fill = "none" points="220,643 336,577 451,643 336,710
+		336.288,1243 220,1176 " stroke = "#34A849" stroke-width = "20" stroke-dasharray = "1600" stroke-dashoffset = "-1600" clip-path = "url(#maska)"/> 
+	<rect id = "a_marker" x = "275" y = "650" fill = "url(#plug)" width="120" height="150" clip-path = "url(#a_markclip)"/>
+	<clipPath id = "a_markclip">
+		<rect id = "a_mc" x = "270" y = "500" fill = "none" width="130" height="150"/>
+	</clipPath>
+	</g>
+</g>
+
+<g id = "cwrapper">
+	<g id = "c" >
+	<polygon id="c_body" fill="url(#sidepillar)" points="859,643 743,577 628,643 743,710
+		743,1243 859,1176 " clip-path = "url(#maskc)"/>
+	<polygon id="C_top" opacity="0.2" fill="#FFFFFF" points="628,643 743,577 859,643 743,710"/>
+	<polygon id="c_stroker" fill = "none" points="859,643 743,577 628,643 743,710
+		743,1243 859,1176 " stroke = "#F8A71A" stroke-width = "20" stroke-dasharray = "1600" stroke-dashoffset = "1600" clip-path = "url(#maskc)" />
+	<rect id = "c_marker" x = "685" y = "650" fill = "url(#h20)" width="120" height="150" clip-path = "url(#c_markclip)"/>
+	<clipPath id = "c_markclip">
+		<rect id = "c_mc" x = "680" y = "500" fill = "none" width="130" height="150"/>
+	</clipPath>
+	</g>
+</g>
+
+<g id = "bwrapper">
+	<g id = "b">
+	<polygon id="b_body" fill="url(#sidepillar)" points="655,757 539,691 424,757 424,1290
+		539,1357 655,1290"  clip-path = "url(#maskb)"/>
+	<polygon id="B_top" opacity="0.1" fill="#FFFFFF" points="424,757 540,691 655,757 540,824 "/>
+	<polygon id="b_stroker" fill = "none" points="655,757 539,691 424,757 424,1290
+		539,1357 655,1290" stroke = "#0FA1C5" stroke-width = "20" stroke-dasharray = "1600" stroke-dashoffset = "-1600" clip-path = "url(#maskb)"/>
+	<rect id = "b_marker" x = "480" y = "770" fill = "url(#temp)" width="120" height="150" clip-path = "url(#b_markclip)"/>
+	<clipPath id = "b_markclip">
+		<rect id = "b_mc" x = "475" y = "620" fill = "none" width="130" height="150"/>
+	</clipPath>
+	</g>
+</g>
+
+<g id = "dgwrapper">
+	<g id = "d_ghost" opacity = "0">
+		<polygon id="d_ghosttop" fill="#ffffff" fill-opacity="0.2" stroke-width = "7" stroke-dashoffset = "3" stroke-dasharray = "10 12" stroke = "#ffffff" points="424,519 540,453 655,519 540,586 "/>
+		<path id = "d_ghostbottom" opacity = "0.3" fill = "none" stroke-width = "7" stroke-dasharray = "20 15" d = "M 424 1052 L 540 986 L 655 1052" stroke = "#ffffff"/>
+
+	</g>  
+</g>
+</g>
+
+
+
+<clipPath id = "maskd">
+<polygon id="md" points="657,1060 540,992 421,1060 421,514 540,446
+	658,514 "/>
+</clipPath>
+
+<clipPath id = "maska">
+<polygon id="ma" points="336,1251 218,1182 218,637 336,569 450,644 
+	450,1251 "/>
+</clipPath>
+
+<clipPath id = "maskb">
+<polygon id="mb" points="657,1295 539,1363 422,1295 422,752 540,685 
+	657,752 "/>
+</clipPath>
+
+<clipPath id = "maskc">
+<polygon id="mc" points="861,1182 743,1251 619,1251 619,643 743,569 
+	861,637 "/>
+</clipPath>
+
+
+
+<g id = "themasks">
+<mask id = "strokemaskd">
+<rect x="397" y="451" fill="url(#strokemaskgradient)" width="273" height="800"/>
+</mask>
+<mask id = "strokemaska">
+<rect x="241" y="559" fill="url(#strokemaskgradient)" width="292" height="800"/>
+</mask>
+
+<mask id = "strokemaskc">
+<rect x="532" y="559" fill="url(#strokemaskgradient)" width="292" height="800"/>
+</mask>
+
+<mask id = "strokemaskb">
+<rect x="397" y="532" fill="url(#strokemaskgradient)" width="273" height="800"/>
+</mask>
+
+</g>
+</g>
+
+
+</svg>
+
+
+
+
+

@@ -1,0 +1,61 @@
+<html>
+<script src="https://d10ajoocuyu32n.cloudfront.net/jquery-1.9.1.min.js"></script>
+<script>
+<!-- NOW, WRITE A FUNCTION THAT PRODUCES A URL FOR THE AJAX POST !--> 
+<!-- var myURL = ip address crap + "/rest/moveServo?servo=" + somevariable + "&position=" + anothervariable; -->
+
+function updateValue(servoId , val){
+	<!--console.log(servoId);-->
+	var text = document.getElementById(servoId) 
+	text.innerHTML = val;
+	
+	var myData = "{servo: " + servoId + ", position: " + val + "}";
+	console.log(myData);
+	
+	$.ajax({
+		
+		url: "128.120.151.246:8080/rest/moveServo",
+		data: myData,
+		
+		});
+	
+	}
+
+	
+
+</script>
+<body>
+
+<section id = "firstservo">
+	<form method = "get">
+		<input type = "range" name = "slider1" min = "0" max = "180" onchange="updateValue('1' , this.value);">
+		
+	</form>
+	<p id = "1">numbers go here</p>
+</section>
+
+<section id = "secondservo">
+	<form method = "get">
+		<input type = "range" name = "slider2" min = "0" max = "180" onchange="updateValue('2' , this.value);">
+		
+	</form>
+	<p id = "2">numbers here</p>
+</section>
+
+<section id = "thirdservo">
+	<form method = "get">
+		<input type = "range" name = "slider3" min = "0" max = "180" onchange="updateValue('3' , this.value);">
+		
+	</form>
+	<p id = "3">numbers here</p>
+</section>
+
+<section id = "fourthservo">
+	<form method = "get">
+		<input type = "range" name = "slider4" min = "0" max = "180" onchange="updateValue('4' , this.value);">
+		
+	</form>
+	<p id = "4">numbers here</p>
+</section>
+
+</html>
